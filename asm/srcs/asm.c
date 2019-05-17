@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 18:13:50 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/17 18:58:19 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,62 @@ void		print_list(t_data *data)
 	}
 }
 
-void	init_data(t_data *data)
+void	init_data(t_data *data, char *av)
 {
 	data->fd = -1;
 	data->ret = -1;
+	data->name_cor = ft_strdup(av);
+	data->name_s = NULL;
 	data->file = NULL;
+}
+
+int		suffix_name(t_data *data)
+{
+	char	*cmp;
+	int		len;
+	int		i;
+
+	if (data->name_cor)
+	{
+		len = ft_strlen(data->name_cor);
+		cmp = ft_strdup(ft_strchr(data->name_cor, '.'));
+		if (cmp && !ft_strcmp(cmp, SUFF_F))
+		{
+			i = ft_strnchr(data->name_cor, '.', len);
+			data->name_s = ft_strjoin_free(ft_strndup(data->name_cor, i), ft_strdup(SUFFIX), 3);
+		}	
+		free(cmp);
+		cmp = NULL;
+	}
+	return (0);	
+}
+
+void	erase_all(t_data *data)
+{
+	t_file	*tmp;
+
+	if (data->name_cor)
+	{
+		free(data->name_cor);
+		data->name_cor = NULL;
+	}
+	if (data->name_s)
+	{
+		free(data->name_s);
+		data->name_s = NULL;
+	}
+	if (data->file)
+	{
+		while (data->file)
+		{
+			tmp = data->file->next;
+			free(data->file->line);
+			data->file->line = NULL;
+			free(data->file);
+			data->file = NULL;
+			data->file = tmp;
+		}
+	}
 }
 
 int		parsing_asm(int ac, char **av)
@@ -66,20 +117,22 @@ int		parsing_asm(int ac, char **av)
 	t_data	data;
 	char	*line;
 
-	init_data(&data);
-	if ((data.fd = open(av[ac - 1], O_RDONLY)) == -1)
+	init_data(&data, av[ac - 1]);
+	if ((data.fd = open(data.name_cor, O_RDONLY)) == -1)
 	{
-		ft_fprintf(NO_FILE, S_ERR, av[ac - 1]);
+		ft_fprintf(NO_FILE, S_ERR, data.name_cor);
 		return (0);
 	}
 	while ((data.ret = get_next_line(data.fd, &line)) > 0)
 	{
 		data.file = add_file(&data.file, line);
 	}
+	suffix_name(&data);
 	print_list(&data);
 	if (data.ret == -1)
 		return (0);
-	ft_printf(SUCCESS, NULL);
+	ft_printf(SUCCESS, data.name_s);
+	erase_all(&data);
 	return (1);
 }
 

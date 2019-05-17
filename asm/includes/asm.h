@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 18:13:14 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/17 18:48:25 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 #define S_ERR	2
 #define NO_FILE	"Can't read source file %s\n"
 #define SUCCESS	"Writing output program to %s\n"
+#define SUFF_F	".s"
+#define SUFFIX	".cor"
+#define COR		3
+
 typedef struct		s_file
 {
 	char			*line;
@@ -30,6 +34,8 @@ typedef struct	s_data
 {
 	int			fd;
 	int			ret;
+	char		*name_cor;
+	char		*name_s;
 	t_file		*file;
 }				t_data;
 
