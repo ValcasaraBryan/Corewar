@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/04/04 16:24:19 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/04/04 16:24:23 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+int		ft_putchar(char c)
 {
-	(void)argv;
-	if (argc == 1)
-	{
-		printf("coucou\n");
-	}
-	return (0);
+	return (write(1, &c, 1));
 }

@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/04/13 17:34:11 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/04/13 17:34:13 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))
 {
-	(void)argv;
-	if (argc == 1)
+	t_list	*tmp;
+
+	tmp = *alst;
+	if (alst)
 	{
-		printf("coucou\n");
+		*alst = (*alst)->next;
+		del(tmp->content, tmp->content_size);
+		ft_memdel((void **)&tmp);
 	}
-	return (0);
 }

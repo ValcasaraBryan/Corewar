@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/04/04 16:24:06 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/04/04 16:24:08 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	(void)argv;
-	if (argc == 1)
-	{
-		printf("coucou\n");
-	}
-	return (0);
+	unsigned long	i;
+	char			valeur;
+	char			*tab;
+
+	i = 0;
+	valeur = (char)c;
+	tab = (char *)b;
+	while (i < len)
+		tab[i++] = valeur;
+	return (tab);
 }

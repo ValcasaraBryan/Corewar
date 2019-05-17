@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/04/13 17:30:40 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/04/13 17:30:42 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	(void)argv;
-	if (argc == 1)
+	t_list *tmp;
+
+	tmp = *alst;
+	while (tmp)
 	{
-		printf("coucou\n");
+		del(tmp->content, tmp->content_size);
+		free(tmp);
+		*alst = NULL;
+		tmp = tmp->next;
 	}
-	return (0);
 }

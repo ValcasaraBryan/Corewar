@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_atoull.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/04/04 16:22:53 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/04/04 16:22:56 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+unsigned long long		ft_atoull(const char *str)
 {
-	(void)argv;
-	if (argc == 1)
+	unsigned long long	rep;
+
+	rep = 0;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	while (*str >= 48 && *str <= 57)
 	{
-		printf("coucou\n");
+		rep = rep * 10 + *str - '0';
+		str++;
 	}
-	return (0);
+	return (rep);
 }

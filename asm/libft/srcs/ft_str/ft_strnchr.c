@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_strnchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/05/11 03:07:31 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/05/11 03:07:33 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+int	ft_strnchr(const char *s, int c, size_t len)
 {
-	(void)argv;
-	if (argc == 1)
+	size_t	i;
+	char	*str;
+	char	d;
+
+	i = 0;
+	str = (char *)s;
+	d = (char)c;
+	while (i <= len)
 	{
-		printf("coucou\n");
+		if (str[i] == d)
+			return (i);
+		i++;
 	}
-	return (0);
+	return (-1);
 }

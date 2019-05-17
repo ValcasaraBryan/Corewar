@@ -1,61 +1,47 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/17 16:57:07 by brvalcas         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = asm
 
-CC =			gcc
-NAME =			asm
-DIR_CURR =		/asm
-DIR_INCL =		./includes
-DIR_MLX =		~/projets/libs
-DIR_LIBFT =		./libft
-DIR_OBJS =		./objs
-DIR_SRCS =		./srcs
-FLAGS_COMP =	-Wall -Wextra -Werror
-FLAGS_INCL =	-I $(DIR_INCL)
-FLAGS_LIBFT =	-L $(DIR_LIBFT) -lft
-FLAGS_MLX =		-L $(DIR_MLX) -lmlx -framework OpenGL -framework AppKit
-FILES_HEADER =	asm.h
-FILES_SRCS =	main.c
-HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
-OBJS =			$(FILES_SRCS:%.c=$(DIR_OBJS)/%.o)
-SRCS =			$(FILES_SRCS:%.c=$(DIR_SRCS)/%.c)
+arg =
 
-$(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c
-	@mkdir -p objs
-	@$(CC) $(FLAGS_COMP) -c $< -o $@ $(FLAGS_INCL)
-	@printf "."
+SRC = srcs/%.c
 
-all : libft
-	@$(MAKE) $(NAME)
+OBJET_ASM = objets/asm.o
 
-$(NAME) : $(OBJS)
-	@$(CC) $(FLAGS_COMP) -o $(NAME) $(OBJS) $(FLAGS_LIBFT) $(FLAGS_MLX)
-	@echo
-	@echo $(DIR_CURR) : \"$(NAME)\" made successfully
+OBJ = objets/%.o
 
-libft :
-	@$(MAKE) -C $(DIR_LIBFT)
+LIB = libft/libft.a
+
+INCL = includes
+
+CC = @gcc
+
+CFLAGS = -Wall -Wextra -Werror -I includes -I libft/includes
+
+all : lib $(NAME)
+
+objets :
+	@mkdir -p objets
+
+lib : Makefile objets
+	@make -C libft
+
+$(OBJ) : $(SRC) $(LIB) Makefile includes/asm.h
+	@$(CC) $(CFLAGS) $< -c -o $@
+	@echo "Creation objets		Done !"
+
+$(NAME) : $(OBJET_ASM)
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_ASM) -o $@
+	@echo "Compilation asm	Done !"
+	@echo "-------------------------------"
 
 clean :
-	@$(MAKE) -C $(DIR_LIBFT)/ clean
-	@rm -f $(OBJS)
-	@echo $(DIR_CURR) : all object files deleted
+	@make clean -C libft
+	@rm -rf $(OBJ)
 
-fclean :
-	@$(MAKE) -C $(DIR_LIBFT)/ fclean
-	@rm -f $(OBJS)
-	@echo $(DIR_CURR) : all object files deleted
-	@rm -f $(NAME)
-	@echo $(DIR_CURR) : \"$(NAME)\" deleted
+fclean : clean
+	@make fclean -C libft
+	@rm -rf $(NAME)
+	@rm -rf objets
 
 re : fclean all
 
-.PHONY: clean fclean re all libft
+.PHONY: objets exe clean fclean re

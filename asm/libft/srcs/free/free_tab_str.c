@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   free_tab_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2019/01/29 14:58:00 by brvalcas          #+#    #+#             */
+/*   Updated: 2019/01/29 14:58:02 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+int			free_tab_str(char ***str)
 {
-	(void)argv;
-	if (argc == 1)
+	char	**tab;
+	int		i;
+
+	i = -1;
+	tab = *str;
+	if (!tab)
+		return (0);
+	else
 	{
-		printf("coucou\n");
+		while (tab[++i])
+		{
+			free(tab[i]);
+			tab[i] = NULL;
+		}
+		free(tab);
+		tab = NULL;
+		*str = tab;
 	}
-	return (0);
+	return (i);
 }

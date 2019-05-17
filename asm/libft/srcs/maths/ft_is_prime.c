@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_is_prime.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/02/12 11:18:34 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/02/12 18:24:07 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+int		ft_is_prime(int nb)
 {
-	(void)argv;
-	if (argc == 1)
+	int index;
+
+	index = 2;
+	if (nb <= 1)
+		return (0);
+	while (index < nb)
 	{
-		printf("coucou\n");
+		if (0 == nb % index)
+			return (0);
+		index++;
 	}
-	return (0);
+	return (1);
 }

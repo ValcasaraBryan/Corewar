@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/02/12 09:48:19 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/02/12 11:17:31 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+int		ft_sqrt(int nb)
 {
-	(void)argv;
-	if (argc == 1)
+	int res;
+	int comt;
+	int imp;
+
+	res = 0;
+	comt = 0;
+	imp = 1;
+	while (nb >= comt * comt + imp)
 	{
-		printf("coucou\n");
+		res += imp;
+		comt++;
+		imp += 2;
 	}
-	return (0);
+	if (nb == comt * comt)
+		return (comt);
+	else
+		return (0);
 }

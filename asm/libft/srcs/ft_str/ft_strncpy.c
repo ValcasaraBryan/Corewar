@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:19:44 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/02/12 20:38:45 by brvalcas          #+#    #+#             */
+/*   Updated: 2018/02/18 18:19:08 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		main(int argc, char **argv)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	(void)argv;
-	if (argc == 1)
+	size_t i;
+
+	i = 0;
+	if (len >= 1)
 	{
-		printf("coucou\n");
+		while (src[i] && i < len && len > 0)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		while (i < len)
+			dst[i++] = '\0';
 	}
-	return (0);
+	return (dst);
 }
