@@ -33,6 +33,9 @@ $(NAME) : $(OBJET_ASM)
 	@echo "Compilation asm	Done !"
 	@echo "-------------------------------"
 
+exe : all
+	@./$(NAME) $(arg)
+
 clean :
 	@make clean -C libft
 	@rm -rf $(OBJ)
