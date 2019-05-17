@@ -6,112 +6,129 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/17 16:31:30 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/17 18:39:58 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef _COREWAR_H
 
 # define _COREWAR_H
-/*
-#define IND_SIZE				2
-#define REG_SIZE				4
-#define DIR_SIZE				REG_SIZE
 
-# define REG_CODE				1
-# define DIR_CODE				2
-# define IND_CODE				3
-
-#define MAX_ARGS_NUMBER			4
-#define MAX_PLAYERS				4
-#define MEM_SIZE				(4*1024)
-#define IDX_MOD					(MEM_SIZE / 8)
-#define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
-
-#define COMMENT_CHAR			'#'
-#define LABEL_CHAR				':'
-#define DIRECT_CHAR				'%'
-#define SEPARATOR_CHAR			','
-
-#define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
-
-#define NAME_CMD_STRING			".name"
-#define COMMENT_CMD_STRING		".comment"
-
-#define REG_NUMBER				16
-
-#define CYCLE_TO_DIE			1536
-#define CYCLE_DELTA				50
-#define NBR_LIVE				21
-#define MAX_CHECKS				10
-
-typedef char	t_arg_type;
-
-#define T_REG					1
-#define T_DIR					2
-#define T_IND					4
-#define T_LAB					8
-
-# define PROG_NAME_LENGTH		(128)
-# define COMMENT_LENGTH			(2048)
-# define COREWAR_EXEC_MAGIC		0xea83f3
-
-typedef struct		header_s
-{
-  unsigned int		magic;
-  char				prog_name[PROG_NAME_LENGTH + 1];
-  unsigned int		prog_size;
-  char				comment[COMMENT_LENGTH + 1];
-}					header_t;
-*/
-
-/*
-t_op    op_tab[17] =
-{
-	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0},
-	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0},
-	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0},
-	{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 0},
-	{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 0},
-	{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
-		"et (and  r1, r2, r3   r1&r2 -> r3", 1, 0},
-	{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
-		"ou  (or   r1, r2, r3   r1 | r2 -> r3", 1, 0},
-	{"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
-		"ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 0},
-	{"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 1},
-	{"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
-		"load index", 1, 1},
-	{"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
-		"store index", 1, 1},
-	{"fork", 1, {T_DIR}, 12, 800, "fork", 0, 1},
-	{"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 0},
-	{"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
-		"long load index", 1, 1},
-	{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1},
-	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
-	{0, 0, {0}, 0, 0, 0, 0, 0}
-};
-
-
-
+# define LIVE		"live"
+# define LD			"ld"
+# define ST			"st"
+# define ADD		"add"
+# define SUB		"sub"
+# define AND		"and"
+# define OR			"or"
+# define XOR		"xor"
+# define ZJMP		"zjmp"
+# define LDI		"ldi"
+# define STI		"sti"
+# define FORK		"fork"
+# define LLD		"lld"
+# define LLDI		"lldi"
+# define LFORK		"lfork"
+# define AFF		"aff"
+# define T_REG		1
+# define T_DIR		2
+# define T_IND		4
+# define T_LAB		8
 
 typedef struct		s_instruction
 {
-	char	*name;
-	int		param_one;
-	int		param_two;
-	int		param_three;
-	struct s_room	*room_a;
+	int				op_code;
+	char			*name;
+	int				param_nb;
+	int				param_list[3];
+	char			*binary;
+	char			*hexa;
+	int				cycles_nb;
+	int				carry_needed;
+	int				carry_after;
+	int				octal_codage;
+	int				dir_size;
+	int				(*fct_ptr)(int param_one, int param_two, int param_three);
 }					t_instruction;
-*/
 
 /*
-** ------------------------- free_structs             -------------------------
+** ------------------------- instr_add                -------------------------
 */
+int					instr_add(int param_one, int param_two, int param_three);
+
 /*
-void				*free_all(t_storage **storage, char **line);
+** ------------------------- instr_aff                -------------------------
 */
+int					instr_aff(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_and                -------------------------
+*/
+int					instr_and(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_fork               -------------------------
+*/
+int					instr_fork(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_ld                 -------------------------
+*/
+int					instr_ld(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_ldi                -------------------------
+*/
+int					instr_ldi(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_lfork              -------------------------
+*/
+int					instr_lfork(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_live               -------------------------
+*/
+int					instr_live(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_lld                -------------------------
+*/
+int					instr_lld(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_lldi               -------------------------
+*/
+int					instr_lldi(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_or                 -------------------------
+*/
+int					instr_or(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_st                 -------------------------
+*/
+int					instr_st(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_sti                -------------------------
+*/
+int					instr_sti(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_sub                -------------------------
+*/
+int					instr_sub(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_xor                -------------------------
+*/
+int					instr_xor(int param_one, int param_two, int param_three);
+
+/*
+** ------------------------- instr_zjmp               -------------------------
+*/
+int					instr_zjmp(int param_one, int param_two, int param_three);
 
 #endif

@@ -1,0 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   instr_ldi.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/17 18:08:39 by jdurand-          #+#    #+#             */
+/*   Updated: 2019/05/17 18:31:24 by jdurand-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <corewar.h>
+
+int		instr_ldi(int param_one, int param_two, int param_three)
+{
+	(void)param_one;
+	(void)param_two;
+	(void)param_three;
+	
+	return (0);
+}
