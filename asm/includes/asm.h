@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 17:29:58 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/17 18:13:14 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,22 @@
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
+
+#define S_ERR	2
+#define NO_FILE	"Can't read source file %s\n"
+#define SUCCESS	"Writing output program to %s\n"
+typedef struct		s_file
+{
+	char			*line;
+	struct s_file	*next;
+}					t_file;
+
+typedef struct	s_data
+{
+	int			fd;
+	int			ret;
+	t_file		*file;
+}				t_data;
+
 
 #endif
