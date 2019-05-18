@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/18 03:38:21 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/05/18 05:05:53 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,27 @@ void	init_data(t_data *data, char *av)
 {
 	data->fd = -1;
 	data->ret = -1;
-	data->name_cor = av;
-	data->name_s = NULL;
+	data->name_s = av;
+	data->name_cor = NULL;
 	data->file = NULL;
+	data->error = 1;
 }
 
 int		suffix_name(t_data *data, const char *s)
 {
 	int		i;
+	char	*name;
 
-	if (!data->name_cor)
+	if (!data->name_s)
 		return (0);
-	i = ft_strnchr(data->name_cor, '.');
-	if (ft_strcmp(data->name_cor + i, SUFF_F) == 0)
-		data->name_s = ft_strjoin_free(ft_strcut(data->name_cor, 0, i), (char *)s, 1);
-	else
-		return (0);
+	i = ft_strlen(data->name_s) + 1;
+	while (--i >= 0)
+		if (!ft_strcmp(data->name_s + i, SUFF_F))
+			break ;
+	name = ft_strcut(data->name_s, 0, i);
+	data->name_cor = ft_strndup((const char *)name, i + COR);
+	free_line(&name);
+	ft_strcat(data->name_cor, (char *)s);
 	return (1);	
 }
 
@@ -81,18 +86,13 @@ void	erase_all(t_data *data)
 {
 	t_file	*tmp;
 
-	if (data->name_s)
-	{
-		free(data->name_s);
-		data->name_s = NULL;
-	}
+	free_line(&data->name_cor);
 	if (data->file)
 	{
 		while (data->file)
 		{
 			tmp = data->file->next;
-			free(data->file->line);
-			data->file->line = NULL;
+			free_line(&data->file->line);
 			free(data->file);
 			data->file = NULL;
 			data->file = tmp;
@@ -100,38 +100,42 @@ void	erase_all(t_data *data)
 	}
 }
 
-int		parsing_asm(int ac, char **av)
+int		parsing_asm(t_data *data)
 {
-	t_data	data;
 	char	*line;
 
-	init_data(&data, av[ac - 1]);
-	if ((data.fd = open(data.name_cor, O_RDONLY)) == -1)
+	if ((data->fd = open(data->name_s, O_RDONLY)) == -1)
 	{
-		ft_fprintf(NO_FILE, S_ERR, data.name_cor);
+		ft_fprintf(NO_FILE, S_ERR, data->name_s);
 		return (0);
 	}
-	while ((data.ret = get_next_line(data.fd, &line)) > 0)
-		data.file = add_file(&data.file, line);
-	suffix_name(&data, SUFFIX);
-	print_list(&data);
-	if (data.ret == -1)
-	{
-		erase_all(&data);
+	while ((data->ret = get_next_line(data->fd, &line)) > 0)
+		data->file = add_file(&data->file, line);
+	if (!(suffix_name(data, SUFFIX)))
 		return (0);
-	}
-	ft_printf(SUCCESS, data.name_s);
-	erase_all(&data);
-		while (1);
+	if (data->ret == -1)
+		return (0);
 	return (1);
 }
 
 int		main(int argc, char **argv)
 {
+	t_data	data;
+
 	if (argc == 1)
 		ft_printf("Usage: ./asm <sourcefile.s>\n");
 	else
-		if (!(parsing_asm(argc, argv)))
-			return (0);
+	{
+		init_data(&data, argv[argc - 1]);
+		if (!(parsing_asm(&data)))
+			ft_printf("ERROR\n");
+		else
+		{
+			print_list(&data);
+			ft_printf(SUCCESS, data.name_cor);
+		}
+		erase_all(&data);
+		sleep(2);
+	}
 	return (0);
 }

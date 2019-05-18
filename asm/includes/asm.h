@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/17 18:48:25 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/18 05:00:10 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #define SUCCESS	"Writing output program to %s\n"
 #define SUFF_F	".s"
 #define SUFFIX	".cor"
-#define COR		3
+#define COR		4
 
 typedef struct		s_file
 {
@@ -37,6 +37,7 @@ typedef struct	s_data
 	char		*name_cor;
 	char		*name_s;
 	t_file		*file;
+	int			error;
 }				t_data;
 
 

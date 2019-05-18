@@ -5,3 +5,4 @@ libft.a
 .DS_Store
 *.cor
 vm_champs/*
+asm
