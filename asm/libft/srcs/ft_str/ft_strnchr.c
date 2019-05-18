@@ -3,29 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 03:07:31 by brvalcas          #+#    #+#             */
-/*   Updated: 2018/05/11 03:07:33 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/18 02:49:52 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strnchr(const char *s, int c, size_t len)
+int	ft_strnchr(const char *s, char c)
 {
-	size_t	i;
-	char	*str;
-	char	d;
+	int		i;
 
-	i = 0;
-	str = (char *)s;
-	d = (char)c;
-	while (i <= len)
-	{
-		if (str[i] == d)
+	i = -1;
+	if (!s)
+		return (-1);
+	while (s[++i])
+		if (s[i] == c)
 			return (i);
-		i++;
-	}
 	return (-1);
 }

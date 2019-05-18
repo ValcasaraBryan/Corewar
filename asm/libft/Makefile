@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+         #
+#    By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/25 23:01:19 by brvalcas          #+#    #+#              #
-#    Updated: 2019/05/10 12:36:13 by brvalcas         ###   ########.fr        #
+#    Updated: 2019/05/18 02:35:31 by bryanvalcas      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC =	srcs/free/free_tab_str.c\
 		srcs/ft_str/ft_strclr.c\
 		srcs/ft_str/ft_strcmp.c\
 		srcs/ft_str/ft_strcpy.c\
+		srcs/ft_str/ft_strcut.c\
 		srcs/ft_str/ft_strdel.c\
 		srcs/ft_str/ft_strdup.c\
 		srcs/ft_str/ft_strequ.c\

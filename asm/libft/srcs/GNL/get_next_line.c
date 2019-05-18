@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:57:52 by brvalcas          #+#    #+#             */
-/*   Updated: 2018/05/21 16:34:31 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/18 02:50:36 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int					ft_add_line(char **rest, char *buf, const int fd)
 			free(*rest);
 			*rest = tmp;
 		}
-		if ((ft_strnchr(buf, '\n', ret) >= 0))
+		if ((ft_strnchr(buf, '\n') >= 0))
 			return (ret);
 	}
 	return (ret);
@@ -66,7 +66,7 @@ int					ft_add_line_next(char **rest, char **line)
 	char			*tmp;
 
 	if (*rest != NULL)
-		index = ft_strnchr(*rest, '\n', ft_strlen(*rest));
+		index = ft_strnchr(*rest, '\n');
 	if (*rest != NULL && index >= 0)
 	{
 		*line = ft_strndup(*rest, index);
