@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/18 05:00:10 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/05/18 05:28:44 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct	s_data
 	int			ret;
 	char		*name_cor;
 	char		*name_s;
+	char		*name;
+	char		*comment;
 	t_file		*file;
 	int			error;
 }				t_data;

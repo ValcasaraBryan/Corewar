@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/18 05:05:53 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/05/18 05:35:43 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	init_data(t_data *data, char *av)
 	data->ret = -1;
 	data->name_s = av;
 	data->name_cor = NULL;
+	data->name = NULL;
+	data->comment = NULL;
 	data->file = NULL;
 	data->error = 1;
 }
@@ -100,6 +102,15 @@ void	erase_all(t_data *data)
 	}
 }
 
+int		get_data(t_file *file)
+{
+	while (file)
+	{
+		file = file->next;
+	}
+	return (1);
+}
+
 int		parsing_asm(t_data *data)
 {
 	char	*line;
@@ -111,6 +122,7 @@ int		parsing_asm(t_data *data)
 	}
 	while ((data->ret = get_next_line(data->fd, &line)) > 0)
 		data->file = add_file(&data->file, line);
+	get_data(data->file);
 	if (!(suffix_name(data, SUFFIX)))
 		return (0);
 	if (data->ret == -1)
