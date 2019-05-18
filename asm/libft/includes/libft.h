@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 17:12:51 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/18 03:34:35 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/05/18 04:10:03 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int					free_tab_str(char ***str);
 /*
 **	ft_is
 */
+int					ft_is_whitespace(char c);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);

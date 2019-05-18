@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_is_whitespace.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/14 22:17:38 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/18 04:31:47 by bryanvalcas      ###   ########.fr       */
+/*   Created: 2019/05/18 04:05:42 by bryanvalcas       #+#    #+#             */
+/*   Updated: 2019/05/18 04:09:48 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_strdup(const char *src)
+int		ft_is_whitespace(char c)
 {
-	char	*str;
-
-	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(src) + 1))))
-		return (NULL);
-	return (ft_strcpy(str, src));
+	if (c == 32 || c == 9 || c == 11 || c == 13)
+		return (1);
+	else
+		return (0);
 }

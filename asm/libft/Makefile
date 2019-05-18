@@ -6,7 +6,7 @@
 #    By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/25 23:01:19 by brvalcas          #+#    #+#              #
-#    Updated: 2019/05/18 02:35:31 by bryanvalcas      ###   ########.fr        #
+#    Updated: 2019/05/18 04:10:25 by bryanvalcas      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ ARG_2 = 0
 SRC =	srcs/free/free_tab_str.c\
 		srcs/free/free_line.c\
 		\
+		srcs/ft_is/ft_is_whitespace.c\
 		srcs/ft_is/ft_isalnum.c\
 		srcs/ft_is/ft_isalpha.c\
 		srcs/ft_is/ft_isascii.c\
