@@ -7,7 +7,7 @@ char	*ft_strcut(const char *s, size_t start, size_t end)
 	int		len;
 
 	str = NULL;
-	if (!s || end < start)
+	if (!s || end <= start)
 		return (NULL);
 	len = end - start;
 	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
