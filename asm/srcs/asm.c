@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/20 18:07:23 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/20 21:29:07 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_file		*new_file(char *line, int n_line)
 	if (!(new = malloc(sizeof(t_file))))
 		return (NULL);
 	new->line = line;
-	new->token = NULL;
 	new->len = (line) ? ft_strlen(line) : 0;
 	new->index = 0;
 	new->n_line = n_line;
@@ -42,31 +41,32 @@ void		add_file(t_file **old, char *line, int n_line)
 	}
 }
 
-t_token		*new_token(char *cut, int start, int end)
+t_token		*new_token(t_token token)
 {
 	t_token	*new;
 
 	if (!(new = malloc(sizeof(t_token))))
 		return (NULL);
-	new->cut = cut;
-	new->start = start;
-	new->end = end;
-	new->next = NULL;
+	new->cut = token.cut;
+	new->start = token.start;
+	new->end = token.end;
+	new->file = token.file;
+	new->next = token.next;
 	return (new);
 }
 
-void		add_token(t_token **old, char *cut, int start, int end)
+void		add_token(t_token **old, t_token token)
 {
 	t_token	*tmp;
 
 	if (!*old)
-		*old = new_token(cut, start, end);
+		*old = new_token(token);
 	else
 	{
 		tmp = *old;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_token(cut, start, end);
+		tmp->next = new_token(token);
 	}
 }
 
@@ -110,16 +110,14 @@ void		print_list(t_data *data)
 		tmp = data->file;
 		while (tmp)
 		{
-			while(tmp->token)
-			{
-				ft_printf("%s[%3d-%-3d]\n", tmp->token->cut, tmp->token->start, tmp->token->end);
-				tmp->token = tmp->token->next;
-				if (!tmp->token)
-					ft_printf("\n");
-			}
 			// printf("%-50s|%-30d\n", tmp->line, tmp->n_line);
 			tmp = tmp->next;
 		}
+	}
+	while (data->token)
+	{
+		// ft_printf("[%s]\t\t\t[%03d-%03d]\n", data->token->cut, data->token->file->n_line, data->token->start + 1);
+		data->token = data->token->next;
 	}
 }
 
@@ -132,6 +130,7 @@ void	init_data(t_data *data, char *av)
 	data->name = NULL;
 	data->comment = NULL;
 	data->file = NULL;
+	data->token = NULL;
 	data->instruction = NULL;
 }
 
@@ -264,29 +263,87 @@ int		check_op(const char *str)
 	return (0);
 }
 
-void	get_token(t_file *file)
+void	get_token(t_data *data, t_file *file)
 {
+	t_token	token;
 	int	end_word;
 	
 	while (file->index < file->len)
 	{
 		file->index += skip_whitespace(file->line + file->index, 0);
 		end_word = skip_whitespace(file->line + file->index, 1) + file->index;
-		if (end_word == file->len)
+		if (end_word == file->index)
 			break ;
-		add_token(&file->token, ft_strcut(file->line, file->index, end_word), file->index, end_word);
+		token.cut = ft_strcut(file->line, file->index, end_word);
+		token.start = file->index;
+		token.end = end_word;
+		token.file = file;
+		token.next = NULL;
+		add_token(&data->token, token);
 		file->index = end_word;
 	}
 }
 
+int		check_type(char *str, int i, int *check, int type)
+{
+	while (str[++i])
+		if (str[i] == type)
+		{
+			(*check)++;
+			break ;
+		}
+	return (i);
+}
+
+char	*get_name(t_token *token, int nb_char, char type, int check)
+{
+	char	*str;
+	int		j;
+	int		i;
+
+	str = ft_strdup("");
+	i = check_type(token->file->line, -1, &check, type);
+	j = check_type(token->file->line, i++, &check, type);
+	if (check == nb_char)
+		return (ft_strjoin_free(str, ft_strcut(token->file->line, i, j), 3));
+	while (token->file)
+	{
+		str = ft_strjoin_free(str, ft_strcut(token->file->line, i, j), 3);
+		if (check == 1 && token->file->next)
+			str = ft_strjoin_free(str, "\n", 1);
+		if (check == nb_char)
+			break ;
+		token->file = token->file->next;
+		if (!token->file)
+			break ;
+		j = check_type(token->file->line, (i = 0), &check, type);
+	}
+	return ((check == nb_char) ? str : NULL);
+}
+
+int		check_cmd(t_data *data, t_token *token)
+{
+	while (token)
+	{
+		if (ft_strncmp(token->cut, NAME_CMD_STRING, 5) == 0)
+			data->name = get_name(token, 2, CMD_CHAR, 0);
+		if (ft_strncmp(token->cut, COMMENT_CMD_STRING, 8) == 0)
+			data->comment = get_name(token, 2, CMD_CHAR, 0);
+		token = token->next;
+	}
+	ft_printf("DATA NAME = |%s|\n", data->name);
+	ft_printf("DATA COMMENT = |%s|\n", data->comment);
+	return (1);
+}
+
 int		get_data(t_data *data, t_file *file)
 {
-	(void)data;
 	while (file)
 	{
-		get_token(file);
+		get_token(data, file);
 		file = file->next;
 	}
+	check_cmd(data, data->token);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/20 18:10:24 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/20 21:07:24 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 #define LABEL_CHAR				':'
 #define DIRECT_CHAR				'%'
 #define SEPARATOR_CHAR			','
+#define CMD_CHAR				'"'
 
 #define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
 
@@ -82,13 +83,13 @@ typedef struct		s_token
 	char			*cut;
 	int				start;
 	int				end;
+	struct s_file	*file;
 	struct s_token	*next;
 }					t_token;
 
 typedef struct		s_file
 {
 	char			*line;
-	t_token			*token;
 	int				len;
 	int				index;
 	int				n_line;
@@ -112,6 +113,7 @@ typedef struct		s_data
 	char			*name;
 	char			*comment;
 	t_file			*file;
+	t_token			*token;
 	t_ins			*instruction;
 	t_error			error;
 }					t_data;
