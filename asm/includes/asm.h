@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/19 00:00:09 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/05/20 18:10:24 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,36 +64,40 @@
 
 #define REG_NUMBER				16
 
-typedef struct		s_word
+
+
+typedef struct		s_ins
 {
-	char			*word;
-	struct s_word	*next;
-}					t_word;
+	unsigned char	token;
+	unsigned char	params;
+	int				direct;
+	int				indirect;
+	unsigned char	registre;
+	int				len_octet;
+	struct s_ins	*next;
+}					t_ins;
 
 typedef struct		s_token
 {
-	t_word			*word;
-	unsigned char	token;
-	unsigned char	params;
-	unsigned char	direct[4];
-	unsigned char	indirect[4];
-	unsigned char	registre;
-	int				len_octet;
+	char			*cut;
+	int				start;
+	int				end;
+	struct s_token	*next;
 }					t_token;
 
 typedef struct		s_file
 {
 	char			*line;
+	t_token			*token;
 	int				len;
 	int				index;
 	int				n_line;
-	t_token			token;
 	struct s_file	*next;
 }					t_file;
 
 typedef struct		s_error
 {
-	char			*token;
+	t_ins			**instruction;
 	char			*type;
 	int				n_line;
 	int				index;
@@ -108,9 +112,34 @@ typedef struct		s_data
 	char			*name;
 	char			*comment;
 	t_file			*file;
-	char			*instruction;
+	t_ins			*instruction;
 	t_error			error;
 }					t_data;
 
+typedef struct		s_op
+{
+	char			*op;
+	int				opcode;
+	int				len;
+}					t_op;
 
+t_op				op_tab[REG_NUMBER] =
+{
+	{"live", LIVE, 4},
+	{"ld", LD, 2},
+	{"st", ST, 2},
+	{"add", ADD, 3},
+	{"sub", SUB, 3},
+	{"and", AND, 3},
+	{"or", OR, 2},
+	{"xor", XOR, 3},
+	{"zjmp", ZJMP, 4},
+	{"ldi", LDI, 3},
+	{"sti", STI, 3},
+	{"fork", FORK, 4},
+	{"lld", LLD, 3},
+	{"lldi", LLDI, 4},
+	{"lfork", LFORK, 5},
+	{"aff", AFF, 3},
+};
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/19 00:58:28 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/05/20 18:07:23 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,90 @@ t_file		*new_file(char *line, int n_line)
 	if (!(new = malloc(sizeof(t_file))))
 		return (NULL);
 	new->line = line;
+	new->token = NULL;
 	new->len = (line) ? ft_strlen(line) : 0;
-	new->index = -1;
+	new->index = 0;
 	new->n_line = n_line;
 	new->next = NULL;
 	return (new);
 }
 
-t_file		*add_file(t_file **old, char *line, int n_line)
+void		add_file(t_file **old, char *line, int n_line)
 {
 	t_file	*tmp;
 
 	if (!*old)
-		return (new_file(line, n_line));
+		*old = new_file(line, n_line);
 	else
 	{
 		tmp = *old;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_file(line, n_line);
-		return (*old);
+	}
+}
+
+t_token		*new_token(char *cut, int start, int end)
+{
+	t_token	*new;
+
+	if (!(new = malloc(sizeof(t_token))))
+		return (NULL);
+	new->cut = cut;
+	new->start = start;
+	new->end = end;
+	new->next = NULL;
+	return (new);
+}
+
+void		add_token(t_token **old, char *cut, int start, int end)
+{
+	t_token	*tmp;
+
+	if (!*old)
+		*old = new_token(cut, start, end);
+	else
+	{
+		tmp = *old;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_token(cut, start, end);
+	}
+}
+
+t_ins		*new_instruction(unsigned char token)
+{
+	t_ins	*new;
+
+	if (!(new = malloc(sizeof(t_ins))))
+		return (NULL);
+	new->token = token;
+	new->params = 0;
+	new->direct = 0;
+	new->indirect = 0;
+	new->registre = 0;
+	new->len_octet = 0;
+	new->next = NULL;
+	return (new);
+}
+
+void		add_instruction(t_ins **old, unsigned char token)
+{
+	t_ins	*tmp;
+
+	if (!*old)
+		*old = new_instruction(token);
+	else
+	{
+		tmp = *old;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_instruction(token);
 	}
 }
 
 void		print_list(t_data *data)
 {
-	int		i;
 	t_file	*tmp;
 
 	if (data->file)
@@ -52,41 +110,17 @@ void		print_list(t_data *data)
 		tmp = data->file;
 		while (tmp)
 		{
-			printf("%-50s|%-30d\n", tmp->line, tmp->n_line);
+			while(tmp->token)
+			{
+				ft_printf("%s[%3d-%-3d]\n", tmp->token->cut, tmp->token->start, tmp->token->end);
+				tmp->token = tmp->token->next;
+				if (!tmp->token)
+					ft_printf("\n");
+			}
+			// printf("%-50s|%-30d\n", tmp->line, tmp->n_line);
 			tmp = tmp->next;
 		}
 	}
-	i = -1;
-	while (++i < REG_NUMBER)
-		printf("%02x\n", data->instruction[i]);
-}
-
-char	*init_instruction(void)
-{
-	char	*str;
-	int		i;
-
-	i = -1;
-	if (!(str = (char *)malloc(sizeof(char) * (REG_NUMBER + 1))))
-		return (NULL);
-	str[REG_NUMBER] = 0;
-	str[LIVE - 1] = LIVE;
-	str[LD - 1] = LD;
-	str[ST - 1] = ST;
-	str[ADD - 1] = ADD;
-	str[SUB - 1] = SUB;
-	str[AND - 1] = AND;
-	str[OR - 1] = OR;
-	str[XOR - 1] = XOR;
-	str[ZJMP - 1] = ZJMP;
-	str[LDI - 1] = LDI;
-	str[STI - 1] = STI;
-	str[FORK - 1] = FORK;
-	str[LLD - 1] = LLD;
-	str[LLDI - 1] = LLDI;
-	str[LFORK - 1] = LFORK;
-	str[AFF - 1] = AFF;
-	return (str);
 }
 
 void	init_data(t_data *data, char *av)
@@ -99,7 +133,6 @@ void	init_data(t_data *data, char *av)
 	data->comment = NULL;
 	data->file = NULL;
 	data->instruction = NULL;
-	data->instruction = init_instruction();
 }
 
 int		suffix_name(t_data *data, const char *s)
@@ -174,45 +207,84 @@ int		skip_whitespace(char *str, int val)
 	return (i);
 }
 
+int			ft_str_is(char *str, const char *cmp)
+{
+	int		i;
+
+	if (!str)
+		return (0);
+	i = -1;
+	while (str[++i])
+		if (!params(str[i], cmp))
+			return (0);
+	return (1);
+}
+
+int			ft_skip_word(char *str)
+{
+	int		i;
+
+	i = -1;
+	if (!str)
+		return (-1);
+	while (str[++i])
+	{
+		if (!params(str[i], LABEL_CHARS) && str[i] != COMMENT_CHAR
+			&& str[i] != LABEL_CHAR && str[i] != DIRECT_CHAR)
+			break ;
+	}
+	return (i);
+}
+
 t_error		get_error(t_file *file, char *token)
 {
 	t_error	error;
 
 	(void)token;
 	error.type = NULL;
-	error.token = NULL;
+	error.instruction = NULL;
 	error.n_line = file->n_line;
 	error.index = file->index;
 	return (error);
 }
 
+int		check_op(const char *str)
+{
+	int	len;
+	int	i;
+
+	if (!str)
+		return (0);
+	i = -1;
+	len = (int)ft_strlen(str);
+	while (++i < REG_NUMBER)
+		if (len == op_tab[i].len
+			&& ft_strcmp(op_tab[i].op, str) == 0)
+			return (1);
+	return (0);
+}
+
+void	get_token(t_file *file)
+{
+	int	end_word;
+	
+	while (file->index < file->len)
+	{
+		file->index += skip_whitespace(file->line + file->index, 0);
+		end_word = skip_whitespace(file->line + file->index, 1) + file->index;
+		if (end_word == file->len)
+			break ;
+		add_token(&file->token, ft_strcut(file->line, file->index, end_word), file->index, end_word);
+		file->index = end_word;
+	}
+}
+
 int		get_data(t_data *data, t_file *file)
 {
-	int		bin;
-	int		end_word;
-	char	*tmp;
-
 	(void)data;
 	while (file)
 	{
-		bin = 8;
-		while (++file->index < file->len)
-		{
-			file->index += skip_whitespace(file->line + file->index, 0);
-			end_word = skip_whitespace(file->line + file->index, 1);
-			if (file->len + end_word == file->len)
-				break ;
-			tmp = ft_strcut(file->line + file->index, 0, end_word);
-			ft_printf("%s|", tmp);
-			// if (!tmp)
-			// {
-				// data->error = get_error(file, tmp);
-				// return (0);
-			// }
-			file->token.params += add_params(tmp, &bin);
-			file->index += skip_whitespace(file->line + file->index, 1);
-		}
-		ft_printf("\n");
+		get_token(file);
 		file = file->next;
 	}
 	return (1);
@@ -230,7 +302,7 @@ int		parsing_asm(t_data *data)
 	}
 	n_line = 0;
 	while ((data->ret = get_next_line(data->fd, &line)) > 0)
-		data->file = add_file(&data->file, line, ++n_line);
+		add_file(&data->file, line, ++n_line);
 	if (!(get_data(data, data->file)))
 		return (0);
 	if (!(suffix_name(data, SUFFIX)))
@@ -255,7 +327,7 @@ int		main(int argc, char **argv)
 		}
 		else
 		{
-			// print_list(&data);
+			print_list(&data);
 			ft_printf(SUCCESS, data.name_cor);
 		}
 		erase_all(&data);
