@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/20 18:35:44 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/21 17:25:37 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 
 # include <stdlib.h>
 # include "../libft/includes/libft.h"
+
+# include <stdio.h>
+
+# define GRID_SIZE		10
 
 # define LIVE			"live"
 # define LD				"ld"
@@ -66,7 +70,7 @@ typedef struct			s_instruction
 	int					carry_after;
 	int					octal_codage;
 	int					dir_size;
-	int					(*fct_ptr)(int param_one, int param_two, int param_three);
+	int					(*fct_ptr)(int a, int b, int c);
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[17];
@@ -74,98 +78,112 @@ extern t_instruction	g_tab_instructions[17];
 /*
 ** ------------------------- instr_add                -------------------------
 */
-int						instr_add(int param_one, int param_two, int param_three);
+int						instr_add(int a, int b, int c);
 
 /*
 ** ------------------------- instr_aff                -------------------------
 */
-int						instr_aff(int param_one, int param_two, int param_three);
+int						instr_aff(int a, int b, int c);
 
 /*
 ** ------------------------- instr_and                -------------------------
 */
-int						instr_and(int param_one, int param_two, int param_three);
+int						instr_and(int a, int b, int c);
 
 /*
 ** ------------------------- instr_fork               -------------------------
 */
-int						instr_fork(int param_one, int param_two, int param_three);
+int						instr_fork(int a, int b, int c);
 
 /*
 ** ------------------------- instr_ld                 -------------------------
 */
-int						instr_ld(int param_one, int param_two, int param_three);
+int						instr_ld(int a, int b, int c);
 
 /*
 ** ------------------------- instr_ldi                -------------------------
 */
-int						instr_ldi(int param_one, int param_two, int param_three);
+int						instr_ldi(int a, int b, int c);
 
 /*
 ** ------------------------- instr_lfork              -------------------------
 */
-int						instr_lfork(int param_one, int param_two, int param_three);
+int						instr_lfork(int a, int b, int c);
 
 /*
 ** ------------------------- instr_live               -------------------------
 */
-int						instr_live(int param_one, int param_two, int param_three);
+int						instr_live(int a, int b, int c);
 
 /*
 ** ------------------------- instr_lld                -------------------------
 */
-int						instr_lld(int param_one, int param_two, int param_three);
+int						instr_lld(int a, int b, int c);
 
 /*
 ** ------------------------- instr_lldi               -------------------------
 */
-int						instr_lldi(int param_one, int param_two, int param_three);
+int						instr_lldi(int a, int b, int c);
 
 /*
 ** ------------------------- instr_or                 -------------------------
 */
-int						instr_or(int param_one, int param_two, int param_three);
+int						instr_or(int a, int b, int c);
 
 /*
 ** ------------------------- instr_st                 -------------------------
 */
-int						instr_st(int param_one, int param_two, int param_three);
+int						instr_st(int a, int b, int c);
 
 /*
 ** ------------------------- instr_sti                -------------------------
 */
-int						instr_sti(int param_one, int param_two, int param_three);
+int						instr_sti(int a, int b, int c);
 
 /*
 ** ------------------------- instr_sub                -------------------------
 */
-int						instr_sub(int param_one, int param_two, int param_three);
+int						instr_sub(int a, int b, int c);
 
 /*
 ** ------------------------- instr_xor                -------------------------
 */
-int						instr_xor(int param_one, int param_two, int param_three);
+int						instr_xor(int a, int b, int c);
 
 /*
 ** ------------------------- instr_zjmp               -------------------------
 */
-int						instr_zjmp(int param_one, int param_two, int param_three);
+int						instr_zjmp(int a, int b, int c);
+
+/*
+** ------------------------- key_functions             -------------------------
+*/
+int						write_in_grid(int ***grid, int value, int where);
 
 /*
 ** ------------------------- manage_grid              -------------------------
 */
-int						**init_grid(void);
+int						add_grid(int ***grid);
+void					free_grid(int ***grid);
 void					print_grid(int ***grid);
 
 /*
 ** ------------------------- manage_storage           -------------------------
 */
 int						add_storage(t_storage **st);
+int						check_storage(t_storage **st);
+void					free_storage(t_storage **st);
 
 /*
 ** ------------------------- manage_threads           -------------------------
 */
 int						add_thread(t_storage **st, int place);
+void					free_thread_list(t_storage **st);
 void					print_thread_list(t_storage **st);
+
+/*
+** ------------------------- manage_threads           -------------------------
+*/
+void					print_nb_hexa(int nb);
 
 #endif

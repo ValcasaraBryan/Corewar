@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/20 18:40:05 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/21 17:21:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,15 @@ int			main(int argv, char **argc)
 	(void)g_tab_instructions;
 	(void)argv;
 	(void)argc;
-	(void)grid;
 
-	/*
-	int			**grid;
+	int		**grid;
 	
-	grid = init_grid();
+	//(void)grid;
+	add_grid(&grid);
 	print_grid(&grid);
-
+	write_in_grid(&grid, 255, 111);
+	print_grid(&grid);
+	/*
 	t_storage	*st;
 	
 	add_storage(&st);
@@ -53,6 +54,10 @@ int			main(int argv, char **argc)
 	add_thread(&st, 2);
 	add_thread(&st, 3);
 	print_thread_list(&st);
+	
+	free_storage(&st);
 	*/
+	free_grid(&grid);
+	//while (1);
 	return (0);
 }

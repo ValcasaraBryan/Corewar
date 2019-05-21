@@ -6,29 +6,18 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/20 18:35:24 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/21 14:59:14 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
-static int			storage_not_null(t_storage **st)
-{
-	if (st != NULL && *st != NULL)
-	{
-		if ((*st)->first_thread != NULL && (*st)->last_thread != NULL)
-			return (1);
-		return (0);
-	}
-	return (-1);
-}
 
 static t_thread		*create_thread(t_storage **st, int place)
 {
 	t_thread	*thread;
 	int			result;
 
-	result = storage_not_null(st);
+	result = check_storage(st);
 	if (result >= 0)
 	{
 		if (!(thread = malloc(sizeof(*thread))))
@@ -51,7 +40,7 @@ int					add_thread(t_storage **st, int place)
 	thread = create_thread(st, place);
 	if (thread != NULL)
 	{
-		result = storage_not_null(st);
+		result = check_storage(st);
 		if (result == 1)
 			(*st)->last_thread->next = thread;
 		else
@@ -67,7 +56,7 @@ void				print_thread_list(t_storage **st)
 	t_thread	*current;
 	int			result;
 
-	result = storage_not_null(st);
+	result = check_storage(st);
 	if (result >= 0)
 	{
 		current = (*st)->first_thread;
@@ -84,4 +73,21 @@ void				print_thread_list(t_storage **st)
 			current = current->next;
 		}
 	}
+}
+
+void				free_thread_list(t_storage **st)
+{
+	t_thread	*current;
+	t_thread	*next;
+
+	current = (*st)->first_thread;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	free(current);
+	(*st)->first_thread = NULL;
+	(*st)->last_thread = NULL;
 }

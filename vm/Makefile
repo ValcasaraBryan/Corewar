@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/20 18:19:24 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/05/21 17:11:04 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,12 @@ FILES_SRCS =	instr_add.c				\
 				instr_sub.c				\
 				instr_xor.c				\
 				instr_zjmp.c			\
+				key_functions.c			\
 				main.c					\
 				manage_grid.c			\
 				manage_storage.c		\
-				manage_threads.c
+				manage_threads.c		\
+				utilities.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
 OBJS =			$(FILES_SRCS:%.c=$(DIR_OBJS)/%.o)
 SRCS =			$(FILES_SRCS:%.c=$(DIR_SRCS)/%.c)

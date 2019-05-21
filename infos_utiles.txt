@@ -11,6 +11,15 @@ Lancer le corewar avec le visu :
 ./corewar -n <champion.cor>
 
 
+Check leaks :
+
+while; do leaks corewar; sleep 1; clear; done;
+
+
+Norminette :
+
+norminette -R CheckForbiddenSourceHeader
+
 ------------------------
 
 COMMITS
@@ -43,3 +52,9 @@ amelioration [vm] : optimisation
 progression [vm] : ajout des couleurs
 
 ------------------------
+
+SHRT_MAX	32767	7FFF
+SHRT_MIN	-32768	8000
+			-2		FFFE
+			-1		FFFF
+			0		0000
