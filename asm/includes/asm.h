@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/20 21:07:24 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/21 16:01:13 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ typedef struct		s_data
 	int				ret;
 	char			*name_cor;
 	char			*name_s;
-	char			*name;
-	char			*comment;
+	t_token			*name;
+	t_token			*comment;
 	t_file			*file;
 	t_token			*token;
 	t_ins			*instruction;

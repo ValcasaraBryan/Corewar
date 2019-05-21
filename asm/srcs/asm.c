@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/20 21:29:07 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/21 19:55:11 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,19 @@ void		print_list(t_data *data)
 			tmp = tmp->next;
 		}
 	}
+	while (data->name)
+	{
+		ft_printf("[%s]\t\t\t[%03d-%03d][%03d-%03d]\n", data->name->cut, data->name->file->n_line, data->name->start + 1, data->name->file->n_line, data->name->end + 1);
+		data->name = data->name->next;
+	}
+	while (data->comment)
+	{
+		ft_printf("[%s]\t\t\t[%03d-%03d][%03d-%03d]\n", data->comment->cut, data->comment->file->n_line, data->comment->start + 1, data->comment->file->n_line, data->comment->end + 1);
+		data->comment = data->comment->next;
+	}
 	while (data->token)
 	{
-		// ft_printf("[%s]\t\t\t[%03d-%03d]\n", data->token->cut, data->token->file->n_line, data->token->start + 1);
+		ft_printf("\t\t[%s]\t\t\t[%03d-%03d]\n", data->token->cut, data->token->file->n_line, data->token->start + 1);
 		data->token = data->token->next;
 	}
 }
@@ -263,6 +273,16 @@ int		check_op(const char *str)
 	return (0);
 }
 
+
+t_token		token_val(t_token add, int start, int end, t_file *file)
+{
+	add.start = start;
+	add.end = end;
+	add.file = file;
+	add.next = NULL;
+	return (add);
+}
+
 void	get_token(t_data *data, t_file *file)
 {
 	t_token	token;
@@ -275,75 +295,89 @@ void	get_token(t_data *data, t_file *file)
 		if (end_word == file->index)
 			break ;
 		token.cut = ft_strcut(file->line, file->index, end_word);
-		token.start = file->index;
-		token.end = end_word;
-		token.file = file;
-		token.next = NULL;
+		token = token_val(token, file->index, end_word, file);
 		add_token(&data->token, token);
 		file->index = end_word;
 	}
 }
 
-int		check_type(char *str, int i, int *check, int type)
+t_file	*comment(t_token **token, t_file *file, int start)
 {
-	while (str[++i])
-		if (str[i] == type)
+	t_token	add;
+	int		end;
+
+	end = 0;
+	while (file->line[++start])
+		if (file->line[start] == CMD_CHAR)
+			break ;
+	end = start++ + 1;
+	while (file)
+	{
+		while (file->line[end] && file->line[end] != CMD_CHAR)
+			end++;
+		add.cut = (start < end) ? ft_strcut(file->line, start, end) : ft_strdup("");
+		add = token_val(add, start, end, file);
+		if (file->line[end] != CMD_CHAR)
 		{
-			(*check)++;
+			add.cut = ft_strjoin_free(add.cut, "\n", 1);
+			add = token_val(add, start + 1, end + 1, file);
+			add_token(token, add);
+		}
+		else if (file->line[end] == CMD_CHAR)
+		{
+			add_token(token, add);
+			file->index = end + 1;
 			break ;
 		}
-	return (i);
+		if (file->next)
+		{
+			file = file->next;
+			start = 0;
+			end = 0;
+		}
+		else
+			break ;
+	}
+	file->index = file->len;
+	return (file);
 }
 
-char	*get_name(t_token *token, int nb_char, char type, int check)
+t_file	*get_comment_name(t_data *data, t_file *file)
 {
-	char	*str;
-	int		j;
-	int		i;
+	t_token	add;
 
-	str = ft_strdup("");
-	i = check_type(token->file->line, -1, &check, type);
-	j = check_type(token->file->line, i++, &check, type);
-	if (check == nb_char)
-		return (ft_strjoin_free(str, ft_strcut(token->file->line, i, j), 3));
-	while (token->file)
+	while (file->index < file->len)
 	{
-		str = ft_strjoin_free(str, ft_strcut(token->file->line, i, j), 3);
-		if (check == 1 && token->file->next)
-			str = ft_strjoin_free(str, "\n", 1);
-		if (check == nb_char)
-			break ;
-		token->file = token->file->next;
-		if (!token->file)
-			break ;
-		j = check_type(token->file->line, (i = 0), &check, type);
+		file->index += skip_whitespace(file->line + file->index, 0);
+		if (ft_strncmp(file->line + file->index, NAME_CMD_STRING, 5) == 0)
+		{
+			add.cut = ft_strcut(file->line, file->index, file->index + 5);
+			add_token(&data->name, token_val(add, file->index, file->index + 5, file));
+			file = comment(&data->name, file, file->index - 1);
+		}
+		else if (ft_strncmp(file->line + file->index, COMMENT_CMD_STRING, 8) == 0)
+		{
+			add.cut = ft_strcut(file->line, file->index, file->index + 8);
+			add_token(&data->comment, token_val(add, file->index, file->index + 8, file));
+			file = comment(&data->comment, file, file->index - 1);
+		}
+		else
+			get_token(data, file);
 	}
-	return ((check == nb_char) ? str : NULL);
-}
-
-int		check_cmd(t_data *data, t_token *token)
-{
-	while (token)
-	{
-		if (ft_strncmp(token->cut, NAME_CMD_STRING, 5) == 0)
-			data->name = get_name(token, 2, CMD_CHAR, 0);
-		if (ft_strncmp(token->cut, COMMENT_CMD_STRING, 8) == 0)
-			data->comment = get_name(token, 2, CMD_CHAR, 0);
-		token = token->next;
-	}
-	ft_printf("DATA NAME = |%s|\n", data->name);
-	ft_printf("DATA COMMENT = |%s|\n", data->comment);
-	return (1);
+	return (file);
 }
 
 int		get_data(t_data *data, t_file *file)
 {
 	while (file)
 	{
-		get_token(data, file);
+		file = get_comment_name(data, file);
+		if (data->name && data->comment)
+			get_token(data, file);
 		file = file->next;
 	}
-	check_cmd(data, data->token);
+	// ft_printf(".name [%s]\n", data->name);
+	// ft_printf(".comment [%s]\n", data->comment);
 	return (1);
 }
 
