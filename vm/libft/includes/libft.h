@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/05 11:06:26 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/20 17:38:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 15:31:08 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,18 @@ void		ft_putnbr(int n);
 void		ft_putstr(char const *s);
 
 /*
+** ------------------------- ft_strdup                -------------------------
+*/
+char		*ft_strdup(const char *s1);
+
+/*
 ** ------------------------- ft_strlen                -------------------------
 */
 size_t		ft_strlen(const char *s);
+
+/*
+** ------------------------- ft_strnew                -------------------------
+*/
+char		*ft_strnew(size_t size);
 
 #endif

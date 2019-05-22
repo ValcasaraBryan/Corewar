@@ -6,12 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/21 17:21:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 15:53:02 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
+/*
 t_instruction	g_tab_instructions[17] =
 {
 	{1,		LIVE,	1,	{	T_DIR																	},	"00000001",	"01",	10,		-1,	-1,	-1,	-1,	*instr_live		},
@@ -32,32 +33,14 @@ t_instruction	g_tab_instructions[17] =
 	{16,	AFF,	1,	{	T_REG																	},	"00010000",	"10",	2,		-1,	-1,	-1,	-1,	*instr_aff		},
 	{0,		0,		0,	{	0																		},	"00000000",	"01",	0,		0,	0,	0,	0,	0				}
 };
+*/
 
 int			main(int argv, char **argc)
 {
 	(void)g_tab_instructions;
 	(void)argv;
 	(void)argc;
-
-	int		**grid;
-	
-	//(void)grid;
-	add_grid(&grid);
-	print_grid(&grid);
-	write_in_grid(&grid, 255, 111);
-	print_grid(&grid);
-	/*
-	t_storage	*st;
-	
-	add_storage(&st);
-	add_thread(&st, 1);
-	add_thread(&st, 2);
-	add_thread(&st, 3);
-	print_thread_list(&st);
-	
-	free_storage(&st);
-	*/
-	free_grid(&grid);
-	//while (1);
+	all_ut();
+	while (1);
 	return (0);
 }

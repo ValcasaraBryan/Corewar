@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/21 17:11:04 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/05/22 16:22:27 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ FLAGS_COMP =	-Wall -Wextra -Werror
 FLAGS_INCL =	-I $(DIR_INCL)
 FLAGS_LIBFT =	-L $(DIR_LIBFT) -lft
 FILES_HEADER =	corewar.h
-FILES_SRCS =	instr_add.c				\
+FILES_SRCS =	byte_functions.c		\
+				champion_functions.c	\
+				instr_add.c				\
 				instr_aff.c				\
 				instr_and.c				\
 				instr_fork.c			\
@@ -39,9 +41,12 @@ FILES_SRCS =	instr_add.c				\
 				instr_zjmp.c			\
 				key_functions.c			\
 				main.c					\
+				manage_byte.c			\
+				manage_champion.c		\
 				manage_grid.c			\
 				manage_storage.c		\
-				manage_threads.c		\
+				manage_thread.c			\
+				unit_tests.c			\
 				utilities.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
 OBJS =			$(FILES_SRCS:%.c=$(DIR_OBJS)/%.o)

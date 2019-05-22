@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 16:18:24 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/20 17:37:50 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/05/22 15:30:50 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ FILES_SRCS =	ft_atoi.c		\
 				ft_putchar.c	\
 				ft_putnbr.c		\
 				ft_putstr.c		\
-				ft_strlen.c
+				ft_strdup.c		\
+				ft_strlen.c		\
+				ft_strnew.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
 OBJS =			$(FILES_SRCS:%.c=$(DIR_OBJS)/%.o)
 SRCS =			$(FILES_SRCS:%.c=$(DIR_SRCS)/%.c)

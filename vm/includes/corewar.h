@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/21 17:25:37 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 16:22:15 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,30 @@ typedef struct			s_thread
 	struct s_thread		*next;
 }						t_thread;
 
+typedef struct			s_byte
+{
+	int					value;
+	struct s_byte		*prec;
+	struct s_byte		*next;
+}						t_byte;
+
+typedef struct			s_champion
+{
+	int					number;
+	char				*name;
+	char				*desc;
+	struct s_byte		*first_byte;
+	struct s_byte		*last_byte;
+	struct s_champion	*prec;
+	struct s_champion	*next;
+}						t_champion;
+
 typedef struct			s_storage
 {
 	struct s_thread		*first_thread;
 	struct s_thread		*last_thread;
+	struct s_champion	*first_champion;
+	struct s_champion	*last_champion;
 }						t_storage;
 
 typedef struct			s_instruction
@@ -74,6 +94,18 @@ typedef struct			s_instruction
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[17];
+
+/*
+** ------------------------- byte_functions           -------------------------
+*/
+int						byte_change_value(t_byte **bt, int new_value);
+
+/*
+** ------------------------- champion_functions       -------------------------
+*/
+int						champion_change_desc(t_champion **ch, char *new_desc);
+int						champion_change_name(t_champion **ch, char *new_name);
+int						champion_change_number(t_champion **ch, int new_nb);
 
 /*
 ** ------------------------- instr_add                -------------------------
@@ -161,6 +193,22 @@ int						instr_zjmp(int a, int b, int c);
 int						write_in_grid(int ***grid, int value, int where);
 
 /*
+** ------------------------- manage_byte               -------------------------
+*/
+int						add_byte(t_champion **ch);
+int						check_byte(t_byte **bt);
+void					free_byte_list(t_champion **ch);
+void					print_byte_list(t_champion **ch);
+
+/*
+** ------------------------- manage_champion          -------------------------
+*/
+int						add_champion(t_storage **st);
+int						check_champion_byte(t_champion **ch);
+void					free_champion_list(t_storage **st);
+void					print_champion_list(t_storage **st);
+
+/*
 ** ------------------------- manage_grid              -------------------------
 */
 int						add_grid(int ***grid);
@@ -171,18 +219,29 @@ void					print_grid(int ***grid);
 ** ------------------------- manage_storage           -------------------------
 */
 int						add_storage(t_storage **st);
-int						check_storage(t_storage **st);
+int						check_storage_champion(t_storage **st);
+int						check_storage_thread(t_storage **st);
 void					free_storage(t_storage **st);
 
 /*
-** ------------------------- manage_threads           -------------------------
+** ------------------------- manage_thread            -------------------------
 */
 int						add_thread(t_storage **st, int place);
 void					free_thread_list(t_storage **st);
 void					print_thread_list(t_storage **st);
 
 /*
-** ------------------------- manage_threads           -------------------------
+** ------------------------- unit_tests               -------------------------
+*/
+int						ut_byte(void);
+int						ut_champion(void);
+int						ut_grid(void);
+int						ut_storage(void);
+int						ut_thread(void);
+int						all_ut(void);
+
+/*
+** ------------------------- utilities                -------------------------
 */
 void					print_nb_hexa(int nb);
 
