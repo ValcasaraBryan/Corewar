@@ -6,16 +6,16 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 16:17:40 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:20:38 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
 /*
-** creation structure -> champion -> byte
-** affichage
-** free
+** creation storage -> champion -> byte
+** affichage liste byte
+** free storage
 */
 
 static int		ut_byte_1(void)
@@ -24,18 +24,17 @@ static int		ut_byte_1(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	add_byte(&(st->first_champion));
+	add_byte(&(st->last_champion));
 	//print_byte_list(&(st->first_champion));
 	free_storage(&st);
 	return (1);
 }
 
 /*
-** creation structure -> champion -> byte
-** creation byte
-** creation byte
-** affichage
-** free
+** creation storage -> champion -> byte
+** changement valeur byte
+** affichage liste byte
+** free storage
 */
 
 static int		ut_byte_2(void)
@@ -44,18 +43,17 @@ static int		ut_byte_2(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	add_byte(&(st->first_champion));
-	add_byte(&(st->first_champion));
-	add_byte(&(st->first_champion));
-	print_byte_list(&(st->first_champion));
+	add_byte(&(st->last_champion));
+	byte_change_value(&(st->last_champion->last_byte), 5);
+	//print_byte_list(&(st->last_champion));
 	free_storage(&st);
 	return (1);
 }
 
 /*
-** creation structure -> champion
-** affichage
-** free
+** creation storage -> champion
+** affichage liste champion
+** free storage
 */
 
 static int		ut_champion_1(void)
@@ -70,10 +68,10 @@ static int		ut_champion_1(void)
 }
 
 /*
-** creation structure -> champion
-** changement nom
-** affichage
-** free
+** creation storage -> champion
+** changement nom champion
+** affichage liste champion
+** free storage
 */
 
 static int		ut_champion_2(void)
@@ -82,17 +80,17 @@ static int		ut_champion_2(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	champion_change_name(&(st->first_champion), "test 1");
+	champion_change_name(&(st->last_champion), "test 1");
 	//print_champion_list(&st);
 	free_storage(&st);
 	return (1);
 }
 
 /*
-** creation structure -> champion
-** changement desc
-** affichage
-** free
+** creation storage -> champion
+** changement desc champion
+** affichage liste champion
+** free storage
 */
 
 static int		ut_champion_3(void)
@@ -101,17 +99,17 @@ static int		ut_champion_3(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	champion_change_desc(&(st->first_champion), "test 2");
+	champion_change_desc(&(st->last_champion), "test 2");
 	//print_champion_list(&st);
 	free_storage(&st);
 	return (1);
 }
 
 /*
-** creation structure -> champion
-** changement number
-** affichage
-** free
+** creation storage -> champion
+** changement number champion
+** affichage liste champion
+** free storage
 */
 
 static int		ut_champion_4(void)
@@ -120,23 +118,23 @@ static int		ut_champion_4(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	champion_change_number(&(st->first_champion), 5);
+	champion_change_number(&(st->last_champion), 5);
 	//print_champion_list(&st);
 	free_storage(&st);
 	return (1);
 }
 
 /*
-** creation structure -> champion
-** changement nom
-** changement desc
-** changement number
-** affichage
-** changement nom
-** changement desc
-** changement number
-** affichage
-** free
+** creation storage -> champion
+** changement nom champion
+** changement desc champion
+** changement number champion
+** affichage liste champion
+** changement nom champion
+** changement desc champion
+** changement number champion
+** affichage liste champion
+** free storage
 */
 
 static int		ut_champion_5(void)
@@ -145,24 +143,22 @@ static int		ut_champion_5(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	champion_change_name(&(st->first_champion), "test 3");
-	champion_change_desc(&(st->first_champion), "test 4");
-	champion_change_number(&(st->first_champion), 8);
+	champion_change_name(&(st->last_champion), "test 3");
+	champion_change_desc(&(st->last_champion), "test 4");
+	champion_change_number(&(st->last_champion), 8);
 	//print_champion_list(&st);
-	champion_change_name(&(st->first_champion), "test 5");
-	champion_change_desc(&(st->first_champion), "test 6");
-	champion_change_number(&(st->first_champion), 9);
+	champion_change_name(&(st->last_champion), "test 5");
+	champion_change_desc(&(st->last_champion), "test 6");
+	champion_change_number(&(st->last_champion), 9);
 	//print_champion_list(&st);
 	free_storage(&st);
 	return (1);
 }
 
 /*
-** creation structure
-** affichage
-** ecriture de valeur dans la grid
-** affichage
-** free
+** creation grid
+** affichage grid
+** free grid
 */
 
 static int		ut_grid_1(void)
@@ -171,6 +167,22 @@ static int		ut_grid_1(void)
 
 	add_grid(&grid);
 	//print_grid(&grid);
+	free_grid(&grid);
+	return (1);
+}
+
+/*
+** creation grid
+** ecriture de valeur dans la grid
+** affichage grid
+** free grid
+*/
+
+static int		ut_grid_2(void)
+{
+	int		**grid;
+
+	add_grid(&grid);
 	write_in_grid(&grid, 255, 111);
 	//print_grid(&grid);
 	free_grid(&grid);
@@ -178,8 +190,49 @@ static int		ut_grid_1(void)
 }
 
 /*
-** creation structure
-** free
+** creation grid
+** creation storage -> champion -> byte
+** changement valeur byte
+** creation storage -> champion -> byte
+** changement valeur byte
+** creation storage -> champion -> byte
+** changement valeur byte
+** creation storage -> champion -> byte
+** changement valeur byte
+** affichage storage
+** free storage
+** affichage grid
+** free grid
+*/
+
+static int		ut_grid_3(void)
+{
+	int		**grid;
+	t_storage	*st;
+
+	add_grid(&grid);
+	add_storage(&st);
+	add_champion(&st);
+	add_byte(&(st->last_champion));
+	byte_change_value(&(st->last_champion->last_byte), 1);
+	add_byte(&(st->last_champion));
+	byte_change_value(&(st->last_champion->last_byte), 2);
+	add_byte(&(st->last_champion));
+	byte_change_value(&(st->last_champion->last_byte), 3);
+	add_byte(&(st->last_champion));
+	byte_change_value(&(st->last_champion->last_byte), 4);
+	fill_grid_with_champ(&grid, &(st->last_champion));
+	print_storage(&st);
+	free_storage(&st);
+	print_grid(&grid);
+	free_grid(&grid);
+	return (1);
+}
+
+/*
+** creation storage
+** affichage storage
+** free storage
 */
 
 static int		ut_storage_1(void)
@@ -187,14 +240,15 @@ static int		ut_storage_1(void)
 	t_storage	*st;
 
 	add_storage(&st);
+	//print_storage(&st);
 	free_storage(&st);
 	return (1);
 }
 
 /*
-** creation structure -> thread
-** affichage
-** free
+** creation storage -> thread
+** affichage liste thread
+** free storage
 */
 
 static int		ut_thread_1(void)
@@ -228,6 +282,8 @@ int				ut_champion(void)
 int				ut_grid(void)
 {
 	printf(ut_grid_1() ? "ut_grid_1		OK\n" : "ut_grid_1		KO\n");
+	printf(ut_grid_2() ? "ut_grid_2		OK\n" : "ut_grid_2		KO\n");
+	printf(ut_grid_3() ? "ut_grid_3		OK\n" : "ut_grid_3		KO\n");
 	return (1);
 }
 

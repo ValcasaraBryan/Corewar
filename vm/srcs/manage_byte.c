@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:56:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 16:20:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:11:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,18 @@ int				add_byte(t_champion **ch)
 	if (byte != NULL)
 	{
 		result = check_champion_byte(ch);
-		if (result == 1)
-			(*ch)->last_byte->next = byte;
-		else
-			(*ch)->first_byte = byte;
-		(*ch)->last_byte = byte;
-		return (1);
+		if (result >= 0)
+		{
+			if (result == 1)
+				(*ch)->last_byte->next = byte;
+			else
+				(*ch)->first_byte = byte;
+			(*ch)->last_byte = byte;
+			return (1);
+		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int				check_byte(t_byte **bt)
@@ -76,20 +80,18 @@ void			free_byte_list(t_champion **ch)
 void			print_byte_list(t_champion **ch)
 {
 	t_byte		*current;
-	int			result;
 
-	result = check_champion_byte(ch);
-	if (result >= 0)
+	if (check_champion_byte(ch) >= 0)
 	{
-		ft_putstr("-----------\n");
-		ft_putstr("BYTE LIST\n");
+		printf("		-------------\n");
+		printf("		BYTE LIST\n");
 		current = (*ch)->first_byte;
 		while (current != NULL)
 		{
-			printf("-------------\n");
-			printf("value : %d\n", current->value);
-			printf("-------------\n");
+			printf("		-------------\n");
+			printf("		value : %d\n", current->value);
 			current = current->next;
 		}
+		printf("		-------------\n");
 	}
 }

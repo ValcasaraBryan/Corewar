@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 16:22:15 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:18:45 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,11 @@ int						byte_change_value(t_byte **bt, int new_value);
 int						champion_change_desc(t_champion **ch, char *new_desc);
 int						champion_change_name(t_champion **ch, char *new_name);
 int						champion_change_number(t_champion **ch, int new_nb);
+
+/*
+** ------------------------- champion_functions       -------------------------
+*/
+int						fill_grid_with_champ(int ***grid, t_champion **ch);
 
 /*
 ** ------------------------- instr_add                -------------------------
@@ -222,6 +227,7 @@ int						add_storage(t_storage **st);
 int						check_storage_champion(t_storage **st);
 int						check_storage_thread(t_storage **st);
 void					free_storage(t_storage **st);
+void					print_storage(t_storage **st);
 
 /*
 ** ------------------------- manage_thread            -------------------------

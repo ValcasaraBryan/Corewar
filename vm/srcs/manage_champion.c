@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 16:08:56 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:09:16 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,18 @@ int					add_champion(t_storage **st)
 	if (champion != NULL)
 	{
 		result = check_storage_champion(st);
-		if (result == 1)
-			(*st)->last_champion->next = champion;
-		else
-			(*st)->first_champion = champion;
-		(*st)->last_champion = champion;
-		return (1);
+		if (result >= 0)
+		{
+			if (result == 1)
+				(*st)->last_champion->next = champion;
+			else
+				(*st)->first_champion = champion;
+			(*st)->last_champion = champion;
+			return (1);
+		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int					check_champion_byte(t_champion **ch)
@@ -92,22 +96,21 @@ void				free_champion_list(t_storage **st)
 void				print_champion_list(t_storage **st)
 {
 	t_champion	*current;
-	int			result;
 
-	result = check_storage_champion(st);
-	if (result >= 0)
+	if (check_storage_champion(st) >= 0)
 	{
-		ft_putstr("-----------\n");
-		ft_putstr("CHAMPION LIST\n");
+		ft_putstr("	-------------\n");
+		ft_putstr("	CHAMPION LIST\n");
 		current = (*st)->first_champion;
 		while (current != NULL)
 		{
-			printf("-------------\n");
-			printf("number : %d\n", current->number);
-			printf("name   : %s\n", current->name != NULL ? current->name : "");
-			printf("desc   : %s\n", current->desc != NULL ? current->desc : "");
-			printf("-------------\n");
+			printf("	-------------\n");
+			printf("	number : %d\n", current->number);
+			printf("	name   : %s\n", current->name != NULL ? current->name : "");
+			printf("	desc   : %s\n", current->desc != NULL ? current->desc : "");
+			print_byte_list(&current);
 			current = current->next;
 		}
+		printf("	-------------\n");
 	}
 }

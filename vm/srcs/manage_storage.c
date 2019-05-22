@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 14:55:27 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:04:37 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,13 @@ void				free_storage(t_storage **st)
 		free(*st);
 		*st = NULL;
 	}
+}
+
+void				print_storage(t_storage **st)
+{
+	printf("-------------\n");
+	printf("STORAGE\n");
+	print_champion_list(st);
+	print_thread_list(st);
+	printf("-------------\n");
 }

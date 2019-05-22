@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/21 18:10:02 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:22:00 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static int		fill_grid(int ***new_grid, int i, int j)
+static int		setup_empty_grid(int ***new_grid, int i, int j)
 {
 	int			*new_line;
 
@@ -31,7 +31,7 @@ static int		fill_grid(int ***new_grid, int i, int j)
 		}
 		j = -1;
 		while (++j < GRID_SIZE)
-			new_line[j] = 254;
+			new_line[j] = 0;
 		new_line[j] = -1;
 		(*new_grid)[i] = new_line;
 	}
@@ -45,7 +45,7 @@ static int		**create_grid(void)
 
 	if (!(new_grid = (int **)malloc(sizeof(int *) * (GRID_SIZE + 1))))
 		return (NULL);
-	if (fill_grid(&new_grid, 0, 0) == 0)
+	if (setup_empty_grid(&new_grid, 0, 0) == 0)
 	{
 		free(new_grid);
 		new_grid = NULL;
@@ -66,8 +66,9 @@ int				add_grid(int ***grid)
 			(*grid) = new_grid;
 			return (1);
 		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 void			free_grid(int ***grid)
