@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:56:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:24:56 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:04:51 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_byte	*create_byte(t_champion **ch)
 	t_byte		*byte;
 	int			result;
 
-	result = check_champion_byte(ch);
+	result = champion_check(ch);
 	if (result >= 0)
 	{
 		if (!(byte = malloc(sizeof(*byte))))
@@ -38,7 +38,7 @@ int				add_byte(t_champion **ch)
 	byte = create_byte(ch);
 	if (byte != NULL)
 	{
-		result = check_champion_byte(ch);
+		result = champion_check(ch);
 		if (result >= 0)
 		{
 			if (result == 1)
@@ -54,11 +54,13 @@ int				add_byte(t_champion **ch)
 	return (-1);
 }
 
-int				check_byte(t_byte **bt)
+void			free_byte(t_byte **bt)
 {
-	if (bt != NULL && *bt != NULL)
-		return (1);
-	return (-1);
+	if (byte_check(bt) >= 0)
+	{
+		free((*bt));
+		(*bt) = NULL;
+	}
 }
 
 void			free_byte_list(t_champion **ch)
@@ -66,23 +68,26 @@ void			free_byte_list(t_champion **ch)
 	t_byte		*current;
 	t_byte		*next;
 
-	current = (*ch)->first_byte;
-	while (current != NULL)
+	if (champion_check(ch) >= 0)
 	{
-		next = current->next;
+		current = (*ch)->first_byte;
+		while (current != NULL)
+		{
+			next = current->next;
+			free_byte(&current);
+			current = next;
+		}
 		free(current);
-		current = next;
+		(*ch)->first_byte = NULL;
+		(*ch)->last_byte = NULL;
 	}
-	free(current);
-	(*ch)->first_byte = NULL;
-	(*ch)->last_byte = NULL;
 }
 
 void			print_byte_list(t_champion **ch)
 {
 	t_byte		*current;
 
-	if (check_champion_byte(ch) >= 0)
+	if (champion_check(ch) >= 0)
 	{
 		printf("		-------------\n");
 		printf("		BYTE LIST\n");

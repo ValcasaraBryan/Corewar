@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_byte.c                                   :+:      :+:    :+:   */
+/*   functions_thread.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/22 16:18:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 18:00:04 by jdurand-         ###   ########.fr       */
+/*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
+/*   Updated: 2019/05/23 18:15:42 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		byte_change_value(t_byte **bt, int new_value)
+int		thread_check(t_thread **th)
 {
-	int		result;
-
-	result = byte_check(bt);
-	if (result == 1)
-	{
-		if (new_value >= 0 && new_value <= 255)
-		{
-			(*bt)->value = new_value;
-			if ((*bt)->value >= 0)
-				return (1);
-		}
-		return (0);
-	}
-	return (-1);
-}
-
-int		byte_check(t_byte **bt)
-{
-	if (bt != NULL && *bt != NULL)
+	if (th != NULL && *th != NULL)
 		return (1);
 	return (-1);
 }

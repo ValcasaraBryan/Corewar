@@ -6,66 +6,74 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 18:22:00 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:10:46 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static int		setup_empty_grid(int ***new_grid, int i, int j)
+static int		setup_empty_grid(int ***grid, int i, int j)
 {
-	int			*new_line;
+	int			*line;
 
 	i = -1;
 	while (++i < GRID_SIZE)
 	{
-		if (!(new_line = (int *)malloc(sizeof(int) * (GRID_SIZE + 1))))
+		if (!(line = (int *)malloc(sizeof(int) * (GRID_SIZE + 1))))
 		{
 			j = -1;
 			while (++j < i)
 			{
-				free((*new_grid)[j]);
-				(*new_grid)[j] = NULL;
+				free((*grid)[j]);
+				(*grid)[j] = NULL;
 			}
 			return (0);
 		}
 		j = -1;
 		while (++j < GRID_SIZE)
-			new_line[j] = 0;
-		new_line[j] = -1;
-		(*new_grid)[i] = new_line;
+			line[j] = 0;
+		line[j] = -1;
+		(*grid)[i] = line;
 	}
-	(*new_grid)[i] = 0;
+	(*grid)[i] = 0;
 	return (1);
 }
 
-static int		**create_grid(void)
+static int		**create_grid(t_storage **st)
 {
-	int			**new_grid;
+	int			**grid;
+	int			result;
 
-	if (!(new_grid = (int **)malloc(sizeof(int *) * (GRID_SIZE + 1))))
-		return (NULL);
-	if (setup_empty_grid(&new_grid, 0, 0) == 0)
+	result = storage_check_grid(st);
+	if (result >= 0)
 	{
-		free(new_grid);
-		new_grid = NULL;
-		return (NULL);
+		if (!(grid = (int **)malloc(sizeof(int *) * (GRID_SIZE + 1))))
+			return (NULL);
+		if (setup_empty_grid(&grid, 0, 0) == 0)
+		{
+			free_grid(&grid);
+			return (NULL);
+		}
+		return (grid);
 	}
-	return (new_grid);
+	return (NULL);
 }
 
-int				add_grid(int ***grid)
+int				add_grid(t_storage **st)
 {
-	int		**new_grid;
+	int			**grid;
+	int			result;
 
+	grid = create_grid(st);
 	if (grid != NULL)
 	{
-		new_grid = create_grid();
-		if (new_grid != NULL)
+		result = storage_check_grid(st);
+		if (result >= 0)
 		{
-			(*grid) = new_grid;
+			(*st)->grid = grid;
 			return (1);
 		}
+		free_grid(&grid);
 		return (0);
 	}
 	return (-1);

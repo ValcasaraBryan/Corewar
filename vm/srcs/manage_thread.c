@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:27:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:15:51 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_thread		*create_thread(t_storage **st, int place)
 {
 	t_thread	*thread;
 
-	if (check_storage_thread(st) >= 0)
+	if (storage_check_thread(st) >= 0)
 	{
 		if (!(thread = malloc(sizeof(*thread))))
 			return (NULL);
@@ -38,7 +38,7 @@ int					add_thread(t_storage **st, int place)
 	thread = create_thread(st, place);
 	if (thread != NULL)
 	{
-		result = check_storage_thread(st);
+		result = storage_check_thread(st);
 		if (result >= 0)
 		{
 			if (result == 1)
@@ -54,28 +54,40 @@ int					add_thread(t_storage **st, int place)
 	return (-1);
 }
 
+void				free_thread(t_thread **th)
+{
+	if (thread_check(th) >= 0)
+	{
+		free((*th));
+		(*th) = NULL;
+	}
+}
+
 void				free_thread_list(t_storage **st)
 {
 	t_thread	*current;
 	t_thread	*next;
 
-	current = (*st)->first_thread;
-	while (current != NULL)
+	if (storage_check_thread(st) >= 0)
 	{
-		next = current->next;
+		current = (*st)->first_thread;
+		while (current != NULL)
+		{
+			next = current->next;
+			free_thread(&current);
+			current = next;
+		}
 		free(current);
-		current = next;
+		(*st)->first_thread = NULL;
+		(*st)->last_thread = NULL;
 	}
-	free(current);
-	(*st)->first_thread = NULL;
-	(*st)->last_thread = NULL;
 }
 
 void				print_thread_list(t_storage **st)
 {
 	t_thread	*current;
 
-	if (check_storage_thread(st) >= 0)
+	if (storage_check_thread(st) >= 0)
 	{
 		current = (*st)->first_thread;
 		printf("	-------------\n");

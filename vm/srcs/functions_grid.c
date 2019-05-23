@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   grid_functions.c                                   :+:      :+:    :+:   */
+/*   functions_grid.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:55:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 18:18:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 17:59:47 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		fill_grid_with_champ(int ***grid, t_champion **ch)
+int		grid_fill_with_champ(int ***grid, t_champion **ch)
 {
 	t_byte		*current;
 	int			mod;
 
-	if (check_champion_byte(ch) == 1)
+	if (champion_check(ch) == 1)
 	{
 		mod = ((*ch)->number - 1) * GRID_SIZE;
 		current = (*ch)->first_byte;

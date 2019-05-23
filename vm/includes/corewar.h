@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:28:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:16:45 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		1
+# define UT_PRINT		0
 
 # define LIVE			"live"
 # define LD				"ld"
@@ -73,6 +73,7 @@ typedef struct			s_champion
 
 typedef struct			s_storage
 {
+	int					**grid;
 	struct s_thread		*first_thread;
 	struct s_thread		*last_thread;
 	struct s_champion	*first_champion;
@@ -98,21 +99,35 @@ typedef struct			s_instruction
 extern t_instruction	g_tab_instructions[17];
 
 /*
-** ------------------------- byte_functions           -------------------------
+** ------------------------- functions_byte           -------------------------
 */
 int						byte_change_value(t_byte **bt, int new_value);
+int						byte_check(t_byte **bt);
 
 /*
-** ------------------------- champion_functions       -------------------------
+** ------------------------- functions_champion       -------------------------
 */
 int						champion_change_desc(t_champion **ch, char *new_desc);
 int						champion_change_name(t_champion **ch, char *new_name);
 int						champion_change_number(t_champion **ch, int new_nb);
+int						champion_check(t_champion **ch);
 
 /*
-** ------------------------- champion_functions       -------------------------
+** ------------------------- functions_grid           -------------------------
 */
-int						fill_grid_with_champ(int ***grid, t_champion **ch);
+int						grid_fill_with_champ(int ***grid, t_champion **ch);
+
+/*
+** ------------------------- functions_storage        -------------------------
+*/
+int						storage_check_champion(t_storage **st);
+int						storage_check_grid(t_storage **st);
+int						storage_check_thread(t_storage **st);
+
+/*
+** ------------------------- functions_thread         -------------------------
+*/
+int						thread_check(t_thread **th);
 
 /*
 ** ------------------------- instr_add                -------------------------
@@ -203,7 +218,6 @@ int						write_in_grid(int ***grid, int value, int where);
 ** ------------------------- manage_byte               -------------------------
 */
 int						add_byte(t_champion **ch);
-int						check_byte(t_byte **bt);
 void					free_byte_list(t_champion **ch);
 void					print_byte_list(t_champion **ch);
 
@@ -211,14 +225,14 @@ void					print_byte_list(t_champion **ch);
 ** ------------------------- manage_champion          -------------------------
 */
 int						add_champion(t_storage **st);
-int						check_champion_byte(t_champion **ch);
+void					free_champion(t_champion **ch);
 void					free_champion_list(t_storage **st);
 void					print_champion_list(t_storage **st);
 
 /*
 ** ------------------------- manage_grid              -------------------------
 */
-int						add_grid(int ***grid);
+int						add_grid(t_storage **st);
 void					free_grid(int ***grid);
 void					print_grid(int ***grid);
 
@@ -226,8 +240,6 @@ void					print_grid(int ***grid);
 ** ------------------------- manage_storage           -------------------------
 */
 int						add_storage(t_storage **st);
-int						check_storage_champion(t_storage **st);
-int						check_storage_thread(t_storage **st);
 void					free_storage(t_storage **st);
 void					print_storage(t_storage **st);
 

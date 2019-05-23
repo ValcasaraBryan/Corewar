@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:42:06 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:05:15 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static int		ut_byte_1(void)
+static int		ut_byte_01(void)
 {
 	/*
 	** creation storage -> champion -> byte
@@ -31,7 +31,7 @@ static int		ut_byte_1(void)
 	return (result == 3);
 }
 
-static int		ut_byte_2(void)
+static int		ut_byte_02(void)
 {
 	/*
 	** creation storage -> champion -> byte
@@ -56,7 +56,7 @@ static int		ut_byte_2(void)
 	return (result == 5);
 }
 
-static int		ut_byte_3(void)
+static int		ut_byte_03(void)
 {
 	/*
 	** creation byte avec param null
@@ -67,7 +67,7 @@ static int		ut_byte_3(void)
 	return (result == -1);
 }
 
-static int		ut_byte_4(void)
+static int		ut_byte_04(void)
 {
 	/*
 	** creation byte avec champion vide
@@ -79,7 +79,7 @@ static int		ut_byte_4(void)
 	return (result == -1);
 }
 
-static int		ut_byte_5(void)
+static int		ut_byte_05(void)
 {
 	/*
 	** creation storage -> champion -> byte
@@ -102,7 +102,7 @@ static int		ut_byte_5(void)
 	return (result == 5);
 }
 
-static int		ut_byte_6(void)
+static int		ut_byte_06(void)
 {
 	/*
 	** creation storage -> champion -> byte
@@ -125,7 +125,7 @@ static int		ut_byte_6(void)
 	return (result == 5);
 }
 
-static int		ut_champion_1(void)
+static int		ut_champion_01(void)
 {
 	/*
 	** creation storage -> champion
@@ -143,7 +143,7 @@ static int		ut_champion_1(void)
 	return (result == 2);
 }
 
-static int		ut_champion_2(void)
+static int		ut_champion_02(void)
 {
 	/*
 	** creation storage -> champion
@@ -164,7 +164,7 @@ static int		ut_champion_2(void)
 	return (result == 3);
 }
 
-static int		ut_champion_3(void)
+static int		ut_champion_03(void)
 {
 	/*
 	** creation storage -> champion
@@ -185,7 +185,7 @@ static int		ut_champion_3(void)
 	return (result == 3);
 }
 
-static int		ut_champion_4(void)
+static int		ut_champion_04(void)
 {
 	/*
 	** creation storage -> champion
@@ -206,7 +206,7 @@ static int		ut_champion_4(void)
 	return (result == 3);
 }
 
-static int		ut_champion_5(void)
+static int		ut_champion_05(void)
 {
 	/*
 	** creation storage -> champion
@@ -238,35 +238,139 @@ static int		ut_champion_5(void)
 	result += result == 6
 		? champion_change_desc(&(st->last_champion), "test 6") : 0;
 	result += result == 7
-		? champion_change_number(&(st->last_champion), 2) : 0;
+		? champion_change_number(&(st->last_champion), 4) : 0;
 	if (UT_PRINT == 1)
 		print_champion_list(&st);
 	free_storage(&st);
 	return (result == 8);
 }
 
-static int		ut_champion_6(void)
+static int		ut_champion_06(void)
 {
-	return (1);
+	/*
+	** creation champion avec param null
+	*/
+	int			result;
+
+	result = add_champion(NULL);
+	return (result == -1);
 }
 
-static int		ut_grid_1(void)
+static int		ut_champion_07(void)
+{
+	/*
+	** creation champion avec storage vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	result = add_champion(&st);
+	return (result == -1);
+}
+
+static int		ut_champion_08(void)
+{
+	/*
+	** creation storage -> champion
+	** changement number champion valeur impossible (0)
+	** affichage liste champion
+	** free storage
+	*/
+	t_storage	*st;
+	int			result;
+
+	result = add_storage(&st);
+	result += result == 1 ? add_champion(&st) : 0;
+	result += result == 2
+		? champion_change_number(&(st->last_champion), 0) + 1: 0;
+	if (UT_PRINT == 1)
+		print_champion_list(&st);
+	free_storage(&st);
+	return (result == 3);
+}
+
+static int		ut_champion_09(void)
+{
+	/*
+	** creation storage -> champion
+	** changement number champion valeur impossible (5)
+	** affichage liste champion
+	** free storage
+	*/
+	t_storage	*st;
+	int			result;
+
+	result = add_storage(&st);
+	result += result == 1 ? add_champion(&st) : 0;
+	result += result == 2
+		? champion_change_number(&(st->last_champion), 5) + 1: 0;
+	if (UT_PRINT == 1)
+		print_champion_list(&st);
+	free_storage(&st);
+	return (result == 3);
+}
+
+static int		ut_champion_10(void)
+{
+	/*
+	** creation storage -> champion
+	** changement nom champion valeur impossible (NULL)
+	** affichage liste champion
+	** free storage
+	*/
+	t_storage	*st;
+	int			result;
+
+	result = add_storage(&st);
+	result += result == 1 ? add_champion(&st) : 0;
+	result += result == 2
+		? champion_change_name(&(st->last_champion), NULL) + 1: 0;
+	if (UT_PRINT == 1)
+		print_champion_list(&st);
+	free_storage(&st);
+	return (result == 3);
+}
+
+static int		ut_champion_11(void)
+{
+	/*
+	** creation storage -> champion
+	** changement desc champion valeur impossible (NULL)
+	** affichage liste champion
+	** free storage
+	*/
+	t_storage	*st;
+	int			result;
+
+	result = add_storage(&st);
+	result += result == 1 ? add_champion(&st) : 0;
+	result += result == 2
+		? champion_change_desc(&(st->last_champion), NULL) + 1: 0;
+	if (UT_PRINT == 1)
+		print_champion_list(&st);
+	free_storage(&st);
+	return (result == 3);
+}
+
+static int		ut_grid_01(void)
 {
 	/*
 	** creation grid
 	** affichage grid
 	** free grid
 	*/
-	int		**grid;
+	t_storage	*st;
 
-	add_grid(&grid);
+	add_storage(&st);
+	add_grid(&st);
 	if (UT_PRINT == 1)
-		print_grid(&grid);
-	free_grid(&grid);
+		print_grid(&(st->grid));
+	free_grid(&(st->grid));
+	free_storage(&st);
 	return (1);
 }
 
-static int		ut_grid_2(void)
+static int		ut_grid_02(void)
 {
 	/*
 	** creation grid
@@ -274,17 +378,19 @@ static int		ut_grid_2(void)
 	** affichage grid
 	** free grid
 	*/
-	int		**grid;
+	t_storage	*st;
 
-	add_grid(&grid);
-	write_in_grid(&grid, 255, 111);
+	add_storage(&st);
+	add_grid(&st);
+	write_in_grid(&(st->grid), 255, 111);
 	if (UT_PRINT == 1)
-		print_grid(&grid);
-	free_grid(&grid);
+		print_grid(&(st->grid));
+	free_grid(&(st->grid));
+	free_storage(&st);
 	return (1);
 }
 
-static int		ut_grid_3(void)
+static int		ut_grid_03(void)
 {
 	/*
 	** creation grid
@@ -296,16 +402,15 @@ static int		ut_grid_3(void)
 	** changement valeur byte
 	** creation storage -> champion -> byte
 	** changement valeur byte
-	** affichage storage
-	** free storage
 	** affichage grid
 	** free grid
+	** affichage storage
+	** free storage
 	*/
-	int		**grid;
 	t_storage	*st;
 
-	add_grid(&grid);
 	add_storage(&st);
+	add_grid(&st);
 	add_champion(&st);
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
@@ -315,17 +420,17 @@ static int		ut_grid_3(void)
 	byte_change_value(&(st->last_champion->last_byte), 3);
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 4);
-	fill_grid_with_champ(&grid, &(st->last_champion));
+	grid_fill_with_champ(&(st->grid), &(st->last_champion));
+	if (UT_PRINT == 1)
+		print_grid(&(st->grid));
+	free_grid(&(st->grid));
 	if (UT_PRINT == 1)
 		print_storage(&st);
 	free_storage(&st);
-	if (UT_PRINT == 1)
-		print_grid(&grid);
-	free_grid(&grid);
 	return (1);
 }
 
-static int		ut_storage_1(void)
+static int		ut_storage_01(void)
 {
 	/*
 	** creation storage
@@ -341,7 +446,7 @@ static int		ut_storage_1(void)
 	return (1);
 }
 
-static int		ut_thread_1(void)
+static int		ut_thread_01(void)
 {
 	/*
 	** creation storage -> thread
@@ -360,53 +465,57 @@ static int		ut_thread_1(void)
 
 int				ut_byte(void)
 {
-	printf(ut_byte_1() ? "ut_byte_1		OK\n" : "ut_byte_1		KO\n");
-	printf(ut_byte_2() ? "ut_byte_2		OK\n" : "ut_byte_2		KO\n");
-	printf(ut_byte_3() ? "ut_byte_3		OK\n" : "ut_byte_3		KO\n");
-	printf(ut_byte_4() ? "ut_byte_4		OK\n" : "ut_byte_4		KO\n");
-	printf(ut_byte_5() ? "ut_byte_5		OK\n" : "ut_byte_5		KO\n");
-	printf(ut_byte_6() ? "ut_byte_6		OK\n" : "ut_byte_6		KO\n");
+	printf(ut_byte_01() ? "ut_byte_01		OK\n" : "ut_byte_01		KO\n");
+	printf(ut_byte_02() ? "ut_byte_02		OK\n" : "ut_byte_02		KO\n");
+	printf(ut_byte_03() ? "ut_byte_03		OK\n" : "ut_byte_03		KO\n");
+	printf(ut_byte_04() ? "ut_byte_04		OK\n" : "ut_byte_04		KO\n");
+	printf(ut_byte_05() ? "ut_byte_05		OK\n" : "ut_byte_05		KO\n");
+	printf(ut_byte_06() ? "ut_byte_06		OK\n" : "ut_byte_06		KO\n");
 	return (1);
 }
 
 int				ut_champion(void)
 {
-	printf(ut_champion_1() ? "ut_champion_1		OK\n" : "ut_champion_1		KO\n");
-	printf(ut_champion_2() ? "ut_champion_2		OK\n" : "ut_champion_2		KO\n");
-	printf(ut_champion_3() ? "ut_champion_3		OK\n" : "ut_champion_3		KO\n");
-	printf(ut_champion_4() ? "ut_champion_4		OK\n" : "ut_champion_4		KO\n");
-	printf(ut_champion_5() ? "ut_champion_5		OK\n" : "ut_champion_5		KO\n");
-	printf(ut_champion_6() ? "ut_champion_6		OK\n" : "ut_champion_6		KO\n");
+	printf(ut_champion_01() ? "ut_champion_01		OK\n" : "ut_champion_01		KO\n");
+	printf(ut_champion_02() ? "ut_champion_02		OK\n" : "ut_champion_02		KO\n");
+	printf(ut_champion_03() ? "ut_champion_03		OK\n" : "ut_champion_03		KO\n");
+	printf(ut_champion_04() ? "ut_champion_04		OK\n" : "ut_champion_04		KO\n");
+	printf(ut_champion_05() ? "ut_champion_05		OK\n" : "ut_champion_05		KO\n");
+	printf(ut_champion_06() ? "ut_champion_06		OK\n" : "ut_champion_06		KO\n");
+	printf(ut_champion_07() ? "ut_champion_07		OK\n" : "ut_champion_07		KO\n");
+	printf(ut_champion_08() ? "ut_champion_08		OK\n" : "ut_champion_08		KO\n");
+	printf(ut_champion_09() ? "ut_champion_09		OK\n" : "ut_champion_09		KO\n");
+	printf(ut_champion_10() ? "ut_champion_10		OK\n" : "ut_champion_10		KO\n");
+	printf(ut_champion_11() ? "ut_champion_11		OK\n" : "ut_champion_11		KO\n");
 	return (1);
 }
 
 int				ut_grid(void)
 {
-	printf(ut_grid_1() ? "ut_grid_1		OK\n" : "ut_grid_1		KO\n");
-	printf(ut_grid_2() ? "ut_grid_2		OK\n" : "ut_grid_2		KO\n");
-	printf(ut_grid_3() ? "ut_grid_3		OK\n" : "ut_grid_3		KO\n");
+	printf(ut_grid_01() ? "ut_grid_01		OK\n" : "ut_grid_01		KO\n");
+	printf(ut_grid_02() ? "ut_grid_02		OK\n" : "ut_grid_02		KO\n");
+	printf(ut_grid_03() ? "ut_grid_03		OK\n" : "ut_grid_03		KO\n");
 	return (1);
 }
 
 int				ut_storage(void)
 {
-	printf(ut_storage_1() ? "ut_storage_1		OK\n" : "ut_storage_1		KO\n");
+	printf(ut_storage_01() ? "ut_storage_01		OK\n" : "ut_storage_01		KO\n");
 	return (1);
 }
 
 int				ut_thread(void)
 {
-	printf(ut_thread_1() ? "ut_thread_1		OK\n" : "ut_thread_1		KO\n");
+	printf(ut_thread_01() ? "ut_thread_01		OK\n" : "ut_thread_01		KO\n");
 	return (1);
 }
 
 int				all_ut(void)
 {
-	/*ut_byte();
-	*/
+	ut_byte();
 	ut_champion();
-	/*ut_grid();
+	ut_grid();
 	ut_storage();
-	ut_thread();*/
+	ut_thread();
 	return (1);
 }

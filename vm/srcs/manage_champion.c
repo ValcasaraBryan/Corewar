@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:26:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:10:19 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_champion	*create_champion(t_storage **st)
 	t_champion	*champion;
 	int			result;
 
-	result = check_storage_champion(st);
+	result = storage_check_champion(st);
 	if (result >= 0)
 	{
 		if (!(champion = malloc(sizeof(*champion))))
@@ -42,7 +42,7 @@ int					add_champion(t_storage **st)
 	champion = create_champion(st);
 	if (champion != NULL)
 	{
-		result = check_storage_champion(st);
+		result = storage_check_champion(st);
 		if (result >= 0)
 		{
 			if (result == 1)
@@ -58,15 +58,23 @@ int					add_champion(t_storage **st)
 	return (-1);
 }
 
-int					check_champion_byte(t_champion **ch)
+void				free_champion(t_champion **ch)
 {
-	if (ch != NULL && *ch != NULL)
+	int			result;
+
+	result = champion_check(ch);
+	if (result >= 0)
 	{
-		if ((*ch)->first_byte != NULL && (*ch)->last_byte != NULL)
-			return (1);
-		return (0);
+		if (result == 1)
+			free_byte_list(ch);
+		if ((*ch)->name != NULL)
+			free((*ch)->name);
+		(*ch)->name = NULL;
+		if ((*ch)->desc != NULL)
+			free((*ch)->desc);
+		(*ch)->desc = NULL;
+		free((*ch));
 	}
-	return (-1);
 }
 
 void				free_champion_list(t_storage **st)
@@ -74,31 +82,26 @@ void				free_champion_list(t_storage **st)
 	t_champion	*current;
 	t_champion	*next;
 
-	current = (*st)->first_champion;
-	while (current != NULL)
+	if (storage_check_champion(st) >= 0)
 	{
-		next = current->next;
-		if (check_champion_byte(&current) == 1)
-			free_byte_list(&current);
-		if (current->name != NULL)
-			free(current->name);
-		current->name = NULL;
-		if (current->desc != NULL)
-			free(current->desc);
-		current->desc = NULL;
+		current = (*st)->first_champion;
+		while (current != NULL)
+		{
+			next = current->next;
+			free_champion(&current);
+			current = next;
+		}
 		free(current);
-		current = next;
+		(*st)->first_champion = NULL;
+		(*st)->last_champion = NULL;
 	}
-	free(current);
-	(*st)->first_champion = NULL;
-	(*st)->last_champion = NULL;
 }
 
 void				print_champion_list(t_storage **st)
 {
 	t_champion	*current;
 
-	if (check_storage_champion(st) >= 0)
+	if (storage_check_champion(st) >= 0)
 	{
 		ft_putstr("	-------------\n");
 		ft_putstr("	CHAMPION LIST\n");
@@ -107,8 +110,10 @@ void				print_champion_list(t_storage **st)
 		{
 			printf("	-------------\n");
 			printf("	number : %d\n", current->number);
-			printf("	name   : %s\n", current->name != NULL ? current->name : "");
-			printf("	desc   : %s\n", current->desc != NULL ? current->desc : "");
+			printf("	name   : %s\n", current->name != NULL
+				? current->name : "");
+			printf("	desc   : %s\n", current->desc != NULL
+				? current->desc : "");
 			print_byte_list(&current);
 			current = current->next;
 		}

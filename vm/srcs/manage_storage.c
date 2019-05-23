@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:26:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 18:11:00 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,36 +42,14 @@ int					add_storage(t_storage **st)
 	return (-1);
 }
 
-int					check_storage_champion(t_storage **st)
-{
-	if (st != NULL && *st != NULL)
-	{
-		if ((*st)->first_champion != NULL && (*st)->last_champion != NULL)
-			return (1);
-		return (0);
-	}
-	return (-1);
-}
-
-int					check_storage_thread(t_storage **st)
-{
-	if (st != NULL && *st != NULL)
-	{
-		if ((*st)->first_thread != NULL && (*st)->last_thread != NULL)
-			return (1);
-		return (0);
-	}
-	return (-1);
-}
-
 void				free_storage(t_storage **st)
 {
 	int		result;
 
-	result = check_storage_champion(st);
+	result = storage_check_champion(st);
 	if (result == 1)
 		free_champion_list(st);
-	result = check_storage_thread(st);
+	result = storage_check_thread(st);
 	if (result == 1)
 		free_thread_list(st);
 	if (result >= 0)
