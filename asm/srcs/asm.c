@@ -6,40 +6,11 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/21 19:55:11 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/23 19:40:46 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-
-t_file		*new_file(char *line, int n_line)
-{
-	t_file	*new;
-
-	if (!(new = malloc(sizeof(t_file))))
-		return (NULL);
-	new->line = line;
-	new->len = (line) ? ft_strlen(line) : 0;
-	new->index = 0;
-	new->n_line = n_line;
-	new->next = NULL;
-	return (new);
-}
-
-void		add_file(t_file **old, char *line, int n_line)
-{
-	t_file	*tmp;
-
-	if (!*old)
-		*old = new_file(line, n_line);
-	else
-	{
-		tmp = *old;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_file(line, n_line);
-	}
-}
 
 t_token		*new_token(t_token token)
 {
@@ -50,7 +21,6 @@ t_token		*new_token(t_token token)
 	new->cut = token.cut;
 	new->start = token.start;
 	new->end = token.end;
-	new->file = token.file;
 	new->next = token.next;
 	return (new);
 }
@@ -103,32 +73,7 @@ void		add_instruction(t_ins **old, unsigned char token)
 
 void		print_list(t_data *data)
 {
-	t_file	*tmp;
-
-	if (data->file)
-	{
-		tmp = data->file;
-		while (tmp)
-		{
-			// printf("%-50s|%-30d\n", tmp->line, tmp->n_line);
-			tmp = tmp->next;
-		}
-	}
-	while (data->name)
-	{
-		ft_printf("[%s]\t\t\t[%03d-%03d][%03d-%03d]\n", data->name->cut, data->name->file->n_line, data->name->start + 1, data->name->file->n_line, data->name->end + 1);
-		data->name = data->name->next;
-	}
-	while (data->comment)
-	{
-		ft_printf("[%s]\t\t\t[%03d-%03d][%03d-%03d]\n", data->comment->cut, data->comment->file->n_line, data->comment->start + 1, data->comment->file->n_line, data->comment->end + 1);
-		data->comment = data->comment->next;
-	}
-	while (data->token)
-	{
-		ft_printf("\t\t[%s]\t\t\t[%03d-%03d]\n", data->token->cut, data->token->file->n_line, data->token->start + 1);
-		data->token = data->token->next;
-	}
+	(void)data;
 }
 
 void	init_data(t_data *data, char *av)
@@ -137,9 +82,12 @@ void	init_data(t_data *data, char *av)
 	data->ret = -1;
 	data->name_s = av;
 	data->name_cor = NULL;
-	data->name = NULL;
-	data->comment = NULL;
-	data->file = NULL;
+	data->quote = false;
+	data->name_com = false;
+	data->name_and_comment = 0;
+	data->line.line = NULL;
+	data->line.current = 0;
+	data->line.n_line = 0;
 	data->token = NULL;
 	data->instruction = NULL;
 }
@@ -160,24 +108,6 @@ int		suffix_name(t_data *data, const char *s)
 	free_line(&name);
 	ft_strcat(data->name_cor, (char *)s);
 	return (1);	
-}
-
-void	erase_all(t_data *data)
-{
-	t_file	*tmp;
-
-	free_line(&data->name_cor);
-	if (data->file)
-	{
-		while (data->file)
-		{
-			tmp = data->file->next;
-			free_line(&data->file->line);
-			free(data->file);
-			data->file = NULL;
-			data->file = tmp;
-		}
-	}
 }
 
 unsigned char		add_params(char *str, int *bin)
@@ -245,15 +175,13 @@ int			ft_skip_word(char *str)
 	return (i);
 }
 
-t_error		get_error(t_file *file, char *token)
+t_error		get_error(char *token)
 {
 	t_error	error;
 
 	(void)token;
 	error.type = NULL;
 	error.instruction = NULL;
-	error.n_line = file->n_line;
-	error.index = file->index;
 	return (error);
 }
 
@@ -274,131 +202,103 @@ int		check_op(const char *str)
 }
 
 
-t_token		token_val(t_token add, int start, int end, t_file *file)
+t_token		token_val(t_token add, int start, int end)
 {
 	add.start = start;
 	add.end = end;
-	add.file = file;
 	add.next = NULL;
 	return (add);
 }
 
-void	get_token(t_data *data, t_file *file)
+void	get_token(t_data *data, char *line, int len, int index)
 {
 	t_token	token;
 	int	end_word;
 	
-	while (file->index < file->len)
+	while (index < len)
 	{
-		file->index += skip_whitespace(file->line + file->index, 0);
-		end_word = skip_whitespace(file->line + file->index, 1) + file->index;
-		if (end_word == file->index)
+		index += skip_whitespace(line + index, 0);
+		end_word = skip_whitespace(line + index, 1) + index;
+		if (end_word == index)
 			break ;
-		token.cut = ft_strcut(file->line, file->index, end_word);
-		token = token_val(token, file->index, end_word, file);
+		token.cut = ft_strcut(line, index, end_word);
+		token = token_val(token, index, end_word);
 		add_token(&data->token, token);
-		file->index = end_word;
+		index = end_word;
 	}
 }
 
-t_file	*comment(t_token **token, t_file *file, int start)
+int		into_quote(t_data *data, char *tmp)
 {
-	t_token	add;
-	int		end;
-
-	end = 0;
-	while (file->line[++start])
-		if (file->line[start] == CMD_CHAR)
-			break ;
-	end = start++ + 1;
-	while (file)
+	while (data->line.line[data->line.current])
 	{
-		while (file->line[end] && file->line[end] != CMD_CHAR)
-			end++;
-		add.cut = (start < end) ? ft_strcut(file->line, start, end) : ft_strdup("");
-		add = token_val(add, start, end, file);
-		if (file->line[end] != CMD_CHAR)
+		if (data->quote == true && data->line.line[data->line.current] != CMD_CHAR)
+			tmp[data->index++] = data->line.line[data->line.current];
+		else if (data->quote == false && data->line.line[data->line.current] == CMD_CHAR)
+			data->quote = true;
+		else if (data->quote == true && data->line.line[data->line.current] == CMD_CHAR)
 		{
-			add.cut = ft_strjoin_free(add.cut, "\n", 1);
-			add = token_val(add, start + 1, end + 1, file);
-			add_token(token, add);
-		}
-		else if (file->line[end] == CMD_CHAR)
-		{
-			add_token(token, add);
-			file->index = end + 1;
+			data->quote = false;
+			data->name_com = false;
+			data->line.current++;
+			data->name_and_comment++;
 			break ;
 		}
-		if (file->next)
-		{
-			file = file->next;
-			start = 0;
-			end = 0;
-		}
-		else
-			break ;
+		data->line.current++;
+		if (!data->line.line[data->line.current] && data->quote == true)
+			tmp[data->index++] = '\n';
 	}
-	file->index = file->len;
-	return (file);
+	return (1);
 }
 
-t_file	*get_comment_name(t_data *data, t_file *file)
+int		step(t_data *data, char **tmp)
 {
-	t_token	add;
-
-	while (file->index < file->len)
+	if (!data->line.line && data->ret == -1)
+		return (1);
+	if (!data->line.line && !data->ret)
+		return (0);
+	if (data->name_com == false && data->name_and_comment != 2)
 	{
-		file->index += skip_whitespace(file->line + file->index, 0);
-		if (ft_strncmp(file->line + file->index, NAME_CMD_STRING, 5) == 0)
-		{
-			add.cut = ft_strcut(file->line, file->index, file->index + 5);
-			add_token(&data->name, token_val(add, file->index, file->index + 5, file));
-			file = comment(&data->name, file, file->index - 1);
-		}
-		else if (ft_strncmp(file->line + file->index, COMMENT_CMD_STRING, 8) == 0)
-		{
-			add.cut = ft_strcut(file->line, file->index, file->index + 8);
-			add_token(&data->comment, token_val(add, file->index, file->index + 8, file));
-			file = comment(&data->comment, file, file->index - 1);
-		}
-		else
-			get_token(data, file);
+		*tmp = NULL;
+		data->index = 0;
+		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
+		if (ft_strncmp(data->line.line + data->line.current, NAME_CMD_STRING, 5) == 0)
+			*tmp = (char *)data->name;
+		if (ft_strncmp(data->line.line + data->line.current, COMMENT_CMD_STRING, 8) == 0)
+			*tmp = (char *)data->comment;
+		data->name_com = (*tmp) ? true : false;
 	}
-	return (file);
-}
-
-int		get_data(t_data *data, t_file *file)
-{
-	while (file)
-	{
-		file = get_comment_name(data, file);
-		if (data->name && data->comment)
-			get_token(data, file);
-		file = file->next;
-	}
-	// ft_printf(".name [%s]\n", data->name);
-	// ft_printf(".comment [%s]\n", data->comment);
+	if (!(into_quote(data, *tmp)))
+		return (0);
 	return (1);
 }
 
 int		parsing_asm(t_data *data)
 {
-	int		n_line;
-	char	*line;
+	char *tmp;
 
+	tmp = NULL;
 	if ((data->fd = open(data->name_s, O_RDONLY)) == -1)
 	{
 		ft_fprintf(NO_FILE, S_ERR, data->name_s);
 		return (0);
 	}
-	n_line = 0;
-	while ((data->ret = get_next_line(data->fd, &line)) > 0)
-		add_file(&data->file, line, ++n_line);
-	if (!(get_data(data, data->file)))
+	while (step(data, &tmp))
+	{
+		if ((data->ret = get_next_line(data->fd, &data->line.line)) == -1)
+		{
+			ft_printf("ERROR\n");
+			return (0);
+		}
+		data->line.current = 0;
+		data->line.n_line++;
+	}
+	if (data->name_and_comment != 2)
+	{
+		ft_printf("ERROR\n");
 		return (0);
+	}
 	if (!(suffix_name(data, SUFFIX)))
-		return (0);
-	if (data->ret == -1)
 		return (0);
 	return (1);
 }
@@ -418,10 +318,12 @@ int		main(int argc, char **argv)
 		}
 		else
 		{
+			ft_printf("name    : |%s|\n", data.name);
+			ft_printf("comment : |%s|\n", data.comment);
 			print_list(&data);
 			ft_printf(SUCCESS, data.name_cor);
 		}
-		erase_all(&data);
+		// erase_all(&data);
 		// sleep(2);
 	}
 	return (0);

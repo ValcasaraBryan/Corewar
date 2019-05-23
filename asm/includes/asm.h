@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/21 16:01:13 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/23 19:34:11 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
-
+# include <stdbool.h>
 #define S_ERR	2
 #define NO_FILE	"Can't read source file %s\n"
 #define SUCCESS	"Writing output program to %s\n"
@@ -65,7 +65,9 @@
 
 #define REG_NUMBER				16
 
-
+#define TRUE					1
+#define IN_TRUE					2
+#define FALSE					0
 
 typedef struct		s_ins
 {
@@ -83,18 +85,9 @@ typedef struct		s_token
 	char			*cut;
 	int				start;
 	int				end;
-	struct s_file	*file;
+	int				n_line;
 	struct s_token	*next;
 }					t_token;
-
-typedef struct		s_file
-{
-	char			*line;
-	int				len;
-	int				index;
-	int				n_line;
-	struct s_file	*next;
-}					t_file;
 
 typedef struct		s_error
 {
@@ -104,15 +97,26 @@ typedef struct		s_error
 	int				index;
 }					t_error;
 
+typedef struct		s_line
+{
+	char			*line;
+	int				current;
+	int				n_line;
+}					t_line;
+
 typedef struct		s_data
 {
 	int				fd;
 	int				ret;
 	char			*name_cor;
 	char			*name_s;
-	t_token			*name;
-	t_token			*comment;
-	t_file			*file;
+	bool			quote;
+	bool			name_com;
+	int				name_and_comment;
+	char			name[PROG_NAME_LENGTH + 1];
+	char			comment[COMMENT_LENGTH + 1];
+	int				index;
+	t_line			line;
 	t_token			*token;
 	t_ins			*instruction;
 	t_error			error;
