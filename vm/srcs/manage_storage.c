@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 18:04:37 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:26:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ int					add_storage(t_storage **st)
 {
 	t_storage	*storage;
 
-	storage = create_storage();
-	if (st != NULL && storage != NULL)
+	if (st != NULL)
 	{
-		(*st) = storage;
-		return (1);
+		storage = create_storage();
+		if (storage != NULL)
+		{
+			(*st) = storage;
+			return (1);
+		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int					check_storage_champion(t_storage **st)

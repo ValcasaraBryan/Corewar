@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:56:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 18:11:29 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:24:56 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int				add_byte(t_champion **ch)
 			(*ch)->last_byte = byte;
 			return (1);
 		}
+		free(byte);
 		return (0);
 	}
 	return (-1);

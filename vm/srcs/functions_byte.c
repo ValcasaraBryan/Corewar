@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   byte_functions.c                                   :+:      :+:    :+:   */
+/*   functions_byte.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 16:18:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 16:21:37 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:31:19 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@ int		byte_change_value(t_byte **bt, int new_value)
 	result = check_byte(bt);
 	if (result == 1)
 	{
-		(*bt)->value = new_value;
-		if ((*bt)->value >= 0)
-			return (1);
+		if (new_value >= 0 && new_value <= 255)
+		{
+			(*bt)->value = new_value;
+			if ((*bt)->value >= 0)
+				return (1);
+		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }

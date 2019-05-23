@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 18:08:20 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:27:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int					add_thread(t_storage **st, int place)
 			(*st)->last_thread = thread;
 			return (1);
 		}
+		free(thread);
 		return (0);
 	}
 	return (-1);

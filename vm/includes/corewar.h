@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 18:18:45 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:28:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 
 # include <stdio.h>
 
-# define GRID_SIZE		10
+# define GRID_SIZE		64
+
+# define UT_PRINT		1
 
 # define LIVE			"live"
 # define LD				"ld"

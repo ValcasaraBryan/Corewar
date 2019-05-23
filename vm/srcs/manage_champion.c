@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 18:09:16 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:26:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int					add_champion(t_storage **st)
 			(*st)->last_champion = champion;
 			return (1);
 		}
+		free(champion);
 		return (0);
 	}
 	return (-1);
