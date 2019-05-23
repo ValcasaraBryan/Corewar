@@ -1,0 +1,33 @@
+Champions fonctionnels :
+
+Car (lent)
+ex
+Gagnant
+jumper
+maxidef
+mortel
+Octobre Rouge V4.2
+slider2
+toto
+
+
+Erreur de compilation :
+
+Backward
+Death
+lde
+leeloo
+mat
+new
+sebc
+Survivor
+tdc2
+tdc3
+tdc4
+Torpille
+
+
+Erreur de la VM :
+
+42
+barriere
