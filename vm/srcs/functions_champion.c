@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:18:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 17:57:55 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 18:12:24 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int		champion_change_desc(t_champion **ch, char *new_desc)
 			if ((*ch)->desc != NULL)
 				return (1);
 		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int		champion_change_name(t_champion **ch, char *new_name)
@@ -52,8 +53,9 @@ int		champion_change_name(t_champion **ch, char *new_name)
 			if ((*ch)->name != NULL)
 				return (1);
 		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int		champion_change_number(t_champion **ch, int new_nb)
@@ -66,8 +68,9 @@ int		champion_change_number(t_champion **ch, int new_nb)
 		(*ch)->number = new_nb;
 		if ((*ch)->number > 0 && (*ch)->number <= 4)
 			return (1);
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int		champion_check(t_champion **ch)

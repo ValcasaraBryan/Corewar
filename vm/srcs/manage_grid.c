@@ -6,11 +6,30 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 18:10:46 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 17:06:22 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
+
+static int		free_grid_item(int ***grid)
+{
+	int		i;
+
+	if (grid != NULL && (*grid) != NULL)
+	{
+		i = -1;
+		while (++i < GRID_SIZE)
+		{
+			free((*grid)[i]);
+			(*grid)[i] = NULL;
+		}
+		free(*grid);
+		(*grid) = NULL;
+		return (1);
+	}
+	return (0);
+}
 
 static int		setup_empty_grid(int ***grid, int i, int j)
 {
@@ -44,14 +63,14 @@ static int		**create_grid(t_storage **st)
 	int			**grid;
 	int			result;
 
-	result = storage_check_grid(st);
+	result = storage_check(st, 1);
 	if (result >= 0)
 	{
 		if (!(grid = (int **)malloc(sizeof(int *) * (GRID_SIZE + 1))))
 			return (NULL);
 		if (setup_empty_grid(&grid, 0, 0) == 0)
 		{
-			free_grid(&grid);
+			free_grid_item(&grid);
 			return (NULL);
 		}
 		return (grid);
@@ -67,49 +86,47 @@ int				add_grid(t_storage **st)
 	grid = create_grid(st);
 	if (grid != NULL)
 	{
-		result = storage_check_grid(st);
+		result = storage_check(st, 1);
 		if (result >= 0)
 		{
 			(*st)->grid = grid;
 			return (1);
 		}
-		free_grid(&grid);
+		free_grid_item(&grid);
 		return (0);
 	}
 	return (-1);
 }
 
-void			free_grid(int ***grid)
+int				free_grid(t_storage **st)
 {
-	int		i;
-
-	if (grid != NULL && (*grid) != NULL)
+	if (storage_check(st, 1) == 1)
 	{
-		i = -1;
-		while (++i < GRID_SIZE)
-		{
-			free((*grid)[i]);
-			(*grid)[i] = NULL;
-		}
-		free(*grid);
-		(*grid) = NULL;
+		free_grid_item(&((*st)->grid));
+		return (1);
 	}
+	return (0);
 }
 
-void			print_grid(int ***grid)
+int				print_grid(t_storage **st)
 {
 	int			i;
 	int			j;
 
 	i = -1;
-	while ((*grid)[++i] != 0)
+	if (storage_check(st, 1) == 1)
 	{
-		j = -1;
-		while ((*grid)[i][++j] != -1)
+		while (((*st)->grid)[++i] != 0)
 		{
-			print_nb_hexa((*grid)[i][j]);
-			ft_putchar(' ');
+			j = -1;
+			while (((*st)->grid)[i][++j] != -1)
+			{
+				print_nb_hexa(((*st)->grid)[i][j]);
+				ft_putchar(' ');
+			}
+			ft_putchar('\n');
 		}
-		ft_putchar('\n');
+		return (1);
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:56:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 18:04:51 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 17:10:07 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ static t_byte	*create_byte(t_champion **ch)
 	return (NULL);
 }
 
+static int		free_byte(t_byte **bt)
+{
+	if (byte_check(bt) >= 0)
+	{
+		free((*bt));
+		(*bt) = NULL;
+		return (1);
+	}
+	return (0);
+}
+
 int				add_byte(t_champion **ch)
 {
 	t_byte		*byte;
@@ -48,22 +59,13 @@ int				add_byte(t_champion **ch)
 			(*ch)->last_byte = byte;
 			return (1);
 		}
-		free(byte);
+		free_byte(&byte);
 		return (0);
 	}
 	return (-1);
 }
 
-void			free_byte(t_byte **bt)
-{
-	if (byte_check(bt) >= 0)
-	{
-		free((*bt));
-		(*bt) = NULL;
-	}
-}
-
-void			free_byte_list(t_champion **ch)
+int				free_byte_list(t_champion **ch)
 {
 	t_byte		*current;
 	t_byte		*next;
@@ -80,24 +82,28 @@ void			free_byte_list(t_champion **ch)
 		free(current);
 		(*ch)->first_byte = NULL;
 		(*ch)->last_byte = NULL;
+		return (1);
 	}
+	return (0);
 }
 
-void			print_byte_list(t_champion **ch)
+int				print_byte_list(t_champion **ch)
 {
 	t_byte		*current;
 
 	if (champion_check(ch) >= 0)
 	{
-		printf("		-------------\n");
-		printf("		BYTE LIST\n");
+		ft_putstr("		-------------\n		BYTE LIST\n");
 		current = (*ch)->first_byte;
 		while (current != NULL)
 		{
-			printf("		-------------\n");
-			printf("		value : %d\n", current->value);
+			ft_putstr("		-------------\n		value : ");
+			ft_putnbr(current->value);
+			ft_putchar('\n');
 			current = current->next;
 		}
-		printf("		-------------\n");
+		ft_putstr("		-------------\n");
+		return (1);
 	}
+	return (0);
 }

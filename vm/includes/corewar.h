@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 18:16:45 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 18:47:22 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 # include <stdlib.h>
 # include "../libft/includes/libft.h"
-
-# include <stdio.h>
 
 # define GRID_SIZE		64
 
@@ -46,9 +44,9 @@
 
 typedef struct			s_thread
 {
-	int					current_action;
-	int					current_cycle;
-	int					current_place;
+	int					action;
+	int					cycle;
+	int					where;
 	struct s_thread		*prec;
 	struct s_thread		*next;
 }						t_thread;
@@ -96,7 +94,7 @@ typedef struct			s_instruction
 	int					(*fct_ptr)(int a, int b, int c);
 }						t_instruction;
 
-extern t_instruction	g_tab_instructions[17];
+extern t_instruction	g_tab_instructions[18];
 
 /*
 ** ------------------------- functions_byte           -------------------------
@@ -120,13 +118,14 @@ int						grid_fill_with_champ(int ***grid, t_champion **ch);
 /*
 ** ------------------------- functions_storage        -------------------------
 */
-int						storage_check_champion(t_storage **st);
-int						storage_check_grid(t_storage **st);
-int						storage_check_thread(t_storage **st);
+int						storage_check(t_storage **st, int type);
 
 /*
 ** ------------------------- functions_thread         -------------------------
 */
+int						thread_change_action(t_thread **th, int new_action);
+int						thread_change_cycle(t_thread **th, int type);
+int						thread_change_where(t_thread **th, int new_where);
 int						thread_check(t_thread **th);
 
 /*
@@ -218,37 +217,36 @@ int						write_in_grid(int ***grid, int value, int where);
 ** ------------------------- manage_byte               -------------------------
 */
 int						add_byte(t_champion **ch);
-void					free_byte_list(t_champion **ch);
-void					print_byte_list(t_champion **ch);
+int						free_byte_list(t_champion **ch);
+int						print_byte_list(t_champion **ch);
 
 /*
 ** ------------------------- manage_champion          -------------------------
 */
 int						add_champion(t_storage **st);
-void					free_champion(t_champion **ch);
-void					free_champion_list(t_storage **st);
-void					print_champion_list(t_storage **st);
+int						free_champion_list(t_storage **st);
+int						print_champion_list(t_storage **st);
 
 /*
 ** ------------------------- manage_grid              -------------------------
 */
 int						add_grid(t_storage **st);
-void					free_grid(int ***grid);
-void					print_grid(int ***grid);
+int						free_grid(t_storage **st);
+int						print_grid(t_storage **st);
 
 /*
 ** ------------------------- manage_storage           -------------------------
 */
 int						add_storage(t_storage **st);
-void					free_storage(t_storage **st);
-void					print_storage(t_storage **st);
+int						free_storage(t_storage **st);
+int						print_storage(t_storage **st);
 
 /*
 ** ------------------------- manage_thread            -------------------------
 */
-int						add_thread(t_storage **st, int place);
-void					free_thread_list(t_storage **st);
-void					print_thread_list(t_storage **st);
+int						add_thread(t_storage **st);
+int						free_thread_list(t_storage **st);
+int						print_thread_list(t_storage **st);
 
 /*
 ** ------------------------- unit_tests               -------------------------

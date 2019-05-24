@@ -6,15 +6,16 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:24:24 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 18:46:52 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-/*
-t_instruction	g_tab_instructions[17] =
+
+t_instruction	g_tab_instructions[18] =
 {
+	{0,		0,		0,	{	0																		},	"00000000",	"01",	0,		0,	0,	0,	0,	0				},
 	{1,		LIVE,	1,	{	T_DIR																	},	"00000001",	"01",	10,		-1,	-1,	-1,	-1,	*instr_live		},
 	{2,		LD,		2,	{	T_DIR | T_IND,				T_REG										},	"00000010",	"02",	5,		-1,	-1,	-1,	-1,	*instr_ld		},
 	{3,		ST,		2,	{	T_REG,						T_IND | T_REG								},	"00000011",	"03",	5,		-1,	-1,	-1,	-1,	*instr_st		},
@@ -31,9 +32,9 @@ t_instruction	g_tab_instructions[17] =
 	{14,	LLDI,	3,	{	T_REG | T_DIR | T_IND,		T_DIR | T_REG,				T_REG			},	"00001110",	"0E",	50,		-1,	-1,	-1,	-1,	*instr_lldi		},
 	{15,	LFORK,	1,	{	T_DIR																	},	"00001111",	"0F",	1000,	-1,	-1,	-1,	-1,	*instr_lfork	},
 	{16,	AFF,	1,	{	T_REG																	},	"00010000",	"10",	2,		-1,	-1,	-1,	-1,	*instr_aff		},
-	{0,		0,		0,	{	0																		},	"00000000",	"01",	0,		0,	0,	0,	0,	0				}
+	{17,		0,		0,	{	0																		},	"00000000",	"01",	0,		0,	0,	0,	0,	0				}
 };
-*/
+
 
 int			main(int argv, char **argc)
 {
