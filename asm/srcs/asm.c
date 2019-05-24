@@ -6,11 +6,31 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/23 19:40:46 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/24 19:33:48 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+t_op				op_tab[REG_NUMBER] =
+{
+	{"live", LIVE, 4},
+	{"ld", LD, 2},
+	{"st", ST, 2},
+	{"add", ADD, 3},
+	{"sub", SUB, 3},
+	{"and", AND, 3},
+	{"or", OR, 2},
+	{"xor", XOR, 3},
+	{"zjmp", ZJMP, 4},
+	{"ldi", LDI, 3},
+	{"sti", STI, 3},
+	{"fork", FORK, 4},
+	{"lld", LLD, 3},
+	{"lldi", LLDI, 4},
+	{"lfork", LFORK, 5},
+	{"aff", AFF, 3},
+};
 
 t_token		*new_token(t_token token)
 {
@@ -18,6 +38,7 @@ t_token		*new_token(t_token token)
 
 	if (!(new = malloc(sizeof(t_token))))
 		return (NULL);
+	new->n_line = token.n_line;
 	new->cut = token.cut;
 	new->start = token.start;
 	new->end = token.end;
@@ -73,7 +94,11 @@ void		add_instruction(t_ins **old, unsigned char token)
 
 void		print_list(t_data *data)
 {
-	(void)data;
+	while (data->token)
+	{
+		ft_printf("%s[%03d:%03d]%03d|\n", data->token->cut, data->token->n_line, data->token->start, data->token->end);
+		data->token = data->token->next;
+	}
 }
 
 void	init_data(t_data *data, char *av)
@@ -185,70 +210,89 @@ t_error		get_error(char *token)
 	return (error);
 }
 
-int		check_op(const char *str)
+t_token		token_val(t_token add, int start, int end, int n_line)
 {
-	int	len;
-	int	i;
-
-	if (!str)
-		return (0);
-	i = -1;
-	len = (int)ft_strlen(str);
-	while (++i < REG_NUMBER)
-		if (len == op_tab[i].len
-			&& ft_strcmp(op_tab[i].op, str) == 0)
-			return (1);
-	return (0);
-}
-
-
-t_token		token_val(t_token add, int start, int end)
-{
+	add.n_line = n_line;
 	add.start = start;
 	add.end = end;
 	add.next = NULL;
 	return (add);
 }
 
-void	get_token(t_data *data, char *line, int len, int index)
+void	get_token(t_data *data)
 {
 	t_token	token;
 	int	end_word;
 	
-	while (index < len)
+	while (data->line.line[data->line.current])
 	{
-		index += skip_whitespace(line + index, 0);
-		end_word = skip_whitespace(line + index, 1) + index;
-		if (end_word == index)
+		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
+		end_word = skip_whitespace(data->line.line + data->line.current, 1) + data->line.current;
+		if (end_word == data->len)
 			break ;
-		token.cut = ft_strcut(line, index, end_word);
-		token = token_val(token, index, end_word);
+		token.cut = ft_strcut(data->line.line, data->line.current, end_word);
+		token = token_val(token, data->line.current, end_word, data->line.n_line);
 		add_token(&data->token, token);
-		index = end_word;
+		data->line.current = end_word;
 	}
 }
 
 int		into_quote(t_data *data, char *tmp)
 {
+	// ft_printf("|%s|\n", data->line.line + data->line.current);
 	while (data->line.line[data->line.current])
 	{
+		if (data->index > data->len)
+		{
+			// error max len name_prog || comment
+			return (0);
+		}
 		if (data->quote == true && data->line.line[data->line.current] != CMD_CHAR)
+		{
+			// ft_printf("sortie |%s|\n", data->line.line + data->line.current);
 			tmp[data->index++] = data->line.line[data->line.current];
+			// into quote
+		}
 		else if (data->quote == false && data->line.line[data->line.current] == CMD_CHAR)
+		{
 			data->quote = true;
+			// debut de la quote
+		}
 		else if (data->quote == true && data->line.line[data->line.current] == CMD_CHAR)
 		{
 			data->quote = false;
 			data->name_com = false;
 			data->line.current++;
 			data->name_and_comment++;
+			// ft_printf("%s|\n", tmp);
+			tmp[data->index] = 0;
+			// ft_printf("%s|\n", tmp);
+			// fin de la quote
 			break ;
 		}
+		// else if (data->quote == false && ft_is_whitespace(data->line.line[data->line.current]))
+			// data->line.current++;
 		data->line.current++;
 		if (!data->line.line[data->line.current] && data->quote == true)
+		{
 			tmp[data->index++] = '\n';
+			// endline into quote
+		}
 	}
 	return (1);
+}
+
+int		check_alpha(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (ft_is_whitespace(str[i]) || str[i] == CMD_CHAR)
+			return (i);
+	}
+	return (i);
 }
 
 int		step(t_data *data, char **tmp)
@@ -257,19 +301,39 @@ int		step(t_data *data, char **tmp)
 		return (1);
 	if (!data->line.line && !data->ret)
 		return (0);
-	if (data->name_com == false && data->name_and_comment != 2)
+	if (data->name_com == false && data->name_and_comment != 2) // name et comment activation
 	{
 		*tmp = NULL;
 		data->index = 0;
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
-		if (ft_strncmp(data->line.line + data->line.current, NAME_CMD_STRING, 5) == 0)
+		if (ft_strncmp(data->line.line + data->line.current, NAME_CMD_STRING, check_alpha(data->line.line + data->line.current)) == 0) // verifier que apres ce ne soit pas de mauvaise lettres good si whites spaces ou ""
+		{
 			*tmp = (char *)data->name;
-		if (ft_strncmp(data->line.line + data->line.current, COMMENT_CMD_STRING, 8) == 0)
+			data->len = PROG_NAME_LENGTH;
+			data->line.current += check_alpha(data->line.line + data->line.current);
+		}
+		else if (ft_strncmp(data->line.line + data->line.current, COMMENT_CMD_STRING, check_alpha(data->line.line + data->line.current)) == 0) // verifier que apres ce ne soit pas de mauvaise lettres good si whites spaces ou ""
+		{
 			*tmp = (char *)data->comment;
+			data->len = COMMENT_LENGTH;
+			data->line.current += check_alpha(data->line.line + data->line.current);
+		}
 		data->name_com = (*tmp) ? true : false;
 	}
-	if (!(into_quote(data, *tmp)))
-		return (0);
+	if (data->name_com == true)
+	{
+		if (!(into_quote(data, *tmp))) // name et comment get
+		{
+			// max len depassee name || comment
+			return (0);
+		}
+	}
+	if (data->name_com == false && data->line.line[data->line.current]) // other
+	{
+		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
+		get_token(data);
+		// ft_printf("%s\n", data->line.line + data->line.current);
+	}
 	return (1);
 }
 
@@ -287,13 +351,13 @@ int		parsing_asm(t_data *data)
 	{
 		if ((data->ret = get_next_line(data->fd, &data->line.line)) == -1)
 		{
-			ft_printf("ERROR\n");
+			ft_printf("ERROR lecture\n");
 			return (0);
 		}
 		data->line.current = 0;
 		data->line.n_line++;
 	}
-	if (data->name_and_comment != 2)
+	if (data->name_and_comment != 2 || data->index > data->len)
 	{
 		ft_printf("ERROR\n");
 		return (0);
@@ -301,30 +365,4 @@ int		parsing_asm(t_data *data)
 	if (!(suffix_name(data, SUFFIX)))
 		return (0);
 	return (1);
-}
-
-int		main(int argc, char **argv)
-{
-	t_data	data;
-
-	if (argc == 1)
-		ft_printf("Usage: ./asm <sourcefile.s>\n");
-	else
-	{
-		init_data(&data, argv[argc - 1]);
-		if (!(parsing_asm(&data)))
-		{
-			// ft_printf("Syntax error at token [TOKEN][%03d:%03d] %s \"%s\"\n", data.error.n_line, data.error.index, data.error.type, data.error.token);
-		}
-		else
-		{
-			ft_printf("name    : |%s|\n", data.name);
-			ft_printf("comment : |%s|\n", data.comment);
-			print_list(&data);
-			ft_printf(SUCCESS, data.name_cor);
-		}
-		// erase_all(&data);
-		// sleep(2);
-	}
-	return (0);
 }

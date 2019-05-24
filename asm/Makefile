@@ -1,4 +1,5 @@
 NAME = asm
+TEST = test
 
 arg =
 
@@ -16,7 +17,7 @@ CC = @gcc
 
 CFLAGS = -Wall -Wextra -Werror -I includes -I libft/includes
 
-all : lib $(NAME)
+all : lib $(NAME) test
 
 objets :
 	@mkdir -p objets
@@ -28,13 +29,13 @@ $(OBJ) : $(SRC) $(LIB) Makefile includes/asm.h
 	@$(CC) $(CFLAGS) $< -c -o $@
 	@echo "Creation objets		Done !"
 
-$(NAME) : $(OBJET_ASM)
-	@$(CC) $(CFLAGS) $(LIB) $(OBJET_ASM) -o $@
+$(NAME) : $(OBJET_ASM) srcs/main.c
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_ASM) srcs/main.c -o $@
 	@echo "Compilation asm	Done !"
 	@echo "-------------------------------"
 
-exe : all
-	@./$(NAME) $(arg)
+test : $(OBJET_ASM) srcs/test.c
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_ASM) srcs/test.c -o $(TEST)
 
 clean :
 	@make clean -C libft

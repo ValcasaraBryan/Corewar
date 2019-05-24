@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/23 19:34:11 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/05/24 18:47:49 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,14 @@ typedef struct		s_data
 	int				name_and_comment;
 	char			name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
+	int				len;
 	int				index;
 	t_line			line;
 	t_token			*token;
 	t_ins			*instruction;
 	t_error			error;
 }					t_data;
+
 
 typedef struct		s_op
 {
@@ -129,23 +131,10 @@ typedef struct		s_op
 	int				len;
 }					t_op;
 
-t_op				op_tab[REG_NUMBER] =
-{
-	{"live", LIVE, 4},
-	{"ld", LD, 2},
-	{"st", ST, 2},
-	{"add", ADD, 3},
-	{"sub", SUB, 3},
-	{"and", AND, 3},
-	{"or", OR, 2},
-	{"xor", XOR, 3},
-	{"zjmp", ZJMP, 4},
-	{"ldi", LDI, 3},
-	{"sti", STI, 3},
-	{"fork", FORK, 4},
-	{"lld", LLD, 3},
-	{"lldi", LLDI, 4},
-	{"lfork", LFORK, 5},
-	{"aff", AFF, 3},
-};
+extern t_op			op_tab[REG_NUMBER];
+
+void	init_data(t_data *data, char *av);
+int		parsing_asm(t_data *data);
+void		print_list(t_data *data);
+
 #endif
