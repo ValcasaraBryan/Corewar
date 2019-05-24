@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 18:47:22 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 19:35:33 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		0
+# define UT_PRINT		1
 
 # define LIVE			"live"
 # define LD				"ld"
@@ -177,6 +177,11 @@ int						instr_lld(int a, int b, int c);
 ** ------------------------- instr_lldi               -------------------------
 */
 int						instr_lldi(int a, int b, int c);
+
+/*
+** ------------------------- instr_move               -------------------------
+*/
+int						instr_move(int a, int b, int c);
 
 /*
 ** ------------------------- instr_or                 -------------------------

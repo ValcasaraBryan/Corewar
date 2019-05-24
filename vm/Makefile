@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/23 18:16:00 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/05/24 19:20:41 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ FILES_SRCS =	functions_byte.c		\
 				instr_live.c			\
 				instr_lld.c				\
 				instr_lldi.c			\
+				instr_move.c			\
 				instr_or.c				\
 				instr_st.c				\
 				instr_sti.c				\

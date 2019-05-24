@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/21 17:37:38 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 19:27:30 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		instr_lldi(int a, int b, int c)
 {
+	if (UT_PRINT == 1)
+		ft_putstr("instr_lldi\n");
 	if (a > -1 && b > -1 && c > -1)
 		return (1);
 	return (0);

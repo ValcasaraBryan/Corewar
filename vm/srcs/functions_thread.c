@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 19:15:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 19:34:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int		thread_change_cycle(t_thread **th, int type)
 		else if (type == 1)
 		{
 			(*th)->cycle += 1;
-			//if ((*th)->cycle >= g_tab_instructions[(*th)->action].cycles_nb)
-			//	g_tab_instructions[(*th)->action].fct_ptr(1, 2, 3);
+			if ((*th)->cycle >= g_tab_instructions[(*th)->action].cycles_nb)
+				g_tab_instructions[(*th)->action].fct_ptr(1, 2, 3);
 		}
 		else
 			return (0);

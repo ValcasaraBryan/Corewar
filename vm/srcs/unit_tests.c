@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 19:11:08 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/24 19:39:06 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1058,9 +1058,6 @@ static int		ut_thread_20(void)
 	return (result == 1);
 }
 
-
-
-
 static int		ut_thread_21(void)
 {
 	/*
@@ -1095,6 +1092,7 @@ static int		ut_thread_23(void)
 
 	add_storage(&st);
 	add_thread(&st);
+	thread_change_action(&(st->last_thread), 2);
 	result = thread_change_cycle(&(st->last_thread), 0);
 	result += thread_change_cycle(&(st->last_thread), 1);
 	free_storage(&st);
@@ -1117,15 +1115,26 @@ static int		ut_thread_24(void)
 	return (result == 2);
 }
 
+static int		ut_thread_25(void)
+{
+	/*
+	** thread_change_cycle jusqu'a activation de la fonction
+	*/
+	t_storage	*st;
+	int			result;
 
-
-
-
-
-
-
-
-//thread_change_cycle fonctionnel a finir
+	add_storage(&st);
+	add_thread(&st);
+	thread_change_action(&(st->last_thread), 2);
+	result = thread_change_cycle(&(st->last_thread), 0);
+	result += thread_change_cycle(&(st->last_thread), 1);
+	result += thread_change_cycle(&(st->last_thread), 1);
+	result += thread_change_cycle(&(st->last_thread), 1);
+	result += thread_change_cycle(&(st->last_thread), 1);
+	result += thread_change_cycle(&(st->last_thread), 1);
+	free_storage(&st);
+	return (result == 6);
+}
 
 int				ut_byte(void)
 {
@@ -1239,6 +1248,7 @@ int				ut_thread(void)
 	ft_putstr(ut_thread_22() ? "ut_thread_22		OK\n" : "ut_thread_22		ERROR\n");
 	ft_putstr(ut_thread_23() ? "ut_thread_23		OK\n" : "ut_thread_23		ERROR\n");
 	ft_putstr(ut_thread_24() ? "ut_thread_24		OK\n" : "ut_thread_24		ERROR\n");
+	ft_putstr(ut_thread_25() ? "ut_thread_25		OK\n" : "ut_thread_25		ERROR\n");
 	return (1);
 }
 
