@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 19:35:33 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/29 17:10:14 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 # define _COREWAR_H
 
 # include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
 # include "../libft/includes/libft.h"
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		1
+# define UT_PRINT		0
 
 # define LIVE			"live"
 # define LD				"ld"
@@ -46,6 +48,7 @@ typedef struct			s_thread
 {
 	int					action;
 	int					cycle;
+	int					nb_champion;
 	int					where;
 	struct s_thread		*prec;
 	struct s_thread		*next;
@@ -61,6 +64,7 @@ typedef struct			s_byte
 typedef struct			s_champion
 {
 	int					number;
+	int					reg[16];
 	char				*name;
 	char				*desc;
 	struct s_byte		*first_byte;
@@ -80,7 +84,7 @@ typedef struct			s_storage
 
 typedef struct			s_instruction
 {
-	int					op_code;
+	int					instr_nb;
 	char				*name;
 	int					param_nb;
 	int					param_list[3];
@@ -95,6 +99,11 @@ typedef struct			s_instruction
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[18];
+
+/*
+** ------------------------- bin_extractor           -------------------------
+*/
+int						bin_extractor(t_champion **ch, char *path);
 
 /*
 ** ------------------------- functions_byte           -------------------------
@@ -125,6 +134,7 @@ int						storage_check(t_storage **st, int type);
 */
 int						thread_change_action(t_thread **th, int new_action);
 int						thread_change_cycle(t_thread **th, int type);
+int						thread_change_nb_champion(t_thread **th, int new_nb);
 int						thread_change_where(t_thread **th, int new_where);
 int						thread_check(t_thread **th);
 
@@ -217,6 +227,7 @@ int						instr_zjmp(int a, int b, int c);
 ** ------------------------- key_functions             -------------------------
 */
 int						write_in_grid(int ***grid, int value, int where);
+int						decrypt_op_code(int **tab, int nb);
 
 /*
 ** ------------------------- manage_byte               -------------------------
@@ -256,16 +267,12 @@ int						print_thread_list(t_storage **st);
 /*
 ** ------------------------- unit_tests               -------------------------
 */
-int						ut_byte(void);
-int						ut_champion(void);
-int						ut_grid(void);
-int						ut_storage(void);
-int						ut_thread(void);
 int						all_ut(void);
 
 /*
 ** ------------------------- utilities                -------------------------
 */
+int						convert_to_binary(char **res, int nb);
 void					print_nb_hexa(int nb);
 
 #endif

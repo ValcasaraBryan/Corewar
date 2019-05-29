@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:18:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 18:12:24 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/29 15:25:49 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 int		champion_change_desc(t_champion **ch, char *new_desc)
 {
-	int		result;
-
-	result = champion_check(ch);
-	if (result >= 0)
+	if (champion_check(ch) >= 0)
 	{
 		if ((*ch)->desc != NULL)
 		{
@@ -37,10 +34,7 @@ int		champion_change_desc(t_champion **ch, char *new_desc)
 
 int		champion_change_name(t_champion **ch, char *new_name)
 {
-	int		result;
-
-	result = champion_check(ch);
-	if (result >= 0)
+	if (champion_check(ch) >= 0)
 	{
 		if ((*ch)->name != NULL)
 		{
@@ -60,10 +54,7 @@ int		champion_change_name(t_champion **ch, char *new_name)
 
 int		champion_change_number(t_champion **ch, int new_nb)
 {
-	int		result;
-
-	result = champion_check(ch);
-	if (result >= 0)
+	if (champion_check(ch) >= 0)
 	{
 		(*ch)->number = new_nb;
 		if ((*ch)->number > 0 && (*ch)->number <= 4)

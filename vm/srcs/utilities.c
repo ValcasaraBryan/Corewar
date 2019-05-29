@@ -6,11 +6,34 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 15:56:14 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/21 15:56:45 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/27 18:25:47 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
+
+int		convert_to_binary(char **res, int nb)
+{
+	int		i;
+
+	if (res != NULL)
+	{
+		*res = NULL;
+		if (!((*res) = malloc(sizeof(**res) * 9)))
+			return (-1);
+		(*res)[8] = '\0';
+		i = -1;
+		while (++i < 8)
+			(*res)[i] = '0';
+		while (nb > 0 && i >= 0)
+		{
+			(*res)[--i] = nb % 2 + 48;
+			nb = nb / 2;
+		}
+		return (1);
+	}
+	return (0);
+}
 
 void	print_nb_hexa(int nb)
 {

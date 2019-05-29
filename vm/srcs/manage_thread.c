@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 18:02:09 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/27 18:18:16 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_thread		*create_thread(t_storage **st)
 			return (NULL);
 		thread->action = 0;
 		thread->cycle = 0;
+		thread->nb_champion = 1;
 		thread->where = 0;
 		thread->prec = (*st)->last_thread;
 		thread->next = NULL;

@@ -6,11 +6,21 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 19:39:06 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/29 17:09:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
+
+char	*desc = " module de defense";
+char 	*name = " maxidef ";
+char	*path_all_ok = "../vm_champs/champs/test_3.cor";
+char	*path_fake = "lol.cor";
+char	*path_folder = "../vm_champs/champs/";
+char	*path_no_rights = "../vm_champs/champs/maxidef_bis.cor";
+char	*path_dev_zero = "/dev/zero";
+char	*path_dev_random = "/dev/random";
+char	*path_dev_null = "/dev/null";
 
 static int		ut_byte_01(void)
 {
@@ -1136,7 +1146,246 @@ static int		ut_thread_25(void)
 	return (result == 6);
 }
 
-int				ut_byte(void)
+static int		ut_thread_26(void)
+{
+	/*
+	** thread_change_nb_champion avec param null
+	*/
+	int			result;
+
+	result = thread_change_nb_champion(NULL, 0);
+	return (result == -1);
+}
+
+static int		ut_thread_27(void)
+{
+	/*
+	** thread_change_nb_champion avec thread vide
+	*/
+	t_thread	*th;
+	int			result;
+
+	th = NULL;
+	result = thread_change_nb_champion(&th, 0);
+	return (result == -1);
+}
+
+static int		ut_thread_28(void)
+{
+	/*
+	** thread_change_nb_champion avec valeurs charnieres (1 / 4)
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = thread_change_nb_champion(&(st->last_thread), 1);
+	result += thread_change_nb_champion(&(st->last_thread), 4);
+	free_storage(&st);
+	return (result == 2);
+}
+
+static int		ut_thread_29(void)
+{
+	/*
+	** thread_change_nb_champion avec valeurs impossibles (0 / 5)
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = thread_change_nb_champion(&(st->last_thread), 0) + 1;
+	result += thread_change_nb_champion(&(st->last_thread), 5) + 1;
+	free_storage(&st);
+	return (result == 2);
+}
+
+static int		ut_key_functions_01(void)
+{
+	int		*tab;
+	decrypt_op_code(&tab, 144);
+	free(tab);
+	return (1);
+}
+
+static int		ut_utilities_01(void)
+{
+	return (1);
+}
+
+//tests a faire
+
+static int		ut_bin_extractor_01(void)
+{
+	/*
+	** appel avec param NULL
+	*/
+	int		result;
+
+	result = bin_extractor(NULL, path_all_ok);
+	return (result == 0);
+}
+
+static int		ut_bin_extractor_02(void)
+{
+	/*
+	** appel avec champion vide
+	*/
+	t_champion	*ch;
+	int			result;
+
+	ch = NULL;
+	result = bin_extractor(&ch, path_all_ok);
+	return (result == 0);
+}
+
+static int		ut_bin_extractor_03(void)
+{
+	/*
+	** appel avec champion valide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_all_ok);
+	free_storage(&st);
+	ft_putnbr(result);
+	return (result == 1);
+}
+
+static int		ut_bin_extractor_04(void)
+{
+	/*
+	** appel avec chemin invalide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_fake);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_bin_extractor_05(void)
+{
+	/*
+	** verification name
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_all_ok);
+	result += strcmp(st->last_champion->name, name);
+	free_storage(&st);
+	return (result == 1);
+}
+
+static int		ut_bin_extractor_06(void)
+{
+	/*
+	** verification commentaire
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_all_ok);
+	result += strcmp(st->last_champion->desc, desc);
+	print_storage(&st);
+	free_storage(&st);
+	return (result == 1);
+}
+
+static int		ut_bin_extractor_07(void)
+{
+	/*
+	** appel avec chemin dossier
+	*/
+	t_storage	*st;
+	int			result;
+	
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_folder);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_bin_extractor_08(void)
+{
+	/*
+	** appel fichier sans droits
+	*/
+	t_storage	*st;
+	int			result;
+	
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_no_rights);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_bin_extractor_09(void)
+{
+	/*
+	** appel fichier dev zero
+	*/
+	t_storage	*st;
+	int			result;
+	
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_dev_zero);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_bin_extractor_10(void)
+{
+	/*
+	** appel fichier dev random
+	*/
+	t_storage	*st;
+	int			result;
+	
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_dev_random);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_bin_extractor_11(void)
+{
+	/*
+	** appel fichier dev null
+	*/
+	t_storage	*st;
+	int			result;
+	
+	add_storage(&st);
+	add_champion(&st);
+	result = bin_extractor(&(st->last_champion), path_dev_null);
+	free_storage(&st);
+	return (result == -1);
+}
+
+//mauvais chemin
+//	dossier /dev/zero /dev/random /dev/null
+
+//plusieurs champions
+
+static int		ut_byte(void)
 {
 	ft_putstr(ut_byte_01() ? "ut_byte_01		OK\n" : "ut_byte_01		ERROR\n");
 	ft_putstr(ut_byte_02() ? "ut_byte_02		OK\n" : "ut_byte_02		ERROR\n");
@@ -1159,7 +1408,7 @@ int				ut_byte(void)
 	return (1);
 }
 
-int				ut_champion(void)
+static int		ut_champion(void)
 {
 	ft_putstr(ut_champion_01() ? "ut_champion_01		OK\n" : "ut_champion_01		ERROR\n");
 	ft_putstr(ut_champion_02() ? "ut_champion_02		OK\n" : "ut_champion_02		ERROR\n");
@@ -1188,7 +1437,7 @@ int				ut_champion(void)
 	return (1);
 }
 
-int				ut_grid(void)
+static int		ut_grid(void)
 {
 	ft_putstr(ut_grid_01() ? "ut_grid_01		OK\n" : "ut_grid_01		ERROR\n");
 	ft_putstr(ut_grid_02() ? "ut_grid_02		OK\n" : "ut_grid_02		ERROR\n");
@@ -1202,7 +1451,7 @@ int				ut_grid(void)
 	return (1);
 }
 
-int				ut_storage(void)
+static int		ut_storage(void)
 {
 	ft_putstr(ut_storage_01() ? "ut_storage_01		OK\n" : "ut_storage_01		ERROR\n");
 	ft_putstr(ut_storage_02() ? "ut_storage_02		OK\n" : "ut_storage_02		ERROR\n");
@@ -1221,7 +1470,7 @@ int				ut_storage(void)
 	return (1);
 }
 
-int				ut_thread(void)
+static int		ut_thread(void)
 {
 	ft_putstr(ut_thread_01() ? "ut_thread_01		OK\n" : "ut_thread_01		ERROR\n");
 	//ft_putstr(ut_thread_02() ? "ut_thread_02		OK\n" : "ut_thread_02		ERROR\n");
@@ -1249,6 +1498,42 @@ int				ut_thread(void)
 	ft_putstr(ut_thread_23() ? "ut_thread_23		OK\n" : "ut_thread_23		ERROR\n");
 	ft_putstr(ut_thread_24() ? "ut_thread_24		OK\n" : "ut_thread_24		ERROR\n");
 	ft_putstr(ut_thread_25() ? "ut_thread_25		OK\n" : "ut_thread_25		ERROR\n");
+	ft_putstr(ut_thread_26() ? "ut_thread_26		OK\n" : "ut_thread_26		ERROR\n");
+	ft_putstr(ut_thread_27() ? "ut_thread_27		OK\n" : "ut_thread_27		ERROR\n");
+	ft_putstr(ut_thread_28() ? "ut_thread_28		OK\n" : "ut_thread_28		ERROR\n");
+	ft_putstr(ut_thread_29() ? "ut_thread_29		OK\n" : "ut_thread_29		ERROR\n");
+	return (1);
+}
+
+static int		ut_key_functions(void)
+{
+	ft_putstr(ut_key_functions_01() ? "ut_key_functions_01	OK\n" : "ut_key_functions_01	ERROR\n");
+	return (1);
+}
+
+static int		ut_utilities(void)
+{
+	ft_putstr(ut_utilities_01() ? "ut_utilities_01		OK\n" : "ut_utilities_01		ERROR\n");
+	return (1);
+}
+
+static int		ut_bin_extractor(void)
+{
+	ft_putstr(ut_bin_extractor_01() ? "ut_bin_extractor_01	OK\n" : "ut_bin_extractor_01	ERROR\n");
+	ft_putstr(ut_bin_extractor_02() ? "ut_bin_extractor_02	OK\n" : "ut_bin_extractor_02	ERROR\n");
+	ft_putstr(ut_bin_extractor_03() ? "ut_bin_extractor_03	OK\n" : "ut_bin_extractor_03	ERROR\n");
+	ft_putstr(ut_bin_extractor_04() ? "ut_bin_extractor_04	OK\n" : "ut_bin_extractor_04	ERROR\n");
+	ft_putstr(ut_bin_extractor_05() ? "ut_bin_extractor_05	OK\n" : "ut_bin_extractor_05	ERROR\n");
+	ft_putstr(ut_bin_extractor_06() ? "ut_bin_extractor_06	OK\n" : "ut_bin_extractor_06	ERROR\n");
+	if (0)
+		ft_putstr(ut_bin_extractor_07() ? "ut_bin_extractor_07	OK\n" : "ut_bin_extractor_07	ERROR\n");
+	ft_putstr(ut_bin_extractor_08() ? "ut_bin_extractor_08	OK\n" : "ut_bin_extractor_08	ERROR\n");
+	if (0)
+		ft_putstr(ut_bin_extractor_09() ? "ut_bin_extractor_09	OK\n" : "ut_bin_extractor_09	ERROR\n");
+	if (0)
+		ft_putstr(ut_bin_extractor_10() ? "ut_bin_extractor_10	OK\n" : "ut_bin_extractor_10	ERROR\n");
+	if (0)
+		ft_putstr(ut_bin_extractor_11() ? "ut_bin_extractor_11	OK\n" : "ut_bin_extractor_11	ERROR\n");
 	return (1);
 }
 
@@ -1259,5 +1544,8 @@ int				all_ut(void)
 	ut_grid();
 	ut_storage();
 	ut_thread();
+	ut_key_functions();
+	ut_utilities();
+	ut_bin_extractor();
 	return (1);
 }

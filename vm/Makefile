@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/24 19:20:41 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/05/29 17:09:43 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ FLAGS_COMP =	-Wall -Wextra -Werror
 FLAGS_INCL =	-I $(DIR_INCL)
 FLAGS_LIBFT =	-L $(DIR_LIBFT) -lft
 FILES_HEADER =	corewar.h
-FILES_SRCS =	functions_byte.c		\
+FILES_SRCS =	bin_extractor.c			\
+				functions_byte.c		\
 				functions_champion.c	\
 				functions_grid.c		\
 				functions_storage.c		\
