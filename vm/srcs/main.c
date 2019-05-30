@@ -6,12 +6,11 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/29 17:09:58 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/30 20:39:27 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
 
 t_instruction	g_tab_instructions[18] =
 {
@@ -35,12 +34,15 @@ t_instruction	g_tab_instructions[18] =
 	{17,	0,		0,	{	0																		},	"00000000",	"00",	0,		0,	0,	0,	0,	0				}
 };
 
-
 int			main(int argv, char **argc)
 {
+	int		show_usage;
+
+	show_usage = 0;
 	(void)g_tab_instructions;
-	(void)argv;
 	(void)argc;
+	(void)argv;
+	//usage
 	all_ut();
 	while (1);
 	return (0);

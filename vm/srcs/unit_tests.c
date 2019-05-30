@@ -6,15 +6,15 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/29 17:09:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/30 21:15:48 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-char	*desc = " module de defense";
-char 	*name = " maxidef ";
-char	*path_all_ok = "../vm_champs/champs/test_3.cor";
+char	*desc = "test comm";
+char 	*name = "test";
+char	*path_all_ok = "../vm_champs/champs/test_2.cor";
 char	*path_fake = "lol.cor";
 char	*path_folder = "../vm_champs/champs/";
 char	*path_no_rights = "../vm_champs/champs/maxidef_bis.cor";
@@ -633,8 +633,128 @@ static int		ut_grid_09(void)
 	return (result == 0);
 }
 
-//grid_fill_with_champ non fonctionnel a faire
-//write_in_grid non fonctionnel a faire
+static int		ut_grid_10(void)
+{
+	/*
+	** grid_fill_with_champ avec param grid null
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_champion(&st);
+	add_byte(&(st->last_champion));
+	result = grid_fill_with_champ(NULL, &(st->last_champion));
+	free_storage(&st);
+	return (result == 0);
+}
+
+static int		ut_grid_11(void)
+{
+	/*
+	** grid_fill_with_champ avec param champion null
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	result = grid_fill_with_champ(&(st->grid), NULL);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_grid_12(void)
+{
+	/*
+	** grid_fill_with_champ avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+	int			**grid;
+
+	grid = NULL;
+	add_storage(&st);
+	add_champion(&st);
+	add_byte(&(st->last_champion));
+	result = grid_fill_with_champ(&grid, &(st->last_champion));
+	free_storage(&st);
+	return (result == 0);
+}
+
+static int		ut_grid_13(void)
+{
+	/*
+	** grid_fill_with_champ avec champion vide
+	*/
+	t_champion	*ch;
+	t_storage	*st;
+	int			result;
+
+	ch = NULL;
+	add_storage(&st);
+	add_grid(&st);
+	result = grid_fill_with_champ(&(st->grid), &ch);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_grid_14(void)
+{
+	/*
+	** grid_fill_with_champ avec champion sans bytes
+	*/
+	t_champion	*ch;
+	t_storage	*st;
+	int			result;
+
+	ch = NULL;
+	add_storage(&st);
+	add_champion(&st);
+	add_grid(&st);
+	result = grid_fill_with_champ(&(st->grid), &ch);
+	free_storage(&st);
+	return (result == -1);
+}
+
+static int		ut_grid_15(void)
+{
+	/*
+	** grid_check avec param null
+	*/
+	int			result;
+
+	result = grid_check(NULL);
+	return (result == 0);
+}
+
+static int		ut_grid_16(void)
+{
+	/*
+	** grid_check avec grid vide
+	*/
+	int			**grid;
+	int			result;
+
+	grid = NULL;
+	result = grid_check(&grid);
+	return (result == 0);
+}
+
+static int		ut_grid_17(void)
+{
+	/*
+	** grid_check avec grid conforme
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	result = grid_check(&(st->grid));
+	free_storage(&st);
+	return (result == 1);
+}
 
 static int		ut_storage_01(void)
 {
@@ -1016,11 +1136,11 @@ static int		ut_thread_16(void)
 static int		ut_thread_17(void)
 {
 	/*
-	** thread_change_where avec param null
+	** thread_change_where avec deux param null
 	*/
 	int			result;
 
-	result = thread_change_where(NULL, 0);
+	result = thread_change_where(NULL, NULL, 0);
 	return (result == -1);
 }
 
@@ -1029,11 +1149,14 @@ static int		ut_thread_18(void)
 	/*
 	** thread_change_where avec thread vide
 	*/
+	t_storage	*st;
 	t_thread	*th;
 	int			result;
 
 	th = NULL;
-	result = thread_change_where(&th, 0);
+	add_storage(&st);
+	add_grid(&st);
+	result = thread_change_where(&th, &(st->grid), 0);
 	return (result == -1);
 }
 
@@ -1046,9 +1169,10 @@ static int		ut_thread_19(void)
 	int			result;
 
 	add_storage(&st);
+	add_grid(&st);
 	add_thread(&st);
-	result = thread_change_where(&(st->last_thread), 0);
-	result += thread_change_where(&(st->last_thread), GRID_SIZE * GRID_SIZE);
+	result = thread_change_where(&(st->last_thread), &(st->grid), 0);
+	result += thread_change_where(&(st->last_thread), &(st->grid), GRID_SIZE * GRID_SIZE);
 	free_storage(&st);
 	return (result == 2);
 }
@@ -1062,8 +1186,9 @@ static int		ut_thread_20(void)
 	int			result;
 
 	add_storage(&st);
+	add_grid(&st);
 	add_thread(&st);
-	result = thread_change_where(&(st->last_thread), -1) + 1;
+	result = thread_change_where(&(st->last_thread), &(st->grid), -1) + 1;
 	free_storage(&st);
 	return (result == 1);
 }
@@ -1071,11 +1196,11 @@ static int		ut_thread_20(void)
 static int		ut_thread_21(void)
 {
 	/*
-	** thread_change_cycle avec param null
+	** thread_change_cycle avec deux param null
 	*/
 	int			result;
 
-	result = thread_change_cycle(NULL, 0);
+	result = thread_change_cycle(NULL, NULL, 0);
 	return (result == -1);
 }
 
@@ -1084,11 +1209,14 @@ static int		ut_thread_22(void)
 	/*
 	** thread_change_cycle avec thread vide
 	*/
+	t_storage	*st;
 	t_thread	*th;
 	int			result;
 
 	th = NULL;
-	result = thread_change_cycle(&th, 0);
+	add_storage(&st);
+	add_grid(&st);
+	result = thread_change_cycle(&th, &(st->grid), 0);
 	return (result == -1);
 }
 
@@ -1102,9 +1230,10 @@ static int		ut_thread_23(void)
 
 	add_storage(&st);
 	add_thread(&st);
+	add_grid(&st);
 	thread_change_action(&(st->last_thread), 2);
-	result = thread_change_cycle(&(st->last_thread), 0);
-	result += thread_change_cycle(&(st->last_thread), 1);
+	result = thread_change_cycle(&(st->last_thread), &(st->grid), 0);
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 1);
 	free_storage(&st);
 	return (result == 2);
 }
@@ -1119,8 +1248,9 @@ static int		ut_thread_24(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_change_cycle(&(st->last_thread), -1) + 1;
-	result += thread_change_cycle(&(st->last_thread), 2) + 1;
+	add_grid(&st);
+	result = thread_change_cycle(&(st->last_thread), &(st->grid), -1) + 1;
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 2) + 1;
 	free_storage(&st);
 	return (result == 2);
 }
@@ -1135,13 +1265,14 @@ static int		ut_thread_25(void)
 
 	add_storage(&st);
 	add_thread(&st);
+	add_grid(&st);
 	thread_change_action(&(st->last_thread), 2);
-	result = thread_change_cycle(&(st->last_thread), 0);
-	result += thread_change_cycle(&(st->last_thread), 1);
-	result += thread_change_cycle(&(st->last_thread), 1);
-	result += thread_change_cycle(&(st->last_thread), 1);
-	result += thread_change_cycle(&(st->last_thread), 1);
-	result += thread_change_cycle(&(st->last_thread), 1);
+	result = thread_change_cycle(&(st->last_thread), &(st->grid), 0);
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 1);
 	free_storage(&st);
 	return (result == 6);
 }
@@ -1202,7 +1333,104 @@ static int		ut_thread_29(void)
 	return (result == 2);
 }
 
+static int		ut_thread_30(void)
+{
+	/*
+	** print_thread_list_compact avec param null
+	*/
+	int			result;
+
+	result = print_thread_list_compact(NULL);
+	return (result == 0);
+}
+
+static int		ut_thread_31(void)
+{
+	/*
+	** print_thread_list_compact avec storage vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	st = NULL;
+	result = print_thread_list_compact(&st);
+	return (result == 0);
+}
+
+static int		ut_thread_32(void)
+{
+	/*
+	** print_thread_list_compact
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = print_thread_list_compact(&st);
+	free_storage(&st);
+	return (result == 1);
+}
+
 static int		ut_key_functions_01(void)
+{
+	/*
+	** cycle_threads avec param null
+	*/
+	int		result;
+
+	result = cycle_threads(NULL);
+	return (result == 0);
+}
+
+static int		ut_key_functions_02(void)
+{
+	/*
+	** cycle_threads avec storage vide
+	*/
+	t_storage	*st;
+	int		result;
+
+	st = NULL;
+	result = cycle_threads(&st);
+	return (result == 0);
+}
+
+static int		ut_key_functions_03(void)
+{
+	/*
+	** cycle_threads avec storage sans threads
+	*/
+	t_storage	*st;
+	int		result;
+
+	add_storage(&st);
+	result = cycle_threads(&st);
+	free_storage(&st);
+	return (result == 0);
+}
+
+static int		ut_key_functions_04(void)
+{
+	/*
+	** cycle_threads avec storage et threads
+	*/
+	t_storage	*st;
+	int		result;
+
+	add_storage(&st);
+	add_thread(&st);
+	add_grid(&st);
+	thread_change_nb_champion(&(st->last_thread), 1);
+	thread_change_action(&(st->last_thread), 2);
+	write_in_grid(&(st->grid), 5, 10);
+	print_grid(&st);
+	result = cycle_threads(&st);
+	free_storage(&st);
+	return (result == 1);
+}
+
+static int		ut_key_functions_05(void)
 {
 	int		*tab;
 	decrypt_op_code(&tab, 144);
@@ -1210,12 +1438,17 @@ static int		ut_key_functions_01(void)
 	return (1);
 }
 
+//cycle_threads fonctionnel et non fonctionnel a faire
+//decrypt_op_code fonctionnel et non fonctionnel a faire
+//read_in_grid fonctionnel et non fonctionnel a faire
+//write_in_grid fonctionnel et non fonctionnel a faire
+
 static int		ut_utilities_01(void)
 {
 	return (1);
 }
 
-//tests a faire
+//convert_to_binary fonctionnel et non fonctionnel a faire
 
 static int		ut_bin_extractor_01(void)
 {
@@ -1283,7 +1516,7 @@ static int		ut_bin_extractor_05(void)
 	add_storage(&st);
 	add_champion(&st);
 	result = bin_extractor(&(st->last_champion), path_all_ok);
-	result += strcmp(st->last_champion->name, name);
+	result += ft_strcmp(st->last_champion->name, name);
 	free_storage(&st);
 	return (result == 1);
 }
@@ -1299,7 +1532,7 @@ static int		ut_bin_extractor_06(void)
 	add_storage(&st);
 	add_champion(&st);
 	result = bin_extractor(&(st->last_champion), path_all_ok);
-	result += strcmp(st->last_champion->desc, desc);
+	result += ft_strcmp(st->last_champion->desc, desc);
 	print_storage(&st);
 	free_storage(&st);
 	return (result == 1);
@@ -1385,7 +1618,7 @@ static int		ut_bin_extractor_11(void)
 
 //plusieurs champions
 
-static int		ut_byte(void)
+int		ut_byte(void)
 {
 	ft_putstr(ut_byte_01() ? "ut_byte_01		OK\n" : "ut_byte_01		ERROR\n");
 	ft_putstr(ut_byte_02() ? "ut_byte_02		OK\n" : "ut_byte_02		ERROR\n");
@@ -1408,7 +1641,7 @@ static int		ut_byte(void)
 	return (1);
 }
 
-static int		ut_champion(void)
+int		ut_champion(void)
 {
 	ft_putstr(ut_champion_01() ? "ut_champion_01		OK\n" : "ut_champion_01		ERROR\n");
 	ft_putstr(ut_champion_02() ? "ut_champion_02		OK\n" : "ut_champion_02		ERROR\n");
@@ -1437,7 +1670,7 @@ static int		ut_champion(void)
 	return (1);
 }
 
-static int		ut_grid(void)
+int		ut_grid(void)
 {
 	ft_putstr(ut_grid_01() ? "ut_grid_01		OK\n" : "ut_grid_01		ERROR\n");
 	ft_putstr(ut_grid_02() ? "ut_grid_02		OK\n" : "ut_grid_02		ERROR\n");
@@ -1448,10 +1681,18 @@ static int		ut_grid(void)
 	ft_putstr(ut_grid_07() ? "ut_grid_07		OK\n" : "ut_grid_07		ERROR\n");
 	ft_putstr(ut_grid_08() ? "ut_grid_08		OK\n" : "ut_grid_08		ERROR\n");
 	ft_putstr(ut_grid_09() ? "ut_grid_09		OK\n" : "ut_grid_09		ERROR\n");
+	ft_putstr(ut_grid_10() ? "ut_grid_10		OK\n" : "ut_grid_10		ERROR\n");
+	ft_putstr(ut_grid_11() ? "ut_grid_11		OK\n" : "ut_grid_11		ERROR\n");
+	ft_putstr(ut_grid_12() ? "ut_grid_12		OK\n" : "ut_grid_12		ERROR\n");
+	ft_putstr(ut_grid_13() ? "ut_grid_13		OK\n" : "ut_grid_13		ERROR\n");
+	ft_putstr(ut_grid_14() ? "ut_grid_14		OK\n" : "ut_grid_14		ERROR\n");
+	ft_putstr(ut_grid_15() ? "ut_grid_15		OK\n" : "ut_grid_15		ERROR\n");
+	ft_putstr(ut_grid_16() ? "ut_grid_16		OK\n" : "ut_grid_16		ERROR\n");
+	ft_putstr(ut_grid_17() ? "ut_grid_17		OK\n" : "ut_grid_17		ERROR\n");
 	return (1);
 }
 
-static int		ut_storage(void)
+int		ut_storage(void)
 {
 	ft_putstr(ut_storage_01() ? "ut_storage_01		OK\n" : "ut_storage_01		ERROR\n");
 	ft_putstr(ut_storage_02() ? "ut_storage_02		OK\n" : "ut_storage_02		ERROR\n");
@@ -1470,7 +1711,7 @@ static int		ut_storage(void)
 	return (1);
 }
 
-static int		ut_thread(void)
+int		ut_thread(void)
 {
 	ft_putstr(ut_thread_01() ? "ut_thread_01		OK\n" : "ut_thread_01		ERROR\n");
 	//ft_putstr(ut_thread_02() ? "ut_thread_02		OK\n" : "ut_thread_02		ERROR\n");
@@ -1502,22 +1743,29 @@ static int		ut_thread(void)
 	ft_putstr(ut_thread_27() ? "ut_thread_27		OK\n" : "ut_thread_27		ERROR\n");
 	ft_putstr(ut_thread_28() ? "ut_thread_28		OK\n" : "ut_thread_28		ERROR\n");
 	ft_putstr(ut_thread_29() ? "ut_thread_29		OK\n" : "ut_thread_29		ERROR\n");
+	ft_putstr(ut_thread_30() ? "ut_thread_30		OK\n" : "ut_thread_30		ERROR\n");
+	ft_putstr(ut_thread_31() ? "ut_thread_31		OK\n" : "ut_thread_31		ERROR\n");
+	ft_putstr(ut_thread_32() ? "ut_thread_32		OK\n" : "ut_thread_32		ERROR\n");
 	return (1);
 }
 
-static int		ut_key_functions(void)
+int		ut_key_functions(void)
 {
 	ft_putstr(ut_key_functions_01() ? "ut_key_functions_01	OK\n" : "ut_key_functions_01	ERROR\n");
+	ft_putstr(ut_key_functions_02() ? "ut_key_functions_02	OK\n" : "ut_key_functions_02	ERROR\n");
+	ft_putstr(ut_key_functions_03() ? "ut_key_functions_03	OK\n" : "ut_key_functions_03	ERROR\n");
+	ft_putstr(ut_key_functions_04() ? "ut_key_functions_04	OK\n" : "ut_key_functions_04	ERROR\n");
+	ft_putstr(ut_key_functions_05() ? "ut_key_functions_05	OK\n" : "ut_key_functions_05	ERROR\n");
 	return (1);
 }
 
-static int		ut_utilities(void)
+int		ut_utilities(void)
 {
 	ft_putstr(ut_utilities_01() ? "ut_utilities_01		OK\n" : "ut_utilities_01		ERROR\n");
 	return (1);
 }
 
-static int		ut_bin_extractor(void)
+int		ut_bin_extractor(void)
 {
 	ft_putstr(ut_bin_extractor_01() ? "ut_bin_extractor_01	OK\n" : "ut_bin_extractor_01	ERROR\n");
 	ft_putstr(ut_bin_extractor_02() ? "ut_bin_extractor_02	OK\n" : "ut_bin_extractor_02	ERROR\n");
@@ -1539,13 +1787,13 @@ static int		ut_bin_extractor(void)
 
 int				all_ut(void)
 {
-	ut_byte();
-	ut_champion();
-	ut_grid();
-	ut_storage();
-	ut_thread();
+	//ut_byte();
+	//ut_champion();
+	//ut_grid();
+	//ut_storage();
+	//ut_thread();
 	ut_key_functions();
-	ut_utilities();
-	ut_bin_extractor();
+	//ut_utilities();
+	//ut_bin_extractor();
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/29 17:10:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/30 21:06:24 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdio.h>
 # include "../libft/includes/libft.h"
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		0
+# define UT_PRINT		1
 
 # define LIVE			"live"
 # define LD				"ld"
@@ -122,6 +123,7 @@ int						champion_check(t_champion **ch);
 /*
 ** ------------------------- functions_grid           -------------------------
 */
+int						grid_check(int ***gr);
 int						grid_fill_with_champ(int ***grid, t_champion **ch);
 
 /*
@@ -133,9 +135,9 @@ int						storage_check(t_storage **st, int type);
 ** ------------------------- functions_thread         -------------------------
 */
 int						thread_change_action(t_thread **th, int new_action);
-int						thread_change_cycle(t_thread **th, int type);
+int						thread_change_cycle(t_thread **th, int ***gr, int type);
 int						thread_change_nb_champion(t_thread **th, int new_nb);
-int						thread_change_where(t_thread **th, int new_where);
+int						thread_change_where(t_thread **th, int ***gr, int new_where);
 int						thread_check(t_thread **th);
 
 /*
@@ -226,8 +228,10 @@ int						instr_zjmp(int a, int b, int c);
 /*
 ** ------------------------- key_functions             -------------------------
 */
-int						write_in_grid(int ***grid, int value, int where);
+int						cycle_threads(t_storage **st);
 int						decrypt_op_code(int **tab, int nb);
+int						read_in_grid(int ***grid, int where);
+int						write_in_grid(int ***grid, int value, int where);
 
 /*
 ** ------------------------- manage_byte               -------------------------
@@ -263,6 +267,7 @@ int						print_storage(t_storage **st);
 int						add_thread(t_storage **st);
 int						free_thread_list(t_storage **st);
 int						print_thread_list(t_storage **st);
+int						print_thread_list_compact(t_storage **st);
 
 /*
 ** ------------------------- unit_tests               -------------------------

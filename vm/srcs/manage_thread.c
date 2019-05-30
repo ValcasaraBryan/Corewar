@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/27 18:18:16 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/30 20:43:48 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,24 @@ int					print_thread_list(t_storage **st)
 			current = current->next;
 		}
 		ft_putstr("	-------------\n");
+		return (1);
+	}
+	return (0);
+}
+
+int					print_thread_list_compact(t_storage **st)
+{
+	t_thread	*current;
+
+	if (storage_check(st, 2) >= 0)
+	{
+		current = (*st)->first_thread;
+		while (current != NULL)
+		{
+			printf("	%d | %d | %d\n", current->action, current->cycle, current->where);
+			current = current->next;
+		}
+		printf("	---\n");
 		return (1);
 	}
 	return (0);
