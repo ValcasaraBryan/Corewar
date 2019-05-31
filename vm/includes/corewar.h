@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/30 21:06:24 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/31 16:11:20 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct			s_instruction
 	int					carry_after;
 	int					octal_codage;
 	int					dir_size;
-	int					(*fct_ptr)(int a, int b, int c);
+	int					(*fct_ptr)(t_thread **th, int ***gr);
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[18];
@@ -137,93 +137,94 @@ int						storage_check(t_storage **st, int type);
 int						thread_change_action(t_thread **th, int new_action);
 int						thread_change_cycle(t_thread **th, int ***gr, int type);
 int						thread_change_nb_champion(t_thread **th, int new_nb);
-int						thread_change_where(t_thread **th, int ***gr, int new_where);
+int						thread_change_where(t_thread **th, int ***gr,
+	int new_where);
 int						thread_check(t_thread **th);
 
 /*
 ** ------------------------- instr_add                -------------------------
 */
-int						instr_add(int a, int b, int c);
+int						instr_add(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_aff                -------------------------
 */
-int						instr_aff(int a, int b, int c);
+int						instr_aff(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_and                -------------------------
 */
-int						instr_and(int a, int b, int c);
+int						instr_and(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_fork               -------------------------
 */
-int						instr_fork(int a, int b, int c);
+int						instr_fork(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_ld                 -------------------------
 */
-int						instr_ld(int a, int b, int c);
+int						instr_ld(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_ldi                -------------------------
 */
-int						instr_ldi(int a, int b, int c);
+int						instr_ldi(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_lfork              -------------------------
 */
-int						instr_lfork(int a, int b, int c);
+int						instr_lfork(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_live               -------------------------
 */
-int						instr_live(int a, int b, int c);
+int						instr_live(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_lld                -------------------------
 */
-int						instr_lld(int a, int b, int c);
+int						instr_lld(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_lldi               -------------------------
 */
-int						instr_lldi(int a, int b, int c);
+int						instr_lldi(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_move               -------------------------
 */
-int						instr_move(int a, int b, int c);
+int						instr_move(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_or                 -------------------------
 */
-int						instr_or(int a, int b, int c);
+int						instr_or(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_st                 -------------------------
 */
-int						instr_st(int a, int b, int c);
+int						instr_st(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_sti                -------------------------
 */
-int						instr_sti(int a, int b, int c);
+int						instr_sti(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_sub                -------------------------
 */
-int						instr_sub(int a, int b, int c);
+int						instr_sub(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_xor                -------------------------
 */
-int						instr_xor(int a, int b, int c);
+int						instr_xor(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- instr_zjmp               -------------------------
 */
-int						instr_zjmp(int a, int b, int c);
+int						instr_zjmp(t_thread **th, int ***gr);
 
 /*
 ** ------------------------- key_functions             -------------------------
@@ -238,34 +239,38 @@ int						write_in_grid(int ***grid, int value, int where);
 */
 int						add_byte(t_champion **ch);
 int						free_byte_list(t_champion **ch);
-int						print_byte_list(t_champion **ch);
 
 /*
 ** ------------------------- manage_champion          -------------------------
 */
 int						add_champion(t_storage **st);
 int						free_champion_list(t_storage **st);
-int						print_champion_list(t_storage **st);
 
 /*
 ** ------------------------- manage_grid              -------------------------
 */
 int						add_grid(t_storage **st);
 int						free_grid(t_storage **st);
-int						print_grid(t_storage **st);
 
 /*
 ** ------------------------- manage_storage           -------------------------
 */
 int						add_storage(t_storage **st);
 int						free_storage(t_storage **st);
-int						print_storage(t_storage **st);
 
 /*
 ** ------------------------- manage_thread            -------------------------
 */
 int						add_thread(t_storage **st);
 int						free_thread_list(t_storage **st);
+
+/*
+** ------------------------- print_structs            -------------------------
+*/
+int						print_byte_list(t_champion **ch);
+int						print_champion_list(t_storage **st);
+int						print_grid(t_storage **st);
+int						print_storage(t_storage **st);
 int						print_thread_list(t_storage **st);
 int						print_thread_list_compact(t_storage **st);
 

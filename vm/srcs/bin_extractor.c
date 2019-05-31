@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/30 17:06:49 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/31 16:02:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int		create_tempo_str(char **res, int fd, int type)
 
 static int		extract_bytes(int fd, t_champion **ch)
 {
-
 	int				i;
 	unsigned char	buf[1];
 

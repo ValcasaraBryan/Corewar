@@ -6,17 +6,17 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:05:49 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/27 18:26:56 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/31 15:05:01 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		instr_add(int a, int b, int c)
+int		instr_add(t_thread **th, int ***gr)
 {
-	if (UT_PRINT == 1)
+	(void)th;
+	(void)gr;
+	if (UT_PRINT >= 1)
 		ft_putstr("instr_add\n");
-	if (a > -1 && b > -1 && c > -1)
-		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/29 17:09:43 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/05/31 16:10:26 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ FILES_SRCS =	bin_extractor.c			\
 				manage_grid.c			\
 				manage_storage.c		\
 				manage_thread.c			\
+				print_structs.c			\
 				unit_tests.c			\
 				utilities.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)

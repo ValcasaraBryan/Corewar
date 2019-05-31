@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:56:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 17:10:07 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/31 16:06:33 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,6 @@ int				free_byte_list(t_champion **ch)
 		free(current);
 		(*ch)->first_byte = NULL;
 		(*ch)->last_byte = NULL;
-		return (1);
-	}
-	return (0);
-}
-
-int				print_byte_list(t_champion **ch)
-{
-	t_byte		*current;
-
-	if (champion_check(ch) >= 0)
-	{
-		ft_putstr("		-------------\n		BYTE LIST\n");
-		current = (*ch)->first_byte;
-		while (current != NULL)
-		{
-			ft_putstr("		-------------\n		value : ");
-			ft_putnbr(current->value);
-			ft_putchar('\n');
-			current = current->next;
-		}
-		ft_putstr("		-------------\n");
 		return (1);
 	}
 	return (0);

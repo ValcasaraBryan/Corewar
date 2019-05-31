@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/24 17:06:22 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/31 16:05:51 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,29 +103,6 @@ int				free_grid(t_storage **st)
 	if (storage_check(st, 1) == 1)
 	{
 		free_grid_item(&((*st)->grid));
-		return (1);
-	}
-	return (0);
-}
-
-int				print_grid(t_storage **st)
-{
-	int			i;
-	int			j;
-
-	i = -1;
-	if (storage_check(st, 1) == 1)
-	{
-		while (((*st)->grid)[++i] != 0)
-		{
-			j = -1;
-			while (((*st)->grid)[i][++j] != -1)
-			{
-				print_nb_hexa(((*st)->grid)[i][j]);
-				ft_putchar(' ');
-			}
-			ft_putchar('\n');
-		}
 		return (1);
 	}
 	return (0);

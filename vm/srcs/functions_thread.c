@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/30 21:17:50 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/31 15:12:58 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		thread_change_action(t_thread **th, int new_action)
 
 int		thread_change_cycle(t_thread **th, int ***gr, int type)
 {
-	if (thread_check(th) >= 0)
+	if (thread_check(th) >= 0 && grid_check(gr) == 1)
 	{
 		if (type == 0)
 			(*th)->cycle = 0;
@@ -37,7 +37,7 @@ int		thread_change_cycle(t_thread **th, int ***gr, int type)
 			{
 				if (thread_change_cycle(th, gr, 0) == 1)
 				{
-					g_tab_instructions[(*th)->action].fct_ptr(1, 2, 3);
+					g_tab_instructions[(*th)->action].fct_ptr(th, gr);
 					if (thread_change_where(th, gr, (*th)->where + 1) == 1)
 						return (2);
 					return (-3);
@@ -68,7 +68,7 @@ int		thread_change_where(t_thread **th, int ***gr, int new_where)
 {
 	int		new_action;
 
-	if (thread_check(th) >= 0)
+	if (thread_check(th) >= 0 && grid_check(gr) == 1)
 	{
 		(*th)->where = new_where % (GRID_SIZE * GRID_SIZE);
 		if ((*th)->where >= 0 && (*th)->where < GRID_SIZE * GRID_SIZE)

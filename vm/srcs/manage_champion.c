@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/29 14:56:01 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/05/31 16:06:18 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,32 +100,6 @@ int					free_champion_list(t_storage **st)
 		free(current);
 		(*st)->first_champion = NULL;
 		(*st)->last_champion = NULL;
-		return (1);
-	}
-	return (0);
-}
-
-int					print_champion_list(t_storage **st)
-{
-	t_champion	*current;
-
-	if (storage_check(st, 0) >= 0)
-	{
-		ft_putstr("	-------------\n	CHAMPION LIST\n");
-		current = (*st)->first_champion;
-		while (current != NULL)
-		{
-			ft_putstr("	-------------\n	number : ");
-			ft_putnbr(current->number);
-			ft_putstr("\n	-------------\n	name   : ");
-			ft_putstr(current->name != NULL ? current->name : "");
-			ft_putstr("\n	-------------\n	desc   : ");
-			ft_putstr(current->desc != NULL ? current->desc : "");
-			ft_putchar('\n');
-			print_byte_list(&current);
-			current = current->next;
-		}
-		ft_putstr("	-------------\n");
 		return (1);
 	}
 	return (0);
