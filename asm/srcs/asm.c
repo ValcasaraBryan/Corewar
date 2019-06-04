@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/24 19:33:48 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/06/04 19:54:15 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,23 @@
 
 t_op				op_tab[REG_NUMBER] =
 {
-	{"live", LIVE, 4},
-	{"ld", LD, 2},
-	{"st", ST, 2},
-	{"add", ADD, 3},
-	{"sub", SUB, 3},
-	{"and", AND, 3},
-	{"or", OR, 2},
-	{"xor", XOR, 3},
-	{"zjmp", ZJMP, 4},
-	{"ldi", LDI, 3},
-	{"sti", STI, 3},
-	{"fork", FORK, 4},
-	{"lld", LLD, 3},
-	{"lldi", LLDI, 4},
-	{"lfork", LFORK, 5},
-	{"aff", AFF, 3},
+//	name		opcode		len_name	params
+	{"live",	LIVE,		4,			1},
+	{"ld",		LD,			2,			2},
+	{"st",		ST,			2,			2},
+	{"add",		ADD,		3,			3},
+	{"sub",		SUB,		3,			3},
+	{"and",		AND,		3,			3},
+	{"or",		OR,			2,			3},
+	{"xor",		XOR,		3,			3},
+	{"zjmp",	ZJMP,		4,			1},
+	{"ldi",		LDI,		3,			3},
+	{"sti",		STI,		3,			3},
+	{"fork",	FORK,		4,			1},
+	{"lld",		LLD,		3,			2},
+	{"lldi",	LLDI,		4,			3},
+	{"lfork",	LFORK,		5,			1},
+	{"aff",		AFF,		3,			1},
 };
 
 t_token		*new_token(t_token token)
@@ -42,23 +43,7 @@ t_token		*new_token(t_token token)
 	new->cut = token.cut;
 	new->start = token.start;
 	new->end = token.end;
-	new->next = token.next;
 	return (new);
-}
-
-void		add_token(t_token **old, t_token token)
-{
-	t_token	*tmp;
-
-	if (!*old)
-		*old = new_token(token);
-	else
-	{
-		tmp = *old;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_token(token);
-	}
 }
 
 t_ins		*new_instruction(unsigned char token)
@@ -69,10 +54,9 @@ t_ins		*new_instruction(unsigned char token)
 		return (NULL);
 	new->token = token;
 	new->params = 0;
-	new->direct = 0;
-	new->indirect = 0;
-	new->registre = 0;
-	new->len_octet = 0;
+	new->params_one = 0;
+	new->params_two = 0;
+	new->params_three = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -94,10 +78,15 @@ void		add_instruction(t_ins **old, unsigned char token)
 
 void		print_list(t_data *data)
 {
-	while (data->token)
+	if (data->token)
+		ft_printf("[%s][%03d:%03d]%03d|\n", data->token->cut, data->token->n_line,
+				data->token->start, data->token->end);
+	while (data->instruction)
 	{
-		ft_printf("%s[%03d:%03d]%03d|\n", data->token->cut, data->token->n_line, data->token->start, data->token->end);
-		data->token = data->token->next;
+		ft_printf("instruction = [%02x][%02x][%02x][%02x][%02x]\n",
+			data->instruction->token, data->instruction->params, data->instruction->params_one,
+				data->instruction->params_two, data->instruction->params_three);
+		data->instruction = data->instruction->next;
 	}
 }
 
@@ -200,41 +189,190 @@ int			ft_skip_word(char *str)
 	return (i);
 }
 
-t_error		get_error(char *token)
-{
-	t_error	error;
-
-	(void)token;
-	error.type = NULL;
-	error.instruction = NULL;
-	return (error);
-}
-
 t_token		token_val(t_token add, int start, int end, int n_line)
 {
 	add.n_line = n_line;
 	add.start = start;
 	add.end = end;
-	add.next = NULL;
 	return (add);
+}
+
+int		ft_is_instruction(char *str)
+{
+	int		i;
+
+	i = -1;
+	if (!str)
+		return (0);
+	while (++i < REG_NUMBER)
+		if (ft_strncmp(str, op_tab[i].op, op_tab[i].len) == 0)
+			return (1);
+	return (0);
+}
+
+int		label_chars(char c)
+{
+	if (params(c, LABEL_CHARS))
+		return (1);
+	return (0);
+}
+
+int		separator(char c)
+{
+	if (c == SEPARATOR_CHAR)
+		return (1);
+	return (0);
+}
+
+int		direct(char c)
+{
+	if (c == DIRECT_CHAR)
+		return (1);
+	return (0);
+}
+
+int		registre(char c)
+{
+	if (c == 'r')
+		return (1);
+	return (0);
+}
+
+int		label(char c)
+{
+	if (c == LABEL_CHAR)
+		return (1);
+	return (0);
+}
+
+int			ft_is_number(char c)
+{
+	if (ft_isdigit(c) || c == '-' || c == '+')
+		return (1);
+	else
+		return (0);
+}
+
+int		ft_is_label(char *str, bool before)
+{
+	int		i;
+	bool	already;
+	bool	ret;
+
+	i = 0;
+	if (!str)
+		return (0);
+	ret = false;
+	already = false;
+	while (str[i])
+	{
+		if (label_chars(str[i]) && before == false)
+			ret = true;
+		else if (label(str[i]) && already == false)
+		{
+			already = true;
+			before = false;
+		}
+		else
+			return (0);
+		i++;
+	}
+	return (ret == true && already == true && before == false ? 1 : 0);
+}
+
+int		ft_is_params(char *str, int (*fonction)(char))
+{
+	int		i;
+	bool	ret;
+
+	i = 0;
+	if (!str)
+		return (-1);
+	ret = false;
+	while (str[i])
+	{
+		if (fonction(str[i]))
+			ret = true;
+		else if (ft_is_label(str + i, true))
+			break ;
+		else if (!ft_is_number(str[i]) && !separator(str[i])
+			&& !fonction(str[i]) && !ft_is_label(str + i, true))
+			return (-1);
+		i++;
+	}
+	return (ret == true ? 1 : 0);
+}
+
+int		ft_end_word(char c)
+{
+	if (ft_is_whitespace(c) || c == '#')
+		return (1);
+	return (0);
+}
+
+int		get_arg(char *str, int (*fonction)(char))
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (fonction(str[i]))
+			break ;
+	return (i);
 }
 
 void	get_token(t_data *data)
 {
 	t_token	token;
-	int	end_word;
+	int		end_word;
+	bool	params;
 	
+	params = false;
 	while (data->line.line[data->line.current])
 	{
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
-		end_word = skip_whitespace(data->line.line + data->line.current, 1) + data->line.current;
-		if (end_word == data->len)
+		end_word = get_arg(data->line.line + data->line.current, ft_end_word) + data->line.current;
+		if (end_word == data->len || end_word <= data->line.current)
 			break ;
-		token.cut = ft_strcut(data->line.line, data->line.current, end_word);
+		if (!(token.cut = ft_strcut(data->line.line, data->line.current, end_word)))
+			break ;
 		token = token_val(token, data->line.current, end_word, data->line.n_line);
-		add_token(&data->token, token);
+//
+//	a partir de la nous avons recupere chaque "MOT"	dans token.cut
+//
+		if (ft_is_instruction(token.cut) == 1)
+		{
+			ft_printf("is instruc ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
+		}
+		else if (ft_is_params(token.cut, direct) == 0)
+		{
+			ft_printf("is indirect ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
+		}
+		else if (ft_is_params(token.cut, direct) == 1)
+		{
+			ft_printf("is direct ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
+		}
+		else if (ft_is_params(token.cut, registre) == 1)
+		{
+			ft_printf("is registre ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
+		}
+		else if (ft_is_label(token.cut, false))
+		{
+			ft_printf("is label ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
+		}
+		else
+		{
+			ft_printf("Lexical error at [%03d:%03d]\n", token.n_line, token.start + 1);
+		}
+
 		data->line.current = end_word;
 	}
+	// ft_printf("%s\n", data->line.line + data->line.current);
 }
 
 int		into_quote(t_data *data, char *tmp)
@@ -295,12 +433,8 @@ int		check_alpha(char *str)
 	return (i);
 }
 
-int		step(t_data *data, char **tmp)
+void	name_and_comment(t_data *data, char **tmp)
 {
-	if (!data->line.line && data->ret == -1)
-		return (1);
-	if (!data->line.line && !data->ret)
-		return (0);
 	if (data->name_com == false && data->name_and_comment != 2) // name et comment activation
 	{
 		*tmp = NULL;
@@ -320,19 +454,28 @@ int		step(t_data *data, char **tmp)
 		}
 		data->name_com = (*tmp) ? true : false;
 	}
+}
+
+int		step(t_data *data, char **tmp)
+{
+	if (!data->line.line && data->ret == -1)
+		return (1);
+	if (!data->line.line && !data->ret)
+		return (0);
+	name_and_comment(data, tmp);
 	if (data->name_com == true)
 	{
 		if (!(into_quote(data, *tmp))) // name et comment get
 		{
-			// max len depassee name || comment
+			// max len depasee name || comment
 			return (0);
 		}
 	}
 	if (data->name_com == false && data->line.line[data->line.current]) // other
 	{
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
-		get_token(data);
 		// ft_printf("%s\n", data->line.line + data->line.current);
+		get_token(data);
 	}
 	return (1);
 }

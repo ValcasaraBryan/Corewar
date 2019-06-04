@@ -16,6 +16,7 @@ int		asm_main(int argc, char **argv)
 		}
 		else
 		{
+			ft_printf("TEST :\n");
 			ft_printf("name    : |%s|\n", data.name);
 			ft_printf("comment : |%s|\n", data.comment);
 			print_list(&data);

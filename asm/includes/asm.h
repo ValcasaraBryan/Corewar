@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/24 18:47:49 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/06/04 17:20:20 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ typedef struct		s_ins
 {
 	unsigned char	token;
 	unsigned char	params;
-	int				direct;
-	int				indirect;
-	unsigned char	registre;
-	int				len_octet;
+	int				params_one;
+	int				params_two;
+	int				params_three;
 	struct s_ins	*next;
 }					t_ins;
 
@@ -86,16 +85,7 @@ typedef struct		s_token
 	int				start;
 	int				end;
 	int				n_line;
-	struct s_token	*next;
 }					t_token;
-
-typedef struct		s_error
-{
-	t_ins			**instruction;
-	char			*type;
-	int				n_line;
-	int				index;
-}					t_error;
 
 typedef struct		s_line
 {
@@ -120,7 +110,6 @@ typedef struct		s_data
 	t_line			line;
 	t_token			*token;
 	t_ins			*instruction;
-	t_error			error;
 }					t_data;
 
 
@@ -129,6 +118,7 @@ typedef struct		s_op
 	char			*op;
 	int				opcode;
 	int				len;
+	int				params;
 }					t_op;
 
 extern t_op			op_tab[REG_NUMBER];
