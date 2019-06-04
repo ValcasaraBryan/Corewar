@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 16:18:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/29 15:26:02 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/04 20:00:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,5 @@ int		byte_change_value(t_byte **bt, int new_value)
 		}
 		return (0);
 	}
-	return (-1);
-}
-
-int		byte_check(t_byte **bt)
-{
-	if (bt != NULL && *bt != NULL)
-		return (1);
 	return (-1);
 }

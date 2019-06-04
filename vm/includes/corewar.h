@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 16:11:20 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/04 20:03:17 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct			s_byte
 typedef struct			s_champion
 {
 	int					number;
+	int					magic_nb[4];
 	int					reg[16];
 	char				*name;
 	char				*desc;
@@ -102,132 +103,132 @@ typedef struct			s_instruction
 extern t_instruction	g_tab_instructions[18];
 
 /*
-** ------------------------- bin_extractor           -------------------------
+** ------------------------	bin_extractor				------------------------
 */
 int						bin_extractor(t_champion **ch, char *path);
 
 /*
-** ------------------------- functions_byte           -------------------------
+** ------------------------	functions_byte				------------------------
 */
 int						byte_change_value(t_byte **bt, int new_value);
-int						byte_check(t_byte **bt);
 
 /*
-** ------------------------- functions_champion       -------------------------
+** ------------------------	functions_champion			------------------------
 */
 int						champion_change_desc(t_champion **ch, char *new_desc);
+int						champion_change_magic_nb(t_champion **ch, int index,
+	int new_value);
 int						champion_change_name(t_champion **ch, char *new_name);
-int						champion_change_number(t_champion **ch, int new_nb);
-int						champion_check(t_champion **ch);
+int						champion_change_number(t_champion **ch, int new_nb,
+	int default_nb);
+int						champion_change_reg(t_champion **ch, int reg,
+	int new_value);
 
 /*
-** ------------------------- functions_grid           -------------------------
+** ------------------------	functions_grid				------------------------
 */
-int						grid_check(int ***gr);
 int						grid_fill_with_champ(int ***grid, t_champion **ch);
 
 /*
-** ------------------------- functions_storage        -------------------------
+** ------------------------	functions_storage			------------------------
 */
-int						storage_check(t_storage **st, int type);
 
 /*
-** ------------------------- functions_thread         -------------------------
+** ------------------------	functions_thread			------------------------
 */
 int						thread_change_action(t_thread **th, int new_action);
 int						thread_change_cycle(t_thread **th, int ***gr, int type);
 int						thread_change_nb_champion(t_thread **th, int new_nb);
 int						thread_change_where(t_thread **th, int ***gr,
 	int new_where);
-int						thread_check(t_thread **th);
 
 /*
-** ------------------------- instr_add                -------------------------
+** ------------------------	instr_add					------------------------
 */
 int						instr_add(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_aff                -------------------------
+** ------------------------	instr_aff					------------------------
 */
 int						instr_aff(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_and                -------------------------
+** ------------------------	instr_and					------------------------
 */
 int						instr_and(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_fork               -------------------------
+** ------------------------	instr_fork					------------------------
 */
 int						instr_fork(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_ld                 -------------------------
+** ------------------------	instr_ld					------------------------
 */
 int						instr_ld(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_ldi                -------------------------
+** ------------------------	instr_ldi					------------------------
 */
 int						instr_ldi(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_lfork              -------------------------
+** ------------------------	instr_lfork					------------------------
 */
 int						instr_lfork(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_live               -------------------------
+** ------------------------	instr_live					------------------------
 */
 int						instr_live(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_lld                -------------------------
+** ------------------------	instr_lld					------------------------
 */
 int						instr_lld(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_lldi               -------------------------
+** ------------------------	instr_lldi					------------------------
 */
 int						instr_lldi(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_move               -------------------------
+** ------------------------	instr_move					------------------------
 */
 int						instr_move(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_or                 -------------------------
+** ------------------------	instr_or					------------------------
 */
 int						instr_or(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_st                 -------------------------
+** ------------------------	instr_st					------------------------
 */
 int						instr_st(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_sti                -------------------------
+** ------------------------	instr_sti					------------------------
 */
 int						instr_sti(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_sub                -------------------------
+** ------------------------	instr_sub					------------------------
 */
 int						instr_sub(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_xor                -------------------------
+** ------------------------	instr_xor					------------------------
 */
 int						instr_xor(t_thread **th, int ***gr);
 
 /*
-** ------------------------- instr_zjmp               -------------------------
+** ------------------------	instr_zjmp					------------------------
 */
 int						instr_zjmp(t_thread **th, int ***gr);
 
 /*
-** ------------------------- key_functions             -------------------------
+** ------------------------	key_functions				------------------------
 */
 int						cycle_threads(t_storage **st);
 int						decrypt_op_code(int **tab, int nb);
@@ -235,37 +236,46 @@ int						read_in_grid(int ***grid, int where);
 int						write_in_grid(int ***grid, int value, int where);
 
 /*
-** ------------------------- manage_byte               -------------------------
+** ------------------------	manage_byte					------------------------
 */
 int						add_byte(t_champion **ch);
 int						free_byte_list(t_champion **ch);
 
 /*
-** ------------------------- manage_champion          -------------------------
+** ------------------------	manage_champion				------------------------
 */
 int						add_champion(t_storage **st);
 int						free_champion_list(t_storage **st);
 
 /*
-** ------------------------- manage_grid              -------------------------
+** ------------------------	manage_grid					------------------------
 */
 int						add_grid(t_storage **st);
 int						free_grid(t_storage **st);
 
 /*
-** ------------------------- manage_storage           -------------------------
+** ------------------------	manage_storage				------------------------
 */
 int						add_storage(t_storage **st);
 int						free_storage(t_storage **st);
 
 /*
-** ------------------------- manage_thread            -------------------------
+** ------------------------	manage_thread				------------------------
 */
 int						add_thread(t_storage **st);
 int						free_thread_list(t_storage **st);
 
 /*
-** ------------------------- print_structs            -------------------------
+** ------------------------	structs_check				------------------------
+*/
+int						byte_check(t_byte **bt);
+int						champion_check(t_champion **ch);
+int						grid_check(int ***gr);
+int						storage_check(t_storage **st, int type);
+int						thread_check(t_thread **th);
+
+/*
+** ------------------------	structs_print				------------------------
 */
 int						print_byte_list(t_champion **ch);
 int						print_champion_list(t_storage **st);
@@ -275,12 +285,12 @@ int						print_thread_list(t_storage **st);
 int						print_thread_list_compact(t_storage **st);
 
 /*
-** ------------------------- unit_tests               -------------------------
+** ------------------------	unit_tests					------------------------
 */
 int						all_ut(void);
 
 /*
-** ------------------------- utilities                -------------------------
+** ------------------------	utilities					------------------------
 */
 int						convert_to_binary(char **res, int nb);
 void					print_nb_hexa(int nb);

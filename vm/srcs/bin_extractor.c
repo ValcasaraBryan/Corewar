@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 16:02:29 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/04 20:42:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,8 @@ static int		extract_magic_numbers(int fd, t_champion **ch)
 		while (++i < 4)
 		{
 			read(fd, buf, 1);
-			if (add_byte(ch) != 1)
+			if (champion_change_magic_nb(ch, i, buf[0]) != 1)
 				return (-1);
-			if (byte_change_value(&((*ch)->last_byte), buf[0]) != 1)
-				return (-2);
 		}
 		return (1);
 	}

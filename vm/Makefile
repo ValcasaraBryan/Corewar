@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/31 16:10:26 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/06/04 20:07:58 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ FILES_SRCS =	bin_extractor.c			\
 				manage_grid.c			\
 				manage_storage.c		\
 				manage_thread.c			\
-				print_structs.c			\
+				structs_check.c			\
+				structs_print.c			\
 				unit_tests.c			\
 				utilities.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
@@ -88,4 +89,12 @@ fclean :
 
 re : fclean all
 
-.PHONY: clean fclean re all libft
+normec :
+	@$(MAKE) -C $(DIR_LIBFT)/ normec
+	@norminette -R CheckForbiddenSourceHeader $(SRCS)
+
+normeh :
+	@$(MAKE) -C $(DIR_LIBFT)/ normeh
+	@norminette -R CheckForbiddenSourceHeader $(HEADERS)
+
+.PHONY: all clean fclean re libft normec normeh

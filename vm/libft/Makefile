@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 16:18:24 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/30 18:22:10 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/06/04 20:07:48 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,4 +53,10 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: clean fclean re all
+normec :
+	@norminette -R CheckForbiddenSourceHeader $(SRCS)
+
+normeh :
+	@norminette -R CheckForbiddenSourceHeader $(HEADERS)
+
+.PHONY: all clean fclean re normec normeh

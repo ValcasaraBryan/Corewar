@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 15:12:58 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/04 20:01:21 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,5 @@ int		thread_change_where(t_thread **th, int ***gr, int new_where)
 		}
 		return (0);
 	}
-	return (-1);
-}
-
-int		thread_check(t_thread **th)
-{
-	if (th != NULL && *th != NULL)
-		return (1);
 	return (-1);
 }

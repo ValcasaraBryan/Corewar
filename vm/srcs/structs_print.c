@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_structs.c                                    :+:      :+:    :+:   */
+/*   structs_print.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 16:13:04 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/04 20:55:32 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,14 @@ int		print_byte_list(t_champion **ch)
 
 	if (champion_check(ch) >= 0)
 	{
-		ft_putstr("		-------------\n		BYTE LIST\n");
+		printf("		-------------\n		BYTE LIST\n");
 		current = (*ch)->first_byte;
 		while (current != NULL)
 		{
-			ft_putstr("		-------------\n		value : ");
-			ft_putnbr(current->value);
-			ft_putchar('\n');
+			printf("		-------------\n		value : %d\n", current->value);
 			current = current->next;
 		}
-		ft_putstr("		-------------\n");
+		printf("		-------------\n");
 		return (1);
 	}
 	return (0);
@@ -36,24 +34,31 @@ int		print_byte_list(t_champion **ch)
 int		print_champion_list(t_storage **st)
 {
 	t_champion	*current;
+	int			i;
 
 	if (storage_check(st, 0) >= 0)
 	{
-		ft_putstr("	-------------\n	CHAMPION LIST\n");
+		printf("	-------------\n	CHAMPION LIST\n");
 		current = (*st)->first_champion;
 		while (current != NULL)
 		{
-			ft_putstr("	-------------\n	number : ");
-			ft_putnbr(current->number);
-			ft_putstr("\n	-------------\n	name   : ");
-			ft_putstr(current->name != NULL ? current->name : "");
-			ft_putstr("\n	-------------\n	desc   : ");
-			ft_putstr(current->desc != NULL ? current->desc : "");
-			ft_putchar('\n');
+			printf("	-------------\n	number      : %d\n", current->number);
+			printf("	-------------\n	name        : %s\n",
+				current->name != NULL ? current->name : "");
+			printf("	-------------\n	desc        : %s\n",
+				current->desc != NULL ? current->desc : "");
+			i = -1;
+			while(++i < 4)
+				printf("	-------------\n	magic_nb[%d] : %d\n", i,
+					current->magic_nb[i]);
+			i = -1;
+			while(++i < 16)
+				printf("	-------------\n	reg[%d]      : %d\n", i,
+					current->reg[i]);
 			print_byte_list(&current);
 			current = current->next;
 		}
-		ft_putstr("	-------------\n");
+		printf("	-------------\n");
 		return (1);
 	}
 	return (0);
@@ -86,11 +91,11 @@ int		print_storage(t_storage **st)
 {
 	if (storage_check(st, 0) >= 0)
 	{
-		ft_putstr("-------------\nSTORAGE\n");
+		printf("-------------\nSTORAGE\n");
 		print_champion_list(st);
 		print_thread_list(st);
 		print_grid(st);
-		ft_putstr("-------------\n");
+		printf("-------------\n");
 		return (1);
 	}
 	return (0);
@@ -102,20 +107,16 @@ int		print_thread_list(t_storage **st)
 
 	if (storage_check(st, 2) >= 0)
 	{
-		ft_putstr("	-------------\n	THREAD LIST\n");
+		printf("	-------------\n	THREAD LIST\n");
 		current = (*st)->first_thread;
 		while (current != NULL)
 		{
-			ft_putstr("	-------------\n	action : ");
-			ft_putnbr(current->action);
-			ft_putstr("\n	-------------\n	cycle  : ");
-			ft_putnbr(current->cycle);
-			ft_putstr("\n	-------------\n	where  : ");
-			ft_putnbr(current->where);
-			ft_putchar('\n');
+			printf("	-------------\n	action : %d\n", current->action);
+			printf("	-------------\n	cycle  : %d\n", current->cycle);
+			printf("	-------------\n	where  : %d\n", current->where);
 			current = current->next;
 		}
-		ft_putstr("	-------------\n");
+		printf("	-------------\n");
 		return (1);
 	}
 	return (0);
