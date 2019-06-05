@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/04 19:54:15 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/05 16:15:53 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,26 @@ int		skip_whitespace(char *str, int val)
 	return (i);
 }
 
+int		separator(char c)
+{
+	if (c == SEPARATOR_CHAR)
+		return (1);
+	return (0);
+}
+
+int		skip_separator(char *str, int val)
+{
+	int		i;
+
+	i = -1;
+	if (!str)
+		return (0);
+	while (str[++i])
+		if (separator(str[i]) == val)
+			break ;
+	return (i);
+}
+
 int			ft_str_is(char *str, const char *cmp)
 {
 	int		i;
@@ -197,7 +217,7 @@ t_token		token_val(t_token add, int start, int end, int n_line)
 	return (add);
 }
 
-int		ft_is_instruction(char *str)
+int		ft_is_instruction(char *str, t_op *ins)
 {
 	int		i;
 
@@ -206,20 +226,16 @@ int		ft_is_instruction(char *str)
 		return (0);
 	while (++i < REG_NUMBER)
 		if (ft_strncmp(str, op_tab[i].op, op_tab[i].len) == 0)
+		{
+			*ins = op_tab[i];
 			return (1);
+		}
 	return (0);
 }
 
 int		label_chars(char c)
 {
 	if (params(c, LABEL_CHARS))
-		return (1);
-	return (0);
-}
-
-int		separator(char c)
-{
-	if (c == SEPARATOR_CHAR)
 		return (1);
 	return (0);
 }
@@ -245,9 +261,24 @@ int		label(char c)
 	return (0);
 }
 
-int			ft_is_number(char c)
+int			ft_str_is_number(char *str)
 {
-	if (ft_isdigit(c) || c == '-' || c == '+')
+	int		neg;
+
+	if (!str)
+		return (0);
+	neg = 0;
+	if (str[neg] == '-' || str[neg] == '+')
+		neg++;
+	if (ft_str_is_digit(str + neg))
+		return (1);
+	else
+		return (0);
+}
+
+int			ft_number_ok(char *str)
+{
+	if (ft_str_is_number(str) && ft_str_is_int(str))
 		return (1);
 	else
 		return (0);
@@ -293,14 +324,13 @@ int		ft_is_params(char *str, int (*fonction)(char))
 	{
 		if (fonction(str[i]))
 			ret = true;
-		else if (ft_is_label(str + i, true))
+		else if (ft_is_label(str + i, true) || ft_number_ok(str + i))
+			return (ret == true ? 1 : 0);
+		else
 			break ;
-		else if (!ft_is_number(str[i]) && !separator(str[i])
-			&& !fonction(str[i]) && !ft_is_label(str + i, true))
-			return (-1);
 		i++;
 	}
-	return (ret == true ? 1 : 0);
+	return (-1);
 }
 
 int		ft_end_word(char c)
@@ -321,13 +351,33 @@ int		get_arg(char *str, int (*fonction)(char))
 	return (i);
 }
 
+char	*split_word(char *str)
+{
+	int	i;
+	int	j;
+
+	if (!str)
+		return (NULL);
+	i = -1;
+	while (str[++i])
+		if (separator(str[i]) == 0)
+			break ;
+	j = i;
+	while (str[i + ++j])
+		if (separator(str[i + j]) == 1)
+			break ;
+	return (ft_strcut(str, i, i + j));
+}
+
 void	get_token(t_data *data)
 {
+	t_op	val;
 	t_token	token;
 	int		end_word;
-	bool	params;
+	int		params;
+	char	*tmp;
 	
-	params = false;
+	params = 0;
 	while (data->line.line[data->line.current])
 	{
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
@@ -340,38 +390,48 @@ void	get_token(t_data *data)
 //
 //	a partir de la nous avons recupere chaque "MOT"	dans token.cut
 //
-		if (ft_is_instruction(token.cut) == 1)
+		// ft_printf("%s\n", token.cut + skip_separator(token.cut, 0));
+		// ft_printf("%s\n", token.cut + skip_separator(token.cut + skip_separator(token.cut, 0), 1));
+		tmp = split_word(token.cut);
+		if (ft_is_instruction(tmp, &val) == 1)
 		{
+			params = val.params;
+			ft_printf("%s |%d|\n", val.op, val.params);
 			ft_printf("is instruc ->\t|");
 			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
 		}
-		else if (ft_is_params(token.cut, direct) == 0)
+		else if (ft_is_params(tmp, direct) == 0)
 		{
+			params--;
 			ft_printf("is indirect ->\t|");
 			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
 		}
-		else if (ft_is_params(token.cut, direct) == 1)
+		else if (ft_is_params(tmp, direct) == 1)
 		{
+			params--;
 			ft_printf("is direct ->\t|");
 			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
 		}
-		else if (ft_is_params(token.cut, registre) == 1)
+		else if (ft_is_params(tmp, registre) == 1)
 		{
+			params--;
 			ft_printf("is registre ->\t|");
 			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
 		}
-		else if (ft_is_label(token.cut, false))
+		else if (ft_is_label(tmp, false))
 		{
 			ft_printf("is label ->\t|");
 			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
 		}
 		else
 		{
-			ft_printf("Lexical error at [%03d:%03d]\n", token.n_line, token.start + 1);
+			ft_printf("Lexical error at [%03d:%03d] \"%s\"\n", token.n_line, token.start + 1, token.cut);
 		}
 
 		data->line.current = end_word;
 	}
+	if (params > 0)
+		ft_printf("missing arg\n");
 	// ft_printf("%s\n", data->line.line + data->line.current);
 }
 
