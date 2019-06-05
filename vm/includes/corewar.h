@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/04 20:03:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:03:01 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct			s_thread
 {
 	int					action;
 	int					cycle;
-	int					nb_champion;
 	int					where;
+	int					reg[16];
 	struct s_thread		*prec;
 	struct s_thread		*next;
 }						t_thread;
@@ -66,7 +66,6 @@ typedef struct			s_champion
 {
 	int					number;
 	int					magic_nb[4];
-	int					reg[16];
 	char				*name;
 	char				*desc;
 	struct s_byte		*first_byte;
@@ -119,10 +118,7 @@ int						champion_change_desc(t_champion **ch, char *new_desc);
 int						champion_change_magic_nb(t_champion **ch, int index,
 	int new_value);
 int						champion_change_name(t_champion **ch, char *new_name);
-int						champion_change_number(t_champion **ch, int new_nb,
-	int default_nb);
-int						champion_change_reg(t_champion **ch, int reg,
-	int new_value);
+int						champion_change_number(t_champion **ch, int new_nb);
 
 /*
 ** ------------------------	functions_grid				------------------------
@@ -138,9 +134,11 @@ int						grid_fill_with_champ(int ***grid, t_champion **ch);
 */
 int						thread_change_action(t_thread **th, int new_action);
 int						thread_change_cycle(t_thread **th, int ***gr, int type);
-int						thread_change_nb_champion(t_thread **th, int new_nb);
+int						thread_change_reg(t_thread **th, int reg,
+	int new_value);
 int						thread_change_where(t_thread **th, int ***gr,
 	int new_where);
+int						thread_get_value_reg(t_thread **th, int reg);
 
 /*
 ** ------------------------	instr_add					------------------------

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 15:56:14 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/27 18:25:47 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/05 18:50:44 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		convert_to_binary(char **res, int nb)
 {
 	int		i;
 
-	if (res != NULL)
+	if (res != NULL && nb >= 0 && nb <= 255)
 	{
 		*res = NULL;
 		if (!((*res) = malloc(sizeof(**res) * 9)))

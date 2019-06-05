@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/04 20:55:32 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/05 17:24:38 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ int		print_champion_list(t_storage **st)
 			while(++i < 4)
 				printf("	-------------\n	magic_nb[%d] : %d\n", i,
 					current->magic_nb[i]);
-			i = -1;
-			while(++i < 16)
-				printf("	-------------\n	reg[%d]      : %d\n", i,
-					current->reg[i]);
 			print_byte_list(&current);
 			current = current->next;
 		}
@@ -104,6 +100,7 @@ int		print_storage(t_storage **st)
 int		print_thread_list(t_storage **st)
 {
 	t_thread	*current;
+	int			i;
 
 	if (storage_check(st, 2) >= 0)
 	{
@@ -114,6 +111,10 @@ int		print_thread_list(t_storage **st)
 			printf("	-------------\n	action : %d\n", current->action);
 			printf("	-------------\n	cycle  : %d\n", current->cycle);
 			printf("	-------------\n	where  : %d\n", current->where);
+			i = -1;
+			while(++i < 16)
+				printf("	-------------\n	reg[%d]    : %d\n", i,
+					current->reg[i]);
 			current = current->next;
 		}
 		printf("	-------------\n");

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 16:07:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/05 19:35:45 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static t_thread		*create_thread(t_storage **st)
 {
 	t_thread	*thread;
+	int			i;
 
 	if (storage_check(st, 2) >= 0)
 	{
@@ -22,7 +23,9 @@ static t_thread		*create_thread(t_storage **st)
 			return (NULL);
 		thread->action = 0;
 		thread->cycle = 0;
-		thread->nb_champion = 1;
+		i = -1;
+		while (++i < 16)
+			thread->reg[i] = 0;
 		thread->where = 0;
 		thread->prec = (*st)->last_thread;
 		thread->next = NULL;

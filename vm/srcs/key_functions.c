@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 16:03:19 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/05 18:53:21 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		decrypt_op_code(int **tab, int nb)
 	char	*r;
 	int		i;
 
-	if (tab != NULL)
+	if (tab != NULL && nb >= 0 && nb <= 255)
 	{
 		*tab = NULL;
 		if (!((*tab) = malloc(sizeof(**tab) * 4)))
@@ -96,6 +96,27 @@ int		write_in_grid(int ***gr, int value, int where)
 		col = where % GRID_SIZE;
 		line = where / GRID_SIZE;
 		(*gr)[line][col] = value;
+		return (1);
+	}
+	return (0);
+}
+
+int		setup_champions(t_storage **st, char ***t_p, int **t_n)
+{
+	int		i;
+
+	if (storage_check(st, 0) == 1)
+	{
+		i = -1;
+		while (t_p[++i] != NULL)
+		{
+			if (add_champion(st) != 1
+				|| bin_extractor(&(*st)->last_champion, (*t_p)[i]) != 1
+				|| champion_change_number(&(*st)->last_champion, (*t_n)[i]) != 1
+				|| add_thread(st) != 1
+				|| thread_change_reg(&(*st)->last_thread, 0, (*t_n)[i]) != 1)
+			return (-1);
+		}
 		return (1);
 	}
 	return (0);

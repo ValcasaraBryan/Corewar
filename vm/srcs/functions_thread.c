@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/04 20:01:21 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:02:34 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int		thread_change_action(t_thread **th, int new_action)
 {
 	if (thread_check(th) >= 0)
 	{
-		(*th)->action = new_action;
-		if ((*th)->action >= 0 && (*th)->action <= 16)
+		if (new_action >= 0 && new_action <= 16)
+		{
+			(*th)->action = new_action;
 			return (1);
+		}
 		return (0);
 	}
 	return (-1);
@@ -52,13 +54,15 @@ int		thread_change_cycle(t_thread **th, int ***gr, int type)
 	return (-1);
 }
 
-int		thread_change_nb_champion(t_thread **th, int new_nb)
+int		thread_change_reg(t_thread **th, int reg, int new_value)
 {
 	if (thread_check(th) >= 0)
 	{
-		(*th)->nb_champion = new_nb;
-		if ((*th)->nb_champion >= 1 && (*th)->nb_champion <= 4)
+		if (reg >= 0 && reg <= 15)
+		{
+			(*th)->reg[reg] = new_value;
 			return (1);
+		}
 		return (0);
 	}
 	return (-1);
@@ -67,17 +71,30 @@ int		thread_change_nb_champion(t_thread **th, int new_nb)
 int		thread_change_where(t_thread **th, int ***gr, int new_where)
 {
 	int		new_action;
+	int		tempo;
 
 	if (thread_check(th) >= 0 && grid_check(gr) == 1)
 	{
-		(*th)->where = new_where % (GRID_SIZE * GRID_SIZE);
-		if ((*th)->where >= 0 && (*th)->where < GRID_SIZE * GRID_SIZE)
+		tempo = new_where % (GRID_SIZE * GRID_SIZE);
+		if (tempo >= 0 && tempo < GRID_SIZE * GRID_SIZE)
 		{
+			(*th)->where = tempo;
 			new_action = read_in_grid(gr, (*th)->where);
 			if (new_action >= 0 && thread_change_action(th, new_action) == 1)
 				return (1);
 			return (-2);
 		}
+		return (0);
+	}
+	return (-1);
+}
+
+int		thread_get_value_reg(t_thread **th, int reg)
+{
+	if (thread_check(th) >= 0)
+	{
+		if (reg >= 0 && reg <= 15)
+			return ((*th)->reg[reg]);
 		return (0);
 	}
 	return (-1);

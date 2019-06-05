@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/04 20:40:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:03:13 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*path_dev_null = "/dev/null";
 static int		ut_bin_extractor_01(void)
 {
 	/*
-	** appel avec param NULL
+	** bin_extractor avec param null
 	*/
 	int		result;
 
@@ -36,7 +36,7 @@ static int		ut_bin_extractor_01(void)
 static int		ut_bin_extractor_02(void)
 {
 	/*
-	** appel avec champion vide
+	** bin_extractor avec champion vide
 	*/
 	t_champion	*ch;
 	int			result;
@@ -49,7 +49,7 @@ static int		ut_bin_extractor_02(void)
 static int		ut_bin_extractor_03(void)
 {
 	/*
-	** appel avec champion valide
+	** bin_extractor avec champion valide
 	*/
 	t_storage	*st;
 	int			result;
@@ -64,7 +64,7 @@ static int		ut_bin_extractor_03(void)
 static int		ut_bin_extractor_04(void)
 {
 	/*
-	** appel avec chemin invalide
+	** bin_extractor avec chemin invalide
 	*/
 	t_storage	*st;
 	int			result;
@@ -79,7 +79,7 @@ static int		ut_bin_extractor_04(void)
 static int		ut_bin_extractor_05(void)
 {
 	/*
-	** verification name
+	** bin_extractor verification name
 	*/
 	t_storage	*st;
 	int			result;
@@ -96,7 +96,7 @@ static int		ut_bin_extractor_05(void)
 static int		ut_bin_extractor_06(void)
 {
 	/*
-	** verification commentaire
+	** bin_extractor verification commentaire
 	*/
 	t_storage	*st;
 	int			result;
@@ -112,7 +112,7 @@ static int		ut_bin_extractor_06(void)
 static int		ut_bin_extractor_07(void)
 {
 	/*
-	** appel avec chemin dossier
+	** bin_extractor avec chemin dossier
 	*/
 	t_storage	*st;
 	int			result;
@@ -127,7 +127,7 @@ static int		ut_bin_extractor_07(void)
 static int		ut_bin_extractor_08(void)
 {
 	/*
-	** appel fichier sans droits
+	** bin_extractor avec fichier sans droits
 	*/
 	t_storage	*st;
 	int			result;
@@ -142,7 +142,7 @@ static int		ut_bin_extractor_08(void)
 static int		ut_bin_extractor_09(void)
 {
 	/*
-	** appel fichier dev zero
+	** bin_extractor avec fichier dev zero
 	*/
 	t_storage	*st;
 	int			result;
@@ -157,7 +157,7 @@ static int		ut_bin_extractor_09(void)
 static int		ut_bin_extractor_10(void)
 {
 	/*
-	** appel fichier dev random
+	** bin_extractor avec fichier dev random
 	*/
 	t_storage	*st;
 	int			result;
@@ -172,7 +172,7 @@ static int		ut_bin_extractor_10(void)
 static int		ut_bin_extractor_11(void)
 {
 	/*
-	** appel fichier dev null
+	** bin_extractor avec fichier dev null
 	*/
 	t_storage	*st;
 	int			result;
@@ -279,10 +279,12 @@ static int		ut_byte_07(void)
 	add_storage(&st);
 	add_champion(&st);
 	add_byte(&(st->last_champion));
-	result = byte_change_value(&(st->last_champion->last_byte), 0);
-	result += byte_change_value(&(st->last_champion->last_byte), 255);
+	result = byte_change_value(&(st->last_champion->last_byte), 255);
+	result += st->last_champion->last_byte->value == 255 ? 1 : 0;
+	result += byte_change_value(&(st->last_champion->last_byte), 0);
+	result += st->last_champion->last_byte->value == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 4);
 }
 
 static int		ut_byte_08(void)
@@ -298,9 +300,11 @@ static int		ut_byte_08(void)
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 5);
 	result = byte_change_value(&(st->last_champion->last_byte), -1) + 1;
+	result += st->last_champion->last_byte->value == 5 ? 1 : 0;
 	result += byte_change_value(&(st->last_champion->last_byte), 256) + 1;
+	result += st->last_champion->last_byte->value == 5 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 4);
 }
 
 static int		ut_champion_01(void)
@@ -414,15 +418,18 @@ static int		ut_champion_09(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	result = champion_change_desc(&(st->last_champion), NULL);
+	result = champion_change_desc(&(st->last_champion), "test 2");
+	result += ft_strcmp(st->last_champion->desc, "test 2") == 0 ? 1 : 0;
+	result += champion_change_desc(&(st->last_champion), NULL) + 1;
+	result += ft_strcmp(st->last_champion->desc, "test 2") == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 0);
+	return (result == 4);
 }
 
 static int		ut_champion_10(void)
 {
 	/*
-	** champion_change_desc avec params valide
+	** champion_change_desc avec params valides
 	*/
 	t_storage	*st;
 	int			result;
@@ -430,8 +437,9 @@ static int		ut_champion_10(void)
 	add_storage(&st);
 	add_champion(&st);
 	result = champion_change_desc(&(st->last_champion), "test 2");
+	result += ft_strcmp(st->last_champion->desc, "test 2") == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 1);
+	return (result == 2);
 }
 
 static int		ut_champion_11(void)
@@ -468,15 +476,18 @@ static int		ut_champion_13(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	result = champion_change_name(&(st->last_champion), NULL);
+	result = champion_change_name(&(st->last_champion), "test 1");
+	result += ft_strcmp(st->last_champion->name, "test 1") == 0 ? 1 : 0;
+	result += champion_change_name(&(st->last_champion), NULL) + 1;
+	result += ft_strcmp(st->last_champion->name, "test 1") == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 0);
+	return (result == 4);
 }
 
 static int		ut_champion_14(void)
 {
 	/*
-	** champion_change_name avec params valide
+	** champion_change_name avec params valides
 	*/
 	t_storage	*st;
 	int			result;
@@ -484,23 +495,9 @@ static int		ut_champion_14(void)
 	add_storage(&st);
 	add_champion(&st);
 	result = champion_change_name(&(st->last_champion), "test 1");
+	result += ft_strcmp(st->last_champion->name, "test 1") == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 1);
-}
-
-static int		ut_champion_15(void)
-{
-	/*
-	** champion_change_name avec params valide
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_champion(&st);
-	result = champion_change_name(&(st->last_champion), "test 1");
-	free_storage(&st);
-	return (result == 1);
+	return (result == 2);
 }
 
 static int		ut_champion_16(void)
@@ -510,7 +507,7 @@ static int		ut_champion_16(void)
 	*/
 	int			result;
 
-	result = champion_change_number(NULL, 1, 0);
+	result = champion_change_number(NULL, 1);
 	return (result == -1);
 }
 
@@ -523,7 +520,7 @@ static int		ut_champion_17(void)
 	int			result;
 
 	ch = NULL;
-	result = champion_change_number(&ch, 1, 0);
+	result = champion_change_number(&ch, 1);
 	return (result == -1);
 }
 
@@ -537,29 +534,15 @@ static int		ut_champion_18(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	result = champion_change_number(&(st->last_champion), 1, 0);
-	result += champion_change_number(&(st->last_champion), 4, 0);
-	free_storage(&st);
-	return (result == 2);
-}
-
-static int		ut_champion_19(void)
-{
-	/*
-	** champion_change_number avec valeurs charnieres (1 / 4) et default_nb a 1
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_champion(&st);
-	result = champion_change_number(&(st->last_champion), 1, 1);
-	result += champion_change_number(&(st->last_champion), 4, 1);
+	result = champion_change_number(&(st->last_champion), 1);
+	result += st->last_champion->number == 1 ? 1 : 0;
+	result += champion_change_number(&(st->last_champion), 4);
+	result += st->last_champion->number == 4 ? 1 : 0;
 	free_storage(&st);
 	return (result == 4);
 }
 
-static int		ut_champion_20(void)
+static int		ut_champion_19(void)
 {
 	/*
 	** champion_change_number avec valeurs impossibles (0 / 5)
@@ -569,66 +552,14 @@ static int		ut_champion_20(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	result = champion_change_number(&(st->last_champion), 0, 0) + 1;
-	result += champion_change_number(&(st->last_champion), 5, 0) + 1;
+	result = champion_change_number(&(st->last_champion), 1);
+	result += st->last_champion->number == 1 ? 1 : 0;
+	result += champion_change_number(&(st->last_champion), 0) + 1;
+	result += st->last_champion->number == 1 ? 1 : 0;
+	result += champion_change_number(&(st->last_champion), 5) + 1;
+	result += st->last_champion->number == 1 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
-}
-
-static int		ut_champion_21(void)
-{
-	/*
-	** champion_change_reg avec param null
-	*/
-	int			result;
-
-	result = champion_change_reg(NULL, 1, 1);
-	return (result == -1);
-}
-
-static int		ut_champion_22(void)
-{
-	/*
-	** champion_change_reg avec champion vide
-	*/
-	t_champion	*ch;
-	int			result;
-
-	ch = NULL;
-	result = champion_change_reg(&ch, 1, 1);
-	return (result == -1);
-}
-
-static int		ut_champion_23(void)
-{
-	/*
-	** champion_change_reg avec valeurs charnieres (0 / 15)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_champion(&st);
-	result = champion_change_reg(&(st->last_champion), 0, 1);
-	result += champion_change_reg(&(st->last_champion), 15, 1);
-	free_storage(&st);
-	return (result == 2);
-}
-
-static int		ut_champion_24(void)
-{
-	/*
-	** champion_change_reg avec valeurs impossibles (-1 / 16)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_champion(&st);
-	result = champion_change_reg(&(st->last_champion), -1, 1) + 1;
-	result += champion_change_reg(&(st->last_champion), 16, 1) + 1;
-	free_storage(&st);
-	return (result == 2);
+	return (result == 6);
 }
 
 static int		ut_champion_25(void)
@@ -666,9 +597,11 @@ static int		ut_champion_27(void)
 	add_storage(&st);
 	add_champion(&st);
 	result = champion_change_magic_nb(&(st->last_champion), 0, 1);
-	result += champion_change_magic_nb(&(st->last_champion), 3, 1);
+	result += st->last_champion->magic_nb[0] == 1 ? 1 : 0;
+	result += champion_change_magic_nb(&(st->last_champion), 3, 2);
+	result += st->last_champion->magic_nb[3] == 2 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 4);
 }
 
 static int		ut_champion_28(void)
@@ -860,7 +793,7 @@ static int		ut_grid_12(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 4, 0);
+	champion_change_number(&(st->last_champion), 1);
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
 	add_byte(&(st->last_champion));
@@ -870,8 +803,12 @@ static int		ut_grid_12(void)
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 4);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion));
+	result += read_in_grid(&(st->grid), 0) == 1 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 1) == 2 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 2) == 3 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 3) == 4 ? 1 : 0;
 	free_storage(&st);
-	return (result == 1);
+	return (result == 5);
 }
 
 static int		ut_storage_01(void)
@@ -1046,10 +983,12 @@ static int		ut_thread_09(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_change_action(&(st->last_thread), 0);
-	result += thread_change_action(&(st->last_thread), 16);
+	result = thread_change_action(&(st->last_thread), 16);
+	result += st->last_thread->action == 16 ? 1 : 0;
+	result += thread_change_action(&(st->last_thread), 0);
+	result += st->last_thread->action == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 4);
 }
 
 static int		ut_thread_10(void)
@@ -1062,10 +1001,14 @@ static int		ut_thread_10(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_change_action(&(st->last_thread), -1) + 1;
+	result = thread_change_action(&(st->last_thread), 16);
+	result += st->last_thread->action == 16 ? 1 : 0;
+	result += thread_change_action(&(st->last_thread), -1) + 1;
+	result += st->last_thread->action == 16 ? 1 : 0;
 	result += thread_change_action(&(st->last_thread), 17) + 1;
+	result += st->last_thread->action == 16 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 6);
 }
 
 static int		ut_thread_11(void)
@@ -1170,10 +1113,12 @@ static int		ut_thread_17(void)
 	add_thread(&st);
 	add_grid(&st);
 	thread_change_action(&(st->last_thread), 2);
-	result = thread_change_cycle(&(st->last_thread), &(st->grid), 0);
-	result += thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result = thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result += st->last_thread->cycle == 1 ? 1 : 0;
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), 0);
+	result += st->last_thread->cycle == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 4);
 }
 
 static int		ut_thread_18(void)
@@ -1187,10 +1132,15 @@ static int		ut_thread_18(void)
 	add_storage(&st);
 	add_thread(&st);
 	add_grid(&st);
-	result = thread_change_cycle(&(st->last_thread), &(st->grid), -1) + 1;
+	thread_change_action(&(st->last_thread), 2);
+	result = thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result += st->last_thread->cycle == 1 ? 1 : 0;
+	result += thread_change_cycle(&(st->last_thread), &(st->grid), -1) + 1;
+	result += st->last_thread->cycle == 1 ? 1 : 0;
 	result += thread_change_cycle(&(st->last_thread), &(st->grid), 2) + 1;
+	result += st->last_thread->cycle == 1 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 6);
 }
 
 static int		ut_thread_19(void)
@@ -1211,64 +1161,9 @@ static int		ut_thread_19(void)
 	thread_change_cycle(&(st->last_thread), &(st->grid), 1);
 	thread_change_cycle(&(st->last_thread), &(st->grid), 1);
 	result = thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result += st->last_thread->cycle == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
-}
-
-static int		ut_thread_20(void)
-{
-	/*
-	** thread_change_nb_champion avec param null
-	*/
-	int			result;
-
-	result = thread_change_nb_champion(NULL, 0);
-	return (result == -1);
-}
-
-static int		ut_thread_21(void)
-{
-	/*
-	** thread_change_nb_champion avec thread vide
-	*/
-	t_thread	*th;
-	int			result;
-
-	th = NULL;
-	result = thread_change_nb_champion(&th, 0);
-	return (result == -1);
-}
-
-static int		ut_thread_22(void)
-{
-	/*
-	** thread_change_nb_champion avec valeurs charnieres (1 / 4)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_thread(&st);
-	result = thread_change_nb_champion(&(st->last_thread), 1);
-	result += thread_change_nb_champion(&(st->last_thread), 4);
-	free_storage(&st);
-	return (result == 2);
-}
-
-static int		ut_thread_23(void)
-{
-	/*
-	** thread_change_nb_champion avec valeurs impossibles (0 / 5)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_thread(&st);
-	result = thread_change_nb_champion(&(st->last_thread), 0) + 1;
-	result += thread_change_nb_champion(&(st->last_thread), 5) + 1;
-	free_storage(&st);
-	return (result == 2);
+	return (result == 3);
 }
 
 static int		ut_thread_24(void)
@@ -1372,10 +1267,12 @@ static int		ut_thread_30(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
-	result = thread_change_where(&(st->last_thread), &(st->grid), 0);
-	result += thread_change_where(&(st->last_thread), &(st->grid), GRID_SIZE * GRID_SIZE - 1);
+	result = thread_change_where(&(st->last_thread), &(st->grid), GRID_SIZE * GRID_SIZE - 1);
+	result += st->last_thread->where == GRID_SIZE * GRID_SIZE - 1 ? 1 : 0;
+	result += thread_change_where(&(st->last_thread), &(st->grid), 0);
+	result += st->last_thread->where == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 4);
 }
 
 static int		ut_thread_31(void)
@@ -1389,10 +1286,73 @@ static int		ut_thread_31(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
-	result = thread_change_where(&(st->last_thread), &(st->grid), -1);
+	result = thread_change_where(&(st->last_thread), &(st->grid), GRID_SIZE * GRID_SIZE - 1);
+	result += st->last_thread->where == GRID_SIZE * GRID_SIZE - 1 ? 1 : 0;
+	result += thread_change_where(&(st->last_thread), &(st->grid), -1) + 1;
+	result += st->last_thread->where == GRID_SIZE * GRID_SIZE - 1 ? 1 : 0;
 	free_storage(&st);
-	return (result == 0);
+	return (result == 4);
 }
+
+static int		ut_thread_32(void)
+{
+	/*
+	** thread_change_reg avec param null
+	*/
+	int			result;
+
+	result = thread_change_reg(NULL, 1, 1);
+	return (result == -1);
+}
+
+static int		ut_thread_33(void)
+{
+	/*
+	** thread_change_reg avec thread vide
+	*/
+	t_thread	*th;
+	int			result;
+
+	th = NULL;
+	result = thread_change_reg(&th, 1, 1);
+	return (result == -1);
+}
+
+static int		ut_thread_34(void)
+{
+	/*
+	** thread_change_reg avec valeurs charnieres (0 / 15)
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = thread_change_reg(&(st->last_thread), 0, 1);
+	result += st->last_thread->reg[0] == 1 ? 1 : 0;
+	result += thread_change_reg(&(st->last_thread), 15, 1);
+	result += st->last_thread->reg[15] == 1 ? 1 : 0;
+	free_storage(&st);
+	return (result == 4);
+}
+
+static int		ut_thread_35(void)
+{
+	/*
+	** thread_change_reg avec valeurs impossibles (-1 / 16)
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = thread_change_reg(&(st->last_thread), -1, 1) + 1;
+	result += thread_change_reg(&(st->last_thread), 16, 1) + 1;
+	free_storage(&st);
+	return (result == 2);
+}
+
+//thread_get_value_reg f et no f
 
 static int		ut_key_functions_01(void)
 {
@@ -1501,10 +1461,14 @@ static int		ut_key_functions_08(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = write_in_grid(&(st->grid), -1, 0);
-	result += write_in_grid(&(st->grid), 256, 0);
+	result = write_in_grid(&(st->grid), 6, 0);
+	result += read_in_grid(&(st->grid), 0) == 6 ? 1 : 0;
+	result += write_in_grid(&(st->grid), -1, 0) + 3;
+	result += read_in_grid(&(st->grid), 0) == 6 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 256, 0) + 3;
+	result += read_in_grid(&(st->grid), 0) == 6 ? 1 : 0;
 	free_storage(&st);
-	return (result == -4);
+	return (result == 6);
 }
 
 static int		ut_key_functions_09(void)
@@ -1517,10 +1481,16 @@ static int		ut_key_functions_09(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = write_in_grid(&(st->grid), 0, 0);
+	result = write_in_grid(&(st->grid), 5, GRID_SIZE * GRID_SIZE - 1);
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1) == 5 ? 1 : 0;
 	result += write_in_grid(&(st->grid), 0, GRID_SIZE * GRID_SIZE - 1);
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1) == 0 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 5, 0);
+	result += read_in_grid(&(st->grid), 0) == 5 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 0, 0);
+	result += read_in_grid(&(st->grid), 0) == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 8);
 }
 
 static int		ut_key_functions_10(void)
@@ -1533,10 +1503,12 @@ static int		ut_key_functions_10(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = write_in_grid(&(st->grid), 0, 0);
-	result += write_in_grid(&(st->grid), 255, 0);
+	result = write_in_grid(&(st->grid), 255, 0);
+	result += read_in_grid(&(st->grid), 0) == 255 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 0, 0);
+	result += read_in_grid(&(st->grid), 0) == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == 2);
+	return (result == 4);
 }
 
 static int		ut_key_functions_11(void)
@@ -1588,7 +1560,6 @@ static int		ut_key_functions_14(void)
 	add_storage(&st);
 	add_thread(&st);
 	add_grid(&st);
-	thread_change_nb_champion(&(st->last_thread), 1);
 	thread_change_action(&(st->last_thread), 2);
 	write_in_grid(&(st->grid), 5, 10);
 	result = cycle_threads(&st);
@@ -1598,22 +1569,106 @@ static int		ut_key_functions_14(void)
 
 static int		ut_key_functions_15(void)
 {
+	/*
+	** decrypt_op_code avec param null
+	*/
+	int		result;
+
+	result = decrypt_op_code(NULL, 0);
+	return (result == 0);
+}
+
+static int		ut_key_functions_16(void)
+{
+	/*
+	** decrypt_op_code avec valeurs cle
+	*/
 	int		*tab;
-	decrypt_op_code(&tab, 144);
+	int		result;
+
+	result = decrypt_op_code(&tab, 0);
+	result += tab[0] == 0 && tab[1] == 0 && tab[2] == 0 ? 1 : 0;
 	free(tab);
-	return (1);
+	result += decrypt_op_code(&tab, 255);
+	result += tab[0] == 3 && tab[1] == 3 && tab[2] == 3 ? 1 : 0;
+	free(tab);
+	result += decrypt_op_code(&tab, 192);
+	result += tab[0] == 3 && tab[1] == 0 && tab[2] == 0 ? 1 : 0;
+	free(tab);
+	result += decrypt_op_code(&tab, 240);
+	result += tab[0] == 3 && tab[1] == 3 && tab[2] == 0 ? 1 : 0;
+	free(tab);
+	result += decrypt_op_code(&tab, 156);
+	result += tab[0] == 2 && tab[1] == 1 && tab[2] == 3 ? 1 : 0;
+	free(tab);
+	return (result == 10);
+}
+
+static int		ut_key_functions_17(void)
+{
+	/*
+	** decrypt_op_code avec valeurs impossibles (-1 / 256)
+	*/
+	int		*tab;
+	int		result;
+
+	result = decrypt_op_code(&tab, -1) + 1;
+	result += decrypt_op_code(&tab, 256) + 1;
+	return (result == 2);
 }
 
 //cycle_threads fonctionnel et non fonctionnel a faire
-//decrypt_op_code fonctionnel et non fonctionnel a faire
+//setup_champions fonctionnel et non fonctionnel a faire
 
 static int		ut_utilities_01(void)
 {
-	return (1);
+	/*
+	** convert_to_binary avec param null
+	*/
+	int		result;
+
+	result = convert_to_binary(NULL, 0);
+	return (result == 0);
 }
 
-//convert_to_binary fonctionnel et non fonctionnel a faire
+static int		ut_utilities_02(void)
+{
+	/*
+	** convert_to_binary avec valeurs charnieres (0 / 255)
+	*/
+	char	*res;
+	int		result;
 
+	result = convert_to_binary(&res, 0);
+	result += ft_strcmp(res, "00000000") == 0 ? 1 : 0;
+	free(res);
+	result += convert_to_binary(&res, 255);
+	result += ft_strcmp(res, "11111111") == 0 ? 1 : 0;
+	free(res);
+	result += convert_to_binary(&res, 192);
+	result += ft_strcmp(res, "11000000") == 0 ? 1 : 0;
+	free(res);
+	result += convert_to_binary(&res, 240);
+	result += ft_strcmp(res, "11110000") == 0 ? 1 : 0;
+	free(res);
+	result += convert_to_binary(&res, 156);
+	result += ft_strcmp(res, "10011100") == 0 ? 1 : 0;
+	free(res);
+	return (result == 10);
+}
+
+static int		ut_utilities_03(void)
+{
+	/*
+	** convert_to_binary avec valeurs impossibles (-1 / 256)
+	*/
+	char	*res;
+	int		result;
+
+	result = convert_to_binary(&res, -1) + 1;
+	result += convert_to_binary(&res, 256) + 1;
+	return (result == 2);
+}
 
 static int		ut_struct_print_01(void)
 {
@@ -2197,16 +2252,11 @@ int				ut_champion(void)
 	ft_putstr(ut_champion_12() ? "ut_champion_12		OK\n" : "ut_champion_12		ERROR\n");
 	ft_putstr(ut_champion_13() ? "ut_champion_13		OK\n" : "ut_champion_13		ERROR\n");
 	ft_putstr(ut_champion_14() ? "ut_champion_14		OK\n" : "ut_champion_14		ERROR\n");
-	ft_putstr(ut_champion_15() ? "ut_champion_15		OK\n" : "ut_champion_15		ERROR\n");
+	//ft_putstr(ut_champion_15() ? "ut_champion_15		OK\n" : "ut_champion_15		ERROR\n");
 	ft_putstr(ut_champion_16() ? "ut_champion_16		OK\n" : "ut_champion_16		ERROR\n");
 	ft_putstr(ut_champion_17() ? "ut_champion_17		OK\n" : "ut_champion_17		ERROR\n");
 	ft_putstr(ut_champion_18() ? "ut_champion_18		OK\n" : "ut_champion_18		ERROR\n");
 	ft_putstr(ut_champion_19() ? "ut_champion_19		OK\n" : "ut_champion_19		ERROR\n");
-	ft_putstr(ut_champion_20() ? "ut_champion_20		OK\n" : "ut_champion_20		ERROR\n");
-	ft_putstr(ut_champion_21() ? "ut_champion_21		OK\n" : "ut_champion_21		ERROR\n");
-	ft_putstr(ut_champion_22() ? "ut_champion_22		OK\n" : "ut_champion_22		ERROR\n");
-	ft_putstr(ut_champion_23() ? "ut_champion_23		OK\n" : "ut_champion_23		ERROR\n");
-	ft_putstr(ut_champion_24() ? "ut_champion_24		OK\n" : "ut_champion_24		ERROR\n");
 	ft_putstr(ut_champion_25() ? "ut_champion_25		OK\n" : "ut_champion_25		ERROR\n");
 	ft_putstr(ut_champion_26() ? "ut_champion_26		OK\n" : "ut_champion_26		ERROR\n");
 	ft_putstr(ut_champion_27() ? "ut_champion_27		OK\n" : "ut_champion_27		ERROR\n");
@@ -2262,10 +2312,6 @@ int				ut_thread(void)
 	ft_putstr(ut_thread_17() ? "ut_thread_17		OK\n" : "ut_thread_17		ERROR\n");
 	ft_putstr(ut_thread_18() ? "ut_thread_18		OK\n" : "ut_thread_18		ERROR\n");
 	ft_putstr(ut_thread_19() ? "ut_thread_19		OK\n" : "ut_thread_19		ERROR\n");
-	ft_putstr(ut_thread_20() ? "ut_thread_20		OK\n" : "ut_thread_20		ERROR\n");
-	ft_putstr(ut_thread_21() ? "ut_thread_21		OK\n" : "ut_thread_21		ERROR\n");
-	ft_putstr(ut_thread_22() ? "ut_thread_22		OK\n" : "ut_thread_22		ERROR\n");
-	ft_putstr(ut_thread_23() ? "ut_thread_23		OK\n" : "ut_thread_23		ERROR\n");
 	ft_putstr(ut_thread_24() ? "ut_thread_24		OK\n" : "ut_thread_24		ERROR\n");
 	ft_putstr(ut_thread_25() ? "ut_thread_25		OK\n" : "ut_thread_25		ERROR\n");
 	ft_putstr(ut_thread_26() ? "ut_thread_26		OK\n" : "ut_thread_26		ERROR\n");
@@ -2274,6 +2320,10 @@ int				ut_thread(void)
 	ft_putstr(ut_thread_29() ? "ut_thread_29		OK\n" : "ut_thread_29		ERROR\n");
 	ft_putstr(ut_thread_30() ? "ut_thread_30		OK\n" : "ut_thread_30		ERROR\n");
 	ft_putstr(ut_thread_31() ? "ut_thread_31		OK\n" : "ut_thread_31		ERROR\n");
+	ft_putstr(ut_thread_32() ? "ut_thread_32		OK\n" : "ut_thread_32		ERROR\n");
+	ft_putstr(ut_thread_33() ? "ut_thread_33		OK\n" : "ut_thread_33		ERROR\n");
+	ft_putstr(ut_thread_34() ? "ut_thread_34		OK\n" : "ut_thread_34		ERROR\n");
+	ft_putstr(ut_thread_35() ? "ut_thread_35		OK\n" : "ut_thread_35		ERROR\n");
 	return (1);
 }
 
@@ -2294,12 +2344,16 @@ int				ut_key_functions(void)
 	ft_putstr(ut_key_functions_13() ? "ut_key_functions_13	OK\n" : "ut_key_functions_13	ERROR\n");
 	ft_putstr(ut_key_functions_14() ? "ut_key_functions_14	OK\n" : "ut_key_functions_14	ERROR\n");
 	ft_putstr(ut_key_functions_15() ? "ut_key_functions_15	OK\n" : "ut_key_functions_15	ERROR\n");
+	ft_putstr(ut_key_functions_16() ? "ut_key_functions_16	OK\n" : "ut_key_functions_16	ERROR\n");
+	ft_putstr(ut_key_functions_17() ? "ut_key_functions_17	OK\n" : "ut_key_functions_17	ERROR\n");
 	return (1);
 }
 
 int				ut_utilities(void)
 {
 	ft_putstr(ut_utilities_01() ? "ut_utilities_01		OK\n" : "ut_utilities_01		ERROR\n");
+	ft_putstr(ut_utilities_02() ? "ut_utilities_02		OK\n" : "ut_utilities_02		ERROR\n");
+	ft_putstr(ut_utilities_03() ? "ut_utilities_03		OK\n" : "ut_utilities_03		ERROR\n");
 	return (1);
 }
 
