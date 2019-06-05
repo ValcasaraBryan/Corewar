@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/05 17:37:11 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/05 17:47:53 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,24 +370,6 @@ int		get_arg(char *str, int (*fonction)(char))
 	return (i);
 }
 
-char	*split_word(char *str)
-{
-	int	i;
-	int	j;
-
-	if (!str)
-		return (NULL);
-	i = -1;
-	while (str[++i])
-		if (separator(str[i]) == 0)
-			break ;
-	j = i;
-	while (str[i + ++j])
-		if (separator(str[i + j]) == 1)
-			break ;
-	return (ft_strcut(str, i, i + j));
-}
-
 t_token	*add_word(t_token word)
 {
 	int		i;
@@ -447,31 +429,31 @@ int		check_token(t_data *data)
 		{
 			// ft_printf("%s |%d|\n", val.op, val.params);
 			ft_printf("is instruc ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start, tmp->end);
+			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start, tmp->end);
 		}
 		else if (ft_is_params(tmp->cut, direct) == 0)
 		{
 			ft_printf("is indirect ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
 		}
 		else if (ft_is_params(tmp->cut, direct) == 1)
 		{
 			ft_printf("is direct ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
 		}
 		else if (ft_is_params(tmp->cut, registre) == 1)
 		{
 			ft_printf("is registre ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
 		}
 		else if (ft_is_label(tmp->cut, false))
 		{
 			ft_printf("is label ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
 		}
 		else
 		{
-			ft_printf("Lexical error at [%03d:%03d] \"%s\"\n", tmp->n_line, tmp->start + 1, tmp->cut);
+			ft_printf("Lexical error at\t\t\t[%03d:%03d] \"%s\"\n", tmp->n_line, tmp->start + 1, tmp->cut);
 		}
 		tmp = tmp->next;
 	}
