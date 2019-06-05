@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/04 17:20:20 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/05 16:39:58 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct		s_token
 	int				start;
 	int				end;
 	int				n_line;
+	struct s_token	*next;
 }					t_token;
 
 typedef struct		s_line

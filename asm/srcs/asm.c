@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/05 16:15:53 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/05 17:37:11 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_token		*new_token(t_token token)
 	new->cut = token.cut;
 	new->start = token.start;
 	new->end = token.end;
+	new->next = NULL;
 	return (new);
 }
 
@@ -59,6 +60,21 @@ t_ins		*new_instruction(unsigned char token)
 	new->params_three = 0;
 	new->next = NULL;
 	return (new);
+}
+
+void		add_token(t_token **old, t_token *new)
+{
+	t_token	*tmp;
+
+	if (!*old)
+		*old = new;
+	else
+	{
+		tmp = *old;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
 
 void		add_instruction(t_ins **old, unsigned char token)
@@ -78,16 +94,19 @@ void		add_instruction(t_ins **old, unsigned char token)
 
 void		print_list(t_data *data)
 {
-	if (data->token)
+	while (data->token)
+	{
 		ft_printf("[%s][%03d:%03d]%03d|\n", data->token->cut, data->token->n_line,
 				data->token->start, data->token->end);
-	while (data->instruction)
-	{
-		ft_printf("instruction = [%02x][%02x][%02x][%02x][%02x]\n",
-			data->instruction->token, data->instruction->params, data->instruction->params_one,
-				data->instruction->params_two, data->instruction->params_three);
-		data->instruction = data->instruction->next;
+		data->token = data->token->next;
 	}
+	// while (data->instruction)
+	// {
+		// ft_printf("instruction = [%02x][%02x][%02x][%02x][%02x]\n",
+			// data->instruction->token, data->instruction->params, data->instruction->params_one,
+				// data->instruction->params_two, data->instruction->params_three);
+		// data->instruction = data->instruction->next;
+	// }
 }
 
 void	init_data(t_data *data, char *av)
@@ -369,15 +388,102 @@ char	*split_word(char *str)
 	return (ft_strcut(str, i, i + j));
 }
 
-void	get_token(t_data *data)
+t_token	*add_word(t_token word)
+{
+	int		i;
+	int		j;
+	t_token	new;
+	t_token	*tmp;
+
+	tmp = NULL;
+	i = -1;
+	new = word;
+	while (word.cut[++i])
+	{
+		j = i;
+		if (separator(word.cut[i]) == 1)
+		{
+			while (word.cut[j])
+				if (separator(word.cut[++j]) == 0)
+					break ;
+		}
+		else if (separator(word.cut[i]) == 0)
+		{
+			while (word.cut[j])
+				if (separator(word.cut[++j]) == 1)
+					break ;
+		}
+		new.cut = ft_strcut(word.cut, i, j);
+		add_token(&tmp, new_token(new));
+		i = (j - 1 >= 0) ? j - 1 : j;
+	}
+	return (tmp);
+}
+
+void	erase_token(t_token **token)
+{
+	t_token *tmp;
+
+	while (*token)
+	{
+		tmp = (*token)->next;
+		free((*token)->cut);
+		(*token)->cut = NULL;
+		free(*token);
+		*token = NULL;
+		*token = tmp;
+	}
+}
+
+int		check_token(t_data *data)
 {
 	t_op	val;
+	t_token	*tmp;
+
+	tmp = data->token;
+	while (tmp)
+	{
+		if (ft_is_instruction(tmp->cut, &val) == 1)
+		{
+			// ft_printf("%s |%d|\n", val.op, val.params);
+			ft_printf("is instruc ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start, tmp->end);
+		}
+		else if (ft_is_params(tmp->cut, direct) == 0)
+		{
+			ft_printf("is indirect ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+		}
+		else if (ft_is_params(tmp->cut, direct) == 1)
+		{
+			ft_printf("is direct ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+		}
+		else if (ft_is_params(tmp->cut, registre) == 1)
+		{
+			ft_printf("is registre ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+		}
+		else if (ft_is_label(tmp->cut, false))
+		{
+			ft_printf("is label ->\t|");
+			ft_printf("%s [%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+		}
+		else
+		{
+			ft_printf("Lexical error at [%03d:%03d] \"%s\"\n", tmp->n_line, tmp->start + 1, tmp->cut);
+		}
+		tmp = tmp->next;
+	}
+	// ft_printf("%s\n", ft_strcut(data->line.line, tmp->start, tmp->end)); pour decouper le mot en erreur
+	return (0);
+}
+
+void	get_token(t_data *data)
+{
 	t_token	token;
 	int		end_word;
-	int		params;
-	char	*tmp;
 	
-	params = 0;
 	while (data->line.line[data->line.current])
 	{
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
@@ -387,52 +493,11 @@ void	get_token(t_data *data)
 		if (!(token.cut = ft_strcut(data->line.line, data->line.current, end_word)))
 			break ;
 		token = token_val(token, data->line.current, end_word, data->line.n_line);
-//
-//	a partir de la nous avons recupere chaque "MOT"	dans token.cut
-//
-		// ft_printf("%s\n", token.cut + skip_separator(token.cut, 0));
-		// ft_printf("%s\n", token.cut + skip_separator(token.cut + skip_separator(token.cut, 0), 1));
-		tmp = split_word(token.cut);
-		if (ft_is_instruction(tmp, &val) == 1)
-		{
-			params = val.params;
-			ft_printf("%s |%d|\n", val.op, val.params);
-			ft_printf("is instruc ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
-		}
-		else if (ft_is_params(tmp, direct) == 0)
-		{
-			params--;
-			ft_printf("is indirect ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
-		}
-		else if (ft_is_params(tmp, direct) == 1)
-		{
-			params--;
-			ft_printf("is direct ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
-		}
-		else if (ft_is_params(tmp, registre) == 1)
-		{
-			params--;
-			ft_printf("is registre ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
-		}
-		else if (ft_is_label(tmp, false))
-		{
-			ft_printf("is label ->\t|");
-			ft_printf("%s [%03d:%03d:%03d]\n", token.cut, token.n_line, token.start, token.end);
-		}
-		else
-		{
-			ft_printf("Lexical error at [%03d:%03d] \"%s\"\n", token.n_line, token.start + 1, token.cut);
-		}
-
+		add_token(&data->token, add_word(token));
 		data->line.current = end_word;
 	}
-	if (params > 0)
-		ft_printf("missing arg\n");
-	// ft_printf("%s\n", data->line.line + data->line.current);
+	check_token(data);
+	erase_token(&data->token);
 }
 
 int		into_quote(t_data *data, char *tmp)
