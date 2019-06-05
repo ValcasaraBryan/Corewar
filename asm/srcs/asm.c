@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/05 17:47:53 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/05 18:56:48 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,17 +384,11 @@ t_token	*add_word(t_token word)
 	{
 		j = i;
 		if (separator(word.cut[i]) == 1)
-		{
-			while (word.cut[j])
-				if (separator(word.cut[++j]) == 0)
-					break ;
-		}
-		else if (separator(word.cut[i]) == 0)
-		{
+			j++;
+		else
 			while (word.cut[j])
 				if (separator(word.cut[++j]) == 1)
 					break ;
-		}
 		new.cut = ft_strcut(word.cut, i, j);
 		add_token(&tmp, new_token(new));
 		i = (j - 1 >= 0) ? j - 1 : j;
@@ -425,35 +419,40 @@ int		check_token(t_data *data)
 	tmp = data->token;
 	while (tmp)
 	{
-		if (ft_is_instruction(tmp->cut, &val) == 1)
+		if (ft_is_label(tmp->cut, false) && ft_is_params(tmp->cut, direct) == -1)
+		{
+			ft_printf("is label ->\t|");
+			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+		}
+		else if (ft_is_instruction(tmp->cut, &val) == 1)
 		{
 			// ft_printf("%s |%d|\n", val.op, val.params);
 			ft_printf("is instruc ->\t|");
-			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start, tmp->end);
-		}
-		else if (ft_is_params(tmp->cut, direct) == 0)
-		{
-			ft_printf("is indirect ->\t|");
-			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start, tmp->end);
 		}
 		else if (ft_is_params(tmp->cut, direct) == 1)
 		{
 			ft_printf("is direct ->\t|");
-			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+		}
+		else if (ft_is_params(tmp->cut, direct) == 0)
+		{
+			ft_printf("is indirect ->\t|");
+			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
 		}
 		else if (ft_is_params(tmp->cut, registre) == 1)
 		{
 			ft_printf("is registre ->\t|");
-			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
 		}
-		else if (ft_is_label(tmp->cut, false))
+		else if (tmp->cut && separator(*tmp->cut))
 		{
-			ft_printf("is label ->\t|");
-			ft_printf("%-15s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
+			ft_printf("is separator ->\t|");
+			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
 		}
 		else
 		{
-			ft_printf("Lexical error at\t\t\t[%03d:%03d] \"%s\"\n", tmp->n_line, tmp->start + 1, tmp->cut);
+			ft_printf("Lexical error at\t\t\t\t[%03d:%03d] \"%s\"\n", tmp->n_line, tmp->start + 1, tmp->cut);
 		}
 		tmp = tmp->next;
 	}
@@ -470,8 +469,6 @@ void	get_token(t_data *data)
 	{
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
 		end_word = get_arg(data->line.line + data->line.current, ft_end_word) + data->line.current;
-		if (end_word == data->len || end_word <= data->line.current)
-			break ;
 		if (!(token.cut = ft_strcut(data->line.line, data->line.current, end_word)))
 			break ;
 		token = token_val(token, data->line.current, end_word, data->line.n_line);
