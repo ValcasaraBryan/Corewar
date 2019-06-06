@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/05 18:56:48 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/06 19:39:29 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ t_token		*new_token(t_token token)
 
 	if (!(new = malloc(sizeof(t_token))))
 		return (NULL);
-	new->n_line = token.n_line;
 	new->cut = token.cut;
+	new->type = token.type;
 	new->start = token.start;
 	new->end = token.end;
+	new->n_line = token.n_line;
 	new->next = NULL;
 	return (new);
 }
@@ -62,18 +63,18 @@ t_ins		*new_instruction(unsigned char token)
 	return (new);
 }
 
-void		add_token(t_token **old, t_token *new)
+void		add_token(t_token **old, t_token new)
 {
 	t_token	*tmp;
 
 	if (!*old)
-		*old = new;
+		*old = new_token(new);
 	else
 	{
 		tmp = *old;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new;
+		tmp->next = new_token(new);
 	}
 }
 
@@ -230,9 +231,10 @@ int			ft_skip_word(char *str)
 
 t_token		token_val(t_token add, int start, int end, int n_line)
 {
-	add.n_line = n_line;
+	add.type = -1;
 	add.start = start;
 	add.end = end;
+	add.n_line = n_line;
 	return (add);
 }
 
@@ -311,7 +313,7 @@ int		ft_is_label(char *str, bool before)
 
 	i = 0;
 	if (!str)
-		return (0);
+		return (-1);
 	ret = false;
 	already = false;
 	while (str[i])
@@ -324,7 +326,7 @@ int		ft_is_label(char *str, bool before)
 			before = false;
 		}
 		else
-			return (0);
+			return (-1);
 		i++;
 	}
 	return (ret == true && already == true && before == false ? 1 : 0);
@@ -343,7 +345,7 @@ int		ft_is_params(char *str, int (*fonction)(char))
 	{
 		if (fonction(str[i]))
 			ret = true;
-		else if (ft_is_label(str + i, true) || ft_number_ok(str + i))
+		else if (ft_is_label(str + i, true) == 1 || ft_number_ok(str + i))
 			return (ret == true ? 1 : 0);
 		else
 			break ;
@@ -370,14 +372,12 @@ int		get_arg(char *str, int (*fonction)(char))
 	return (i);
 }
 
-t_token	*add_word(t_token word)
+void		add_word(t_data *data, t_token word)
 {
 	int		i;
 	int		j;
 	t_token	new;
-	t_token	*tmp;
 
-	tmp = NULL;
 	i = -1;
 	new = word;
 	while (word.cut[++i])
@@ -390,10 +390,9 @@ t_token	*add_word(t_token word)
 				if (separator(word.cut[++j]) == 1)
 					break ;
 		new.cut = ft_strcut(word.cut, i, j);
-		add_token(&tmp, new_token(new));
+		add_token(&data->token, new);
 		i = (j - 1 >= 0) ? j - 1 : j;
 	}
-	return (tmp);
 }
 
 void	erase_token(t_token **token)
@@ -411,6 +410,30 @@ void	erase_token(t_token **token)
 	}
 }
 
+int		add_type(char *str, t_op *val)
+{
+	if (ft_is_label(str, false) == 1 && ft_is_params(str, direct) == -1)
+		return (LABEL);
+	else if (ft_is_label(str, true) == 1 && ft_is_params(str, direct) == 0)
+		return (INDIRECT_LABEL);
+	else if (ft_is_label(str + 1, true) == 1 && ft_is_params(str, direct) == 1)
+		return (DIRECT_LABEL);
+	else if (ft_is_params(str, registre) == 1)
+		return (REGISTER);
+	else if (ft_is_params(str, direct) == 0)
+		return (INDIRECT);
+	else if (ft_is_params(str, direct) == 1)
+		return (DIRECT);
+	else if (str && separator(*str) == 1)
+		return (SEPARATOR);
+	else if (ft_is_instruction(str, val) == 1)
+		return (INSTRUCTION);
+	else if (ft_is_label(str, false) == -1)
+		return (0);
+	else
+		return (INSTRUCTION);
+}
+
 int		check_token(t_data *data)
 {
 	t_op	val;
@@ -419,48 +442,13 @@ int		check_token(t_data *data)
 	tmp = data->token;
 	while (tmp)
 	{
-		if (ft_is_label(tmp->cut, false) && ft_is_params(tmp->cut, direct) == -1)
-		{
-			ft_printf("is label ->\t|");
-			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
-		}
-		else if (ft_is_instruction(tmp->cut, &val) == 1)
-		{
-			// ft_printf("%s |%d|\n", val.op, val.params);
-			ft_printf("is instruc ->\t|");
-			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start, tmp->end);
-		}
-		else if (ft_is_params(tmp->cut, direct) == 1)
-		{
-			ft_printf("is direct ->\t|");
-			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
-		}
-		else if (ft_is_params(tmp->cut, direct) == 0)
-		{
-			ft_printf("is indirect ->\t|");
-			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
-		}
-		else if (ft_is_params(tmp->cut, registre) == 1)
-		{
-			ft_printf("is registre ->\t|");
-			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
-		}
-		else if (tmp->cut && separator(*tmp->cut))
-		{
-			ft_printf("is separator ->\t|");
-			ft_printf("%-10s\t[%03d:%03d:%03d]\n", tmp->cut, tmp->n_line, tmp->start + 1, tmp->end);
-		}
-		else
-		{
-			ft_printf("Lexical error at\t\t\t\t[%03d:%03d] \"%s\"\n", tmp->n_line, tmp->start + 1, tmp->cut);
-		}
+		tmp->type = add_type(tmp->cut, &val);
 		tmp = tmp->next;
 	}
-	// ft_printf("%s\n", ft_strcut(data->line.line, tmp->start, tmp->end)); pour decouper le mot en erreur
-	return (0);
+	return (1);
 }
 
-void	get_token(t_data *data)
+int		get_token(t_data *data)
 {
 	t_token	token;
 	int		end_word;
@@ -472,11 +460,17 @@ void	get_token(t_data *data)
 		if (!(token.cut = ft_strcut(data->line.line, data->line.current, end_word)))
 			break ;
 		token = token_val(token, data->line.current, end_word, data->line.n_line);
-		add_token(&data->token, add_word(token));
+		add_word(data, token);
+		free(token.cut);
 		data->line.current = end_word;
 	}
-	check_token(data);
+	if (!(check_token(data)))
+	{
+		erase_token(&data->token);
+		return (0);
+	}
 	erase_token(&data->token);
+	return (1);
 }
 
 int		into_quote(t_data *data, char *tmp)
@@ -579,7 +573,8 @@ int		step(t_data *data, char **tmp)
 	{
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
 		// ft_printf("%s\n", data->line.line + data->line.current);
-		get_token(data);
+		if (!(get_token(data)))
+			return (0);
 	}
 	return (1);
 }
@@ -596,6 +591,11 @@ int		parsing_asm(t_data *data)
 	}
 	while (step(data, &tmp))
 	{
+		if (data->line.line)
+		{
+			free(data->line.line);
+			data->line.line = NULL;
+		}
 		if ((data->ret = get_next_line(data->fd, &data->line.line)) == -1)
 		{
 			ft_printf("ERROR lecture\n");

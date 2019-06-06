@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/05 16:39:58 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/06 18:41:25 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,18 @@
 #define LFORK					15
 #define AFF						16
 
+#define DIRECT					1
+#define INDIRECT				2
+#define REGISTER				3
+#define INSTRUCTION				4
+#define	LABEL					5
+#define DIRECT_LABEL			6
+#define INDIRECT_LABEL			7
+#define SEPARATOR				8
+#define TOKEN					9
+#define	ENDLINE					10
+#define	END						11
+
 #define REG_NUMBER				16
 
 #define TRUE					1
@@ -82,6 +94,7 @@ typedef struct		s_ins
 typedef struct		s_token
 {
 	char			*cut;
+	int				type;
 	int				start;
 	int				end;
 	int				n_line;

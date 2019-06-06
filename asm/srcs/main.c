@@ -23,6 +23,7 @@ int		main(int argc, char **argv)
 			// ft_printf("comment : |%s|\n", data.comment);
 			print_list(&data);
 			ft_printf(SUCCESS, data.name_cor);
+			// while (1);
 			return (1);
 		}
 		// erase_all(&data);
