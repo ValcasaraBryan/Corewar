@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/05 17:24:38 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/08 20:18:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@ int		print_byte_list(t_champion **ch)
 	if (champion_check(ch) >= 0)
 	{
 		printf("		-------------\n		BYTE LIST\n");
+		ft_putstr("		");
 		current = (*ch)->first_byte;
 		while (current != NULL)
 		{
-			printf("		-------------\n		value : %d\n", current->value);
+			ft_putnbr(current->value);
+			ft_putchar(' ');
 			current = current->next;
 		}
-		printf("		-------------\n");
+		printf("\n		-------------\n");
 		return (1);
 	}
 	return (0);
@@ -99,44 +101,23 @@ int		print_storage(t_storage **st)
 
 int		print_thread_list(t_storage **st)
 {
-	t_thread	*current;
-	int			i;
+	t_thread	*c;
 
 	if (storage_check(st, 2) >= 0)
 	{
 		printf("	-------------\n	THREAD LIST\n");
-		current = (*st)->first_thread;
-		while (current != NULL)
+		c = (*st)->first_thread;
+		while (c != NULL)
 		{
-			printf("	-------------\n	action : %d\n", current->action);
-			printf("	-------------\n	cycle  : %d\n", current->cycle);
-			printf("	-------------\n	where  : %d\n", current->where);
-			i = -1;
-			while(++i < 16)
-				printf("	-------------\n	reg[%d]    : %d\n", i,
-					current->reg[i]);
-			current = current->next;
+			printf("	%d | %d | %d", c->action, c->cycle, c->where);
+			printf("	%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
+				c->reg[0], c->reg[1], c->reg[2], c->reg[3], c->reg[4],
+				c->reg[5], c->reg[6], c->reg[7], c->reg[8], c->reg[9],
+				c->reg[10], c->reg[11], c->reg[12], c->reg[13], c->reg[14],
+				c->reg[15]);
+			c = c->next;
 		}
 		printf("	-------------\n");
-		return (1);
-	}
-	return (0);
-}
-
-int		print_thread_list_compact(t_storage **st)
-{
-	t_thread	*current;
-
-	if (storage_check(st, 2) >= 0)
-	{
-		current = (*st)->first_thread;
-		while (current != NULL)
-		{
-			printf("	%d | %d | %d\n",
-				current->action, current->cycle, current->where);
-			current = current->next;
-		}
-		printf("	---\n");
 		return (1);
 	}
 	return (0);

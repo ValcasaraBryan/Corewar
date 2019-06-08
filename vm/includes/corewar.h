@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/05 20:03:01 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/08 21:38:09 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@
 # define T_DIR			2
 # define T_IND			4
 # define T_LAB			8
+
+# define SUCCESS		1
+# define NO_CHANGE		0
+# define BAD_VALUE		-1
+# define MALLOC_FAILED	-2
+# define CALL_FAILED	-3
+# define BAD_FD			-4
 
 typedef struct			s_thread
 {
@@ -123,7 +130,8 @@ int						champion_change_number(t_champion **ch, int new_nb);
 /*
 ** ------------------------	functions_grid				------------------------
 */
-int						grid_fill_with_champ(int ***grid, t_champion **ch);
+int						grid_fill_with_champ(int ***grid, t_champion **ch,
+	int nb, int total);
 
 /*
 ** ------------------------	functions_storage			------------------------
@@ -134,7 +142,7 @@ int						grid_fill_with_champ(int ***grid, t_champion **ch);
 */
 int						thread_change_action(t_thread **th, int new_action);
 int						thread_change_cycle(t_thread **th, int ***gr, int type);
-int						thread_change_reg(t_thread **th, int reg,
+int						thread_change_value_reg(t_thread **th, int reg,
 	int new_value);
 int						thread_change_where(t_thread **th, int ***gr,
 	int new_where);
@@ -231,6 +239,7 @@ int						instr_zjmp(t_thread **th, int ***gr);
 int						cycle_threads(t_storage **st);
 int						decrypt_op_code(int **tab, int nb);
 int						read_in_grid(int ***grid, int where);
+int						setup_champions(t_storage **st, char ***t_p, int **t_n);
 int						write_in_grid(int ***grid, int value, int where);
 
 /*
@@ -280,7 +289,14 @@ int						print_champion_list(t_storage **st);
 int						print_grid(t_storage **st);
 int						print_storage(t_storage **st);
 int						print_thread_list(t_storage **st);
-int						print_thread_list_compact(t_storage **st);
+
+/*
+** ------------------------	tempo_utility				------------------------
+*/
+int						free_tab_char(char ***tab);
+int						free_tab_int(int **tab);
+int						tab_int_create(int **tab, int range);
+int						tab_char_create(char ***tab);
 
 /*
 ** ------------------------	unit_tests					------------------------
