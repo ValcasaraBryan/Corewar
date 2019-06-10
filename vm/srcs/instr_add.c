@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:05:49 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/08 18:25:41 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/10 18:35:44 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,22 @@ int		instr_add(t_thread **th, int ***gr)
 
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_add\n");
-	if (decrypt_op_code(&tab, read_in_grid(gr, (*th)->where + 1)) != 1)
-		return (-1);
-	if (tab[0] == 1 && tab[1] == 1 && tab[2] == 1)
+	if (thread_check(th) < VALID_EMPTY || grid_check(gr) != VALID_FULL)
+		return (BAD_PARAM);
+	if (decrypt_op_code(&tab, read_in_grid(gr, (*th)->where + 1)) != SUCCESS)
+		return (CALL_FAILED);
+	if (tab[0] != 1 || tab[1] != 1 || tab[2] != 1)
 	{
 		free(tab);
-		if ((r1 = read_in_grid(gr, (*th)->where + 2)) < 0
-			|| (r2 = read_in_grid(gr, (*th)->where + 3)) < 0
-			|| (r3 = read_in_grid(gr, (*th)->where + 4)) < 0)
-			return (-1);
-		if (thread_change_value_reg(th, r3, thread_get_value_reg(th, r1)
-			+ thread_get_value_reg(th, r2)) != 1)
-			return (-2);
-		return (1);
+		return (NO_CHANGE);
 	}
 	free(tab);
-	return (0);
+	if ((r1 = read_in_grid(gr, (*th)->where + 2)) < NO_CHANGE
+		|| (r2 = read_in_grid(gr, (*th)->where + 3)) < NO_CHANGE
+		|| (r3 = read_in_grid(gr, (*th)->where + 4)) < NO_CHANGE)
+		return (CALL_FAILED);
+	if (thread_change_value_reg(th, r3, thread_get_value_reg(th, r1)
+		+ thread_get_value_reg(th, r2)) != SUCCESS)
+		return (CALL_FAILED);
+	return (SUCCESS);
 }

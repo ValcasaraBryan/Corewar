@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 15:56:14 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/08 18:58:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/10 18:55:34 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,21 @@ int		convert_to_binary(char **res, int nb)
 {
 	int		i;
 
-	if (res != NULL && nb >= 0 && nb <= 255)
+	if (res == NULL || nb < 0 || nb > 255)
+		return (BAD_PARAM);
+	*res = NULL;
+	if (!((*res) = malloc(sizeof(**res) * 9)))
+		return (MALLOC_FAILED);
+	(*res)[8] = '\0';
+	i = -1;
+	while (++i < 8)
+		(*res)[i] = '0';
+	while (nb > 0 && i >= 0)
 	{
-		*res = NULL;
-		if (!((*res) = malloc(sizeof(**res) * 9)))
-			return (-1);
-		(*res)[8] = '\0';
-		i = -1;
-		while (++i < 8)
-			(*res)[i] = '0';
-		while (nb > 0 && i >= 0)
-		{
-			(*res)[--i] = nb % 2 + 48;
-			nb = nb / 2;
-		}
-		return (1);
+		(*res)[--i] = nb % 2 + 48;
+		nb = nb / 2;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 void	print_nb_hexa(int nb)
@@ -42,6 +40,8 @@ void	print_nb_hexa(int nb)
 	int			size_max;
 	int			i;
 
+	if (nb < 0 || nb > 255)
+		return ;
 	mod = 0;
 	i = -1;
 	size_max = 2;

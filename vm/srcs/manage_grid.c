@@ -6,32 +6,30 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 16:05:51 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/10 18:09:15 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static int		free_grid_item(int ***grid)
+static int		free_grid_item(int ***gr)
 {
 	int		i;
 
-	if (grid != NULL && (*grid) != NULL)
+	if (grid_check(gr) != VALID_FULL)
+		return (BAD_PARAM);
+	i = -1;
+	while (++i < GRID_SIZE)
 	{
-		i = -1;
-		while (++i < GRID_SIZE)
-		{
-			free((*grid)[i]);
-			(*grid)[i] = NULL;
-		}
-		free(*grid);
-		(*grid) = NULL;
-		return (1);
+		free((*gr)[i]);
+		(*gr)[i] = NULL;
 	}
-	return (0);
+	free(*gr);
+	*gr = NULL;
+	return (VALID_FULL);
 }
 
-static int		setup_empty_grid(int ***grid, int i, int j)
+static int		setup_empty_grid(int ***gr, int i, int j)
 {
 	int			*line;
 
@@ -43,19 +41,21 @@ static int		setup_empty_grid(int ***grid, int i, int j)
 			j = -1;
 			while (++j < i)
 			{
-				free((*grid)[j]);
-				(*grid)[j] = NULL;
+				free((*gr)[j]);
+				(*gr)[j] = NULL;
 			}
-			return (0);
+			free (*gr);
+			*gr = NULL;
+			return (MALLOC_FAILED);
 		}
 		j = -1;
 		while (++j < GRID_SIZE)
 			line[j] = 0;
 		line[j] = -1;
-		(*grid)[i] = line;
+		(*gr)[i] = line;
 	}
-	(*grid)[i] = 0;
-	return (1);
+	(*gr)[i] = NULL;
+	return (SUCCESS);
 }
 
 static int		**create_grid(t_storage **st)
@@ -63,19 +63,13 @@ static int		**create_grid(t_storage **st)
 	int			**grid;
 	int			result;
 
-	result = storage_check(st, 1);
-	if (result >= 0)
-	{
-		if (!(grid = (int **)malloc(sizeof(int *) * (GRID_SIZE + 1))))
-			return (NULL);
-		if (setup_empty_grid(&grid, 0, 0) == 0)
-		{
-			free_grid_item(&grid);
-			return (NULL);
-		}
-		return (grid);
-	}
-	return (NULL);
+	if ((result = storage_check(st, 1)) < VALID_EMPTY)
+		return (NULL);
+	if (!(grid = (int **)malloc(sizeof(int *) * (GRID_SIZE + 1))))
+		return (NULL);
+	if (setup_empty_grid(&grid, 0, 0) != SUCCESS)
+		return (NULL);
+	return (grid);
 }
 
 int				add_grid(t_storage **st)
@@ -83,27 +77,18 @@ int				add_grid(t_storage **st)
 	int			**grid;
 	int			result;
 
-	grid = create_grid(st);
-	if (grid != NULL)
-	{
-		result = storage_check(st, 1);
-		if (result >= 0)
-		{
-			(*st)->grid = grid;
-			return (1);
-		}
-		free_grid_item(&grid);
-		return (0);
-	}
-	return (-1);
+	if ((result = storage_check(st, 1)) < VALID_EMPTY)
+		return (BAD_PARAM);
+	if ((grid = create_grid(st)) == NULL)
+		return (CALL_FAILED);
+	(*st)->grid = grid;
+	return (SUCCESS);
 }
 
 int				free_grid(t_storage **st)
 {
-	if (storage_check(st, 1) == 1)
-	{
-		free_grid_item(&((*st)->grid));
-		return (1);
-	}
-	return (0);
+	if (storage_check(st, 1) != VALID_FULL)
+		return (BAD_PARAM);
+	free_grid_item(&((*st)->grid));
+	return (SUCCESS);
 }

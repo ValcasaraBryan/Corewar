@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/08 21:38:09 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/10 20:09:19 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		1
+# define UT_PRINT		0
 
 # define LIVE			"live"
 # define LD				"ld"
@@ -45,12 +45,19 @@
 # define T_IND			4
 # define T_LAB			8
 
-# define SUCCESS		1
+/*
+** return values
+*/
+
+# define SUCCESS		10
 # define NO_CHANGE		0
-# define BAD_VALUE		-1
-# define MALLOC_FAILED	-2
-# define CALL_FAILED	-3
-# define BAD_FD			-4
+# define BAD_PARAM		-10
+# define MALLOC_FAILED	-20
+# define CALL_FAILED	-30
+# define BAD_FD			-40
+
+# define VALID_FULL		15
+# define VALID_EMPTY	5
 
 typedef struct			s_thread
 {
@@ -239,7 +246,6 @@ int						instr_zjmp(t_thread **th, int ***gr);
 int						cycle_threads(t_storage **st);
 int						decrypt_op_code(int **tab, int nb);
 int						read_in_grid(int ***grid, int where);
-int						setup_champions(t_storage **st, char ***t_p, int **t_n);
 int						write_in_grid(int ***grid, int value, int where);
 
 /*
@@ -291,6 +297,12 @@ int						print_storage(t_storage **st);
 int						print_thread_list(t_storage **st);
 
 /*
+** ------------------------	structs_setup				------------------------
+*/
+int						setup_champions(t_storage **st, char ***t_p, int **t_n);
+int						setup_grid(t_storage **st);
+
+/*
 ** ------------------------	tempo_utility				------------------------
 */
 int						free_tab_char(char ***tab);
@@ -299,9 +311,14 @@ int						tab_int_create(int **tab, int range);
 int						tab_char_create(char ***tab);
 
 /*
+** ------------------------	unit_tests_instr			------------------------
+*/
+void					all_ut_instr(void);
+
+/*
 ** ------------------------	unit_tests					------------------------
 */
-int						all_ut(void);
+void					all_ut(void);
 
 /*
 ** ------------------------	utilities					------------------------

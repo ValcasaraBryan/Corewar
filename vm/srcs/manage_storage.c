@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/31 16:08:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/10 18:22:05 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,37 +30,25 @@ int					add_storage(t_storage **st)
 {
 	t_storage	*storage;
 
-	if (st != NULL)
-	{
-		storage = create_storage();
-		if (storage != NULL)
-		{
-			(*st) = storage;
-			return (1);
-		}
-		return (0);
-	}
-	return (-1);
+	if (st == NULL)
+		return (BAD_PARAM);
+	if ((storage = create_storage()) == NULL)
+		return (CALL_FAILED);
+	(*st) = storage;
+	return (SUCCESS);
 }
 
 int					free_storage(t_storage **st)
 {
-	int		result;
-
-	result = storage_check(st, 0);
-	if (result == 1)
+	if (storage_check(st, 0) < VALID_EMPTY)
+		return (BAD_PARAM);
+	if (storage_check(st, 0) == VALID_FULL)
 		free_champion_list(st);
-	result = storage_check(st, 1);
-	if (result == 1)
+	if (storage_check(st, 1) == VALID_FULL)
 		free_grid(st);
-	result = storage_check(st, 2);
-	if (result == 1)
+	if (storage_check(st, 2) == VALID_FULL)
 		free_thread_list(st);
-	if (result >= 0)
-	{
-		free(*st);
-		*st = NULL;
-		return (1);
-	}
-	return (0);
+	free(*st);
+	*st = NULL;
+	return (SUCCESS);
 }

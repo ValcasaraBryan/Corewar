@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/08 21:54:38 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/10 17:10:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int		create_tempo_str(char **res, int fd, int type)
 	unsigned char	buf[1];
 
 	if (res == NULL || type < 1 || type > 2)
-		return (BAD_VALUE);
+		return (BAD_PARAM);
 	*res = NULL;
 	lseek(fd, type == 1 ? 4 : 140, SEEK_SET);
 	i = 0;
@@ -41,8 +41,8 @@ static int		extract_bytes(int fd, t_champion **ch)
 	int				i;
 	unsigned char	buf[1];
 
-	if (champion_check(ch) < 0)
-		return (BAD_VALUE);
+	if (champion_check(ch) < VALID_EMPTY)
+		return (BAD_PARAM);
 	lseek(fd, 2192, SEEK_SET);
 	buf[0] = 1;
 	i = -1;
@@ -60,8 +60,8 @@ static int		extract_magic_numbers(int fd, t_champion **ch)
 	int				i;
 	unsigned char	buf[1];
 
-	if (champion_check(ch) < 0)
-		return (BAD_VALUE);
+	if (champion_check(ch) < VALID_EMPTY)
+		return (BAD_PARAM);
 	lseek(fd, 0, SEEK_SET);
 	i = -1;
 	buf[0] = 1;
@@ -80,8 +80,8 @@ static int		extract_str(int fd, t_champion **ch, int type)
 	char			*res;
 	unsigned char	buf[1];
 
-	if (champion_check(ch) < 0 || type < 1 || type > 2)
-		return (BAD_VALUE);
+	if (champion_check(ch) < VALID_EMPTY || type < 1 || type > 2)
+		return (BAD_PARAM);
 	if (create_tempo_str(&res, fd, type) != SUCCESS)
 		return (CALL_FAILED);
 	lseek(fd, type == 1 ? 4 : 140, SEEK_SET);
@@ -95,6 +95,8 @@ static int		extract_str(int fd, t_champion **ch, int type)
 	}
 	i = type == 1 ? champion_change_name(ch, res)
 		: champion_change_desc(ch, res);
+	if (i != SUCCESS)
+		return (CALL_FAILED);
 	free(res);
 	return (SUCCESS);
 }
@@ -103,8 +105,8 @@ int				bin_extractor(t_champion **ch, char *path)
 {
 	int				fd;
 
-	if (champion_check(ch) < 0)
-		return (BAD_VALUE);
+	if (champion_check(ch) < VALID_EMPTY)
+		return (BAD_PARAM);
 	if ((fd = open(path, O_RDONLY)) < 0)
 		return (BAD_FD);
 	if (extract_magic_numbers(fd, ch) != SUCCESS
