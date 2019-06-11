@@ -6,32 +6,11 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/06 19:39:29 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/11 19:52:40 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-
-t_op				op_tab[REG_NUMBER] =
-{
-//	name		opcode		len_name	params
-	{"live",	LIVE,		4,			1},
-	{"ld",		LD,			2,			2},
-	{"st",		ST,			2,			2},
-	{"add",		ADD,		3,			3},
-	{"sub",		SUB,		3,			3},
-	{"and",		AND,		3,			3},
-	{"or",		OR,			2,			3},
-	{"xor",		XOR,		3,			3},
-	{"zjmp",	ZJMP,		4,			1},
-	{"ldi",		LDI,		3,			3},
-	{"sti",		STI,		3,			3},
-	{"fork",	FORK,		4,			1},
-	{"lld",		LLD,		3,			2},
-	{"lldi",	LLDI,		4,			3},
-	{"lfork",	LFORK,		5,			1},
-	{"aff",		AFF,		3,			1},
-};
 
 t_token		*new_token(t_token token)
 {
@@ -48,17 +27,20 @@ t_token		*new_token(t_token token)
 	return (new);
 }
 
-t_ins		*new_instruction(unsigned char token)
+t_ins		*new_instruction(t_op ins)
 {
 	t_ins	*new;
+	int i;
 
 	if (!(new = malloc(sizeof(t_ins))))
 		return (NULL);
-	new->token = token;
-	new->params = 0;
-	new->params_one = 0;
-	new->params_two = 0;
-	new->params_three = 0;
+	new->ins = ins;
+	new->octet = 0;
+	if (!(new->params = malloc(sizeof(int) * ins.len_params)))
+		return (NULL);
+	i = -1;
+	while (++i < ins.len_params)
+		new->params[i] = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -78,18 +60,22 @@ void		add_token(t_token **old, t_token new)
 	}
 }
 
-void		add_instruction(t_ins **old, unsigned char token)
+t_ins		*add_instruction(t_ins **old, t_op ins)
 {
 	t_ins	*tmp;
 
 	if (!*old)
-		*old = new_instruction(token);
+	{
+		*old = new_instruction(ins);
+		return (*old);
+	}
 	else
 	{
 		tmp = *old;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_instruction(token);
+		tmp->next = new_instruction(ins);
+		return (tmp->next);
 	}
 }
 
@@ -101,13 +87,22 @@ void		print_list(t_data *data)
 				data->token->start, data->token->end);
 		data->token = data->token->next;
 	}
-	// while (data->instruction)
-	// {
-		// ft_printf("instruction = [%02x][%02x][%02x][%02x][%02x]\n",
-			// data->instruction->token, data->instruction->params, data->instruction->params_one,
-				// data->instruction->params_two, data->instruction->params_three);
-		// data->instruction = data->instruction->next;
-	// }
+	int	i;
+	while (data->ins)
+	{
+		ft_printf("\033[31m%02x\033[0m\t", data->ins->ins.opcode);
+		i = -1;
+		if (data->ins->ins.octet == 1)
+		{
+			ft_printf("\033[35m%02x\033[0m\t", data->ins->octet);
+		}
+		else
+			ft_printf("\t");
+		while (++i < data->ins->ins.len_params)
+			ft_printf("\033[32m%02x\033[0m ", data->ins->params[i]);
+		ft_printf("\n");
+		data->ins = data->ins->next;
+	}
 }
 
 void	init_data(t_data *data, char *av)
@@ -123,7 +118,7 @@ void	init_data(t_data *data, char *av)
 	data->line.current = 0;
 	data->line.n_line = 0;
 	data->token = NULL;
-	data->instruction = NULL;
+	data->ins = NULL;
 }
 
 int		suffix_name(t_data *data, const char *s)
@@ -246,7 +241,7 @@ int		ft_is_instruction(char *str, t_op *ins)
 	if (!str)
 		return (0);
 	while (++i < REG_NUMBER)
-		if (ft_strncmp(str, op_tab[i].op, op_tab[i].len) == 0)
+		if (ft_strncmp(str, op_tab[i].ins, op_tab[i].len) == 0)
 		{
 			*ins = op_tab[i];
 			return (1);
@@ -437,12 +432,47 @@ int		add_type(char *str, t_op *val)
 int		check_token(t_data *data)
 {
 	t_op	val;
+	int		type;
+	t_ins	*ins_tmp;
 	t_token	*tmp;
 
 	tmp = data->token;
 	while (tmp)
 	{
 		tmp->type = add_type(tmp->cut, &val);
+		if (tmp->type == INSTRUCTION || tmp->type == LABEL)
+		{
+			type = tmp->type;
+			if (type == INSTRUCTION)
+			{
+				ft_printf("\n%-10s | %d\n", tmp->cut, tmp->type);
+				ins_tmp = add_instruction(&data->ins, val);
+			}
+		}
+		else if (tmp->type == DIRECT)
+		{
+			ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
+		}
+		else if (tmp->type == INDIRECT)
+		{
+			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
+			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
+		}
+		else if (tmp->type == REGISTER)
+		{
+			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
+			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
+		}
+		else if (tmp->type == DIRECT_LABEL)
+		{
+			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
+			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
+		}
+		else if (tmp->type == INDIRECT_LABEL)
+		{
+			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
+			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
+		}
 		tmp = tmp->next;
 	}
 	return (1);
@@ -540,13 +570,13 @@ void	name_and_comment(t_data *data, char **tmp)
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
 		if (ft_strncmp(data->line.line + data->line.current, NAME_CMD_STRING, check_alpha(data->line.line + data->line.current)) == 0) // verifier que apres ce ne soit pas de mauvaise lettres good si whites spaces ou ""
 		{
-			*tmp = (char *)data->name;
+			*tmp = (char *)data->header.prog_name;
 			data->len = PROG_NAME_LENGTH;
 			data->line.current += check_alpha(data->line.line + data->line.current);
 		}
 		else if (ft_strncmp(data->line.line + data->line.current, COMMENT_CMD_STRING, check_alpha(data->line.line + data->line.current)) == 0) // verifier que apres ce ne soit pas de mauvaise lettres good si whites spaces ou ""
 		{
-			*tmp = (char *)data->comment;
+			*tmp = (char *)data->header.comment;
 			data->len = COMMENT_LENGTH;
 			data->line.current += check_alpha(data->line.line + data->line.current);
 		}
@@ -589,6 +619,8 @@ int		parsing_asm(t_data *data)
 		ft_fprintf(NO_FILE, S_ERR, data->name_s);
 		return (0);
 	}
+	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
+	ft_bzero(data->header.comment, COMMENT_LENGTH);
 	while (step(data, &tmp))
 	{
 		if (data->line.line)

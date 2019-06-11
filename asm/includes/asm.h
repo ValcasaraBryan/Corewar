@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/06 18:41:25 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/11 19:51:53 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
+# include "../../op.h"
 # include <stdbool.h>
 #define S_ERR	2
 #define NO_FILE	"Can't read source file %s\n"
@@ -24,27 +25,27 @@
 #define SUFFIX	".cor"
 #define COR		4
 
-#define IND_SIZE				2
-#define REG_SIZE				4
-#define DIR_SIZE				REG_SIZE
+// #define IND_SIZE				2
+// #define REG_SIZE				4
+// #define DIR_SIZE				REG_SIZE
 
-#define REG_CODE				1
-#define DIR_CODE				2
-#define IND_CODE				3
-
-#define COMMENT_CHAR			'#'
-#define LABEL_CHAR				':'
-#define DIRECT_CHAR				'%'
-#define SEPARATOR_CHAR			','
+// #define REG_CODE				1
+// #define DIR_CODE				2
+// #define IND_CODE				3
+// 
+// #define COMMENT_CHAR			'#'
+// #define LABEL_CHAR				':'
+// #define DIRECT_CHAR				'%'
+// #define SEPARATOR_CHAR			','
 #define CMD_CHAR				'"'
-
-#define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
-
-#define NAME_CMD_STRING			".name"
-#define COMMENT_CMD_STRING		".comment"
-
-#define PROG_NAME_LENGTH		(128)
-#define COMMENT_LENGTH			(2048)
+// 
+// #define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
+// 
+// #define NAME_CMD_STRING			".name"
+// #define COMMENT_CMD_STRING		".comment"
+// 
+// #define PROG_NAME_LENGTH		(128)
+// #define COMMENT_LENGTH			(2048)
 
 #define LIVE					1
 #define LD						2
@@ -75,19 +76,30 @@
 #define	ENDLINE					10
 #define	END						11
 
-#define REG_NUMBER				16
+// #define REG_NUMBER				16
 
 #define TRUE					1
 #define IN_TRUE					2
 #define FALSE					0
 
+typedef struct		s_op
+{
+	char			*ins;
+	int				len;
+	unsigned char	len_params;
+	unsigned char	params[3];
+	unsigned char	opcode;
+	int				cycle;
+	char			*description;
+	unsigned char	octet;
+	unsigned char	carry;
+}					t_op;
+
 typedef struct		s_ins
 {
-	unsigned char	token;
-	unsigned char	params;
-	int				params_one;
-	int				params_two;
-	int				params_three;
+	t_op			ins;
+	unsigned char	octet;
+	int				*params;
 	struct s_ins	*next;
 }					t_ins;
 
@@ -117,25 +129,15 @@ typedef struct		s_data
 	bool			quote;
 	bool			name_com;
 	int				name_and_comment;
-	char			name[PROG_NAME_LENGTH + 1];
-	char			comment[COMMENT_LENGTH + 1];
+	header_t		header;
 	int				len;
 	int				index;
 	t_line			line;
 	t_token			*token;
-	t_ins			*instruction;
+	t_ins			*ins;
 }					t_data;
 
-
-typedef struct		s_op
-{
-	char			*op;
-	int				opcode;
-	int				len;
-	int				params;
-}					t_op;
-
-extern t_op			op_tab[REG_NUMBER];
+extern t_op			op_tab[REG_NUMBER + 1];
 
 void	init_data(t_data *data, char *av);
 int		parsing_asm(t_data *data);
