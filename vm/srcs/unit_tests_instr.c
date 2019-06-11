@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:32:22 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 20:32:06 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/11 16:41:40 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,9 +228,13 @@ static int		ut_aff_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
-	result = instr_aff(&(st->last_thread), &(st->grid));
+	write_in_grid(&(st->grid), 64, st->last_thread->where + 1);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 2);
+	thread_change_value_reg(&(st->last_thread), 1, 9);
+	result = thread_get_value_reg(&(st->last_thread), 1) == 9 ? 1 : 0;
+	result += instr_aff(&(st->last_thread), &(st->grid));
 	free_storage(&st);
-	return (result == SUCCESS);
+	return (result == 1 + SUCCESS);
 }
 
 static int		ut_and_01(void)
@@ -546,7 +550,19 @@ static int		ut_ld_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
+	write_in_grid(&(st->grid), 208, 1);
+	write_four_in_grid(&(st->grid), -1, 2);
+	write_in_grid(&(st->grid), 1, 6);
 	result = instr_ld(&(st->last_thread), &(st->grid));
+	print_storage(&st);
+	write_four_in_grid(&(st->grid), 2147483647, 2);
+	write_in_grid(&(st->grid), 2, 6);
+	result = instr_ld(&(st->last_thread), &(st->grid));
+	print_storage(&st);
+	write_four_in_grid(&(st->grid), -2147483648, 2);
+	write_in_grid(&(st->grid), 3, 6);
+	result = instr_ld(&(st->last_thread), &(st->grid));
+	print_storage(&st);
 	free_storage(&st);
 	return (result == SUCCESS);
 }
@@ -1606,9 +1622,18 @@ static int		ut_sub_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
-	result = instr_sub(&(st->last_thread), &(st->grid));
+	write_in_grid(&(st->grid), 84, st->last_thread->where + 1);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 2);
+	write_in_grid(&(st->grid), 2, st->last_thread->where + 3);
+	write_in_grid(&(st->grid), 3, st->last_thread->where + 4);
+	thread_change_value_reg(&(st->last_thread), 1, 9);
+	thread_change_value_reg(&(st->last_thread), 2, 5);
+	thread_change_value_reg(&(st->last_thread), 3, 7);
+	result = thread_get_value_reg(&(st->last_thread), 3) == 7 ? 1 : 0;
+	result += instr_sub(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 4 ? 1 : 0;
 	free_storage(&st);
-	return (result == SUCCESS);
+	return (result == 1 + SUCCESS + 1);
 }
 
 static int		ut_xor_01(void)

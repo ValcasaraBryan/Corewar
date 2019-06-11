@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 20:09:19 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/11 15:39:53 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,8 @@ int						cycle_threads(t_storage **st);
 int						decrypt_op_code(int **tab, int nb);
 int						read_in_grid(int ***grid, int where);
 int						write_in_grid(int ***grid, int value, int where);
+int						read_four_in_grid(int ***gr, int where);
+int						write_four_in_grid(int ***gr, int value, int where);
 
 /*
 ** ------------------------	manage_byte					------------------------

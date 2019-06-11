@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 19:37:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/11 16:16:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1185,6 +1185,45 @@ static int		ut_key_functions_17(void)
 	result = decrypt_op_code(&tab, -1);
 	result += decrypt_op_code(&tab, 256);
 	return (result == BAD_PARAM + BAD_PARAM);
+}
+
+static int		ut_key_functions_18(void)
+{
+	/*
+	** read_four_in_grid test
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	write_in_grid(&(st->grid), 64, 0);
+	write_in_grid(&(st->grid), 48, 1);
+	write_in_grid(&(st->grid), 32, 2);
+	write_in_grid(&(st->grid), 16, 3);
+	result = read_four_in_grid(&(st->grid), 0);
+	free_storage(&st);
+	return (result == 1076895760);
+}
+
+static int		ut_key_functions_19(void)
+{
+	/*
+	** write_four_in_grid test
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	result = write_four_in_grid(&(st->grid), -2, 0);
+	result += read_four_in_grid(&(st->grid), 0) == -2 ? 1 : 0;
+	result += write_four_in_grid(&(st->grid), 2147483647, 4);
+	result += read_four_in_grid(&(st->grid), 4) == 2147483647 ? 1 : 0;
+	result += write_four_in_grid(&(st->grid), -2147483648, 8);
+	result += read_four_in_grid(&(st->grid), 8) == -2147483648 ? 1 : 0;
+	free_storage(&st);
+	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
 }
 
 //cycle_threads fonctionnel et non fonctionnel a faire
@@ -2449,24 +2488,24 @@ static int		ut_utilities_02(void)
 	/*
 	** convert_to_binary avec valeurs charnieres (0 / 255)
 	*/
-	char	*res;
+	char	*tab_res;
 	int		result;
 
-	result = convert_to_binary(&res, 0);
-	result += ft_strcmp(res, "00000000") == 0 ? 1 : 0;
-	free(res);
-	result += convert_to_binary(&res, 255);
-	result += ft_strcmp(res, "11111111") == 0 ? 1 : 0;
-	free(res);
-	result += convert_to_binary(&res, 192);
-	result += ft_strcmp(res, "11000000") == 0 ? 1 : 0;
-	free(res);
-	result += convert_to_binary(&res, 240);
-	result += ft_strcmp(res, "11110000") == 0 ? 1 : 0;
-	free(res);
-	result += convert_to_binary(&res, 156);
-	result += ft_strcmp(res, "10011100") == 0 ? 1 : 0;
-	free(res);
+	result = convert_to_binary(&tab_res, 0);
+	result += ft_strcmp(tab_res, "00000000") == 0 ? 1 : 0;
+	free(tab_res);
+	result += convert_to_binary(&tab_res, 255);
+	result += ft_strcmp(tab_res, "11111111") == 0 ? 1 : 0;
+	free(tab_res);
+	result += convert_to_binary(&tab_res, 192);
+	result += ft_strcmp(tab_res, "11000000") == 0 ? 1 : 0;
+	free(tab_res);
+	result += convert_to_binary(&tab_res, 240);
+	result += ft_strcmp(tab_res, "11110000") == 0 ? 1 : 0;
+	free(tab_res);
+	result += convert_to_binary(&tab_res, 156);
+	result += ft_strcmp(tab_res, "10011100") == 0 ? 1 : 0;
+	free(tab_res);
 	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
 }
 
@@ -2580,14 +2619,16 @@ void			ut_key_functions(void)
 	ft_putstr(ut_key_functions_15() ? "ut_key_functions_15	OK\n" : "ut_key_functions_15	ERROR\n");
 	ft_putstr(ut_key_functions_16() ? "ut_key_functions_16	OK\n" : "ut_key_functions_16	ERROR\n");
 	ft_putstr(ut_key_functions_17() ? "ut_key_functions_17	OK\n" : "ut_key_functions_17	ERROR\n");
-	/*ft_putstr(ut_key_functions_18() ? "ut_key_functions_18	OK\n" : "ut_key_functions_18	ERROR\n");
+	ft_putstr(ut_key_functions_18() ? "ut_key_functions_18	OK\n" : "ut_key_functions_18	ERROR\n");
 	ft_putstr(ut_key_functions_19() ? "ut_key_functions_19	OK\n" : "ut_key_functions_19	ERROR\n");
+	/*
 	ft_putstr(ut_key_functions_20() ? "ut_key_functions_20	OK\n" : "ut_key_functions_20	ERROR\n");
 	ft_putstr(ut_key_functions_21() ? "ut_key_functions_21	OK\n" : "ut_key_functions_21	ERROR\n");
 	ft_putstr(ut_key_functions_22() ? "ut_key_functions_22	OK\n" : "ut_key_functions_22	ERROR\n");
 	ft_putstr(ut_key_functions_23() ? "ut_key_functions_23	OK\n" : "ut_key_functions_23	ERROR\n");
 	ft_putstr(ut_key_functions_24() ? "ut_key_functions_24	OK\n" : "ut_key_functions_24	ERROR\n");
-	ft_putstr(ut_key_functions_25() ? "ut_key_functions_25	OK\n" : "ut_key_functions_25	ERROR\n");*/
+	ft_putstr(ut_key_functions_25() ? "ut_key_functions_25	OK\n" : "ut_key_functions_25	ERROR\n");
+	*/
 }
 
 void			ut_storage(void)
@@ -2707,11 +2748,14 @@ void			ut_utilities(void)
 
 void			all_ut(void)
 {
+	/*
 	ut_bin_extractor();
 	ut_byte();
 	ut_champion();
 	ut_grid();
+	*/
 	ut_key_functions();
+	/*
 	ut_storage();
 	ut_struct_check();
 	if (UT_PRINT >= 3)
@@ -2719,4 +2763,5 @@ void			all_ut(void)
 	ut_struct_setup();
 	ut_thread();
 	ut_utilities();
+	*/
 }
