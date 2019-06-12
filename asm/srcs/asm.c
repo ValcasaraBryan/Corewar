@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/11 19:52:40 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/12 16:36:24 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,29 +139,6 @@ int		suffix_name(t_data *data, const char *s)
 	return (1);	
 }
 
-unsigned char		add_params(char *str, int *bin)
-{
-	if (!str)
-		return (0);
-	if (str[0] == '%')
-		return (DIR_CODE << (*bin -= 2));
-	else if (str[0] == 'r')
-		return (REG_CODE << (*bin -= 2));
-	else
-		return (IND_CODE << (*bin -= 2));
-}
-
-int		ft_is_virgule(char c)
-{
-	int	i;
-
-	i = -1;
-	if (c == ',')
-		return (1);
-	else
-		return (0);
-}
-
 int		skip_whitespace(char *str, int val)
 {
 	int		i;
@@ -182,48 +159,6 @@ int		separator(char c)
 	return (0);
 }
 
-int		skip_separator(char *str, int val)
-{
-	int		i;
-
-	i = -1;
-	if (!str)
-		return (0);
-	while (str[++i])
-		if (separator(str[i]) == val)
-			break ;
-	return (i);
-}
-
-int			ft_str_is(char *str, const char *cmp)
-{
-	int		i;
-
-	if (!str)
-		return (0);
-	i = -1;
-	while (str[++i])
-		if (!params(str[i], cmp))
-			return (0);
-	return (1);
-}
-
-int			ft_skip_word(char *str)
-{
-	int		i;
-
-	i = -1;
-	if (!str)
-		return (-1);
-	while (str[++i])
-	{
-		if (!params(str[i], LABEL_CHARS) && str[i] != COMMENT_CHAR
-			&& str[i] != LABEL_CHAR && str[i] != DIRECT_CHAR)
-			break ;
-	}
-	return (i);
-}
-
 t_token		token_val(t_token add, int start, int end, int n_line)
 {
 	add.type = -1;
@@ -233,19 +168,23 @@ t_token		token_val(t_token add, int start, int end, int n_line)
 	return (add);
 }
 
-int		ft_is_instruction(char *str, t_op *ins)
+int		ft_is_instruction(char *str, t_op **ins)
 {
 	int		i;
+	int		len;
 
 	i = -1;
 	if (!str)
 		return (0);
+	len = ft_strlen(str);
 	while (++i < REG_NUMBER)
-		if (ft_strncmp(str, op_tab[i].ins, op_tab[i].len) == 0)
+		if (len == op_tab[i].len
+			&& ft_strncmp(str, op_tab[i].ins, op_tab[i].len) == 0)
 		{
-			*ins = op_tab[i];
+			*ins = op_tab + i;
 			return (1);
 		}
+	*ins = NULL;
 	return (0);
 }
 
@@ -405,7 +344,7 @@ void	erase_token(t_token **token)
 	}
 }
 
-int		add_type(char *str, t_op *val)
+int		add_type(char *str, t_op **val)
 {
 	if (ft_is_label(str, false) == 1 && ft_is_params(str, direct) == -1)
 		return (LABEL);
@@ -429,52 +368,137 @@ int		add_type(char *str, t_op *val)
 		return (INSTRUCTION);
 }
 
+int		skip_separator(t_token **tmp, t_op *val, int *i)
+{
+	if (!(*tmp))
+		return (1);
+	(*tmp)->type = add_type((*tmp)->cut, &val);
+	if ((*tmp)->type == SEPARATOR)
+	{
+		(*i)++;
+		if ((*tmp)->next)
+			(*tmp) = (*tmp)->next;
+		else
+		{
+			ft_printf("ENDLINE\n");
+			return (0);
+		}
+	}
+	else
+	{
+		ft_printf("syntax error %s\n", (*tmp)->cut);
+		return (0);
+	}
+	return (1);
+}
+
+int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
+{
+	int	i;
+
+	(void)ins;
+	(void)data;
+	i = 0;
+	while ((*tmp))
+	{
+		(*tmp)->type = add_type((*tmp)->cut, &val);
+		if ((*tmp)->type == DIRECT || (*tmp)->type == DIRECT_LABEL)
+		{
+			// ft_printf("%d - %d - %d | i = %d\n", T_DIR, (val->params[i]), (T_DIR & (val->params[i])), i);
+			if (T_DIR == (T_DIR & (val->params[i])))
+				ft_printf("arguments correct %s\n", (*tmp)->cut);
+			else
+			{
+				ft_printf("Invalid parameter %d type direct for instruction %s\n", i, val->ins);
+				return (0); // type d'argument non valide
+			}
+		}
+		else if ((*tmp)->type == INDIRECT || (*tmp)->type == INDIRECT_LABEL)
+		{
+			// ft_printf("%d - %d - %d | i = %d\n", T_IND, (val->params[i]), (T_IND & (val->params[i])), i);
+			if (T_IND == (T_IND & (val->params[i])))
+				ft_printf("arguments correct %s\n", (*tmp)->cut);
+			else
+			{
+				ft_printf("Invalid parameter %d type indirect for instruction %s\n", i, val->ins);
+				return (0); // type d'argument non valide
+			}
+		}
+		else if ((*tmp)->type == REGISTER)
+		{
+			// ft_printf("%d - %d - %d | i = %d\n", T_REG, (val->params[i]), (T_REG & (val->params[i])), i);
+			if (T_REG == (T_REG & (val->params[i])))
+				ft_printf("arguments correct %s\n", (*tmp)->cut);
+			else
+			{
+				ft_printf("Invalid parameter %d type register for instruction %s\n", i, val->ins);
+				return (0); // type d'argument non valide
+			}
+		}
+		else
+		{
+			ft_printf("%s | ERROR\n", (*tmp)->cut);
+			return (0);
+		}
+		if ((*tmp)->next)
+			(*tmp) = (*tmp)->next;
+		else
+			break ;
+		if (!(skip_separator(tmp, val, &i)))
+			return (0);
+	}
+	// ft_printf("%d < %d\n", i, val->len_params);
+	if (i < val->len_params - 1)
+	{
+		ft_printf("Invalid parameter count for instruction %s\n", val->ins);
+		return (0);
+	}
+	return (1);
+}
+
 int		check_token(t_data *data)
 {
-	t_op	val;
+	t_op	*val;
 	int		type;
 	t_ins	*ins_tmp;
 	t_token	*tmp;
 
 	tmp = data->token;
+	val = NULL;
 	while (tmp)
 	{
 		tmp->type = add_type(tmp->cut, &val);
-		if (tmp->type == INSTRUCTION || tmp->type == LABEL)
+		if (tmp->type == INSTRUCTION || (tmp->type == LABEL && !val))
 		{
 			type = tmp->type;
-			if (type == INSTRUCTION)
+			if (type == INSTRUCTION && val)
 			{
-				ft_printf("\n%-10s | %d\n", tmp->cut, tmp->type);
-				ins_tmp = add_instruction(&data->ins, val);
+				ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
+				ins_tmp = add_instruction(&data->ins, *val);
+				// ft_printf("%d\n", val->opcode);
+			}
+			else if (type == LABEL)
+			{
+				ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
+				// ft_printf("label\n");
 			}
 		}
-		else if (tmp->type == DIRECT)
+		else
 		{
-			ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
+			// ft_printf("%s|%p\n", tmp->cut, ins_tmp);
+			if (!val || !(check_params(data, &tmp, ins_tmp, val)))
+			{
+				ft_printf("%s\n", tmp->cut);
+				return (0);
+			}
 		}
-		else if (tmp->type == INDIRECT)
-		{
-			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
-			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
-		}
-		else if (tmp->type == REGISTER)
-		{
-			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
-			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
-		}
-		else if (tmp->type == DIRECT_LABEL)
-		{
-			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
-			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
-		}
-		else if (tmp->type == INDIRECT_LABEL)
-		{
-			// ft_printf("%-10s | %d || %d %d %d\n", tmp->cut, tmp->type, ins_tmp->ins.params[0], ins_tmp->ins.params[1], ins_tmp->ins.params[2]);	
-			// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
-		}
-		tmp = tmp->next;
+		if (tmp->next)
+			tmp = tmp->next;
+		else
+			break ;
 	}
+	if (tmp->type == INSTRUCTION)
+		return (0);
 	return (1);
 }
 
@@ -623,6 +647,7 @@ int		parsing_asm(t_data *data)
 	ft_bzero(data->header.comment, COMMENT_LENGTH);
 	while (step(data, &tmp))
 	{
+			// ft_printf("%s|%d\n", data->line.line, data->ret);
 		if (data->line.line)
 		{
 			free(data->line.line);
