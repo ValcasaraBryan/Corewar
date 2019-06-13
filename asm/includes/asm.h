@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/11 19:51:53 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/13 18:07:51 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@
 #define	ENDLINE					10
 #define	END						11
 
-// #define REG_NUMBER				16
-
 #define TRUE					1
 #define IN_TRUE					2
 #define FALSE					0
@@ -91,8 +89,8 @@ typedef struct		s_op
 	unsigned char	opcode;
 	int				cycle;
 	char			*description;
-	unsigned char	octet;
-	unsigned char	carry;
+	unsigned char	indirect;
+	unsigned char	direct;
 }					t_op;
 
 typedef struct		s_ins
@@ -102,6 +100,13 @@ typedef struct		s_ins
 	int				*params;
 	struct s_ins	*next;
 }					t_ins;
+
+typedef struct		s_label
+{
+	t_ins			**ins;
+	int				index_params;
+	struct s_label	*next;
+}					t_label;
 
 typedef struct		s_token
 {

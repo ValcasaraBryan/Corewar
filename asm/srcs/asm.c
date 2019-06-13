@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/12 16:36:24 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/13 18:41:39 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,17 @@ void		print_list(t_data *data)
 	{
 		ft_printf("\033[31m%02x\033[0m\t", data->ins->ins.opcode);
 		i = -1;
-		if (data->ins->ins.octet == 1)
+		if (data->ins->ins.opcode != LIVE && data->ins->ins.opcode != FORK
+			&& data->ins->ins.opcode != ZJMP && data->ins->ins.opcode != LFORK)
 		{
 			ft_printf("\033[35m%02x\033[0m\t", data->ins->octet);
 		}
 		else
 			ft_printf("\t");
 		while (++i < data->ins->ins.len_params)
+		{
 			ft_printf("\033[32m%02x\033[0m ", data->ins->params[i]);
+		}
 		ft_printf("\n");
 		data->ins = data->ins->next;
 	}
@@ -107,6 +110,9 @@ void		print_list(t_data *data)
 
 void	init_data(t_data *data, char *av)
 {
+	int	i;
+
+	i = -1;
 	data->fd = -1;
 	data->ret = -1;
 	data->name_s = av;
@@ -395,18 +401,27 @@ int		skip_separator(t_token **tmp, t_op *val, int *i)
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 {
 	int	i;
+	int	bin;
 
 	(void)ins;
 	(void)data;
 	i = 0;
+	bin = 2;
 	while ((*tmp))
 	{
 		(*tmp)->type = add_type((*tmp)->cut, &val);
 		if ((*tmp)->type == DIRECT || (*tmp)->type == DIRECT_LABEL)
 		{
+			ins->octet += DIR_CODE;
 			// ft_printf("%d - %d - %d | i = %d\n", T_DIR, (val->params[i]), (T_DIR & (val->params[i])), i);
 			if (T_DIR == (T_DIR & (val->params[i])))
-				ft_printf("arguments correct %s\n", (*tmp)->cut);
+			{
+				if (ins->ins.direct == 0)
+					ins->params[i] = ft_atoi((*tmp)->cut + 1);
+				else
+					ins->params[i] = (unsigned short)ft_atoi((*tmp)->cut + 1);
+				ft_printf("arguments correct %s direct\n", (*tmp)->cut);
+			}
 			else
 			{
 				ft_printf("Invalid parameter %d type direct for instruction %s\n", i, val->ins);
@@ -415,9 +430,16 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 		}
 		else if ((*tmp)->type == INDIRECT || (*tmp)->type == INDIRECT_LABEL)
 		{
+			ins->octet += IND_CODE;
 			// ft_printf("%d - %d - %d | i = %d\n", T_IND, (val->params[i]), (T_IND & (val->params[i])), i);
 			if (T_IND == (T_IND & (val->params[i])))
-				ft_printf("arguments correct %s\n", (*tmp)->cut);
+			{
+				if (ins->ins.indirect == 0)
+					ins->params[i] = ft_atoi((*tmp)->cut);
+				else
+					ins->params[i] = (unsigned short)ft_atoi((*tmp)->cut);
+				ft_printf("arguments correct %s indirect\n", (*tmp)->cut);
+			}
 			else
 			{
 				ft_printf("Invalid parameter %d type indirect for instruction %s\n", i, val->ins);
@@ -426,9 +448,15 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 		}
 		else if ((*tmp)->type == REGISTER)
 		{
+			ins->octet += REG_CODE;
 			// ft_printf("%d - %d - %d | i = %d\n", T_REG, (val->params[i]), (T_REG & (val->params[i])), i);
 			if (T_REG == (T_REG & (val->params[i])))
+			{
+				if (ft_strlen((*tmp)->cut) > 3)
+					return (0);
+				ins->params[i] = ft_atoi((*tmp)->cut + 1);
 				ft_printf("arguments correct %s\n", (*tmp)->cut);
+			}
 			else
 			{
 				ft_printf("Invalid parameter %d type register for instruction %s\n", i, val->ins);
@@ -446,6 +474,9 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			break ;
 		if (!(skip_separator(tmp, val, &i)))
 			return (0);
+			ft_printf("%d\n", ins->octet);
+		ins->octet = ins->octet << bin;
+			ft_printf("%d\n", ins->octet);
 	}
 	// ft_printf("%d < %d\n", i, val->len_params);
 	if (i < val->len_params - 1)
@@ -453,6 +484,8 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 		ft_printf("Invalid parameter count for instruction %s\n", val->ins);
 		return (0);
 	}
+	while (++i < 4)
+		ins->octet = ins->octet << bin;
 	return (1);
 }
 

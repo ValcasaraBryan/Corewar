@@ -22,11 +22,10 @@ int		main(int argc, char **argv)
 	// i = 1;
 		// while ((ret = read(data.fd, &buf, 1)) > 0)
 		// {
-			// ft_printf("%c", buf);
-			// if (i % 1 == 0)
-				// ft_printf("\n");
+			// ft_printf("%02x", buf);
 			// i++;
 		// }
+		ft_printf("%d\n", (unsigned short)2147483647);
 		if (!(parsing_asm(&data)))
 		{
 			ft_printf("error\n");
