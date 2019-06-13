@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/11 16:16:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/12 11:20:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -798,7 +798,7 @@ static int		ut_grid_12(void)
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 1);
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 1 * 0) == 1 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 1 * 0, 1) == 1 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1);
 }
@@ -823,8 +823,8 @@ static int		ut_grid_13(void)
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 2);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 2, 2);
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 2 * 0) == 1 ? 1 : 0;
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 2 * 1) == 2 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 2 * 0, 1) == 1 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 2 * 1, 1) == 2 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + SUCCESS + 1 + 1);
 }
@@ -854,9 +854,9 @@ static int		ut_grid_14(void)
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 3);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 3, 3);
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 3 * 0) == 1 ? 1 : 0;
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 3 * 1) == 2 ? 1 : 0;
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 3 * 2) == 3 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 3 * 0, 1) == 1 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 3 * 1, 1) == 2 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 3 * 2, 1) == 3 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + SUCCESS + SUCCESS + 1 + 1 + 1);
 }
@@ -891,10 +891,10 @@ static int		ut_grid_15(void)
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 4);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 4, 4);
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 0) == 1 ? 1 : 0;
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 1) == 2 ? 1 : 0;
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 2) == 3 ? 1 : 0;
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 3) == 4 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 0, 1) == 1 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 1, 1) == 2 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 2, 1) == 3 ? 1 : 0;
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE / 4 * 3, 1) == 4 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + SUCCESS + SUCCESS + SUCCESS + 1 + 1 + 1 + 1);
 }
@@ -917,7 +917,7 @@ static int		ut_grid_16(void)
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 5, 4);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 0);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 5);
-	result += read_in_grid(&(st->grid), 0) == 0 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 0, 1) == 0 ? 1 : 0;
 	free_storage(&st);
 	return (result == BAD_PARAM + BAD_PARAM + BAD_PARAM + BAD_PARAM + 1);
 }
@@ -929,7 +929,7 @@ static int		ut_key_functions_01(void)
 	*/
 	int			result;
 
-	result = read_in_grid(NULL, 0);
+	result = read_in_grid(NULL, 0, 1);
 	return (result == BAD_PARAM);
 }
 
@@ -942,7 +942,7 @@ static int		ut_key_functions_02(void)
 	int			**gr;
 
 	gr = NULL;
-	result = read_in_grid(&gr, 0);
+	result = read_in_grid(&gr, 0, 1);
 	return (result == BAD_PARAM);
 }
 
@@ -956,13 +956,27 @@ static int		ut_key_functions_03(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	write_in_grid(&(st->grid), 5, 0);
-	result = read_in_grid(&(st->grid), -1);
+	result = read_in_grid(&(st->grid), -1, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_key_functions_04(void)
+{
+	/*
+	** read_in_grid avec nb invalide (0)
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	result = read_in_grid(&(st->grid), 0, 0);
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_key_functions_05(void)
 {
 	/*
 	** read_in_grid avec valeurs charnieres (0 / GRID_SIZE * GRID_SIZE - 1)
@@ -972,28 +986,54 @@ static int		ut_key_functions_04(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	write_in_grid(&(st->grid), 3, 0);
-	write_in_grid(&(st->grid), 4, GRID_SIZE * GRID_SIZE - 1);
-	result = read_in_grid(&(st->grid), 0);
+	write_in_grid(&(st->grid), 3, 0, 1);
+	write_in_grid(&(st->grid), 4, GRID_SIZE * GRID_SIZE - 1, 1);
+	result = read_in_grid(&(st->grid), 0, 1);
 	result += result == 3 ? 1 : 0;
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1);
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1, 1);
 	result += result == 8 ? 1 : 0;
 	free_storage(&st);
 	return (result == 3 + 1 + 4 + 1);
 }
 
-static int		ut_key_functions_05(void)
+static int		ut_key_functions_06(void)
+{
+	/*
+	** write_in_grid avec values charnieres (short min / max, long long min / max)
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	write_in_grid(&(st->grid), -256, 0, 1);
+	write_in_grid(&(st->grid), 255, 1, 1);
+	write_in_grid(&(st->grid), -65536, 2, 2);
+	write_in_grid(&(st->grid), 65535, 4, 2);
+	write_in_grid(&(st->grid), -9223372036854775807, 6, 4);
+	write_in_grid(&(st->grid), 9223372036854775807, 10, 4);
+	result = read_in_grid(&(st->grid), 0, 1) == 0 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 1, 1) == 255 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 2, 2) == 0 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 4, 2) == 65535 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 6, 4) == 0 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 10, 4) == -1 ? 1 : 0;
+	free_storage(&st);
+	return (result == 1 + 1 + 1 + 1 + 1 + 1);
+}
+
+static int		ut_key_functions_07(void)
 {
 	/*
 	** write_in_grid avec param null
 	*/
 	int			result;
 
-	result = write_in_grid(NULL, 0, 0);
+	result = write_in_grid(NULL, 0, 0, 1);
 	return (result == BAD_PARAM);
 }
 
-static int		ut_key_functions_06(void)
+static int		ut_key_functions_08(void)
 {
 	/*
 	** write_in_grid avec grid vide
@@ -1002,11 +1042,11 @@ static int		ut_key_functions_06(void)
 	int			**gr;
 
 	gr = NULL;
-	result = write_in_grid(&gr, 0, 0);
+	result = write_in_grid(&gr, 0, 0, 1);
 	return (result == BAD_PARAM);
 }
 
-static int		ut_key_functions_07(void)
+static int		ut_key_functions_09(void)
 {
 	/*
 	** write_in_grid avec where invalide (-1)
@@ -1016,32 +1056,27 @@ static int		ut_key_functions_07(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = write_in_grid(&(st->grid), 0, -1);
+	result = write_in_grid(&(st->grid), 0, -1, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
-static int		ut_key_functions_08(void)
+static int		ut_key_functions_10(void)
 {
 	/*
-	** write_in_grid avec values invalides (-1 / 256)
+	** write_in_grid avec nb invalide (0)
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_grid(&st);
-	result = write_in_grid(&(st->grid), 6, 0);
-	result += read_in_grid(&(st->grid), 0) == 6 ? 1 : 0;
-	result += write_in_grid(&(st->grid), -1, 0);
-	result += read_in_grid(&(st->grid), 0) == 6 ? 1 : 0;
-	result += write_in_grid(&(st->grid), 256, 0);
-	result += read_in_grid(&(st->grid), 0) == 6 ? 1 : 0;
+	result = write_in_grid(&(st->grid), 0, 0, 0);
 	free_storage(&st);
-	return (result == SUCCESS + 1 + BAD_PARAM + 1 + BAD_PARAM + 1);
+	return (result == BAD_PARAM);
 }
 
-static int		ut_key_functions_09(void)
+static int		ut_key_functions_12(void)
 {
 	/*
 	** write_in_grid avec where charnieres (0 / GRID_SIZE * GRID_SIZE - 1)
@@ -1051,37 +1086,45 @@ static int		ut_key_functions_09(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = write_in_grid(&(st->grid), 5, GRID_SIZE * GRID_SIZE - 1);
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1) == 5 ? 1 : 0;
-	result += write_in_grid(&(st->grid), 0, GRID_SIZE * GRID_SIZE - 1);
-	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1) == 0 ? 1 : 0;
-	result += write_in_grid(&(st->grid), 5, 0);
-	result += read_in_grid(&(st->grid), 0) == 5 ? 1 : 0;
-	result += write_in_grid(&(st->grid), 0, 0);
-	result += read_in_grid(&(st->grid), 0) == 0 ? 1 : 0;
+	result = write_in_grid(&(st->grid), 5, GRID_SIZE * GRID_SIZE - 1, 1);
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1, 1) == 5 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 0, GRID_SIZE * GRID_SIZE - 1, 1);
+	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1, 1) == 0 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 5, 0, 1);
+	result += read_in_grid(&(st->grid), 0, 1) == 5 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 0, 0, 1);
+	result += read_in_grid(&(st->grid), 0, 1) == 0 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
 }
 
-static int		ut_key_functions_10(void)
+static int		ut_key_functions_13(void)
 {
 	/*
-	** write_in_grid avec values charnieres (0 / 255)
+	** write_in_grid avec values charnieres (short min / max, long long min / max)
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_grid(&st);
-	result = write_in_grid(&(st->grid), 255, 0);
-	result += read_in_grid(&(st->grid), 0) == 255 ? 1 : 0;
-	result += write_in_grid(&(st->grid), 0, 0);
-	result += read_in_grid(&(st->grid), 0) == 0 ? 1 : 0;
+	result = write_in_grid(&(st->grid), -256, 0, 1);
+	result += read_in_grid(&(st->grid), 0, 1) == 0 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 255, 1, 1);
+	result += read_in_grid(&(st->grid), 1, 1) == 255 ? 1 : 0;
+	result += write_in_grid(&(st->grid), -65536, 2, 2);
+	result += read_in_grid(&(st->grid), 2, 2) == 0 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 65535, 4, 2);
+	result += read_in_grid(&(st->grid), 4, 2) == 65535 ? 1 : 0;
+	result += write_in_grid(&(st->grid), -9223372036854775807, 6, 4);
+	result += read_in_grid(&(st->grid), 6, 4) == 0 ? 1 : 0;
+	result += write_in_grid(&(st->grid), 9223372036854775807, 10, 4);
+	result += read_in_grid(&(st->grid), 10, 4) == -1 ? 1 : 0;
 	free_storage(&st);
-	return (result == SUCCESS + 1 + SUCCESS + 1);
+	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
 }
 
-static int		ut_key_functions_11(void)
+static int		ut_key_functions_15(void)
 {
 	/*
 	** cycle_threads avec param null
@@ -1092,7 +1135,7 @@ static int		ut_key_functions_11(void)
 	return (result == BAD_PARAM);
 }
 
-static int		ut_key_functions_12(void)
+static int		ut_key_functions_16(void)
 {
 	/*
 	** cycle_threads avec storage vide
@@ -1105,7 +1148,7 @@ static int		ut_key_functions_12(void)
 	return (result == BAD_PARAM);
 }
 
-static int		ut_key_functions_13(void)
+static int		ut_key_functions_17(void)
 {
 	/*
 	** cycle_threads avec storage sans threads
@@ -1119,7 +1162,7 @@ static int		ut_key_functions_13(void)
 	return (result == BAD_PARAM);
 }
 
-static int		ut_key_functions_14(void)
+static int		ut_key_functions_18(void)
 {
 	/*
 	** cycle_threads avec storage et threads
@@ -1131,102 +1174,13 @@ static int		ut_key_functions_14(void)
 	add_thread(&st);
 	add_grid(&st);
 	thread_change_action(&(st->last_thread), 2);
-	write_in_grid(&(st->grid), 5, 10);
+	write_in_grid(&(st->grid), 5, 10, 1);
 	result = cycle_threads(&st);
 	free_storage(&st);
 	return (result == SUCCESS);
 }
 
-static int		ut_key_functions_15(void)
-{
-	/*
-	** decrypt_op_code avec param null
-	*/
-	int		result;
-
-	result = decrypt_op_code(NULL, 0);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_key_functions_16(void)
-{
-	/*
-	** decrypt_op_code avec valeurs cle
-	*/
-	int		*tab;
-	int		result;
-
-	result = decrypt_op_code(&tab, 0);
-	result += tab[0] == 0 && tab[1] == 0 && tab[2] == 0 ? 1 : 0;
-	free(tab);
-	result += decrypt_op_code(&tab, 255);
-	result += tab[0] == 3 && tab[1] == 3 && tab[2] == 3 ? 1 : 0;
-	free(tab);
-	result += decrypt_op_code(&tab, 192);
-	result += tab[0] == 3 && tab[1] == 0 && tab[2] == 0 ? 1 : 0;
-	free(tab);
-	result += decrypt_op_code(&tab, 240);
-	result += tab[0] == 3 && tab[1] == 3 && tab[2] == 0 ? 1 : 0;
-	free(tab);
-	result += decrypt_op_code(&tab, 156);
-	result += tab[0] == 2 && tab[1] == 1 && tab[2] == 3 ? 1 : 0;
-	free(tab);
-	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
-}
-
-static int		ut_key_functions_17(void)
-{
-	/*
-	** decrypt_op_code avec valeurs impossibles (-1 / 256)
-	*/
-	int		*tab;
-	int		result;
-
-	result = decrypt_op_code(&tab, -1);
-	result += decrypt_op_code(&tab, 256);
-	return (result == BAD_PARAM + BAD_PARAM);
-}
-
-static int		ut_key_functions_18(void)
-{
-	/*
-	** read_four_in_grid test
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_grid(&st);
-	write_in_grid(&(st->grid), 64, 0);
-	write_in_grid(&(st->grid), 48, 1);
-	write_in_grid(&(st->grid), 32, 2);
-	write_in_grid(&(st->grid), 16, 3);
-	result = read_four_in_grid(&(st->grid), 0);
-	free_storage(&st);
-	return (result == 1076895760);
-}
-
-static int		ut_key_functions_19(void)
-{
-	/*
-	** write_four_in_grid test
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_grid(&st);
-	result = write_four_in_grid(&(st->grid), -2, 0);
-	result += read_four_in_grid(&(st->grid), 0) == -2 ? 1 : 0;
-	result += write_four_in_grid(&(st->grid), 2147483647, 4);
-	result += read_four_in_grid(&(st->grid), 4) == 2147483647 ? 1 : 0;
-	result += write_four_in_grid(&(st->grid), -2147483648, 8);
-	result += read_four_in_grid(&(st->grid), 8) == -2147483648 ? 1 : 0;
-	free_storage(&st);
-	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
-}
-
-//cycle_threads fonctionnel et non fonctionnel a faire
+//cycle_threads fonctionnel et non fonctionnel a terminer
 
 static int		ut_storage_01(void)
 {
@@ -2522,6 +2476,56 @@ static int		ut_utilities_03(void)
 	return (result == BAD_PARAM + BAD_PARAM);
 }
 
+static int		ut_utilities_04(void)
+{
+	/*
+	** decrypt_op_code avec param null
+	*/
+	int		result;
+
+	result = decrypt_op_code(NULL, 0);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_utilities_05(void)
+{
+	/*
+	** decrypt_op_code avec valeurs cle
+	*/
+	int		*tab;
+	int		result;
+
+	result = decrypt_op_code(&tab, 0);
+	result += tab[0] == 0 && tab[1] == 0 && tab[2] == 0 ? 1 : 0;
+	free(tab);
+	result += decrypt_op_code(&tab, 255);
+	result += tab[0] == 3 && tab[1] == 3 && tab[2] == 3 ? 1 : 0;
+	free(tab);
+	result += decrypt_op_code(&tab, 192);
+	result += tab[0] == 3 && tab[1] == 0 && tab[2] == 0 ? 1 : 0;
+	free(tab);
+	result += decrypt_op_code(&tab, 240);
+	result += tab[0] == 3 && tab[1] == 3 && tab[2] == 0 ? 1 : 0;
+	free(tab);
+	result += decrypt_op_code(&tab, 156);
+	result += tab[0] == 2 && tab[1] == 1 && tab[2] == 3 ? 1 : 0;
+	free(tab);
+	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
+}
+
+static int		ut_utilities_06(void)
+{
+	/*
+	** decrypt_op_code avec valeurs impossibles (-1 / 256)
+	*/
+	int		*tab;
+	int		result;
+
+	result = decrypt_op_code(&tab, -1);
+	result += decrypt_op_code(&tab, 256);
+	return (result == BAD_PARAM + BAD_PARAM);
+}
+
 void			ut_bin_extractor(void)
 {
 	ft_putstr(ut_bin_extractor_01() ? "ut_bin_extractor_01	OK\n" : "ut_bin_extractor_01	ERROR\n");
@@ -2612,16 +2616,16 @@ void			ut_key_functions(void)
 	ft_putstr(ut_key_functions_08() ? "ut_key_functions_08	OK\n" : "ut_key_functions_08	ERROR\n");
 	ft_putstr(ut_key_functions_09() ? "ut_key_functions_09	OK\n" : "ut_key_functions_09	ERROR\n");
 	ft_putstr(ut_key_functions_10() ? "ut_key_functions_10	OK\n" : "ut_key_functions_10	ERROR\n");
-	ft_putstr(ut_key_functions_11() ? "ut_key_functions_11	OK\n" : "ut_key_functions_11	ERROR\n");
+	//ft_putstr(ut_key_functions_11() ? "ut_key_functions_11	OK\n" : "ut_key_functions_11	ERROR\n");
 	ft_putstr(ut_key_functions_12() ? "ut_key_functions_12	OK\n" : "ut_key_functions_12	ERROR\n");
 	ft_putstr(ut_key_functions_13() ? "ut_key_functions_13	OK\n" : "ut_key_functions_13	ERROR\n");
-	ft_putstr(ut_key_functions_14() ? "ut_key_functions_14	OK\n" : "ut_key_functions_14	ERROR\n");
+	//ft_putstr(ut_key_functions_14() ? "ut_key_functions_14	OK\n" : "ut_key_functions_14	ERROR\n");
 	ft_putstr(ut_key_functions_15() ? "ut_key_functions_15	OK\n" : "ut_key_functions_15	ERROR\n");
 	ft_putstr(ut_key_functions_16() ? "ut_key_functions_16	OK\n" : "ut_key_functions_16	ERROR\n");
 	ft_putstr(ut_key_functions_17() ? "ut_key_functions_17	OK\n" : "ut_key_functions_17	ERROR\n");
 	ft_putstr(ut_key_functions_18() ? "ut_key_functions_18	OK\n" : "ut_key_functions_18	ERROR\n");
-	ft_putstr(ut_key_functions_19() ? "ut_key_functions_19	OK\n" : "ut_key_functions_19	ERROR\n");
 	/*
+	ft_putstr(ut_key_functions_19() ? "ut_key_functions_19	OK\n" : "ut_key_functions_19	ERROR\n");
 	ft_putstr(ut_key_functions_20() ? "ut_key_functions_20	OK\n" : "ut_key_functions_20	ERROR\n");
 	ft_putstr(ut_key_functions_21() ? "ut_key_functions_21	OK\n" : "ut_key_functions_21	ERROR\n");
 	ft_putstr(ut_key_functions_22() ? "ut_key_functions_22	OK\n" : "ut_key_functions_22	ERROR\n");
@@ -2744,6 +2748,9 @@ void			ut_utilities(void)
 	ft_putstr(ut_utilities_01() ? "ut_utilities_01		OK\n" : "ut_utilities_01		ERROR\n");
 	ft_putstr(ut_utilities_02() ? "ut_utilities_02		OK\n" : "ut_utilities_02		ERROR\n");
 	ft_putstr(ut_utilities_03() ? "ut_utilities_03		OK\n" : "ut_utilities_03		ERROR\n");
+	ft_putstr(ut_utilities_04() ? "ut_utilities_04		OK\n" : "ut_utilities_04		ERROR\n");
+	ft_putstr(ut_utilities_05() ? "ut_utilities_05		OK\n" : "ut_utilities_05		ERROR\n");
+	ft_putstr(ut_utilities_06() ? "ut_utilities_06		OK\n" : "ut_utilities_06		ERROR\n");
 }
 
 void			all_ut(void)

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 18:57:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/12 11:30:35 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		thread_change_cycle(t_thread **th, int ***gr, int type)
 
 int		thread_change_value_reg(t_thread **th, int reg, int new_value)
 {
-	if (thread_check(th) < VALID_EMPTY || reg < 0 || reg > 15)
+	if (thread_check(th) < VALID_EMPTY || reg < 0 || reg > REG_NUMBER - 1)
 		return (BAD_PARAM);
 	(*th)->reg[reg] = new_value;
 	return (SUCCESS);
@@ -63,7 +63,7 @@ int		thread_change_where(t_thread **th, int ***gr, int new_where)
 		|| thread_check(th) < VALID_EMPTY || grid_check(gr) != VALID_FULL)
 		return (BAD_PARAM);
 	(*th)->where = tempo;
-	if ((new_action = read_in_grid(gr, (*th)->where)) < NO_CHANGE
+	if ((new_action = read_in_grid(gr, (*th)->where, INSTR_SIZE)) < NO_CHANGE
 		|| thread_change_action(th, new_action) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
@@ -71,7 +71,7 @@ int		thread_change_where(t_thread **th, int ***gr, int new_where)
 
 int		thread_get_value_reg(t_thread **th, int reg)
 {
-	if (thread_check(th) < VALID_EMPTY || reg < 0 || reg > 15)
+	if (thread_check(th) < VALID_EMPTY || reg < 0 || reg > REG_NUMBER - 1)
 		return (BAD_PARAM);
 	return ((*th)->reg[reg]);
 }

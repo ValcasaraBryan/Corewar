@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/11 15:39:53 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/13 19:46:17 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # define UT_PRINT		0
 
+# define MOVE			"move"
 # define LIVE			"live"
 # define LD				"ld"
 # define ST				"st"
@@ -40,10 +41,6 @@
 # define LLDI			"lldi"
 # define LFORK			"lfork"
 # define AFF			"aff"
-# define T_REG			1
-# define T_DIR			2
-# define T_IND			4
-# define T_LAB			8
 
 /*
 ** return values
@@ -59,12 +56,72 @@
 # define VALID_FULL		15
 # define VALID_EMPTY	5
 
+
+/*
+** op.h
+*/
+
+/*
+** used
+*/
+# define T_REG			1
+# define T_DIR			2
+# define T_IND			4
+# define T_LAB			8
+# define NO_CODE			0
+# define REG_CODE			1
+# define DIR_CODE			2
+# define IND_CODE			3
+
+# define INSTR_SIZE			1
+# define CB_SIZE			1
+# define REG_SIZE			1
+# define DIR_SIZE			4
+# define IND_SIZE			2
+
+# define MAX_PLAYERS		4
+# define REG_NUMBER			16
+
+
+# define MAX_ARGS_NUMBER	4
+# define MEM_SIZE			(4*1024)
+# define IDX_MOD			(MEM_SIZE / 8)
+# define CHAMP_MAX_SIZE		(MEM_SIZE / 6)
+
+# define CYCLE_TO_DIE		1536
+# define CYCLE_DELTA		50
+# define NBR_LIVE			21
+# define MAX_CHECKS			10
+
+# define PROG_NAME_LENGTH	(128)
+# define COMMENT_LENGTH		(2048)
+# define COREWAR_EXEC_MAGIC	0x10101010
+
+typedef struct				header_s
+{
+	unsigned int			magic;
+	char					prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int			prog_size;
+	char					comment[COMMENT_LENGTH + 1];
+}							header_t;
+
+
+
+
+
+
+
+
+
+
+
+
 typedef struct			s_thread
 {
 	int					action;
 	int					cycle;
 	int					where;
-	int					reg[16];
+	int					reg[REG_NUMBER];
 	struct s_thread		*prec;
 	struct s_thread		*next;
 }						t_thread;
@@ -108,8 +165,8 @@ typedef struct			s_instruction
 	int					cycles_nb;
 	int					carry_needed;
 	int					carry_after;
-	int					octal_codage;
-	int					dir_size;
+	int					no_codage_byte;
+	int					size_four_dir;
 	int					(*fct_ptr)(t_thread **th, int ***gr);
 }						t_instruction;
 
@@ -244,11 +301,8 @@ int						instr_zjmp(t_thread **th, int ***gr);
 ** ------------------------	key_functions				------------------------
 */
 int						cycle_threads(t_storage **st);
-int						decrypt_op_code(int **tab, int nb);
-int						read_in_grid(int ***grid, int where);
-int						write_in_grid(int ***grid, int value, int where);
-int						read_four_in_grid(int ***gr, int where);
-int						write_four_in_grid(int ***gr, int value, int where);
+int						read_in_grid(int ***grid, int where, int nb);
+int						write_in_grid(int ***grid, long value, int where, int nb);
 
 /*
 ** ------------------------	manage_byte					------------------------
@@ -326,6 +380,7 @@ void					all_ut(void);
 ** ------------------------	utilities					------------------------
 */
 int						convert_to_binary(char **res, int nb);
+int						decrypt_op_code(int **tab, int nb);
 void					print_nb_hexa(int nb);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/11 16:06:46 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/12 11:29:05 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,69 +34,19 @@ int		cycle_threads(t_storage **st)
 	return (SUCCESS);
 }
 
-int		decrypt_op_code(int **tab, int nb)
-{
-	char	*r;
-	int		i;
-
-	if (tab == NULL || nb < 0 || nb > 255)
-		return (BAD_PARAM);
-	*tab = NULL;
-	if (!((*tab) = malloc(sizeof(**tab) * 4)))
-		return (MALLOC_FAILED);
-	if (convert_to_binary(&r, nb) != SUCCESS)
-		return (CALL_FAILED);
-	i = -1;
-	while (i <= 3)
-	{
-		(*tab)[++i] = 0;
-		(*tab)[i] = r[2 * i] == '0' && r[2 * i + 1] == '1' ? 1 : (*tab)[i];
-		(*tab)[i] = r[2 * i] == '1' && r[2 * i + 1] == '0' ? 2 : (*tab)[i];
-		(*tab)[i] = r[2 * i] == '1' && r[2 * i + 1] == '1' ? 3 : (*tab)[i];
-	}
-	free(r);
-	return (SUCCESS);
-}
-
-int		read_in_grid(int ***gr, int where)
-{
-	int		col;
-	int		line;
-
-	if (grid_check(gr) != VALID_FULL || where < 0)
-		return (BAD_PARAM);
-	where = where % (GRID_SIZE * GRID_SIZE);
-	col = where % GRID_SIZE;
-	line = where / GRID_SIZE;
-	return ((*gr)[line][col]);
-}
-
-int		write_in_grid(int ***gr, int value, int where)
-{
-	int		col;
-	int		line;
-
-	if (grid_check(gr) != VALID_FULL || where < 0 || value < 0 || value > 255)
-		return (BAD_PARAM);
-	where = where % (GRID_SIZE * GRID_SIZE);
-	col = where % GRID_SIZE;
-	line = where / GRID_SIZE;
-	(*gr)[line][col] = value;
-	return (SUCCESS);
-}
-
-int		read_four_in_grid(int ***gr, int where)
+int		read_in_grid(int ***gr, int where, int nb)
 {
 	int		col;
 	int		i;
 	int		line;
 	int		res;
 
-	if (grid_check(gr) != VALID_FULL || where < 0)
+	if (grid_check(gr) != VALID_FULL || where < 0
+		|| (nb != 1 && nb != 2 && nb != 4))
 		return (BAD_PARAM);
 	i = -1;
 	res = 0;
-	while (++i < 4)
+	while (++i < nb)
 	{
 		res = i != 0 ? res << 8 : res;
 		where = where % (GRID_SIZE * GRID_SIZE);
@@ -108,19 +58,23 @@ int		read_four_in_grid(int ***gr, int where)
 	return (res);
 }
 
-int		write_four_in_grid(int ***gr, int value, int where)
+int		write_in_grid(int ***gr, long value, int where, int nb)
 {
 	int		col;
 	int		i;
 	int		line;
 	long	res;
 
-	if (grid_check(gr) != VALID_FULL || where < 0)
+	if (grid_check(gr) != VALID_FULL || where < 0
+		|| (nb != 1 && nb != 2 && nb != 4))
 		return (BAD_PARAM);
 	i = -1;
-	where += 4;
-	res = value < 0 ? 4294967296 - (-1 * value) : value;
-	while (++i < 4)
+	where += nb;
+	res = value;
+	res = nb == 4 && value < 0 ? 9223372036854775807 - (-1 * value) : res;
+	res = nb == 2 && value < 0 ? 65536 - (-1 * value) : res;
+	res = nb == 1 && value < 0 ? 256 - (-1 * value) : res;
+	while (++i < nb)
 	{
 		where = (where - 1) % (GRID_SIZE * GRID_SIZE);
 		col = where % GRID_SIZE;
