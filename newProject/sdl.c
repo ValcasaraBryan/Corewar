@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 		write(1, "toto15\n", 7);
 	}*/
 	TTF_Font* Sans = TTF_OpenFont("browzko.ttf", 24);
-	SDL_Color White = {255, 255, 0};
+	SDL_Color White = {255, 255, 255};
 	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "put your text here", White);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
