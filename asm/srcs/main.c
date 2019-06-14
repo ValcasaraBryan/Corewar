@@ -25,7 +25,6 @@ int		main(int argc, char **argv)
 			// ft_printf("%02x", buf);
 			// i++;
 		// }
-		ft_printf("%d\n", (unsigned short)2147483647);
 		if (!(parsing_asm(&data)))
 		{
 			ft_printf("error\n");

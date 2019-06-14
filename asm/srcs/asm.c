@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/13 18:41:39 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/14 22:15:05 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,68 @@ t_ins		*new_instruction(t_op ins)
 	i = -1;
 	while (++i < ins.len_params)
 		new->params[i] = 0;
+	new->len = 0;
 	new->next = NULL;
 	return (new);
+}
+
+t_name_label	*new_n_label(char *label, int index)
+{
+	t_name_label *new;
+
+	if (!(new = malloc(sizeof(t_ins))))
+		return (NULL);
+	new->label = label;
+	new->len = (label) ? ft_strlen(label) : 0;
+	new->index_ins = index;
+	new->next = NULL;
+	return (new);
+}
+
+void		add_n_label(t_name_label **old, char *label, int index)
+{
+	t_name_label	*tmp;
+
+	if (!*old)
+		*old = new_n_label(label, index);
+	else
+	{
+		tmp = *old;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_n_label(label, index);
+	}
+}
+
+t_label	*new_label(t_label cpy)
+{
+	t_label *new;
+
+	if (!(new = malloc(sizeof(t_ins))))
+		return (NULL);
+	new->ins = cpy.ins;
+	new->token = cpy.token;
+	new->label = cpy.label;
+	new->len = cpy.len;
+	new->index_ins = cpy.index_ins;
+	new->index_params = cpy.index_params;
+	new->next = NULL;
+	return (new);
+}
+
+void		add_label(t_label **old, t_label cpy)
+{
+	t_label	*tmp;
+
+	if (!*old)
+		*old = new_label(cpy);
+	else
+	{
+		tmp = *old;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_label(cpy);
+	}
 }
 
 void		add_token(t_token **old, t_token new)
@@ -81,12 +141,12 @@ t_ins		*add_instruction(t_ins **old, t_op ins)
 
 void		print_list(t_data *data)
 {
-	while (data->token)
-	{
-		ft_printf("[%s][%03d:%03d]%03d|\n", data->token->cut, data->token->n_line,
-				data->token->start, data->token->end);
-		data->token = data->token->next;
-	}
+	// while (data->token)
+	// {
+		// ft_printf("[%s][%03d:%03d]%03d|\n", data->token->cut, data->token->n_line,
+				// data->token->start, data->token->end);
+		// data->token = data->token->next;
+	// }
 	int	i;
 	while (data->ins)
 	{
@@ -101,11 +161,31 @@ void		print_list(t_data *data)
 			ft_printf("\t");
 		while (++i < data->ins->ins.len_params)
 		{
-			ft_printf("\033[32m%02x\033[0m ", data->ins->params[i]);
+			if ((data->ins->ins.indirect == 0 && data->ins->codage[i] == IND_CODE)
+				|| (data->ins->ins.direct == 0 && data->ins->codage[i] == DIR_CODE))
+				ft_printf("\033[32m%08x\033[0m ", data->ins->params[i]);
+			else if (data->ins->codage[i] == REG_CODE)
+				ft_printf("\033[32m%02x\033[0m ", data->ins->params[i]);
+			else
+				ft_printf("\033[32m%04x\033[0m ", (unsigned short)data->ins->params[i]);
 		}
 		ft_printf("\n");
 		data->ins = data->ins->next;
 	}
+	while (data->label)
+	{
+		ft_printf("%s | %d\n", data->label->label, data->label->index_ins);
+		data->label = data->label->next;
+	}
+	while (data->ins_label)
+	{
+		ft_printf("%p\n", data->ins_label->ins);
+		ft_printf("%s\n", data->ins_label->label);
+		ft_printf("%d\n", data->ins_label->index_ins);
+		ft_printf("%d\n", data->ins_label->index_params);
+		data->ins_label = data->ins_label->next;
+	}
+	ft_printf("len instruction : %08x\n", data->len_ins);
 }
 
 void	init_data(t_data *data, char *av)
@@ -125,6 +205,9 @@ void	init_data(t_data *data, char *av)
 	data->line.n_line = 0;
 	data->token = NULL;
 	data->ins = NULL;
+	data->len_ins = 0;
+	data->ins_label = NULL;
+	data->label = NULL;
 }
 
 int		suffix_name(t_data *data, const char *s)
@@ -398,68 +481,90 @@ int		skip_separator(t_token **tmp, t_op *val, int *i)
 	return (1);
 }
 
+t_token	cpy_token(t_token *token)
+{
+	t_token	new;
+
+	new.cut = ft_strdup(token->cut);
+	new.type = token->type;
+	new.start = token->start;
+	new.end = token->end;
+	new.n_line = token->n_line;
+	new.next = NULL;
+	return (new);
+}
+
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 {
 	int	i;
 	int	bin;
+	t_label cpy;
 
-	(void)ins;
-	(void)data;
 	i = 0;
 	bin = 2;
 	while ((*tmp))
 	{
 		(*tmp)->type = add_type((*tmp)->cut, &val);
-		if ((*tmp)->type == DIRECT || (*tmp)->type == DIRECT_LABEL)
+		if ((*tmp)->type == DIRECT || (*tmp)->type == DIRECT_LABEL || (*tmp)->type == REGISTER)
 		{
-			ins->octet += DIR_CODE;
-			// ft_printf("%d - %d - %d | i = %d\n", T_DIR, (val->params[i]), (T_DIR & (val->params[i])), i);
 			if (T_DIR == (T_DIR & (val->params[i])))
 			{
-				if (ins->ins.direct == 0)
+				ins->octet += DIR_CODE;
+				ins->codage[i] = DIR_CODE;
+				ins->len += ins->ins.direct == 1 ? 2 : 4;
+				if ((*tmp)->type == DIRECT)
 					ins->params[i] = ft_atoi((*tmp)->cut + 1);
-				else
-					ins->params[i] = (unsigned short)ft_atoi((*tmp)->cut + 1);
-				ft_printf("arguments correct %s direct\n", (*tmp)->cut);
+				else if ((*tmp)->type == DIRECT_LABEL)
+				{
+					cpy.ins = ins;
+					cpy.token = cpy_token(*tmp);
+					cpy.label = ft_strdup((*tmp)->cut + 2);
+					cpy.len = (cpy.label) ? ft_strlen(cpy.label) : 0;
+					cpy.index_ins = data->len_ins;
+					cpy.index_params = i;
+					add_label(&data->ins_label, cpy);
+				}
+			}
+			else if (T_REG == (T_REG & (val->params[i])))
+			{
+				if (ft_strlen((*tmp)->cut) > 3)
+					return (0);
+				ins->octet += REG_CODE;
+				ins->codage[i] = REG_CODE;
+				ins->len += 1;
+				ins->params[i] = ft_atoi((*tmp)->cut + 1);
 			}
 			else
 			{
-				ft_printf("Invalid parameter %d type direct for instruction %s\n", i, val->ins);
+				// ft_printf("Invalid parameter %d type direct for instruction %s\n", i, val->ins);
 				return (0); // type d'argument non valide
 			}
 		}
 		else if ((*tmp)->type == INDIRECT || (*tmp)->type == INDIRECT_LABEL)
 		{
-			ins->octet += IND_CODE;
 			// ft_printf("%d - %d - %d | i = %d\n", T_IND, (val->params[i]), (T_IND & (val->params[i])), i);
 			if (T_IND == (T_IND & (val->params[i])))
 			{
-				if (ins->ins.indirect == 0)
+				ins->octet += IND_CODE;
+				ins->codage[i] = IND_CODE;
+				ins->len += ins->ins.indirect == 1 ? 2 : 4;
+				if ((*tmp)->type == INDIRECT)
 					ins->params[i] = ft_atoi((*tmp)->cut);
 				else
-					ins->params[i] = (unsigned short)ft_atoi((*tmp)->cut);
-				ft_printf("arguments correct %s indirect\n", (*tmp)->cut);
+				{
+					cpy.ins = ins;
+					cpy.token = cpy_token(*tmp);
+					cpy.label = ft_strdup((*tmp)->cut + 1);
+					cpy.len = (cpy.label) ? ft_strlen(cpy.label) : 0;
+					cpy.index_ins = data->len_ins;
+					cpy.index_params = i;
+					add_label(&data->ins_label, cpy);
+				}
+				// ft_printf("arguments correct %s indirect\n", (*tmp)->cut);
 			}
 			else
 			{
-				ft_printf("Invalid parameter %d type indirect for instruction %s\n", i, val->ins);
-				return (0); // type d'argument non valide
-			}
-		}
-		else if ((*tmp)->type == REGISTER)
-		{
-			ins->octet += REG_CODE;
-			// ft_printf("%d - %d - %d | i = %d\n", T_REG, (val->params[i]), (T_REG & (val->params[i])), i);
-			if (T_REG == (T_REG & (val->params[i])))
-			{
-				if (ft_strlen((*tmp)->cut) > 3)
-					return (0);
-				ins->params[i] = ft_atoi((*tmp)->cut + 1);
-				ft_printf("arguments correct %s\n", (*tmp)->cut);
-			}
-			else
-			{
-				ft_printf("Invalid parameter %d type register for instruction %s\n", i, val->ins);
+				// ft_printf("Invalid parameter %d type indirect for instruction %s\n", i, val->ins);
 				return (0); // type d'argument non valide
 			}
 		}
@@ -474,9 +579,7 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			break ;
 		if (!(skip_separator(tmp, val, &i)))
 			return (0);
-			ft_printf("%d\n", ins->octet);
 		ins->octet = ins->octet << bin;
-			ft_printf("%d\n", ins->octet);
 	}
 	// ft_printf("%d < %d\n", i, val->len_params);
 	if (i < val->len_params - 1)
@@ -506,24 +609,24 @@ int		check_token(t_data *data)
 			type = tmp->type;
 			if (type == INSTRUCTION && val)
 			{
-				ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
+				// ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
 				ins_tmp = add_instruction(&data->ins, *val);
+				ins_tmp->len += (ins_tmp->ins.opcode == LIVE || ins_tmp->ins.opcode == FORK
+				|| ins_tmp->ins.opcode == ZJMP || ins_tmp->ins.opcode == LFORK) ? 1 : 2;
 				// ft_printf("%d\n", val->opcode);
 			}
 			else if (type == LABEL)
-			{
-				ft_printf("%-10s | %d\n", tmp->cut, tmp->type);
-				// ft_printf("label\n");
-			}
+				add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1), data->len_ins);
 		}
 		else
 		{
-			// ft_printf("%s|%p\n", tmp->cut, ins_tmp);
+			ft_printf("%p | %s\n", tmp, tmp->cut);
 			if (!val || !(check_params(data, &tmp, ins_tmp, val)))
 			{
 				ft_printf("%s\n", tmp->cut);
 				return (0);
 			}
+			data->len_ins += ins_tmp->len;
 		}
 		if (tmp->next)
 			tmp = tmp->next;
@@ -666,6 +769,40 @@ int		step(t_data *data, char **tmp)
 	return (1);
 }
 
+int		check_label(t_data *data)
+{
+	t_label			*tmp;
+	t_name_label	*def;
+	bool			match;
+
+	tmp = data->ins_label;
+	while (tmp)
+	{
+		match = false;
+		def = data->label;
+		while (def)
+		{
+			if (tmp->len == def->len)
+				if (ft_strnstr(tmp->label, def->label, tmp->len))
+				{
+					match = true;
+					break ;
+				}
+			def = def->next;
+		}
+		if (match == true)
+			tmp->ins->params[tmp->index_params] = def->index_ins - tmp->index_ins;
+		else
+		{
+			ft_printf("No such label %s while attempting to dereference token \"%s\"\n", tmp->label, tmp->token.cut);
+			return (0);
+		}
+		// ft_printf("%02x\n", def->index_ins - tmp->index_ins);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 int		parsing_asm(t_data *data)
 {
 	char *tmp;
@@ -694,6 +831,8 @@ int		parsing_asm(t_data *data)
 		data->line.current = 0;
 		data->line.n_line++;
 	}
+	if (!(check_label(data)))
+		return (0);
 	if (data->name_and_comment != 2 || data->index > data->len)
 	{
 		ft_printf("ERROR\n");

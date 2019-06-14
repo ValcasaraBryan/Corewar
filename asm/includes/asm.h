@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/13 18:07:51 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/14 22:10:59 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,12 @@ typedef struct		s_op
 typedef struct		s_ins
 {
 	t_op			ins;
+	unsigned char	codage[3];
 	unsigned char	octet;
 	int				*params;
+	int				len;
 	struct s_ins	*next;
 }					t_ins;
-
-typedef struct		s_label
-{
-	t_ins			**ins;
-	int				index_params;
-	struct s_label	*next;
-}					t_label;
 
 typedef struct		s_token
 {
@@ -117,6 +112,25 @@ typedef struct		s_token
 	int				n_line;
 	struct s_token	*next;
 }					t_token;
+
+typedef struct		s_label
+{
+	t_ins			*ins;
+	t_token			token;
+	char			*label;
+	int				len;
+	int				index_ins;
+	int				index_params;
+	struct s_label	*next;
+}					t_label;
+
+typedef struct		s_name_label
+{
+	char			*label;
+	int				len;
+	int				index_ins;
+	struct s_name_label	*next;
+}					t_name_label;
 
 typedef struct		s_line
 {
@@ -137,9 +151,12 @@ typedef struct		s_data
 	header_t		header;
 	int				len;
 	int				index;
+	int				len_ins;
 	t_line			line;
 	t_token			*token;
 	t_ins			*ins;
+	t_label			*ins_label;
+	t_name_label	*label;
 }					t_data;
 
 extern t_op			op_tab[REG_NUMBER + 1];
