@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2019/06/11 18:18:44 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/13 18:03:20 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_op    op_tab[REG_NUMBER + 1] =
 {
-//	ins		len_ins	len_params		params										opcode	cycle	description						octet_codage	carry
+//	ins		len_ins	len_params		params										opcode	cycle	description								indirect	direct
 	{"live",	4,	1,	{T_DIR},												LIVE,	10,		"alive",									0,	0},
 	{"ld",		2,	2,	{T_DIR | T_IND, T_REG},									LD,		5,		"load",										1,	0},
 	{"st",		2,	2,	{T_REG, T_IND | T_REG},									ST,		5,		"store",									1,	0},

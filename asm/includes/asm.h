@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/14 22:10:59 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/15 05:24:37 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ typedef struct		s_line
 typedef struct		s_data
 {
 	int				fd;
+	int				fd_file;
 	int				ret;
 	char			*name_cor;
 	char			*name_s;
@@ -151,7 +152,6 @@ typedef struct		s_data
 	header_t		header;
 	int				len;
 	int				index;
-	int				len_ins;
 	t_line			line;
 	t_token			*token;
 	t_ins			*ins;

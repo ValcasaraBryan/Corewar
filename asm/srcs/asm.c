@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/14 22:15:05 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/15 06:17:50 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void		print_list(t_data *data)
 		ft_printf("%d\n", data->ins_label->index_params);
 		data->ins_label = data->ins_label->next;
 	}
-	ft_printf("len instruction : %08x\n", data->len_ins);
+	ft_printf("len instruction : %08x\n", data->header.prog_size);
 }
 
 void	init_data(t_data *data, char *av)
@@ -194,6 +194,7 @@ void	init_data(t_data *data, char *av)
 
 	i = -1;
 	data->fd = -1;
+	data->fd_file = -1;
 	data->ret = -1;
 	data->name_s = av;
 	data->name_cor = NULL;
@@ -205,7 +206,6 @@ void	init_data(t_data *data, char *av)
 	data->line.n_line = 0;
 	data->token = NULL;
 	data->ins = NULL;
-	data->len_ins = 0;
 	data->ins_label = NULL;
 	data->label = NULL;
 }
@@ -520,7 +520,7 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 					cpy.token = cpy_token(*tmp);
 					cpy.label = ft_strdup((*tmp)->cut + 2);
 					cpy.len = (cpy.label) ? ft_strlen(cpy.label) : 0;
-					cpy.index_ins = data->len_ins;
+					cpy.index_ins = data->header.prog_size;
 					cpy.index_params = i;
 					add_label(&data->ins_label, cpy);
 				}
@@ -556,7 +556,7 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 					cpy.token = cpy_token(*tmp);
 					cpy.label = ft_strdup((*tmp)->cut + 1);
 					cpy.len = (cpy.label) ? ft_strlen(cpy.label) : 0;
-					cpy.index_ins = data->len_ins;
+					cpy.index_ins = data->header.prog_size;
 					cpy.index_params = i;
 					add_label(&data->ins_label, cpy);
 				}
@@ -616,17 +616,17 @@ int		check_token(t_data *data)
 				// ft_printf("%d\n", val->opcode);
 			}
 			else if (type == LABEL)
-				add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1), data->len_ins);
+				add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1), data->header.prog_size);
 		}
 		else
 		{
-			ft_printf("%p | %s\n", tmp, tmp->cut);
+			// ft_printf("%p | %s\n", tmp, tmp->cut);
 			if (!val || !(check_params(data, &tmp, ins_tmp, val)))
 			{
-				ft_printf("%s\n", tmp->cut);
+				// ft_printf("%s\n", tmp->cut);
 				return (0);
 			}
-			data->len_ins += ins_tmp->len;
+			data->header.prog_size += ins_tmp->len;
 		}
 		if (tmp->next)
 			tmp = tmp->next;
@@ -815,6 +815,7 @@ int		parsing_asm(t_data *data)
 	}
 	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
 	ft_bzero(data->header.comment, COMMENT_LENGTH);
+	data->header.magic = COREWAR_EXEC_MAGIC;
 	while (step(data, &tmp))
 	{
 			// ft_printf("%s|%d\n", data->line.line, data->ret);

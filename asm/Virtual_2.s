@@ -2,7 +2,7 @@
 .comment "Tu t'es fait effacer de la virtualisation !"
 
 coucou:
-live %2147483647
+live %1229539649
 ld 2147483647, r2
 ld %2147483647, r2
 st r2, 2147483647
