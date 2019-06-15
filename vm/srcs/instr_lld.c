@@ -6,42 +6,18 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:13 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/13 20:03:30 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/15 18:50:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static int	instr_lld_case_one(t_thread **th, int ***gr)
-{
-	int		reg;
-	int		value;
-
-	value = read_in_grid(gr, (*th)->where + 1 + 1, 2);
-	if ((reg = read_in_grid(gr, (*th)->where + 1 + 1 + 2, 1)) < NO_CHANGE)
-		return (CALL_FAILED);
-	if (thread_change_value_reg(th, reg, value) != SUCCESS)
-		return (CALL_FAILED);
-	return (SUCCESS);
-}
-
-static int	instr_lld_case_two(t_thread **th, int ***gr)
-{
-	int		reg;
-	int		value;
-
-	value = read_in_grid(gr, (*th)->where + 1 + 1, 4);
-	if ((reg = read_in_grid(gr, (*th)->where + 1 + 1 + 4, 1)) < NO_CHANGE)
-		return (CALL_FAILED);
-	if (thread_change_value_reg(th, reg, value) != SUCCESS)
-		return (CALL_FAILED);
-	return (SUCCESS);
-}
-
 int			instr_lld(t_thread **th, int ***gr)
 {
 	int		*tab;
-	int		res;
+	int		reg;
+	int		size;
+	int		value;
 
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_lld\n");
@@ -55,9 +31,13 @@ int			instr_lld(t_thread **th, int ***gr)
 		free(tab);
 		return (NO_CHANGE);
 	}
-	res = tab[0] == DIR_CODE
-		? instr_lld_case_one(th, gr) : instr_lld_case_two(th, gr);
+	size = get_size_int(tab[0], 4);
 	free(tab);
-	return (res);
+	value = read_in_grid(gr, (*th)->where + 1 + 1, size);
+	value = size == 2 ? read_in_grid(gr, (*th)->where + value, 4) : value;
+	reg = read_in_grid(gr, (*th)->where + 1 + 1 + size, 1);
+	if (thread_change_value_reg(th, reg, value) != SUCCESS)
+		return (CALL_FAILED);
+	return (SUCCESS);
 }
 

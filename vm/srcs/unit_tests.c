@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/12 11:20:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/15 17:07:01 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1016,7 +1016,7 @@ static int		ut_key_functions_06(void)
 	result += read_in_grid(&(st->grid), 1, 1) == 255 ? 1 : 0;
 	result += read_in_grid(&(st->grid), 2, 2) == 0 ? 1 : 0;
 	result += read_in_grid(&(st->grid), 4, 2) == 65535 ? 1 : 0;
-	result += read_in_grid(&(st->grid), 6, 4) == 0 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 6, 4) == 1 ? 1 : 0;
 	result += read_in_grid(&(st->grid), 10, 4) == -1 ? 1 : 0;
 	free_storage(&st);
 	return (result == 1 + 1 + 1 + 1 + 1 + 1);
@@ -1117,7 +1117,7 @@ static int		ut_key_functions_13(void)
 	result += write_in_grid(&(st->grid), 65535, 4, 2);
 	result += read_in_grid(&(st->grid), 4, 2) == 65535 ? 1 : 0;
 	result += write_in_grid(&(st->grid), -9223372036854775807, 6, 4);
-	result += read_in_grid(&(st->grid), 6, 4) == 0 ? 1 : 0;
+	result += read_in_grid(&(st->grid), 6, 4) == 1 ? 1 : 0;
 	result += write_in_grid(&(st->grid), 9223372036854775807, 10, 4);
 	result += read_in_grid(&(st->grid), 10, 4) == -1 ? 1 : 0;
 	free_storage(&st);
@@ -2756,13 +2756,12 @@ void			ut_utilities(void)
 void			all_ut(void)
 {
 	/*
+	*/
 	ut_bin_extractor();
 	ut_byte();
 	ut_champion();
 	ut_grid();
-	*/
 	ut_key_functions();
-	/*
 	ut_storage();
 	ut_struct_check();
 	if (UT_PRINT >= 3)
@@ -2770,5 +2769,6 @@ void			all_ut(void)
 	ut_struct_setup();
 	ut_thread();
 	ut_utilities();
+	/*
 	*/
 }

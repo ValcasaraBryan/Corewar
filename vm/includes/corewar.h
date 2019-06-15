@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/13 19:46:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/15 16:36:24 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,7 @@ int						instr_zjmp(t_thread **th, int ***gr);
 int						cycle_threads(t_storage **st);
 int						read_in_grid(int ***grid, int where, int nb);
 int						write_in_grid(int ***grid, long value, int where, int nb);
+int						get_size_int(int code, int size_dir);
 
 /*
 ** ------------------------	manage_byte					------------------------

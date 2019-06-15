@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/12 11:29:05 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/15 17:00:19 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		write_in_grid(int ***gr, long value, int where, int nb)
 	i = -1;
 	where += nb;
 	res = value;
-	res = nb == 4 && value < 0 ? 9223372036854775807 - (-1 * value) : res;
+	res = nb == 4 && value < 0 ? 9223372036854775807 - (-1 * value) + 1 : res;
 	res = nb == 2 && value < 0 ? 65536 - (-1 * value) : res;
 	res = nb == 1 && value < 0 ? 256 - (-1 * value) : res;
 	while (++i < nb)
@@ -83,4 +83,15 @@ int		write_in_grid(int ***gr, long value, int where, int nb)
 		res /= 256;
 	}
 	return (SUCCESS);
+}
+
+int		get_size_int(int code, int size_dir)
+{
+	int		res;
+
+	res = 0;
+	res = code == DIR_CODE ? size_dir : res;
+	res = code == IND_CODE ? 2 : res;
+	res = code == REG_CODE ? 1 : res;
+	return (res);
 }

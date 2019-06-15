@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/13 19:17:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/15 17:07:15 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int			main(int argv, char **argc)
 	(void)argc;
 	(void)argv;
 	//usage
-	all_ut();
 	/*
-	all_ut_instr();
+	all_ut();
 	*/
+	all_ut_instr();
 	while (1);
 	return (0);
 }

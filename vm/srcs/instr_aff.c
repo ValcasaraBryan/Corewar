@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:07:59 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/13 19:47:54 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/15 14:29:42 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int		instr_aff(t_thread **th, int ***gr)
 		return (NO_CHANGE);
 	}
 	free(tab);
-	if ((reg = read_in_grid(gr, (*th)->where + 1 + 1, 1)) < NO_CHANGE)
-		return (CALL_FAILED);
+	reg = read_in_grid(gr, (*th)->where + 1 + 1, 1);
 	if ((res = thread_get_value_reg(th, reg)) == BAD_PARAM)
 		return (CALL_FAILED);
 	ft_putnbr(res);
