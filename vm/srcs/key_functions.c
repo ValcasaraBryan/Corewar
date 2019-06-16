@@ -6,33 +6,11 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/15 17:00:19 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/16 18:00:25 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
-int		cycle_threads(t_storage **st)
-{
-	t_thread	*current;
-	int			i;
-
-	if (storage_check(st, 2) != VALID_FULL)
-		return (BAD_PARAM);
-	i = -1;
-	//a changer par "tant qu'il ne reste pas qu'un seul champion" et autres
-	while (++i < 50)
-	{
-		current = (*st)->first_thread;
-		while (current != NULL)
-		{
-			if (thread_change_cycle(&current, &((*st)->grid), 1) < SUCCESS)
-				return (CALL_FAILED);
-			current = current->next;
-		}
-	}
-	return (SUCCESS);
-}
 
 int		read_in_grid(int ***gr, int where, int nb)
 {
@@ -83,15 +61,4 @@ int		write_in_grid(int ***gr, long value, int where, int nb)
 		res /= 256;
 	}
 	return (SUCCESS);
-}
-
-int		get_size_int(int code, int size_dir)
-{
-	int		res;
-
-	res = 0;
-	res = code == DIR_CODE ? size_dir : res;
-	res = code == IND_CODE ? 2 : res;
-	res = code == REG_CODE ? 1 : res;
-	return (res);
 }

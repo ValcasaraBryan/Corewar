@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:05:49 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/15 14:29:23 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:28:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int		instr_add(t_thread **th, int ***gr)
 	reg3 = read_in_grid(gr, (*th)->where + 1 + 1 + 1 + 1, 1);
 	if (thread_change_value_reg(th, reg3, thread_get_value_reg(th, reg1)
 		+ thread_get_value_reg(th, reg2)) != SUCCESS)
+		return (CALL_FAILED);
+	if (thread_change_where(th, gr, (*th)->where + 1 + 1 + 1 + 1 + 1) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
 }

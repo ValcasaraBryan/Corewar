@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/15 16:36:24 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/16 20:23:40 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <stdio.h>
 # include "../libft/includes/libft.h"
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		0
+# define UT_PRINT		5
 
 # define MOVE			"move"
 # define LIVE			"live"
@@ -52,10 +51,10 @@
 # define MALLOC_FAILED	-20
 # define CALL_FAILED	-30
 # define BAD_FD			-40
+# define FAILURE		-50
 
 # define VALID_FULL		15
 # define VALID_EMPTY	5
-
 
 /*
 ** op.h
@@ -68,53 +67,32 @@
 # define T_DIR			2
 # define T_IND			4
 # define T_LAB			8
-# define NO_CODE			0
-# define REG_CODE			1
-# define DIR_CODE			2
-# define IND_CODE			3
 
-# define INSTR_SIZE			1
-# define CB_SIZE			1
-# define REG_SIZE			1
-# define DIR_SIZE			4
-# define IND_SIZE			2
+# define NO_CODE		0
+# define REG_CODE		1
+# define DIR_CODE		2
+# define IND_CODE		3
 
-# define MAX_PLAYERS		4
-# define REG_NUMBER			16
+# define REG_NUMBER		16
 
+/*
+** unused
+*/
+# define MAX_PLAYERS	4
 
-# define MAX_ARGS_NUMBER	4
-# define MEM_SIZE			(4*1024)
-# define IDX_MOD			(MEM_SIZE / 8)
-# define CHAMP_MAX_SIZE		(MEM_SIZE / 6)
+# define MAX_ARGS		4
+# define MEM_SIZE		(4*1024)
+# define IDX_MOD		(MEM_SIZE / 8)
+# define CH_MAX_SIZE	(MEM_SIZE / 6)
 
-# define CYCLE_TO_DIE		1536
-# define CYCLE_DELTA		50
-# define NBR_LIVE			21
-# define MAX_CHECKS			10
+# define CYCLE_TO_DIE	1536
+# define CYCLE_DELTA	50
+# define NBR_LIVE		21
+# define MAX_CHECKS		10
 
-# define PROG_NAME_LENGTH	(128)
-# define COMMENT_LENGTH		(2048)
-# define COREWAR_EXEC_MAGIC	0x10101010
-
-typedef struct				header_s
-{
-	unsigned int			magic;
-	char					prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int			prog_size;
-	char					comment[COMMENT_LENGTH + 1];
-}							header_t;
-
-
-
-
-
-
-
-
-
-
-
+# define NAME_LENGTH	(128)
+# define DESC_LENGTH	(2048)
+# define MAGIC_NB		0x00EA83F3
 
 typedef struct			s_thread
 {
@@ -136,7 +114,7 @@ typedef struct			s_byte
 typedef struct			s_champion
 {
 	int					number;
-	int					magic_nb[4];
+	int					size;
 	char				*name;
 	char				*desc;
 	struct s_byte		*first_byte;
@@ -160,7 +138,6 @@ typedef struct			s_instruction
 	char				*name;
 	int					param_nb;
 	int					param_list[3];
-	char				*binary;
 	char				*hexa;
 	int					cycles_nb;
 	int					carry_needed;
@@ -186,10 +163,9 @@ int						byte_change_value(t_byte **bt, int new_value);
 ** ------------------------	functions_champion			------------------------
 */
 int						champion_change_desc(t_champion **ch, char *new_desc);
-int						champion_change_magic_nb(t_champion **ch, int index,
-	int new_value);
 int						champion_change_name(t_champion **ch, char *new_name);
 int						champion_change_number(t_champion **ch, int new_nb);
+int						champion_change_size(t_champion **ch, int new_size);
 
 /*
 ** ------------------------	functions_grid				------------------------
@@ -300,10 +276,9 @@ int						instr_zjmp(t_thread **th, int ***gr);
 /*
 ** ------------------------	key_functions				------------------------
 */
-int						cycle_threads(t_storage **st);
 int						read_in_grid(int ***grid, int where, int nb);
-int						write_in_grid(int ***grid, long value, int where, int nb);
-int						get_size_int(int code, int size_dir);
+int						write_in_grid(int ***grid, long value, int where,
+	int nb);
 
 /*
 ** ------------------------	manage_byte					------------------------
@@ -356,6 +331,7 @@ int						print_thread_list(t_storage **st);
 /*
 ** ------------------------	structs_setup				------------------------
 */
+int						setup_all(t_storage **st);
 int						setup_champions(t_storage **st, char ***t_p, int **t_n);
 int						setup_grid(t_storage **st);
 
@@ -383,5 +359,7 @@ void					all_ut(void);
 int						convert_to_binary(char **res, int nb);
 int						decrypt_op_code(int **tab, int nb);
 void					print_nb_hexa(int nb);
+int						print_dump(t_storage **st);
+int						get_size_int(int code, int size_dir);
 
 #endif

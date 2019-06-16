@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/13 19:33:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:12:18 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,23 @@ static int		extract_bytes(int fd, t_champion **ch)
 static int		extract_magic_numbers(int fd, t_champion **ch)
 {
 	int				i;
+	int				res;
 	unsigned char	buf[1];
 
 	if (champion_check(ch) < VALID_EMPTY)
 		return (BAD_PARAM);
 	lseek(fd, 0, SEEK_SET);
 	i = -1;
+	res = 0;
 	buf[0] = 1;
 	while (++i < 4)
 	{
 		read(fd, buf, 1);
-		// a changer check magic number .h
-		if (champion_change_magic_nb(ch, i, buf[0]) != SUCCESS)
-			return (CALL_FAILED);
+		res += buf[0];
+		res = i != 3 ? res << 8 : res;
 	}
+	if (res != MAGIC_NB)
+		return (FAILURE);
 	return (SUCCESS);
 }
 

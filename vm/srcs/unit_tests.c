@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/15 17:07:01 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/16 20:33:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*desc = "test comm";
 char 	*name = "test";
-char	*path_all_ok = "../vm_champs/champs/test_2.cor";
+char	*path_all_ok = "../vm_champs/champs/test_1.cor";
 char	*path_fake = "lol.cor";
 char	*path_folder = "../vm_champs/champs/";
 char	*path_no_rights = "../vm_champs/champs/maxidef_bis.cor";
@@ -565,62 +565,66 @@ static int		ut_champion_19(void)
 	return (result == SUCCESS + 1 + BAD_PARAM + 1 + BAD_PARAM + 1);
 }
 
-static int		ut_champion_25(void)
+static int		ut_champion_20(void)
 {
 	/*
-	** champion_change_magic_nb avec param null
+	** champion_change_size avec param null
 	*/
 	int			result;
 
-	result = champion_change_magic_nb(NULL, 1, 1);
+	result = champion_change_size(NULL, 1);
 	return (result == BAD_PARAM);
 }
 
-static int		ut_champion_26(void)
+static int		ut_champion_21(void)
 {
 	/*
-	** champion_change_magic_nb avec champion vide
+	** champion_change_size avec champion vide
 	*/
 	t_champion	*ch;
 	int			result;
 
 	ch = NULL;
-	result = champion_change_magic_nb(&ch, 1, 1);
+	result = champion_change_size(&ch, 1);
 	return (result == BAD_PARAM);
 }
 
-static int		ut_champion_27(void)
+static int		ut_champion_22(void)
 {
 	/*
-	** champion_change_magic_nb avec valeurs charnieres (0 / 3)
+	** champion_change_number avec valeurs charnieres (1 / 2147483647)
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_champion(&st);
-	result = champion_change_magic_nb(&(st->last_champion), 0, 1);
-	result += st->last_champion->magic_nb[0] == 1 ? 1 : 0;
-	result += champion_change_magic_nb(&(st->last_champion), 3, 2);
-	result += st->last_champion->magic_nb[3] == 2 ? 1 : 0;
+	result = champion_change_size(&(st->last_champion), 1);
+	result += st->last_champion->size == 1 ? 1 : 0;
+	result += champion_change_size(&(st->last_champion), 2147483647);
+	result += st->last_champion->size == 2147483647 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + SUCCESS + 1);
 }
 
-static int		ut_champion_28(void)
+static int		ut_champion_23(void)
 {
 	/*
-	** champion_change_magic_nb avec valeurs impossibles (-1 / 4)
+	** champion_change_size avec valeurs impossibles (0 / -1)
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_champion(&st);
-	result = champion_change_magic_nb(&(st->last_champion), -1, 1);
-	result += champion_change_magic_nb(&(st->last_champion), 4, 1);
+	result = champion_change_size(&(st->last_champion), 1);
+	result += st->last_champion->size == 1 ? 1 : 0;
+	result += champion_change_size(&(st->last_champion), 0);
+	result += st->last_champion->size == 1 ? 1 : 0;
+	result += champion_change_size(&(st->last_champion), -1);
+	result += st->last_champion->size == 1 ? 1 : 0;
 	free_storage(&st);
-	return (result == BAD_PARAM + BAD_PARAM);
+	return (result == SUCCESS + 1 + BAD_PARAM + 1 + BAD_PARAM + 1);
 }
 
 static int		ut_grid_01(void)
@@ -1123,64 +1127,6 @@ static int		ut_key_functions_13(void)
 	free_storage(&st);
 	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
 }
-
-static int		ut_key_functions_15(void)
-{
-	/*
-	** cycle_threads avec param null
-	*/
-	int		result;
-
-	result = cycle_threads(NULL);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_key_functions_16(void)
-{
-	/*
-	** cycle_threads avec storage vide
-	*/
-	t_storage	*st;
-	int		result;
-
-	st = NULL;
-	result = cycle_threads(&st);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_key_functions_17(void)
-{
-	/*
-	** cycle_threads avec storage sans threads
-	*/
-	t_storage	*st;
-	int		result;
-
-	add_storage(&st);
-	result = cycle_threads(&st);
-	free_storage(&st);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_key_functions_18(void)
-{
-	/*
-	** cycle_threads avec storage et threads
-	*/
-	t_storage	*st;
-	int		result;
-
-	add_storage(&st);
-	add_thread(&st);
-	add_grid(&st);
-	thread_change_action(&(st->last_thread), 2);
-	write_in_grid(&(st->grid), 5, 10, 1);
-	result = cycle_threads(&st);
-	free_storage(&st);
-	return (result == SUCCESS);
-}
-
-//cycle_threads fonctionnel et non fonctionnel a terminer
 
 static int		ut_storage_01(void)
 {
@@ -2018,11 +1964,11 @@ static int		ut_thread_10(void)
 	result = thread_change_action(&(st->last_thread), 16);
 	result += st->last_thread->action == 16 ? 1 : 0;
 	result += thread_change_action(&(st->last_thread), -1);
-	result += st->last_thread->action == 16 ? 1 : 0;
+	result += st->last_thread->action == 0 ? 1 : 0;
 	result += thread_change_action(&(st->last_thread), 17);
-	result += st->last_thread->action == 16 ? 1 : 0;
+	result += st->last_thread->action == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == SUCCESS + 1 + BAD_PARAM + 1 + BAD_PARAM + 1);
+	return (result == SUCCESS + 1 + SUCCESS + 1 + SUCCESS + 1);
 }
 
 static int		ut_thread_11(void)
@@ -2578,10 +2524,10 @@ void			ut_champion(void)
 	ft_putstr(ut_champion_17() ? "ut_champion_17		OK\n" : "ut_champion_17		ERROR\n");
 	ft_putstr(ut_champion_18() ? "ut_champion_18		OK\n" : "ut_champion_18		ERROR\n");
 	ft_putstr(ut_champion_19() ? "ut_champion_19		OK\n" : "ut_champion_19		ERROR\n");
-	ft_putstr(ut_champion_25() ? "ut_champion_25		OK\n" : "ut_champion_25		ERROR\n");
-	ft_putstr(ut_champion_26() ? "ut_champion_26		OK\n" : "ut_champion_26		ERROR\n");
-	ft_putstr(ut_champion_27() ? "ut_champion_27		OK\n" : "ut_champion_27		ERROR\n");
-	ft_putstr(ut_champion_28() ? "ut_champion_28		OK\n" : "ut_champion_28		ERROR\n");
+	ft_putstr(ut_champion_20() ? "ut_champion_20		OK\n" : "ut_champion_20		ERROR\n");
+	ft_putstr(ut_champion_21() ? "ut_champion_21		OK\n" : "ut_champion_21		ERROR\n");
+	ft_putstr(ut_champion_22() ? "ut_champion_22		OK\n" : "ut_champion_22		ERROR\n");
+	ft_putstr(ut_champion_23() ? "ut_champion_23		OK\n" : "ut_champion_23		ERROR\n");
 }
 
 void			ut_grid(void)
@@ -2619,12 +2565,12 @@ void			ut_key_functions(void)
 	//ft_putstr(ut_key_functions_11() ? "ut_key_functions_11	OK\n" : "ut_key_functions_11	ERROR\n");
 	ft_putstr(ut_key_functions_12() ? "ut_key_functions_12	OK\n" : "ut_key_functions_12	ERROR\n");
 	ft_putstr(ut_key_functions_13() ? "ut_key_functions_13	OK\n" : "ut_key_functions_13	ERROR\n");
-	//ft_putstr(ut_key_functions_14() ? "ut_key_functions_14	OK\n" : "ut_key_functions_14	ERROR\n");
+	/*
+	ft_putstr(ut_key_functions_14() ? "ut_key_functions_14	OK\n" : "ut_key_functions_14	ERROR\n");
 	ft_putstr(ut_key_functions_15() ? "ut_key_functions_15	OK\n" : "ut_key_functions_15	ERROR\n");
 	ft_putstr(ut_key_functions_16() ? "ut_key_functions_16	OK\n" : "ut_key_functions_16	ERROR\n");
 	ft_putstr(ut_key_functions_17() ? "ut_key_functions_17	OK\n" : "ut_key_functions_17	ERROR\n");
 	ft_putstr(ut_key_functions_18() ? "ut_key_functions_18	OK\n" : "ut_key_functions_18	ERROR\n");
-	/*
 	ft_putstr(ut_key_functions_19() ? "ut_key_functions_19	OK\n" : "ut_key_functions_19	ERROR\n");
 	ft_putstr(ut_key_functions_20() ? "ut_key_functions_20	OK\n" : "ut_key_functions_20	ERROR\n");
 	ft_putstr(ut_key_functions_21() ? "ut_key_functions_21	OK\n" : "ut_key_functions_21	ERROR\n");
@@ -2772,3 +2718,14 @@ void			all_ut(void)
 	/*
 	*/
 }
+
+
+
+
+/*
+print_dump
+get_size_int
+setup_all
+setup_champions
+setup_grid
+*/

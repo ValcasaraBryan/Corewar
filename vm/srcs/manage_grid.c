@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 18:09:15 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/16 18:07:16 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int		setup_empty_grid(int ***gr, int i, int j)
 				free((*gr)[j]);
 				(*gr)[j] = NULL;
 			}
-			free (*gr);
+			free(*gr);
 			*gr = NULL;
 			return (MALLOC_FAILED);
 		}

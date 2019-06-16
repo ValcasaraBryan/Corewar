@@ -6,18 +6,41 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:34 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/15 18:25:34 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:37:05 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
+static int	instr_st_inner(t_thread **th, int ***gr, int size)
+{
+	int		value;
+	int		where;
+
+	if (thread_check(th) < VALID_EMPTY || grid_check(gr) != VALID_FULL)
+		return (BAD_PARAM);
+	value = thread_get_value_reg(th, read_in_grid(gr, (*th)->where + 1 + 1, 1));
+	where = read_in_grid(gr, (*th)->where + 1 + 1 + 1, size);
+	if (size == 2)
+	{
+		if (write_in_grid(gr, value, (*th)->where + where, 4) != SUCCESS)
+			return (CALL_FAILED);
+	}
+	else
+	{
+		if (thread_change_value_reg(th, read_in_grid(gr,
+			(*th)->where + 1 + 1 + 1, 1), value) != SUCCESS)
+			return (CALL_FAILED);
+	}
+	if (thread_change_where(th, gr, (*th)->where + 1 + 1 + size + 1) != SUCCESS)
+		return (CALL_FAILED);
+	return (SUCCESS);
+}
+
 int			instr_st(t_thread **th, int ***gr)
 {
 	int		*tab;
 	int		size;
-	int		value;
-	int		where;
 
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_st\n");
@@ -33,17 +56,5 @@ int			instr_st(t_thread **th, int ***gr)
 	}
 	size = get_size_int(tab[1], 4);
 	free(tab);
-	value = thread_get_value_reg(th, read_in_grid(gr, (*th)->where + 1 + 1, 1));
-	where = read_in_grid(gr, (*th)->where + 1 + 1 + 1, size);
-	if (size == 2)
-	{
-		if (write_in_grid(gr, value, (*th)->where + where, 4) != SUCCESS)
-			return (CALL_FAILED);
-	}
-	else
-	{
-		if (thread_change_value_reg(th, read_in_grid(gr, (*th)->where + 1 + 1 + 1, 1), value) != SUCCESS)
-			return (CALL_FAILED);
-	}
-	return (SUCCESS);
+	return (instr_st_inner(th, gr, size));
 }
