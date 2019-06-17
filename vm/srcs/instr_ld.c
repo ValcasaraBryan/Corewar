@@ -6,18 +6,32 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:31 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 19:35:44 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:53:46 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
+int			instr_ld_inner(t_thread **th, int ***gr, int size)
+{
+	int		reg;
+	int		value;
+
+	value = read_in_grid(gr, (*th)->where + 1 + 1, size);
+	value = size == 2 ? read_in_grid(gr, (*th)->where + value, 4) : value;
+	reg = read_in_grid(gr, (*th)->where + 1 + 1 + size, 1);
+	if (thread_change_value_reg(th, reg, value) != SUCCESS)
+		return (CALL_FAILED);
+	if (thread_change_where(th, gr, (*th)->where + 1 + size + 1 + 1) != SUCCESS)
+		return (CALL_FAILED);
+	(*th)->carry = value == 0 ? 0 : 1;
+	return (SUCCESS);
+}
+
 int			instr_ld(t_thread **th, int ***gr)
 {
 	int		*tab;
-	int		reg;
 	int		size;
-	int		value;
 
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_ld\n");
@@ -33,12 +47,5 @@ int			instr_ld(t_thread **th, int ***gr)
 	}
 	size = get_size_int(tab[0], 4);
 	free(tab);
-	value = read_in_grid(gr, (*th)->where + 1 + 1, size);
-	value = size == 2 ? read_in_grid(gr, (*th)->where + value, 4) : value;
-	reg = read_in_grid(gr, (*th)->where + 1 + 1 + size, 1);
-	if (thread_change_value_reg(th, reg, value) != SUCCESS)
-		return (CALL_FAILED);
-	if (thread_change_where(th, gr, (*th)->where + 1 + size + 1 + 1) != SUCCESS)
-		return (CALL_FAILED);
-	return (SUCCESS);
+	return (instr_ld_inner(th, gr, size));
 }

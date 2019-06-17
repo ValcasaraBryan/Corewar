@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 20:18:31 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/17 18:46:44 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ int			main(int argv, char **argc)
 	(void)argv;
 	(void)argc;
 	(void)st;
-	all_ut();
 	
-	/*
-	while (1);
 	all_ut_instr();
+	/*
+	all_ut();
+	while (1);
 	if (setup_all(&st) != SUCCESS
 		|| intro_champions(&st) != SUCCESS
 		|| cycle_to_die(&st, atoi(argc[1])) != SUCCESS)
@@ -103,6 +103,7 @@ int			main(int argv, char **argc)
 		free_storage(&st);
 		return (CALL_FAILED);
 	}
-	free_storage(&st);*/
+	free_storage(&st);
+	*/
 	return (0);
 }

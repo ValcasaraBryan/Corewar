@@ -6,18 +6,36 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 19:37:18 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/17 17:00:27 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		instr_sub(t_thread **th, int ***gr)
+int			instr_sub_inner(t_thread **th, int ***gr)
 {
-	int		*tab;
 	int		reg1;
 	int		reg2;
 	int		reg3;
+	int		value1;
+	int		value2;
+
+	reg1 = read_in_grid(gr, (*th)->where + 1 + 1, 1);
+	reg2 = read_in_grid(gr, (*th)->where + 1 + 1 + 1, 1);
+	reg3 = read_in_grid(gr, (*th)->where + 1 + 1 + 1 + 1, 1);
+	value1 = thread_get_value_reg(th, reg1);
+	value2 = thread_get_value_reg(th, reg2);
+	if (thread_change_value_reg(th, reg3, value1 - value2) != SUCCESS)
+		return (CALL_FAILED);
+	if (thread_change_where(th, gr, (*th)->where + 1 + 1 + 1 + 1 + 1) != SUCCESS)
+		return (CALL_FAILED);
+	(*th)->carry = value1 - value2 == 0 ? 0 : 1;
+	return (SUCCESS);
+}
+
+int			instr_sub(t_thread **th, int ***gr)
+{
+	int		*tab;
 
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_sub\n");
@@ -31,13 +49,5 @@ int		instr_sub(t_thread **th, int ***gr)
 		return (NO_CHANGE);
 	}
 	free(tab);
-	reg1 = read_in_grid(gr, (*th)->where + 1 + 1, 1);
-	reg2 = read_in_grid(gr, (*th)->where + 1 + 1 + 1, 1);
-	reg3 = read_in_grid(gr, (*th)->where + 1 + 1 + 1 + 1, 1);
-	if (thread_change_value_reg(th, reg3, thread_get_value_reg(th, reg1)
-		- thread_get_value_reg(th, reg2)) != SUCCESS)
-		return (CALL_FAILED);
-	if (thread_change_where(th, gr, (*th)->where + 1 + 1 + 1 + 1 + 1) != SUCCESS)
-		return (CALL_FAILED);
-	return (SUCCESS);
+	return (instr_sub_inner(th, gr));
 }

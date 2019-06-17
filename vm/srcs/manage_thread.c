@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/12 11:31:13 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:10:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_thread		*create_thread(t_storage **st)
 		return (NULL);
 	thread->action = 0;
 	thread->cycle = 0;
+	thread->carry = 0;
 	i = -1;
 	while (++i < REG_NUMBER)
 		thread->reg[i] = 0;

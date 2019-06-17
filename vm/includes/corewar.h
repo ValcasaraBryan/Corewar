@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 20:23:40 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/17 18:56:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdio.h>
 # include "../libft/includes/libft.h"
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		5
+# define UT_PRINT		0
 
 # define MOVE			"move"
 # define LIVE			"live"
@@ -99,6 +100,7 @@ typedef struct			s_thread
 	int					action;
 	int					cycle;
 	int					where;
+	int					carry;
 	int					reg[REG_NUMBER];
 	struct s_thread		*prec;
 	struct s_thread		*next;
