@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/15 05:24:37 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/16 23:08:13 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,35 @@ typedef struct		s_data
 
 extern t_op			op_tab[REG_NUMBER + 1];
 
-void	init_data(t_data *data, char *av);
-int		parsing_asm(t_data *data);
+int			parsing_asm(t_data *data);
 void		print_list(t_data *data);
+/*
+**			list_chain_new.c
+*/
+t_token			*new_token(t_token token);
+t_ins			*new_instruction(t_op ins);
+t_name_label	*new_n_label(char *label, int index);
+t_label			*new_label(t_label cpy);
+/*
+**			list_chain_add.c
+*/
+void		add_token(t_token **old, t_token new);
+t_ins		*add_instruction(t_ins **old, t_op ins);
+void		add_n_label(t_name_label **old, char *label, int index);
+void		add_label(t_label **old, t_label cpy);
+/*
+**			print_file.c
+*/
+void	print_octet(int fd, unsigned int val, size_t nb);
+void	print_tab(int fd, t_ins *ins);
+int		write_file(t_data *data, int i);
+/*
+**			ft_is.c
+*/
+int		separator(char c);
+int		label_chars(char c);
+int		direct(char c);
+int		registre(char c);
+int		label(char c);
 
 #endif

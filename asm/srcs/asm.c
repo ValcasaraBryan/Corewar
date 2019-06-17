@@ -6,138 +6,11 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/15 06:17:50 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/17 15:04:17 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-
-t_token		*new_token(t_token token)
-{
-	t_token	*new;
-
-	if (!(new = malloc(sizeof(t_token))))
-		return (NULL);
-	new->cut = token.cut;
-	new->type = token.type;
-	new->start = token.start;
-	new->end = token.end;
-	new->n_line = token.n_line;
-	new->next = NULL;
-	return (new);
-}
-
-t_ins		*new_instruction(t_op ins)
-{
-	t_ins	*new;
-	int i;
-
-	if (!(new = malloc(sizeof(t_ins))))
-		return (NULL);
-	new->ins = ins;
-	new->octet = 0;
-	if (!(new->params = malloc(sizeof(int) * ins.len_params)))
-		return (NULL);
-	i = -1;
-	while (++i < ins.len_params)
-		new->params[i] = 0;
-	new->len = 0;
-	new->next = NULL;
-	return (new);
-}
-
-t_name_label	*new_n_label(char *label, int index)
-{
-	t_name_label *new;
-
-	if (!(new = malloc(sizeof(t_ins))))
-		return (NULL);
-	new->label = label;
-	new->len = (label) ? ft_strlen(label) : 0;
-	new->index_ins = index;
-	new->next = NULL;
-	return (new);
-}
-
-void		add_n_label(t_name_label **old, char *label, int index)
-{
-	t_name_label	*tmp;
-
-	if (!*old)
-		*old = new_n_label(label, index);
-	else
-	{
-		tmp = *old;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_n_label(label, index);
-	}
-}
-
-t_label	*new_label(t_label cpy)
-{
-	t_label *new;
-
-	if (!(new = malloc(sizeof(t_ins))))
-		return (NULL);
-	new->ins = cpy.ins;
-	new->token = cpy.token;
-	new->label = cpy.label;
-	new->len = cpy.len;
-	new->index_ins = cpy.index_ins;
-	new->index_params = cpy.index_params;
-	new->next = NULL;
-	return (new);
-}
-
-void		add_label(t_label **old, t_label cpy)
-{
-	t_label	*tmp;
-
-	if (!*old)
-		*old = new_label(cpy);
-	else
-	{
-		tmp = *old;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_label(cpy);
-	}
-}
-
-void		add_token(t_token **old, t_token new)
-{
-	t_token	*tmp;
-
-	if (!*old)
-		*old = new_token(new);
-	else
-	{
-		tmp = *old;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_token(new);
-	}
-}
-
-t_ins		*add_instruction(t_ins **old, t_op ins)
-{
-	t_ins	*tmp;
-
-	if (!*old)
-	{
-		*old = new_instruction(ins);
-		return (*old);
-	}
-	else
-	{
-		tmp = *old;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_instruction(ins);
-		return (tmp->next);
-	}
-}
 
 void		print_list(t_data *data)
 {
@@ -188,66 +61,6 @@ void		print_list(t_data *data)
 	ft_printf("len instruction : %08x\n", data->header.prog_size);
 }
 
-void	init_data(t_data *data, char *av)
-{
-	int	i;
-
-	i = -1;
-	data->fd = -1;
-	data->fd_file = -1;
-	data->ret = -1;
-	data->name_s = av;
-	data->name_cor = NULL;
-	data->quote = false;
-	data->name_com = false;
-	data->name_and_comment = 0;
-	data->line.line = NULL;
-	data->line.current = 0;
-	data->line.n_line = 0;
-	data->token = NULL;
-	data->ins = NULL;
-	data->ins_label = NULL;
-	data->label = NULL;
-}
-
-int		suffix_name(t_data *data, const char *s)
-{
-	int		i;
-	char	*name;
-
-	if (!data->name_s)
-		return (0);
-	i = ft_strlen(data->name_s) + 1;
-	while (--i >= 0)
-		if (!ft_strcmp(data->name_s + i, SUFF_F))
-			break ;
-	name = ft_strcut(data->name_s, 0, i);
-	data->name_cor = ft_strndup((const char *)name, i + COR);
-	free_line(&name);
-	ft_strcat(data->name_cor, (char *)s);
-	return (1);	
-}
-
-int		skip_whitespace(char *str, int val)
-{
-	int		i;
-
-	i = -1;
-	if (!str)
-		return (0);
-	while (str[++i])
-		if (ft_is_whitespace(str[i]) == val)
-			break ;
-	return (i);
-}
-
-int		separator(char c)
-{
-	if (c == SEPARATOR_CHAR)
-		return (1);
-	return (0);
-}
-
 t_token		token_val(t_token add, int start, int end, int n_line)
 {
 	add.type = -1;
@@ -274,34 +87,6 @@ int		ft_is_instruction(char *str, t_op **ins)
 			return (1);
 		}
 	*ins = NULL;
-	return (0);
-}
-
-int		label_chars(char c)
-{
-	if (params(c, LABEL_CHARS))
-		return (1);
-	return (0);
-}
-
-int		direct(char c)
-{
-	if (c == DIRECT_CHAR)
-		return (1);
-	return (0);
-}
-
-int		registre(char c)
-{
-	if (c == 'r')
-		return (1);
-	return (0);
-}
-
-int		label(char c)
-{
-	if (c == LABEL_CHAR)
-		return (1);
 	return (0);
 }
 
@@ -375,6 +160,19 @@ int		ft_is_params(char *str, int (*fonction)(char))
 		i++;
 	}
 	return (-1);
+}
+
+int		skip_whitespace(char *str, int val)
+{
+	int		i;
+
+	i = -1;
+	if (!str)
+		return (0);
+	while (str[++i])
+		if (ft_is_whitespace(str[i]) == val)
+			break ;
+	return (i);
 }
 
 int		ft_end_word(char c)
@@ -560,7 +358,6 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 					cpy.index_params = i;
 					add_label(&data->ins_label, cpy);
 				}
-				// ft_printf("arguments correct %s indirect\n", (*tmp)->cut);
 			}
 			else
 			{
@@ -620,12 +417,8 @@ int		check_token(t_data *data)
 		}
 		else
 		{
-			// ft_printf("%p | %s\n", tmp, tmp->cut);
 			if (!val || !(check_params(data, &tmp, ins_tmp, val)))
-			{
-				// ft_printf("%s\n", tmp->cut);
 				return (0);
-			}
 			data->header.prog_size += ins_tmp->len;
 		}
 		if (tmp->next)
@@ -744,6 +537,24 @@ void	name_and_comment(t_data *data, char **tmp)
 	}
 }
 
+int		suffix_name(t_data *data, const char *s)
+{
+	int		i;
+	char	*name;
+
+	if (!data->name_s)
+		return (0);
+	i = ft_strlen(data->name_s) + 1;
+	while (--i >= 0)
+		if (!ft_strcmp(data->name_s + i, SUFF_F))
+			break ;
+	name = ft_strcut(data->name_s, 0, i);
+	data->name_cor = ft_strndup((const char *)name, i + COR);
+	free_line(&name);
+	ft_strcat(data->name_cor, (char *)s);
+	return (1);	
+}
+
 int		step(t_data *data, char **tmp)
 {
 	if (!data->line.line && data->ret == -1)
@@ -783,7 +594,7 @@ int		check_label(t_data *data)
 		while (def)
 		{
 			if (tmp->len == def->len)
-				if (ft_strnstr(tmp->label, def->label, tmp->len))
+				if (ft_strncmp(tmp->label, def->label, tmp->len) == 0)
 				{
 					match = true;
 					break ;
@@ -797,7 +608,6 @@ int		check_label(t_data *data)
 			ft_printf("No such label %s while attempting to dereference token \"%s\"\n", tmp->label, tmp->token.cut);
 			return (0);
 		}
-		// ft_printf("%02x\n", def->index_ins - tmp->index_ins);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -813,9 +623,6 @@ int		parsing_asm(t_data *data)
 		ft_fprintf(NO_FILE, S_ERR, data->name_s);
 		return (0);
 	}
-	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
-	ft_bzero(data->header.comment, COMMENT_LENGTH);
-	data->header.magic = COREWAR_EXEC_MAGIC;
 	while (step(data, &tmp))
 	{
 			// ft_printf("%s|%d\n", data->line.line, data->ret);

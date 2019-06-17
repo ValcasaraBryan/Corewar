@@ -1,5 +1,30 @@
 #include "asm.h"
 
+void	init_data(t_data *data, char *av)
+{
+	int	i;
+
+	i = -1;
+	data->fd = -1;
+	data->fd_file = -1;
+	data->ret = -1;
+	data->name_s = av;
+	data->name_cor = NULL;
+	data->quote = false;
+	data->name_com = false;
+	data->name_and_comment = 0;
+	data->line.line = NULL;
+	data->line.current = 0;
+	data->line.n_line = 0;
+	data->token = NULL;
+	data->ins = NULL;
+	data->ins_label = NULL;
+	data->label = NULL;
+	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
+	ft_bzero(data->header.comment, COMMENT_LENGTH);
+	data->header.magic = COREWAR_EXEC_MAGIC;
+}
+
 int		asm_main(int argc, char **argv)
 {
 	t_data	data;

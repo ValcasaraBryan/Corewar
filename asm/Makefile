@@ -5,7 +5,11 @@ arg =
 
 SRC = srcs/%.c
 
-OBJET_ASM = objets/asm.o
+OBJET_ASM = objets/asm.o\
+			objets/list_chain_new.o\
+			objets/list_chain_add.o\
+			objets/print_file.o\
+			objets/ft_is.o
 
 OBJ = objets/%.o
 
