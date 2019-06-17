@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/16 22:57:54 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/17 18:46:20 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		write_file(t_data *data, int i)
 	if ((data->fd_file = open(data->name_cor, O_CREAT | O_RDWR | O_TRUNC,
 		S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH)) == -1)
 	{
-		ft_printf("error name file\n");
+		ft_fprintf(NO_FILE, S_ERR, OPEN, data->name_cor);
 		return (0);
 	}
 	print_octet(data->fd_file, data->header.magic, 4);

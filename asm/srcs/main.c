@@ -21,6 +21,8 @@ void	init_data(t_data *data, char *av)
 	data->ins = NULL;
 	data->ins_label = NULL;
 	data->label = NULL;
+	data->error.instruction = NULL;
+	data->error.label = NULL;
 	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
 	ft_bzero(data->header.comment, COMMENT_LENGTH);
 	data->header.magic = COREWAR_EXEC_MAGIC;
@@ -43,7 +45,6 @@ int		main(int argc, char **argv)
 		if (!(parsing_asm(&data)))
 		{
 			// ft_printf("Syntax error at token [TOKEN][%03d:%03d] %s \"%s\"\n", data.error.n_line, data.error.index, data.error.type, data.error.token);
-			// return (0);
 		}
 		else
 		{

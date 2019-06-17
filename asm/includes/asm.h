@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/16 23:08:13 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/17 20:00:37 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,15 @@
 # include "../../op.h"
 # include <stdbool.h>
 #define S_ERR	2
-#define NO_FILE	"Can't read source file %s\n"
+#define READ	"read"
+#define OPEN	"open"
+#define NO_FILE	"Can't %s source file %s\n"
 #define SUCCESS	"Writing output program to %s\n"
 #define SUFF_F	".s"
 #define SUFFIX	".cor"
 #define COR		4
 
-// #define IND_SIZE				2
-// #define REG_SIZE				4
-// #define DIR_SIZE				REG_SIZE
-
-// #define REG_CODE				1
-// #define DIR_CODE				2
-// #define IND_CODE				3
-// 
-// #define COMMENT_CHAR			'#'
-// #define LABEL_CHAR				':'
-// #define DIRECT_CHAR				'%'
-// #define SEPARATOR_CHAR			','
 #define CMD_CHAR				'"'
-// 
-// #define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
-// 
-// #define NAME_CMD_STRING			".name"
-// #define COMMENT_CMD_STRING		".comment"
-// 
-// #define PROG_NAME_LENGTH		(128)
-// #define COMMENT_LENGTH			(2048)
 
 #define LIVE					1
 #define LD						2
@@ -79,6 +61,29 @@
 #define TRUE					1
 #define IN_TRUE					2
 #define FALSE					0
+#define	INDIRECT_MSG			"indirect"
+#define DIRECT_MSG				"direct"
+#define REGISTER_MSG			"register"
+#define TOKEN_DIRECT			"DIRECT"
+#define TOKEN_INDIRECT			"INDIRECT"
+#define TOKEN_REGISTER			"REGISTER"
+#define TOKEN_DIRECT_LABEL		"DIRECT_LABEL"
+#define TOKEN_INDIRECT_LABEL	"INDIRECT_LABEL"
+#define TOKEN_LABEL				"LABEL"
+#define TOKEN_SEPARATOR			"SEPARATOR"
+#define TOKEN_ENDLINE			"ENDLINE"
+#define TOKEN_END				"END"
+#define LINE					"\n"
+#define ERROR_COUNT				"Invalid parameter count for instruction %s"
+#define ERROR_PARAMS			"Invalid parameter %d type %s for instruction %s"
+#define MSG_LABEL				"No such label %s while attempting to dereference"
+#define MSG_SYN					"Syntax error at"
+#define MSG_TOKEN				" token [%s][%03d:%03d] %s"
+#define ARG						" \"%s\""
+#define SYNTAX_ARG				MSG_SYN TOKEN ARG LINE
+#define ERROR_LABEL				MSG_LABE TOKEN ARG LINE
+#define SYNTAX					MSG_SYN TOKEN LINE
+#define INVALID_PARAMS			ERROR_PARAMS LINE
 
 typedef struct		s_op
 {
@@ -139,6 +144,14 @@ typedef struct		s_line
 	int				n_line;
 }					t_line;
 
+typedef struct		s_error
+{
+	t_token			token;
+	t_ins			*instruction;
+	t_label			*label;
+	int				index_params;
+}					t_error;
+
 typedef struct		s_data
 {
 	int				fd;
@@ -157,12 +170,18 @@ typedef struct		s_data
 	t_ins			*ins;
 	t_label			*ins_label;
 	t_name_label	*label;
+	t_error			error;
 }					t_data;
 
 extern t_op			op_tab[REG_NUMBER + 1];
 
 int			parsing_asm(t_data *data);
 void		print_list(t_data *data);
+int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
+void		add_word(t_data *data, t_token word);
+int		ft_end_word(char c);
+int		skip_whitespace(char *str, int val);
+int		get_arg(char *str, int (*fonction)(char));
 /*
 **			list_chain_new.c
 */
@@ -191,5 +210,50 @@ int		label_chars(char c);
 int		direct(char c);
 int		registre(char c);
 int		label(char c);
-
+/*
+**			ft_str_is.c
+*/
+int		ft_is_params(char *str, int (*fonction)(char));
+int		ft_is_label(char *str, bool before);
+int		ft_is_instruction(char *str, t_op **ins);
+/*
+**			ft_str_is_number.c
+*/
+int			ft_str_is_number(char *str);
+int			ft_number_ok(char *str);
+/*
+**			check_token.c
+*/
+int		check_token(t_data *data);
+/*
+**			get_token.c
+*/
+int		get_token(t_data *data);
+/*
+**			token_utility.c
+*/
+t_token		token_val(t_token add, int start, int end, int n_line);
+void		erase_token(t_token **token);
+t_token		cpy_token(t_token *token);
+/*
+**			add_type.c
+*/
+int			add_type(char *str, t_op **val);
+/*
+**			add_word.c
+*/
+void		add_word(t_data *data, t_token word);
+/*
+**			check_params.c
+*/
+int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
+/*
+**			skip_separator.c
+*/
+int		skip_separator(t_token **tmp, t_op *val, int *i);
+/*
+**			check_word.c
+*/
+int		skip_whitespace(char *str, int val);
+int		ft_end_word(char c);
 #endif
