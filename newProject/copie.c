@@ -27,6 +27,7 @@ typedef struct		s_win
 	TTF_Font		*ttf_player;
 	TTF_Font		*ttf_text;
 	SDL_Event		event;
+	SDL_Renderer 	*renderer;
 	char			game_color[MEM_SIZE];
 	char			game_process[MEM_SIZE];
 	int				colors[4];
@@ -127,10 +128,12 @@ int	init_font(t_win *win)
 		return(0);
 	return (1);
 }
+void ft_create_rect(t_win *win, int x, int y);
 
 int init_window(t_win *win)
 {
-	SDL_Renderer *renderer = NULL;
+	// SDL_Renderer *renderer = NULL;
+	win->renderer = NULL;
 	SDL_Event event;
 	bool gameRunning = true;
 	// TTF_Font *police = NULL;
@@ -151,12 +154,12 @@ int init_window(t_win *win)
 	// put_line(win->surface, (t_point){WIDTH - 50, 50}, (t_point){WIDTH - 50, LENGTH - 50}, WHITE);
 	// put_line(win->surface, (t_point){50, LENGTH - 50}, (t_point){WIDTH - 50, LENGTH - 50}, WHITE);
 	// SDL_FillRect(win->surface, NULL, GREY);
-	if (!(renderer = SDL_CreateRenderer(win->window, -1, 0)))
+	if (!(win->renderer = SDL_CreateRenderer(win->window, -1, 0)))
 		printf("SDL_Init failed: %s\n", SDL_GetError());
-	if (SDL_SetRenderDrawColor(renderer, 215, 154, 16, 255))
+	if (SDL_SetRenderDrawColor(win->renderer, 255, 255, 255, 255))
 		printf("toto0");
-	SDL_RenderClear(renderer);
-	SDL_RenderPresent(renderer);
+	SDL_RenderClear(win->renderer);
+//	SDL_RenderPresent(renderer);
 
 
 	TTF_Init();
@@ -166,23 +169,47 @@ int init_window(t_win *win)
 	// position.y = 0;
 	// SDL_BlitSurface(text, NULL, SDL_GetWindowSurface(win->window), &position);
 	
-	TTF_Font* Sans = TTF_OpenFont("browzko.ttf", 100); //this opens a font style and sets a size
+	win->ttf_text = TTF_OpenFont("Raleway-Regular.ttf", 1000); //this opens a font style and sets a size
 
-	SDL_Color White = {215, 154, 16};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+	SDL_Color Gold = {215, 154, 16};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+	SDL_Color Grey = {255, 0, 0};
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, "00", Grey); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
 
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
 
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage); //now you can convert it into a texture
 
 	SDL_Rect Message_rect; //create a rect
 	Message_rect.x = 0;  //controls the rect's x coordinate 
 	Message_rect.y = 0; // controls the rect's y coordinte
-	Message_rect.w = 1000; // controls the width of the rect
-	Message_rect.h = 200; // controls the height of the rect
+	Message_rect.w = 15; // controls the width of the rect
+	Message_rect.h = 15; // controls the height of the rect
 	
-	SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
+
+	Message_rect.x = 0;  //controls the rect's x coordinate 
+	Message_rect.y = 200; // controls the rect's y coordinte
+	Message_rect.w = 15; // controls the width of the rect
+	Message_rect.h = 15; // controls the height of the rect
+
+	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
 	// SDL_RenderClear(renderer);
-	SDL_RenderPresent(renderer);
+	//
+	//SDL_RenderPresent(renderer);
+
+	int i = 0;
+	int j;
+	while(i < 64)
+	{
+		j = 0;
+		while (j < 64)
+		{
+			ft_create_rect(win, j * 15, i * 15);
+			j++;
+		}
+		i++;
+	}
+
+	SDL_RenderPresent(win->renderer);
 
 	while (gameRunning)
 	{
@@ -203,10 +230,26 @@ int init_window(t_win *win)
 
 	// SDL_PumpEvents();
 	// SDL_Delay(5000);
-	TTF_CloseFont(Sans);
+	TTF_CloseFont(win->ttf_text);
 	TTF_Quit();
 	SDL_Quit();
 	return (1);
+}
+
+void ft_create_rect(t_win *win, int x, int y)
+{
+	SDL_Color Grey = {255, 0, 0};
+
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, "00", Grey);
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
+	SDL_Rect Message_rect; //create a rect
+	Message_rect.x = x;  //controls the rect's x coordinate 
+	Message_rect.y = y; // controls the rect's y coordinte
+	Message_rect.w = 15; // controls the width of the rect
+	Message_rect.h = 15; // controls the height of the rect
+	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
+	SDL_FreeSurface(surfaceMessage);
+	SDL_DestroyTexture(Message);
 }
 
 int init_sdl(t_win *win)
