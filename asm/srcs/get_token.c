@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:32:37 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 20:14:15 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/18 15:24:00 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ int		get_token(t_data *data)
 	t_token	token;
 	int		end_word;
 	
-	if (!data->line.line[data->line.current])
-		return (0);
-	while (data->line.line[data->line.current])
+	while (data->line.line[data->line.current] != '\n')
 	{
 		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
 		end_word = get_arg(data->line.line + data->line.current, ft_end_word) + data->line.current;
@@ -32,7 +30,7 @@ int		get_token(t_data *data)
 	}
 	if (!(check_token(data)))
 	{
-		erase_token(&data->token);
+		ft_printf("error check_token\n");
 		return (0);
 	}
 	erase_token(&data->token);

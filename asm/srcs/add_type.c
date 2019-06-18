@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:37:32 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 15:37:35 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/18 15:22:11 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ int		add_type(char *str, t_op **val)
 		return (SEPARATOR);
 	else if (ft_is_instruction(str, val) == 1)
 		return (INSTRUCTION);
+	else if (ft_strncmp(str, NAME_CMD_STRING, 5) == 0)
+		return (NAME);
+	else if (ft_strncmp(str, COMMENT_CMD_STRING, 8) == 0)
+		return (COMMENT);
 	else if (ft_is_label(str, false) == -1)
 		return (0);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:46:16 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 15:46:18 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:21:58 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		skip_whitespace(char *str, int val)
 	i = -1;
 	if (!str)
 		return (0);
-	while (str[++i])
+	while (str[++i] != '\n')
 		if (ft_is_whitespace(str[i]) == val)
 			break ;
 	return (i);

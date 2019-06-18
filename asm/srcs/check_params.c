@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_params.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 19:37:05 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:20:37 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 		}
 		else
 		{
-			ft_printf("nothing %s\n", (*tmp)->cut);
+			// ft_printf("nothing %s\n", (*tmp)->cut);
 			return (0);
 		}
 		if ((*tmp)->next)

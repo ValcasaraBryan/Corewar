@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/17 20:00:37 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/18 15:17:54 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@
 #define TOKEN					9
 #define	ENDLINE					10
 #define	END						11
+#define	NAME					12
+#define	COMMENT					13
 
 #define TRUE					1
 #define IN_TRUE					2
@@ -175,6 +177,7 @@ typedef struct		s_data
 
 extern t_op			op_tab[REG_NUMBER + 1];
 
+int		error(t_error error);
 int			parsing_asm(t_data *data);
 void		print_list(t_data *data);
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
