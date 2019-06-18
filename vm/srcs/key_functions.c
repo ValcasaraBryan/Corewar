@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 18:00:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:33:57 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int		read_in_grid(int ***gr, int where, int nb)
 	int		line;
 	int		res;
 
-	if (grid_check(gr) != VALID_FULL || where < 0
-		|| (nb != 1 && nb != 2 && nb != 4))
+	if (grid_check(gr) != VALID_FULL || (nb != 1 && nb != 2 && nb != 4))
 		return (BAD_PARAM);
+	where = where < 0 ? GRID_SIZE * GRID_SIZE + where : where;
 	i = -1;
 	res = 0;
 	while (++i < nb)
@@ -43,9 +43,9 @@ int		write_in_grid(int ***gr, long value, int where, int nb)
 	int		line;
 	long	res;
 
-	if (grid_check(gr) != VALID_FULL || where < 0
-		|| (nb != 1 && nb != 2 && nb != 4))
+	if (grid_check(gr) != VALID_FULL || (nb != 1 && nb != 2 && nb != 4))
 		return (BAD_PARAM);
+	where = where < 0 ? GRID_SIZE * GRID_SIZE + where : where;
 	i = -1;
 	where += nb;
 	res = value;

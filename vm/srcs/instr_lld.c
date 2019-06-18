@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:13 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/17 16:56:19 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:46:50 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			instr_lld_inner(t_thread **th, int ***gr, int size)
 		return (CALL_FAILED);
 	if (thread_change_where(th, gr, (*th)->where + 1 + size + 1 + 1) != SUCCESS)
 		return (CALL_FAILED);
-	(*th)->carry = value == 0 ? 0 : 1;
+	(*th)->carry = value == 0 ? 1 : 0;
 	return (SUCCESS);
 }
 

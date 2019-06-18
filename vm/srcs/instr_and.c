@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:08 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/17 16:54:11 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:46:30 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	instr_and_inner(t_thread **th, int ***gr, int size1, int size2)
 		return (CALL_FAILED);
 	if (thread_change_where(th, gr, (*th)->where + 1 + size1 + size2 + 1 + 1) != SUCCESS)
 		return (CALL_FAILED);
-	(*th)->carry = (value1 & value2) == 0 ? 0 : 1;
+	(*th)->carry = (value1 & value2) == 0 ? 1 : 0;
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:32:22 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/17 19:58:32 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/18 18:20:41 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -508,9 +508,12 @@ static int		ut_fork_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
+	write_in_grid(&(st->grid), 256, st->last_thread->where + 1, 2);
 	result = instr_fork(&(st->last_thread), &(st->grid));
+	result += st->last_thread->next->where == 256 ? 1 : 0;
+	result += st->last_thread->where == 3 ? 1 : 0;
 	free_storage(&st);
-	return (result == SUCCESS);
+	return (result == SUCCESS + 1 + 1);
 }
 
 static int		ut_ld_01(void)
@@ -776,6 +779,7 @@ static int		ut_ldi_07(void)
 {
 	/*
 	** instr_ldi avec params valides
+	** registres
 	*/
 	t_storage	*st;
 	int			result;
@@ -783,9 +787,94 @@ static int		ut_ldi_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
-	result = instr_ldi(&(st->last_thread), &(st->grid));
+	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
+	write_in_grid(&(st->grid), 2, st->last_thread->where + 3, 1);
+	write_in_grid(&(st->grid), 3, st->last_thread->where + 4, 1);
+	write_in_grid(&(st->grid), 64, st->last_thread->where + 5, 4);
+	thread_change_value_reg(&(st->last_thread), 1, 1);
+	thread_change_value_reg(&(st->last_thread), 2, 4);
+	thread_change_value_reg(&(st->last_thread), 3, -1);
+	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 2) == 4 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
+	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	thread_change_value_reg(&(st->last_thread), 1, 0);
+	thread_change_value_reg(&(st->last_thread), 2, 1);
+	result += thread_get_value_reg(&(st->last_thread), 1) == 0 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
+	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 1409352195 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
-	return (result == SUCCESS);
+	return (result == 1 + 1 + 1 + SUCCESS + 1 + 1 + 1 + 1 + SUCCESS + 1);
+}
+
+static int		ut_ldi_08(void)
+{
+	/*
+	** instr_ldi avec params valides
+	** directs
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	add_thread(&st);
+	write_in_grid(&(st->grid), 164, st->last_thread->where + 1, 1);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 4, 2);
+	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
+	thread_change_value_reg(&(st->last_thread), 3, -1);
+	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
+	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
+	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
+	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 65537 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	free_storage(&st);
+	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
+}
+
+static int		ut_ldi_09(void)
+{
+	/*
+	** instr_ldi avec params valides
+	** indirect + direct
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	add_thread(&st);
+	write_in_grid(&(st->grid), 228, st->last_thread->where + 1, 1);
+	write_in_grid(&(st->grid), 10, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 4, 2);
+	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 10, 4);
+	thread_change_value_reg(&(st->last_thread), 3, -1);
+	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
+	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	write_in_grid(&(st->grid), 20, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 20, 4);
+	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
+	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 14942228 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	free_storage(&st);
+	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
 }
 
 static int		ut_lfork_01(void)
@@ -889,9 +978,12 @@ static int		ut_lfork_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
+	write_in_grid(&(st->grid), 256, st->last_thread->where + 1, 2);
 	result = instr_lfork(&(st->last_thread), &(st->grid));
+	result += st->last_thread->next->where == 256 ? 1 : 0;
+	result += st->last_thread->where == 3 ? 1 : 0;
 	free_storage(&st);
-	return (result == SUCCESS);
+	return (result == SUCCESS + 1 + 1);
 }
 
 static int		ut_live_01(void)
@@ -1263,6 +1355,7 @@ static int		ut_lldi_07(void)
 {
 	/*
 	** instr_lldi avec params valides
+	** registres
 	*/
 	t_storage	*st;
 	int			result;
@@ -1270,9 +1363,94 @@ static int		ut_lldi_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
-	result = instr_lldi(&(st->last_thread), &(st->grid));
+	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
+	write_in_grid(&(st->grid), 2, st->last_thread->where + 3, 1);
+	write_in_grid(&(st->grid), 3, st->last_thread->where + 4, 1);
+	write_in_grid(&(st->grid), 64, st->last_thread->where + 5, 4);
+	thread_change_value_reg(&(st->last_thread), 1, 1);
+	thread_change_value_reg(&(st->last_thread), 2, 4);
+	thread_change_value_reg(&(st->last_thread), 3, -1);
+	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 2) == 4 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
+	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	thread_change_value_reg(&(st->last_thread), 1, 0);
+	thread_change_value_reg(&(st->last_thread), 2, 1);
+	result += thread_get_value_reg(&(st->last_thread), 1) == 0 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
+	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
+	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 1409352195 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
-	return (result == SUCCESS);
+	return (result == 1 + 1 + 1 + SUCCESS + 1 + 1 + 1 + 1 + SUCCESS + 1);
+}
+
+static int		ut_lldi_08(void)
+{
+	/*
+	** instr_lldi avec params valides
+	** directs
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	add_thread(&st);
+	write_in_grid(&(st->grid), 164, st->last_thread->where + 1, 1);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 4, 2);
+	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
+	thread_change_value_reg(&(st->last_thread), 3, -1);
+	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
+	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
+	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
+	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 65537 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	free_storage(&st);
+	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
+}
+
+static int		ut_lldi_09(void)
+{
+	/*
+	** instr_lldi avec params valides
+	** indirect + direct
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	add_thread(&st);
+	write_in_grid(&(st->grid), 228, st->last_thread->where + 1, 1);
+	write_in_grid(&(st->grid), 10, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 4, 2);
+	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 10, 4);
+	thread_change_value_reg(&(st->last_thread), 3, -1);
+	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
+	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	write_in_grid(&(st->grid), 20, st->last_thread->where + 2, 2);
+	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
+	write_in_grid(&(st->grid), -1, st->last_thread->where + 20, 4);
+	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
+	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += thread_get_value_reg(&(st->last_thread), 3) == 14942228 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	free_storage(&st);
+	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
 }
 
 static int		ut_move_01(void)
@@ -2294,15 +2472,18 @@ static int		ut_zjmp_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
+	st->last_thread->carry = 1;
+	write_in_grid(&(st->grid), 500, st->last_thread->where + 1, 2);
 	result = instr_zjmp(&(st->last_thread), &(st->grid));
+	result += st->last_thread->where == 500 ? 1 : 0;
+	thread_change_where(&(st->last_thread), &(st->grid), 0);
+	st->last_thread->carry = 0;
+	write_in_grid(&(st->grid), 500, st->last_thread->where + 1, 2);
+	result += instr_zjmp(&(st->last_thread), &(st->grid));
+	result += st->last_thread->where == 0 ? 1 : 0;
 	free_storage(&st);
-	return (result == SUCCESS);
+	return (result == SUCCESS + 1 + NO_CHANGE + 1);
 }
-
-
-
-
-
 
 void			ut_add(void)
 {
@@ -2418,9 +2599,9 @@ void			ut_ldi(void)
 	ft_putstr(ut_ldi_05() ? "ut_ldi_05	OK\n" : "ut_ldi_05	ERROR\n");
 	ft_putstr(ut_ldi_06() ? "ut_ldi_06	OK\n" : "ut_ldi_06	ERROR\n");
 	ft_putstr(ut_ldi_07() ? "ut_ldi_07	OK\n" : "ut_ldi_07	ERROR\n");
-	/*
 	ft_putstr(ut_ldi_08() ? "ut_ldi_08	OK\n" : "ut_ldi_08	ERROR\n");
 	ft_putstr(ut_ldi_09() ? "ut_ldi_09	OK\n" : "ut_ldi_09	ERROR\n");
+	/*
 	ft_putstr(ut_ldi_10() ? "ut_ldi_10	OK\n" : "ut_ldi_10	ERROR\n");
 	ft_putstr(ut_ldi_11() ? "ut_ldi_11	OK\n" : "ut_ldi_11	ERROR\n");
 	ft_putstr(ut_ldi_12() ? "ut_ldi_12	OK\n" : "ut_ldi_12	ERROR\n");
@@ -2502,9 +2683,9 @@ void			ut_lldi(void)
 	ft_putstr(ut_lldi_05() ? "ut_lldi_05	OK\n" : "ut_lldi_05	ERROR\n");
 	ft_putstr(ut_lldi_06() ? "ut_lldi_06	OK\n" : "ut_lldi_06	ERROR\n");
 	ft_putstr(ut_lldi_07() ? "ut_lldi_07	OK\n" : "ut_lldi_07	ERROR\n");
-	/*
 	ft_putstr(ut_lldi_08() ? "ut_lldi_08	OK\n" : "ut_lldi_08	ERROR\n");
 	ft_putstr(ut_lldi_09() ? "ut_lldi_09	OK\n" : "ut_lldi_09	ERROR\n");
+	/*
 	ft_putstr(ut_lldi_10() ? "ut_lldi_10	OK\n" : "ut_lldi_10	ERROR\n");
 	ft_putstr(ut_lldi_11() ? "ut_lldi_11	OK\n" : "ut_lldi_11	ERROR\n");
 	ft_putstr(ut_lldi_12() ? "ut_lldi_12	OK\n" : "ut_lldi_12	ERROR\n");

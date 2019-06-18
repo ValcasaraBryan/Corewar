@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/17 16:10:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/18 18:14:25 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,30 @@ int					add_thread(t_storage **st)
 	else
 		(*st)->first_thread = thread;
 	(*st)->last_thread = thread;
+	return (SUCCESS);
+}
+
+int					dup_thread(t_thread **th)
+{
+	t_thread	*thread;
+	int			i;
+
+	if (thread_check(th) < VALID_EMPTY)
+		return (BAD_PARAM);
+	if (!(thread = malloc(sizeof(*thread))))
+		return (MALLOC_FAILED);
+	thread->action = (*th)->action;
+	thread->cycle = (*th)->cycle;
+	thread->carry = (*th)->carry;
+	i = -1;
+	while (++i < REG_NUMBER)
+		thread->reg[i] = (*th)->reg[i];
+	thread->where = (*th)->where;
+	thread->prec = (*th);
+	thread->next = (*th)->next;
+	if ((*th)->next != NULL)
+		((*th)->next)->prec = thread;
+	(*th)->next = thread;
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/17 18:56:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/18 18:30:11 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@
 # define IND_CODE		3
 
 # define REG_NUMBER		16
+# define MAGIC_NB		0x00EA83F3
 
 /*
 ** unused
@@ -93,7 +94,6 @@
 
 # define NAME_LENGTH	(128)
 # define DESC_LENGTH	(2048)
-# define MAGIC_NB		0x00EA83F3
 
 typedef struct			s_thread
 {
@@ -310,6 +310,7 @@ int						free_storage(t_storage **st);
 ** ------------------------	manage_thread				------------------------
 */
 int						add_thread(t_storage **st);
+int						dup_thread(t_thread **th);
 int						free_thread_list(t_storage **st);
 
 /*

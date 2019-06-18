@@ -1,7 +1,7 @@
 .name "test"
 .comment "test comm"
 
-ld %-1, r2
-ld %-1, r3
-sti r3, %-1, %-1
-zjmp %02
+ld %0, r2
+ld %0, r3
+live %1
+zjmp %256
