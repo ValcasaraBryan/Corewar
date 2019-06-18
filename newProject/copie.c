@@ -5,14 +5,16 @@
 #include <unistd.h>
 #include "./SDL2_ttf.framework/Headers/SDL_ttf.h"
 #include <stdbool.h>
-#define WIDTH 1200
-#define LENGTH 1000
+#define WIDTH 1800
+#define LENGTH 1280
 #define WHITE 0xff0000
 #define GREY 0x202020
 # define P1 0x33cc33
 # define P2 0x0099ff
 # define P3 0xff00ff
 # define P4 0xff9933
+#include <time.h>
+#include <stdlib.h>
 
 typedef union					u_color
 {
@@ -121,14 +123,65 @@ int	init_font(t_win *win)
 	if (TTF_Init() < 0)
 		return(0);
 	win->ttf_player = NULL;
-	win->ttf_player = TTF_OpenFont("Raleway-Regular.ttf", 20);
+	win->ttf_player = TTF_OpenFont("Raleway-Regular.ttf", 50);
 	win->ttf_text = NULL;
 	win->ttf_text = TTF_OpenFont("Raleway-Regular.ttf", 12);
 	if (win->ttf_player == NULL || win->ttf_text == NULL)
 		return(0);
 	return (1);
 }
-void ft_create_rect(t_win *win, int x, int y);
+void ft_create_rect(t_win *win, int y, char *str);
+
+char *ft_itoa_hexa(int a)
+{
+	char *str;
+	char *tab;
+
+	tab = "0123456789abcdef";
+	if(!(str = malloc(sizeof(char) * 3)))
+		return (NULL);
+	str[0] = tab[a / 16];
+	str[1] = tab[a % 16];
+	str[2] = '\0';
+	return (str);
+}
+
+char	*ft_strcat(char *dest, const char *src)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (dest[i])
+		++i;
+	while (src[j])
+	{
+		dest[i] = src[j];
+		++i;
+		++j;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char *ft_tab_int_to_string(int *tab)
+{
+	char *line;
+	int i = 0;
+
+
+	if (!(line = malloc(sizeof(char) * 256)))
+		return (NULL);
+	while (i < 64)
+	{
+		line = ft_strcat(line, ft_itoa_hexa(tab[i]));
+		if (i < 63)
+			line = ft_strcat(line, "  ");
+		i++;
+	}
+	return (line);
+}
 
 int init_window(t_win *win)
 {
@@ -156,7 +209,7 @@ int init_window(t_win *win)
 	// SDL_FillRect(win->surface, NULL, GREY);
 	if (!(win->renderer = SDL_CreateRenderer(win->window, -1, 0)))
 		printf("SDL_Init failed: %s\n", SDL_GetError());
-	if (SDL_SetRenderDrawColor(win->renderer, 255, 255, 255, 255))
+	if (SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255))
 		printf("toto0");
 	SDL_RenderClear(win->renderer);
 //	SDL_RenderPresent(renderer);
@@ -169,7 +222,7 @@ int init_window(t_win *win)
 	// position.y = 0;
 	// SDL_BlitSurface(text, NULL, SDL_GetWindowSurface(win->window), &position);
 	
-	win->ttf_text = TTF_OpenFont("Raleway-Regular.ttf", 1000); //this opens a font style and sets a size
+	win->ttf_text = TTF_OpenFont("Calibri.ttf", 60); //this opens a font style and sets a size
 
 	SDL_Color Gold = {215, 154, 16};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
 	SDL_Color Grey = {255, 0, 0};
@@ -198,17 +251,31 @@ int init_window(t_win *win)
 
 	int i = 0;
 	int j;
+	int **grid = NULL;
+
+	grid = (int **)malloc(sizeof(int *) * 64);
+
+	srand(time(NULL));
 	while(i < 64)
 	{
 		j = 0;
+		grid[i] = malloc (sizeof(int) * 64);
 		while (j < 64)
 		{
-			ft_create_rect(win, j * 15, i * 15);
+			grid[i][j] = rand() % 255;
 			j++;
 		}
 		i++;
 	}
+	i = 0;
+	write(1, "C", 1);
+	while(i < 64)
+	{
+		ft_create_rect(win, i * 20, ft_tab_int_to_string(grid[i]));
+		i++;
+	}
 
+	write(1, "D", 1);
 	SDL_RenderPresent(win->renderer);
 
 	while (gameRunning)
@@ -236,17 +303,19 @@ int init_window(t_win *win)
 	return (1);
 }
 
-void ft_create_rect(t_win *win, int x, int y)
+void ft_create_rect(t_win *win, int y, char *str)
 {
-	SDL_Color Grey = {255, 0, 0};
+	SDL_Color Grey = {255, 255, 255, 255};
 
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, "00", Grey);
+	write(1, str, 256);
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, str, Grey);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
 	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = x;  //controls the rect's x coordinate 
+	Message_rect.x = 0;  //controls the rect's x coordinate 
 	Message_rect.y = y; // controls the rect's y coordinte
-	Message_rect.w = 15; // controls the width of the rect
-	Message_rect.h = 15; // controls the height of the rect
+	Message_rect.w = 22 * 64; // controls the width of the rect
+	Message_rect.h = 18; // controls the height of the rect
+	// write(1, "a", 1);
 	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
 	SDL_FreeSurface(surfaceMessage);
 	SDL_DestroyTexture(Message);
@@ -299,17 +368,3 @@ int main ()
 	init_sdl(&win);
 	return(0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
