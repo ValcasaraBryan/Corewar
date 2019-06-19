@@ -6,15 +6,15 @@
 #include "./SDL2_ttf.framework/Headers/SDL_ttf.h"
 #include <stdbool.h>
 #define WIDTH 1900
-#define LENGTH 1088
+#define HEIGHT 1152
 #define WHITE 0xff0000
 #define GREY 0x202020
 # define P1 0x33cc33
 # define P2 0x0099ff
 # define P3 0xff00ff
 # define P4 0xff9933
-# define OCT_W 21
-# define OCT_H 17
+# define OCT_W 23
+# define OCT_H 18
 #include <time.h>
 #include <stdlib.h>
 
@@ -37,7 +37,7 @@ typedef struct		s_win
 	char			game_process[MEM_SIZE];
 	int				colors[4];
 	int				width;
-	int				length;
+	int				height;
 	int				text_height;
 	int				text_start;
 }					t_win;
@@ -188,18 +188,20 @@ char *ft_tab_int_to_string(int *tab)
 
 int ft_put_treads(t_win *win)
 {
-	// while (tread->next)
 	win->texture = SDL_CreateTexture(win->renderer, SDL_PIXELFORMAT_RGBA8888, 
                                SDL_TEXTUREACCESS_TARGET, 0, 0);
-	SDL_Rect rect = {128 % 64 * OCT_W, 128 / 64 * OCT_H, OCT_W, OCT_H}; //pos 128
-	SDL_SetRenderDrawColor(win->renderer, 150, 0, 150, 255); /* On dessine en violet */
-
+	SDL_Rect rect;
+	SDL_SetRenderDrawColor(win->renderer, 100, 100, 100, 255); /* On dessine en violet */
 	SDL_SetRenderTarget(win->renderer, win->texture); /* On va dessiner sur la texture */
+	// while (thread)
+	// {
+	int where = 128;
 	SDL_RenderFillRect(win->renderer, &rect);
-	rect.x = 127 % 64 * OCT_W;
-	rect.y = 127 / 64 * OCT_H;
+	rect.x = where % 64 * OCT_W;
+	rect.y = where / 64 * OCT_H;
 	rect.h = OCT_H;
 	rect.w = OCT_W;
+	// }
 	SDL_RenderFillRect(win->renderer, &rect);
 	SDL_SetRenderTarget(win->renderer, NULL);
 	SDL_RenderCopy(win->renderer, win->texture, NULL, &rect);
@@ -218,7 +220,7 @@ int init_window(t_win *win)
 	// SDL_Rect position;
 	if (!(win->window = SDL_CreateWindow("Virtual Corewar Arena",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		win->width, win->length, SDL_WINDOW_RESIZABLE)))
+		win->width, win->height, SDL_WINDOW_RESIZABLE)))
 		return(0);
 	// win->surface = SDL_GetWindowSurface(win->window);
 	// SDL_SetWindowBordered(win->window, SDL_TRUE);
@@ -244,7 +246,7 @@ int init_window(t_win *win)
 	// position.y = 0;
 	// SDL_BlitSurface(text, NULL, SDL_GetWindowSurface(win->window), &position);
 	
-	win->ttf_text = TTF_OpenFont("Calibri.ttf", 100); //this opens a font style and sets a size
+	win->ttf_text = TTF_OpenFont("monofonto.ttf", 50); //this opens a font style and sets a size
 
 	SDL_Color Gold = {215, 154, 16};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
 	SDL_Color Grey = {255, 0, 0};
@@ -292,6 +294,7 @@ int init_window(t_win *win)
 	i = 0;
 	write(1, "C", 1);
 
+	
 	ft_put_treads(win);
 
 	while(i < 64)
@@ -299,7 +302,6 @@ int init_window(t_win *win)
 		ft_create_rect(win, i * OCT_H, ft_tab_int_to_string(grid[i]));
 		i++;
 	}
-
 
 	write(1, "D", 1);
 	SDL_RenderPresent(win->renderer);
@@ -350,7 +352,7 @@ void ft_create_rect(t_win *win, int y, char *str)
 int init_sdl(t_win *win)
 {
 	win->width = WIDTH;
-	win->length = LENGTH;
+	win->height = HEIGHT;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (0);
 	// SDL_GL_SetSwapInterval(1);
