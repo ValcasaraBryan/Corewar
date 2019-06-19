@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/06/16 20:12:37 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/06/19 17:40:54 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ FILES_HEADER =	corewar.h
 FILES_SRCS =	bin_extractor.c			\
 				functions_byte.c		\
 				functions_champion.c	\
+				functions_get_args.c	\
 				functions_grid.c		\
 				functions_storage.c		\
 				functions_thread.c		\

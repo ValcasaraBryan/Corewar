@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/18 18:30:11 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:53:33 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 ** return values
 */
 
+# define SUCCESS_INC	20
 # define SUCCESS		10
 # define NO_CHANGE		0
 # define BAD_PARAM		-10
@@ -170,6 +171,16 @@ int						champion_change_number(t_champion **ch, int new_nb);
 int						champion_change_size(t_champion **ch, int new_size);
 
 /*
+** ------------------------	functions_get_args			------------------------
+*/
+int						get_args_inner(int nb_lines, char ***tab, int **args,
+	int i);
+int						get_champion(int **args, char **str, int i);
+int						get_flag_with_nb(char **str, int **args, int type);
+int						init_args(int **args);
+int						print_error(int **args);
+
+/*
 ** ------------------------	functions_grid				------------------------
 */
 int						grid_fill_with_champ(int ***grid, t_champion **ch,
@@ -278,6 +289,9 @@ int						instr_zjmp(t_thread **th, int ***gr);
 /*
 ** ------------------------	key_functions				------------------------
 */
+int						cycle_to_die(t_storage **st, int nb_cycles);
+int						intro_champions(t_storage **st);
+int						get_args(int nb_lines, char ***tab);
 int						read_in_grid(int ***grid, int where, int nb);
 int						write_in_grid(int ***grid, long value, int where,
 	int nb);

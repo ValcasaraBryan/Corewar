@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/18 18:17:41 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:42:31 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int		instr_fork_inner(t_thread **th, int ***gr)
 	new_thread = (*th)->next;
 	if (new_thread == NULL)
 		return (FAILURE);
-	if (thread_change_where(&new_thread, gr, new_thread->where + value) != SUCCESS)
+	if (thread_change_where(&new_thread, gr,
+		new_thread->where + value) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
 }
 
 int		instr_fork(t_thread **th, int ***gr)
 {
-
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_fork\n");
 	if (thread_check(th) < VALID_EMPTY || grid_check(gr) != VALID_FULL)

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 20:33:29 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:27:06 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2728,4 +2728,39 @@ get_size_int
 setup_all
 setup_champions
 setup_grid
+*/
+
+
+/*
+tests get_args
+
+ok
+./corewar 1.cor
+./corewar 1.cor 2.cor
+./corewar 1.cor 2.cor 3.cor
+./corewar 1.cor 2.cor 3.cor 4.cor
+./corewar -n 1.cor 2.cor 3.cor 4.cor
+./corewar -n 56 1.cor -n 69 2.cor 3.cor 4.cor
+./corewar -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor
+./corewar -dump 5699 -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor
+./corewar -v -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor
+./corewar -v -n 56 1.cor          2.cor -n 95 3.cor 4.cor
+./corewar 1.cor 2.cor -n 95 3.cor -n 17 4.cor 
+./corewar -v fr.cor 
+
+ko
+./corewar 1.cor 2.cor 3.cor 4.cor 5.cor
+./corewar -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 4.cor
+./corewar -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor 5.cor
+./corewar -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor -n
+./corewar -dump -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor
+./corewar -v -dump 5699 -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor
+./corewar -v -dump -n 56 1.cor -n 69 2.cor -n 95 3.cor -n 48 4.cor
+./corewar -v -n 56 1.cor 69 2.cor -n 95 3.cor 4.cor
+./corewar 1.cor 2.cor -n 95 3.cor 4.cor -dump 6555
+./corewar 1.cor  2.cor 3.cor 4.cor -dump 6555
+./corewar 1.cor 2.cor -n 95 3.cor -n 17 4.cor -n 26
+./corewar 1.cor 2.cor -n 95 3.cor -n 17 4.cor -n 26 -dump 65
+./corewar 1.cor 2.cor -n 26
+./corewar -v
 */

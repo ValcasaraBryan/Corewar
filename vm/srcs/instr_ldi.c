@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:39 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/18 16:12:15 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:48:42 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ static int	instr_ldi_inner(t_thread **th, int ***gr, int size1, int size2)
 	total = read_in_grid(gr, (*th)->where + value1 + value2, 4);
 	if (thread_change_value_reg(th, reg, total) != SUCCESS)
 		return (CALL_FAILED);
-	if (thread_change_where(th, gr, (*th)->where + 1 + 1 + size1 + size2 + 1) != SUCCESS)
+	if (thread_change_where(th, gr,
+		(*th)->where + 1 + 1 + size1 + size2 + 1) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
 }
 
-int		instr_ldi(t_thread **th, int ***gr)
+int			instr_ldi(t_thread **th, int ***gr)
 {
 	int		*tab;
 	int		size1;

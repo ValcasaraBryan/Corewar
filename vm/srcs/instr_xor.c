@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/18 16:47:20 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:50:36 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	instr_xor_inner(t_thread **th, int ***gr, int size1, int size2)
 	if (thread_change_value_reg(th, read_in_grid(gr, (*th)->where
 		+ 1 + 1 + size1 + size2, 1), (value1 ^ value2)) != SUCCESS)
 		return (CALL_FAILED);
-	if (thread_change_where(th, gr, (*th)->where + 1 + size1 + size2 + 1 + 1) != SUCCESS)
+	if (thread_change_where(th, gr,
+		(*th)->where + 1 + size1 + size2 + 1 + 1) != SUCCESS)
 		return (CALL_FAILED);
 	(*th)->carry = (value1 ^ value2) == 0 ? 1 : 0;
 	return (SUCCESS);
