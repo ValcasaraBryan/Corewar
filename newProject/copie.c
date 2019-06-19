@@ -5,14 +5,16 @@
 #include <unistd.h>
 #include "./SDL2_ttf.framework/Headers/SDL_ttf.h"
 #include <stdbool.h>
-#define WIDTH 1800
-#define LENGTH 1280
+#define WIDTH 1900
+#define LENGTH 1088
 #define WHITE 0xff0000
 #define GREY 0x202020
 # define P1 0x33cc33
 # define P2 0x0099ff
 # define P3 0xff00ff
 # define P4 0xff9933
+# define OCT_W 21
+# define OCT_H 17
 #include <time.h>
 #include <stdlib.h>
 
@@ -30,6 +32,7 @@ typedef struct		s_win
 	TTF_Font		*ttf_text;
 	SDL_Event		event;
 	SDL_Renderer 	*renderer;
+	SDL_Texture 	*texture;
 	char			game_color[MEM_SIZE];
 	char			game_process[MEM_SIZE];
 	int				colors[4];
@@ -171,16 +174,35 @@ char *ft_tab_int_to_string(int *tab)
 	int i = 0;
 
 
-	if (!(line = malloc(sizeof(char) * 256)))
+	if (!(line = malloc(sizeof(char) * 257)))
 		return (NULL);
 	while (i < 64)
 	{
+		line = ft_strcat(line, " ");
 		line = ft_strcat(line, ft_itoa_hexa(tab[i]));
-		if (i < 63)
-			line = ft_strcat(line, "  ");
+		line = ft_strcat(line, " ");
 		i++;
 	}
 	return (line);
+}
+
+int ft_put_treads(t_win *win)
+{
+	// while (tread->next)
+	win->texture = SDL_CreateTexture(win->renderer, SDL_PIXELFORMAT_RGBA8888, 
+                               SDL_TEXTUREACCESS_TARGET, 0, 0);
+	SDL_Rect rect = {128 % 64 * OCT_W, 128 / 64 * OCT_H, OCT_W, OCT_H}; //pos 128
+	SDL_SetRenderDrawColor(win->renderer, 150, 0, 150, 255); /* On dessine en violet */
+
+	SDL_SetRenderTarget(win->renderer, win->texture); /* On va dessiner sur la texture */
+	SDL_RenderFillRect(win->renderer, &rect);
+	rect.x = 127 % 64 * OCT_W;
+	rect.y = 127 / 64 * OCT_H;
+	rect.h = OCT_H;
+	rect.w = OCT_W;
+	SDL_RenderFillRect(win->renderer, &rect);
+	SDL_SetRenderTarget(win->renderer, NULL);
+	SDL_RenderCopy(win->renderer, win->texture, NULL, &rect);
 }
 
 int init_window(t_win *win)
@@ -211,7 +233,7 @@ int init_window(t_win *win)
 		printf("SDL_Init failed: %s\n", SDL_GetError());
 	if (SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255))
 		printf("toto0");
-	SDL_RenderClear(win->renderer);
+	// SDL_RenderClear(win->renderer);
 //	SDL_RenderPresent(renderer);
 
 
@@ -222,7 +244,7 @@ int init_window(t_win *win)
 	// position.y = 0;
 	// SDL_BlitSurface(text, NULL, SDL_GetWindowSurface(win->window), &position);
 	
-	win->ttf_text = TTF_OpenFont("Calibri.ttf", 60); //this opens a font style and sets a size
+	win->ttf_text = TTF_OpenFont("Calibri.ttf", 100); //this opens a font style and sets a size
 
 	SDL_Color Gold = {215, 154, 16};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
 	SDL_Color Grey = {255, 0, 0};
@@ -245,7 +267,7 @@ int init_window(t_win *win)
 	Message_rect.h = 15; // controls the height of the rect
 
 	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
-	// SDL_RenderClear(renderer);
+	SDL_RenderClear(win->renderer);
 	//
 	//SDL_RenderPresent(renderer);
 
@@ -269,11 +291,15 @@ int init_window(t_win *win)
 	}
 	i = 0;
 	write(1, "C", 1);
+
+	ft_put_treads(win);
+
 	while(i < 64)
 	{
-		ft_create_rect(win, i * 20, ft_tab_int_to_string(grid[i]));
+		ft_create_rect(win, i * OCT_H, ft_tab_int_to_string(grid[i]));
 		i++;
 	}
+
 
 	write(1, "D", 1);
 	SDL_RenderPresent(win->renderer);
@@ -313,8 +339,8 @@ void ft_create_rect(t_win *win, int y, char *str)
 	SDL_Rect Message_rect; //create a rect
 	Message_rect.x = 0;  //controls the rect's x coordinate 
 	Message_rect.y = y; // controls the rect's y coordinte
-	Message_rect.w = 22 * 64; // controls the width of the rect
-	Message_rect.h = 18; // controls the height of the rect
+	Message_rect.w = OCT_W * 64; // 21 controls the width of the rect
+	Message_rect.h = OCT_H; // controls the height of the rect
 	// write(1, "a", 1);
 	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
 	SDL_FreeSurface(surfaceMessage);
