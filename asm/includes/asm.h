@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/18 15:17:54 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:51:56 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@
 #define	END						11
 #define	NAME					12
 #define	COMMENT					13
+#define STRING					14
 
 #define TRUE					1
 #define IN_TRUE					2
@@ -80,11 +81,11 @@
 #define ERROR_PARAMS			"Invalid parameter %d type %s for instruction %s"
 #define MSG_LABEL				"No such label %s while attempting to dereference"
 #define MSG_SYN					"Syntax error at"
-#define MSG_TOKEN				" token [%s][%03d:%03d] %s"
+#define MSG_TOKEN				" token [%s][%03d:%03d]"
 #define ARG						" \"%s\""
-#define SYNTAX_ARG				MSG_SYN TOKEN ARG LINE
-#define ERROR_LABEL				MSG_LABE TOKEN ARG LINE
-#define SYNTAX					MSG_SYN TOKEN LINE
+#define SYNTAX_ARG				MSG_SYN MSG_TOKEN ARG LINE
+#define ERROR_LABEL				MSG_LABE MSG_TOKEN ARG LINE
+#define SYNTAX					MSG_SYN MSG_TOKEN LINE
 #define INVALID_PARAMS			ERROR_PARAMS LINE
 
 typedef struct		s_op
@@ -156,23 +157,24 @@ typedef struct		s_error
 
 typedef struct		s_data
 {
-	int				fd;
-	int				fd_file;
-	int				ret;
-	char			*name_cor;
-	char			*name_s;
-	bool			quote;
-	bool			name_com;
-	int				name_and_comment;
-	header_t		header;
-	int				len;
-	int				index;
-	t_line			line;
-	t_token			*token;
-	t_ins			*ins;
-	t_label			*ins_label;
-	t_name_label	*label;
-	t_error			error;
+	int				fd;				// file .s
+	int				fd_file;		// file .cor
+	int				ret;			// retour  read_line
+	char			*name_cor;		// nom .cor
+	char			*name_s;		// nom .s
+	bool			quote;			// entre quote == true
+	bool			name;			// true si trouve
+	bool			comment;		// true si trouve
+	header_t		header;			// header op.h
+	int				len;			// len name or comment
+	int				n_line;			// numero de ligne actuel
+	int				index;			// index de la ligne actuel
+	t_line			line;			// ligne lu
+	t_token			*token;			// liste chaine de "mot" par ligne
+	t_ins			*ins;			// liste chaine des instructions
+	t_label			*ins_label;		// liste chaine des labels parametres
+	t_name_label	*label;			// liste chaine des labels
+	t_error			error;			// structure contenant les informations erreurs
 }					t_data;
 
 extern t_op			op_tab[REG_NUMBER + 1];
@@ -184,7 +186,6 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
 void		add_word(t_data *data, t_token word);
 int		ft_end_word(char c);
 int		skip_whitespace(char *str, int val);
-int		get_arg(char *str, int (*fonction)(char));
 /*
 **			list_chain_new.c
 */
@@ -219,6 +220,7 @@ int		label(char c);
 int		ft_is_params(char *str, int (*fonction)(char));
 int		ft_is_label(char *str, bool before);
 int		ft_is_instruction(char *str, t_op **ins);
+int		ft_is_string(char *str);
 /*
 **			ft_str_is_number.c
 */
@@ -259,4 +261,5 @@ int		skip_separator(t_token **tmp, t_op *val, int *i);
 */
 int		skip_whitespace(char *str, int val);
 int		ft_end_word(char c);
+int		get_arg(t_data *data, char *str, int (*fonction)(char));
 #endif

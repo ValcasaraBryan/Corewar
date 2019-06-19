@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/18 15:46:43 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/06/19 19:03:47 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,41 @@ char		*into_quote(char *str)
 	int		j;
 
 	i = -1;
+	j = -1;
 	while (str[++i])
 	{
 		if (str[i] == CMD_CHAR)
 			break ;
 	}
+	while (str[i + ++j])
+	{
+		if (str[i + j] == CMD_CHAR)
+			break ;
+	}
+	return (NULL);
 }
 
-int			add_quote(t_data *data, t_token *token)
+int			add_quote(t_data *data, t_token **token, t_op *val)
 {
 	char	*tmp;
+	int		type;
 
-	if (token->type == NAME)
+	if ((*token)->type == NAME)
 	{
 		data->len = PROG_NAME_LENGTH;
 		tmp = (char *)data->header.prog_name;
 	}
-	else if (token->type == COMMENT)
+	else if ((*token)->type == COMMENT)
 	{
 		data->len = COMMENT_LENGTH;
 		tmp = (char *)data->header.comment;
 	}
-	if (token->next)
-		token = token->next;
+	if ((*token)->next)
+		(*token) = (*token)->next;
 	else
 		return (0);
-	if (tmp)
-	{
-		ft_printf("%s\n", token->cut);
-	}
+	type = add_type((*token)->cut, &val);
+	// ft_printf("[%s]%d\n", (*token)->cut, type);
 	return (1);
 }
 int		check_token(t_data *data)
@@ -78,14 +84,14 @@ int		check_token(t_data *data)
 		else if (tmp->type == NAME || tmp->type == COMMENT)
 		{
 			// ft_printf("%s %d\n", data->line.line, tmp->type);
-			if (!(add_quote(data, tmp)))
+			if (!(add_quote(data, &tmp, val)))
 				return (0);
 		}
 		else
 		{
 			if (!val || !(check_params(data, &tmp, ins_tmp, val)))
 			{
-				// ft_printf("error check_params %p | %s | %d\n", val, tmp->cut, tmp->type);
+				ft_printf("error check_params\n");
 				return (0);
 			}
 			data->header.prog_size += ins_tmp->len;

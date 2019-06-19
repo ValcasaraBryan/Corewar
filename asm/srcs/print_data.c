@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:05:57 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 15:05:58 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/19 17:56:19 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void		print_list(t_data *data)
 {
-	// while (data->token)
-	// {
-		// ft_printf("[%s][%03d:%03d]%03d|\n", data->token->cut, data->token->n_line,
-				// data->token->start, data->token->end);
-		// data->token = data->token->next;
-	// }
+	while (data->token)
+	{
+		ft_printf("[%s][%03d:%03d]%03d|\n", data->token->cut, data->token->n_line,
+				data->token->start, data->token->end);
+		data->token = data->token->next;
+	}
 	int	i;
 	while (data->ins)
 	{

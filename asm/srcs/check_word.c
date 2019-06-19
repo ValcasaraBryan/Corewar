@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:46:16 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/18 14:21:58 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/06/19 19:47:01 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,29 @@ int		ft_end_word(char c)
 	if (ft_is_whitespace(c) || c == '#')
 		return (1);
 	return (0);
+}
+
+int		get_arg(t_data *data, char *str, int (*fonction)(char))
+{
+	int	i;
+
+	if (str[0] != CMD_CHAR)
+	{
+		i = -1;
+		while (str[++i] != '\n')
+			if (fonction(str[i]))
+				break ;
+	}
+	else
+	{
+		i = 0;
+		while (str[++i])
+		{
+			if (str[i] == CMD_CHAR)
+				return (i + 1);
+			else if (str[i] == '\n')
+				data->n_line++;
+		}
+	}
+	return (i);
 }

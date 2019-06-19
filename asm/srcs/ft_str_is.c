@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_is.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:26:10 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 15:26:29 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/06/19 17:20:40 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,22 @@ int		ft_is_instruction(char *str, t_op **ins)
 		}
 	*ins = NULL;
 	return (0);
+}
+
+int		ft_is_string(char *str)
+{
+	int	quote;
+	int	i;
+
+	quote = (str[0] == CMD_CHAR) ? 1 : 0;
+	i = (quote == 1) ? 0 : -1;
+	while (str[++i])
+	{
+		if (str[i] == CMD_CHAR)
+			quote++;
+		else if ((ft_isprint(str[i]) == 0 || str[i] == LABEL_CHAR
+			|| str[i] == DIRECT_CHAR) && str[i] != '\n')
+			return (0);
+	}
+	return (quote == 2 ? 1 : 0);
 }

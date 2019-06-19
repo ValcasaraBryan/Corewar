@@ -11,8 +11,6 @@ void	init_data(t_data *data, char *av)
 	data->name_s = av;
 	data->name_cor = NULL;
 	data->quote = false;
-	data->name_com = false;
-	data->name_and_comment = 0;
 	data->line.line = NULL;
 	data->line.current = 0;
 	data->line.n_line = 0;

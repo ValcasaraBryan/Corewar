@@ -6,22 +6,11 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/18 15:40:44 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/06/19 19:14:06 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-
-int		get_arg(char *str, int (*fonction)(char))
-{
-	int	i;
-
-	i = -1;
-	while (str[++i] != '\n')
-		if (fonction(str[i]))
-			break ;
-	return (i);
-}
 
 int		check_alpha(char *str)
 {
@@ -60,13 +49,13 @@ int		step(t_data *data)
 		return (1);
 	if (!data->line.line && !data->ret)
 		return (0);
-		data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
-		if (!(get_token(data)))
-		{
-			ft_printf("error get_token\n");
-			return (0);
-		}
-	// 
+	data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
+	// ft_printf("%s\n", data->line.line);
+	if (!(get_token(data)))
+	{
+		ft_printf("error get_token\n");
+		return (0);
+	}
 	return (1);
 }
 
@@ -103,24 +92,38 @@ int		check_label(t_data *data)
 	return (1);
 }
 
-int		read_line(t_data *data)
+char	*ft_str_biggest(char **s1, int more)
 {
-	int		i;
+	char	*tmp;
+	int		len;
+
+	if (!*s1)
+		return (ft_strnew(more));
+	len = ft_strlen(*s1);
+	if (!(tmp = malloc(sizeof (char) * (len + more + 1))))
+		return (NULL);
+	ft_strcpy(tmp, *s1);
+	free(*s1);
+	*s1 = NULL;
+	return (tmp);
+}
+
+int		read_line(t_data *data, int *i)
+{
 	bool	quote;
 	char	buf[1 + 1];
 
-	i = 0;
 	quote = false;
 	while ((data->ret = read(data->fd, buf, 1)) > 0)
 	{
 		buf[data->ret] = 0;
 		if (!data->line.line)
-			data->line.line = ft_strnew(32);
-		i += data->ret;
-		if (i == 32)
+			data->line.line = ft_strnew(BUFF_SIZE);
+		(*i) += data->ret;
+		if ((*i) == BUFF_SIZE)
 		{
-			data->line.line = ft_strjoin_free(data->line.line, ft_strnew(i), 3);
-			i = 0;
+			data->line.line = ft_str_biggest(&data->line.line, BUFF_SIZE);
+			(*i) = 0;
 		}
 		else
 			ft_strcat(data->line.line, buf);
@@ -134,6 +137,9 @@ int		read_line(t_data *data)
 
 int		parsing_asm(t_data *data)
 {
+	int	i;
+
+	i = 0;
 	if ((data->fd = open(data->name_s, O_RDONLY)) == -1)
 	{
 		ft_fprintf(NO_FILE, S_ERR, READ, data->name_cor);
@@ -146,25 +152,26 @@ int		parsing_asm(t_data *data)
 			free(data->line.line);
 			data->line.line = NULL;
 		}
-		if ((data->ret = read_line(data)) == -1)
+		if ((data->ret = read_line(data, &i)) == -1)
 		{
 			ft_printf("no newline\n");
 			return (0);
 		}
+		// ft_printf("%s|%d", data->line.line, data->line.n_line);
 		data->line.current = 0;
-		data->line.n_line++;
 	}
 	// ft_printf("[%s]\n", data->header.prog_name);
 	// ft_printf("[%s]\n", data->header.comment);
+	// ft_fprintf(SYNTAX_ARG, S_ERR, "instruction", data->token->n_line, data->token->start, data->token->cut);
 	if (!(check_label(data)))
 		return (0);
-	if (data->name_and_comment != 2 || data->index > data->len || error(data->error))
+	if ((data->name && data->comment) || error(data->error))
 	{
-		// ft_printf("error name or comment\n");
+		ft_printf("error name or comment\n");
 		return (0);
 	}
-	if (!(suffix_name(data, SUFFIX)))
-		return (0);
+	// if (!(suffix_name(data, SUFFIX)))
+		// return (0);
 	return (1);
 }
 
