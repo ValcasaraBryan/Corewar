@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 19:08:01 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:48:09 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int		setup_champions(t_storage **st, char ***t_p, int **t_n)
 	{
 		if (add_champion(st) != SUCCESS
 			|| bin_extractor(&(*st)->last_champion, (*t_p)[i]) != SUCCESS
-			|| champion_change_number(&(*st)->last_champion,
-				(*t_n)[i]) != SUCCESS
+			|| ((*st)->last_champion->number = (*t_n)[i]) == 0
 			|| add_thread(st) != SUCCESS
 			|| thread_change_value_reg(&(*st)->last_thread, 0,
 				(*t_n)[i]) != SUCCESS)
@@ -63,17 +62,31 @@ int		setup_grid(t_storage **st)
 	return (SUCCESS);
 }
 
-int		setup_all(t_storage **st)
+int		setup_all(t_storage **st, char ***argc, int **args)
 {
 	char		**array_1;
 	int			*array_2;
 
-	if (tab_char_create(&array_1) != SUCCESS
-		|| tab_int_create(&array_2, 4) != SUCCESS)
+	if (argc == NULL || *argc == NULL
+		|| args == NULL || *args == NULL)
+	array_1 = NULL;
+	array_2 = NULL;
+	if (tab_char_create(&array_1, argc, args) != SUCCESS
+		|| tab_int_create(&array_2, args) != SUCCESS)
+	{
+		free_tab_char(&array_1);
+		free_tab_int(&array_2);
 		return (CALL_FAILED);
+	}
 	if (add_storage(st) != SUCCESS
 		|| setup_champions(st, &array_1, &array_2) != SUCCESS
 		|| setup_grid(st) != SUCCESS)
+	{
+		free_tab_char(&array_1);
+		free_tab_int(&array_2);
 		return (CALL_FAILED);
+	}
+	free_tab_char(&array_1);
+	free_tab_int(&array_2);
 	return (SUCCESS);
 }

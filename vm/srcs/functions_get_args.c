@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:37:21 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/19 17:48:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/20 14:31:21 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,8 @@ int			init_args(int **args)
 	return (SUCCESS);
 }
 
-int			print_error(int **args)
+int			print_error(void)
 {
 	ft_putstr_fd("usage : ./corewar [-v | -dump N] [-n N] <file.cor> ...\n", 2);
-	if (args != NULL && *args != NULL)
-		free(*args);
 	return (FAILURE);
 }

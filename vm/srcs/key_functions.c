@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/19 17:52:47 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:42:40 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int				intro_champions(t_storage **st)
 		ft_putstr("* Player ");
 		ft_putnbr(current->number);
 		ft_putstr(", weighing ");
-		ft_putnbr(150);
+		ft_putnbr(current->size);
 		ft_putstr(" bytes, \"");
 		ft_putstr(current->name);
 		ft_putstr("\" (\"");
@@ -56,32 +56,28 @@ int				intro_champions(t_storage **st)
 	return (SUCCESS);
 }
 
-int				get_args(int nb_lines, char ***tab)
+int				get_args(int nb_lines, char ***tab, int **args)
 {
-	int			*args;
 	int			i;
 	int			result;
 
-	args = NULL;
-	if (nb_lines < 2 || tab == NULL || *tab == NULL)
-		return (print_error(&args));
-	if (init_args(&args) != SUCCESS || args == NULL)
+	if (nb_lines < 2 || tab == NULL || *tab == NULL || args == NULL)
+		return (print_error());
+	if (init_args(args) != SUCCESS || args == NULL || *args == NULL)
 		return (CALL_FAILED);
 	i = 0;
 	while (++i < nb_lines)
 	{
-		if ((result = get_args_inner(nb_lines, tab, &args, i)) == SUCCESS_INC)
+		if ((result = get_args_inner(nb_lines, tab, args, i)) == SUCCESS_INC)
 			i++;
 		else if (result != SUCCESS)
-			return (print_error(&args));
+			return (print_error());
 	}
-	if (args[10] == 0 || args[3] == -1 || (args[4] != -1 && args[5] == -1)
-		|| (args[6] != -1 && args[7] == -1) || (args[8] != -1 && args[9] == -1))
-		return (print_error(&args));
-	printf("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n", args[0], args[1],
-		args[2], args[3], args[4], args[5],
-		args[6], args[7], args[8], args[9], args[10]);
-	free(args);
+	if ((*args)[10] == 0 || (*args)[3] == -1
+		|| ((*args)[4] != -1 && (*args)[5] == -1)
+		|| ((*args)[6] != -1 && (*args)[7] == -1)
+		|| ((*args)[8] != -1 && (*args)[9] == -1))
+		return (print_error());
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/19 17:53:33 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:36:48 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,6 @@ int						byte_change_value(t_byte **bt, int new_value);
 */
 int						champion_change_desc(t_champion **ch, char *new_desc);
 int						champion_change_name(t_champion **ch, char *new_name);
-int						champion_change_number(t_champion **ch, int new_nb);
 int						champion_change_size(t_champion **ch, int new_size);
 
 /*
@@ -178,7 +177,7 @@ int						get_args_inner(int nb_lines, char ***tab, int **args,
 int						get_champion(int **args, char **str, int i);
 int						get_flag_with_nb(char **str, int **args, int type);
 int						init_args(int **args);
-int						print_error(int **args);
+int						print_error(void);
 
 /*
 ** ------------------------	functions_grid				------------------------
@@ -291,7 +290,7 @@ int						instr_zjmp(t_thread **th, int ***gr);
 */
 int						cycle_to_die(t_storage **st, int nb_cycles);
 int						intro_champions(t_storage **st);
-int						get_args(int nb_lines, char ***tab);
+int						get_args(int nb_lines, char ***tab, int **args);
 int						read_in_grid(int ***grid, int where, int nb);
 int						write_in_grid(int ***grid, long value, int where,
 	int nb);
@@ -348,7 +347,7 @@ int						print_thread_list(t_storage **st);
 /*
 ** ------------------------	structs_setup				------------------------
 */
-int						setup_all(t_storage **st);
+int						setup_all(t_storage **st, char ***argc, int **args);
 int						setup_champions(t_storage **st, char ***t_p, int **t_n);
 int						setup_grid(t_storage **st);
 
@@ -357,8 +356,8 @@ int						setup_grid(t_storage **st);
 */
 int						free_tab_char(char ***tab);
 int						free_tab_int(int **tab);
-int						tab_int_create(int **tab, int range);
-int						tab_char_create(char ***tab);
+int						tab_char_create(char ***tab, char ***argc, int **args);
+int						tab_int_create(int **tab, int **args);
 
 /*
 ** ------------------------	unit_tests_instr			------------------------

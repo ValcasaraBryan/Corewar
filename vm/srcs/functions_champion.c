@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:18:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 18:57:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:36:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,6 @@ int		champion_change_name(t_champion **ch, char *new_name)
 	(*ch)->name = ft_strdup(new_name);
 	if ((*ch)->name == NULL)
 		return (CALL_FAILED);
-	return (SUCCESS);
-}
-
-int		champion_change_number(t_champion **ch, int new_nb)
-{
-	if (champion_check(ch) < VALID_EMPTY || new_nb <= 0 || new_nb > 4)
-		return (BAD_PARAM);
-	(*ch)->number = new_nb;
 	return (SUCCESS);
 }
 

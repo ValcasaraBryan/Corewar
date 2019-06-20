@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/19 17:27:06 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:40:57 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -503,69 +503,7 @@ static int		ut_champion_14(void)
 	return (result == SUCCESS + 1);
 }
 
-static int		ut_champion_16(void)
-{
-	/*
-	** champion_change_number avec param null
-	*/
-	int			result;
-
-	result = champion_change_number(NULL, 1);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_champion_17(void)
-{
-	/*
-	** champion_change_number avec champion vide
-	*/
-	t_champion	*ch;
-	int			result;
-
-	ch = NULL;
-	result = champion_change_number(&ch, 1);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_champion_18(void)
-{
-	/*
-	** champion_change_number avec valeurs charnieres (1 / 4)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_champion(&st);
-	result = champion_change_number(&(st->last_champion), 1);
-	result += st->last_champion->number == 1 ? 1 : 0;
-	result += champion_change_number(&(st->last_champion), 4);
-	result += st->last_champion->number == 4 ? 1 : 0;
-	free_storage(&st);
-	return (result == SUCCESS + 1 + SUCCESS + 1);
-}
-
-static int		ut_champion_19(void)
-{
-	/*
-	** champion_change_number avec valeurs impossibles (0 / 5)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_champion(&st);
-	result = champion_change_number(&(st->last_champion), 1);
-	result += st->last_champion->number == 1 ? 1 : 0;
-	result += champion_change_number(&(st->last_champion), 0);
-	result += st->last_champion->number == 1 ? 1 : 0;
-	result += champion_change_number(&(st->last_champion), 5);
-	result += st->last_champion->number == 1 ? 1 : 0;
-	free_storage(&st);
-	return (result == SUCCESS + 1 + BAD_PARAM + 1 + BAD_PARAM + 1);
-}
-
-static int		ut_champion_20(void)
+static int		ut_champion_15(void)
 {
 	/*
 	** champion_change_size avec param null
@@ -576,7 +514,7 @@ static int		ut_champion_20(void)
 	return (result == BAD_PARAM);
 }
 
-static int		ut_champion_21(void)
+static int		ut_champion_16(void)
 {
 	/*
 	** champion_change_size avec champion vide
@@ -589,10 +527,10 @@ static int		ut_champion_21(void)
 	return (result == BAD_PARAM);
 }
 
-static int		ut_champion_22(void)
+static int		ut_champion_17(void)
 {
 	/*
-	** champion_change_number avec valeurs charnieres (1 / 2147483647)
+	** champion_change_size avec valeurs charnieres (1 / 2147483647)
 	*/
 	t_storage	*st;
 	int			result;
@@ -607,7 +545,7 @@ static int		ut_champion_22(void)
 	return (result == SUCCESS + 1 + SUCCESS + 1);
 }
 
-static int		ut_champion_23(void)
+static int		ut_champion_18(void)
 {
 	/*
 	** champion_change_size avec valeurs impossibles (0 / -1)
@@ -798,7 +736,7 @@ static int		ut_grid_12(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 1);
+	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 1);
@@ -818,12 +756,12 @@ static int		ut_grid_13(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 1);
+	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 2);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 2);
+	st->last_champion->number = 2;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 2);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 2, 2);
@@ -844,17 +782,17 @@ static int		ut_grid_14(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 1);
+	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 3);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 2);
+	st->last_champion->number = 2;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 2);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 2, 3);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 3);
+	st->last_champion->number = 3;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 3);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 3, 3);
@@ -876,22 +814,22 @@ static int		ut_grid_15(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 1);
+	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 4);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 2);
+	st->last_champion->number = 2;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 2);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 2, 4);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 3);
+	st->last_champion->number = 3;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 3);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 3, 4);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 4);
+	st->last_champion->number = 4;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 4);
 	result += grid_fill_with_champ(&(st->grid), &(st->last_champion), 4, 4);
@@ -914,7 +852,7 @@ static int		ut_grid_16(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_champion(&st);
-	champion_change_number(&(st->last_champion), 1);
+	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
 	byte_change_value(&(st->last_champion->last_byte), 1);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion), 0, 4);
@@ -947,21 +885,6 @@ static int		ut_key_functions_02(void)
 
 	gr = NULL;
 	result = read_in_grid(&gr, 0, 1);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_key_functions_03(void)
-{
-	/*
-	** read_in_grid avec valeur invalide (-1)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_grid(&st);
-	result = read_in_grid(&(st->grid), -1, 1);
-	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
@@ -1047,21 +970,6 @@ static int		ut_key_functions_08(void)
 
 	gr = NULL;
 	result = write_in_grid(&gr, 0, 0, 1);
-	return (result == BAD_PARAM);
-}
-
-static int		ut_key_functions_09(void)
-{
-	/*
-	** write_in_grid avec where invalide (-1)
-	*/
-	t_storage	*st;
-	int			result;
-
-	add_storage(&st);
-	add_grid(&st);
-	result = write_in_grid(&(st->grid), 0, -1, 1);
-	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
@@ -1689,14 +1597,29 @@ static int		ut_struct_setup_01(void)
 	** setup_champions avec 1er param null
 	*/
 	char		**array_1;
+	char		**tab_argc;
 	int			*array_2;
+	int			*tab_args;
 	int			result;
+	int			i;
 
-	tab_char_create(&array_1);
-	tab_int_create(&array_2, 5);
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
+	i = -1;
+	if (!((tab_argc) = malloc(sizeof(*tab_argc) * 5)))
+		return (MALLOC_FAILED);
+	while (++i < 5)
+		tab_argc[i] = NULL;
+	tab_char_create(&array_1, &tab_argc, &tab_args);
+	tab_int_create(&array_2, &tab_args);
 	result = setup_champions(NULL, &array_1, &array_2);
 	free_tab_char(&array_1);
+	free_tab_char(&tab_argc);
 	free_tab_int(&array_2);
+	free_tab_int(&tab_args);
 	return (result == BAD_PARAM);
 }
 
@@ -1707,13 +1630,21 @@ static int		ut_struct_setup_02(void)
 	*/
 	t_storage	*st;
 	int			*array_2;
+	int			*tab_args;
 	int			result;
+	int			i;
 
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
 	add_storage(&st);
-	tab_int_create(&array_2, 5);
+	tab_int_create(&array_2, &tab_args);
 	result = setup_champions(&st, NULL, &array_2);
 	free_storage(&st);
 	free_tab_int(&array_2);
+	free_tab_int(&tab_args);
 	return (result == BAD_PARAM);
 }
 
@@ -1724,13 +1655,28 @@ static int		ut_struct_setup_03(void)
 	*/
 	t_storage	*st;
 	char		**array_1;
+	char		**tab_argc;
+	int			*tab_args;
 	int			result;
+	int			i;
 
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
+	i = -1;
+	if (!((tab_argc) = malloc(sizeof(*tab_argc) * 5)))
+		return (MALLOC_FAILED);
+	while (++i < 5)
+		tab_argc[i] = NULL;
 	add_storage(&st);
-	tab_char_create(&array_1);
+	tab_char_create(&array_1, &tab_argc, &tab_args);
 	result = setup_champions(&st, &array_1, NULL);
 	free_storage(&st);
 	free_tab_char(&array_1);
+	free_tab_char(&tab_argc);
+	free_tab_int(&tab_args);
 	return (result == BAD_PARAM);
 }
 
@@ -1741,15 +1687,30 @@ static int		ut_struct_setup_04(void)
 	*/
 	t_storage	*st;
 	char		**array_1;
+	char		**tab_argc;
 	int			*array_2;
+	int			*tab_args;
 	int			result;
+	int			i;
 
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
+	i = -1;
+	if (!((tab_argc) = malloc(sizeof(*tab_argc) * 5)))
+		return (MALLOC_FAILED);
+	while (++i < 5)
+		tab_argc[i] = NULL;
 	st = NULL;
-	tab_char_create(&array_1);
-	tab_int_create(&array_2, 5);
+	tab_char_create(&array_1, &tab_argc, &tab_args);
+	tab_int_create(&array_2, &tab_args);
 	result = setup_champions(&st, &array_1, &array_2);
 	free_tab_char(&array_1);
+	free_tab_char(&tab_argc);
 	free_tab_int(&array_2);
+	free_tab_int(&tab_args);
 	return (result == BAD_PARAM);
 }
 
@@ -1760,15 +1721,30 @@ static int		ut_struct_setup_05(void)
 	*/
 	t_storage	*st;
 	char		**array_1;
+	char		**tab_argc;
 	int			*array_2;
+	int			*tab_args;
 	int			result;
+	int			i;
 
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
+	i = -1;
+	if (!((tab_argc) = malloc(sizeof(*tab_argc) * 5)))
+		return (MALLOC_FAILED);
+	while (++i < 5)
+		tab_argc[i] = NULL;
 	add_storage(&st);
 	array_1 = NULL;
-	tab_int_create(&array_2, 5);
+	tab_int_create(&array_2, &tab_args);
 	result = setup_champions(&st, &array_1, &array_2);
 	free_storage(&st);
+	free_tab_char(&tab_argc);
 	free_tab_int(&array_2);
+	free_tab_int(&tab_args);
 	return (result == BAD_PARAM);
 }
 
@@ -1779,15 +1755,30 @@ static int		ut_struct_setup_06(void)
 	*/
 	t_storage	*st;
 	char		**array_1;
+	char		**tab_argc;
 	int			*array_2;
+	int			*tab_args;
 	int			result;
+	int			i;
 
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
+	i = -1;
+	if (!((tab_argc) = malloc(sizeof(*tab_argc) * 5)))
+		return (MALLOC_FAILED);
+	while (++i < 5)
+		tab_argc[i] = NULL;
 	add_storage(&st);
-	tab_char_create(&array_1);
+	tab_char_create(&array_1, &tab_argc, &tab_args);
 	array_2 = NULL;
 	result = setup_champions(&st, &array_1, &array_2);
 	free_storage(&st);
 	free_tab_char(&array_1);
+	free_tab_char(&tab_argc);
+	free_tab_int(&tab_args);
 	return (result == BAD_PARAM);
 }
 
@@ -1798,17 +1789,32 @@ static int		ut_struct_setup_07(void)
 	*/
 	t_storage	*st;
 	char		**array_1;
+	char		**tab_argc;
 	int			*array_2;
+	int			*tab_args;
 	int			result;
+	int			i;
 
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
+	i = -1;
+	if (!((tab_argc) = malloc(sizeof(*tab_argc) * 5)))
+		return (MALLOC_FAILED);
+	while (++i < 5)
+		tab_argc[i] = NULL;
 	add_storage(&st);
 	add_champion(&st);
-	tab_char_create(&array_1);
-	tab_int_create(&array_2, 5);
+	tab_char_create(&array_1, &tab_argc, &tab_args);
+	tab_int_create(&array_2, &tab_args);
 	result = setup_champions(&st, &array_1, &array_2);
 	free_storage(&st);
 	free_tab_char(&array_1);
+	free_tab_char(&tab_argc);
 	free_tab_int(&array_2);
+	free_tab_int(&tab_args);
 	return (result == BAD_PARAM);
 }
 
@@ -1819,12 +1825,25 @@ static int		ut_struct_setup_08(void)
 	*/
 	t_storage	*st;
 	char		**array_1;
+	char		**tab_argc;
 	int			*array_2;
+	int			*tab_args;
 	int			result;
+	int			i;
 
+	i = -1;
+	if (!((tab_args) = malloc(sizeof(*tab_args) * 12)))
+		return (MALLOC_FAILED);
+	while (++i < 12)
+		tab_args[i] = -1;
+	i = -1;
+	if (!((tab_argc) = malloc(sizeof(*tab_argc) * 5)))
+		return (MALLOC_FAILED);
+	while (++i < 5)
+		tab_argc[i] = NULL;
 	add_storage(&st);
-	tab_char_create(&array_1);
-	tab_int_create(&array_2, 5);
+	tab_char_create(&array_1, &tab_argc, &tab_args);
+	tab_int_create(&array_2, &tab_args);
 	result = setup_champions(&st, &array_1, &array_2);
 	free_storage(&st);
 	free_tab_char(&array_1);
@@ -2519,15 +2538,17 @@ void			ut_champion(void)
 	ft_putstr(ut_champion_12() ? "ut_champion_12		OK\n" : "ut_champion_12		ERROR\n");
 	ft_putstr(ut_champion_13() ? "ut_champion_13		OK\n" : "ut_champion_13		ERROR\n");
 	ft_putstr(ut_champion_14() ? "ut_champion_14		OK\n" : "ut_champion_14		ERROR\n");
-	//ft_putstr(ut_champion_15() ? "ut_champion_15		OK\n" : "ut_champion_15		ERROR\n");
+	ft_putstr(ut_champion_15() ? "ut_champion_15		OK\n" : "ut_champion_15		ERROR\n");
 	ft_putstr(ut_champion_16() ? "ut_champion_16		OK\n" : "ut_champion_16		ERROR\n");
 	ft_putstr(ut_champion_17() ? "ut_champion_17		OK\n" : "ut_champion_17		ERROR\n");
 	ft_putstr(ut_champion_18() ? "ut_champion_18		OK\n" : "ut_champion_18		ERROR\n");
+	/*
 	ft_putstr(ut_champion_19() ? "ut_champion_19		OK\n" : "ut_champion_19		ERROR\n");
 	ft_putstr(ut_champion_20() ? "ut_champion_20		OK\n" : "ut_champion_20		ERROR\n");
 	ft_putstr(ut_champion_21() ? "ut_champion_21		OK\n" : "ut_champion_21		ERROR\n");
 	ft_putstr(ut_champion_22() ? "ut_champion_22		OK\n" : "ut_champion_22		ERROR\n");
 	ft_putstr(ut_champion_23() ? "ut_champion_23		OK\n" : "ut_champion_23		ERROR\n");
+	*/
 }
 
 void			ut_grid(void)
@@ -2554,13 +2575,13 @@ void			ut_key_functions(void)
 {
 	ft_putstr(ut_key_functions_01() ? "ut_key_functions_01	OK\n" : "ut_key_functions_01	ERROR\n");
 	ft_putstr(ut_key_functions_02() ? "ut_key_functions_02	OK\n" : "ut_key_functions_02	ERROR\n");
-	ft_putstr(ut_key_functions_03() ? "ut_key_functions_03	OK\n" : "ut_key_functions_03	ERROR\n");
+	//ft_putstr(ut_key_functions_03() ? "ut_key_functions_03	OK\n" : "ut_key_functions_03	ERROR\n");
 	ft_putstr(ut_key_functions_04() ? "ut_key_functions_04	OK\n" : "ut_key_functions_04	ERROR\n");
 	ft_putstr(ut_key_functions_05() ? "ut_key_functions_05	OK\n" : "ut_key_functions_05	ERROR\n");
 	ft_putstr(ut_key_functions_06() ? "ut_key_functions_06	OK\n" : "ut_key_functions_06	ERROR\n");
 	ft_putstr(ut_key_functions_07() ? "ut_key_functions_07	OK\n" : "ut_key_functions_07	ERROR\n");
 	ft_putstr(ut_key_functions_08() ? "ut_key_functions_08	OK\n" : "ut_key_functions_08	ERROR\n");
-	ft_putstr(ut_key_functions_09() ? "ut_key_functions_09	OK\n" : "ut_key_functions_09	ERROR\n");
+	//ft_putstr(ut_key_functions_09() ? "ut_key_functions_09	OK\n" : "ut_key_functions_09	ERROR\n");
 	ft_putstr(ut_key_functions_10() ? "ut_key_functions_10	OK\n" : "ut_key_functions_10	ERROR\n");
 	//ft_putstr(ut_key_functions_11() ? "ut_key_functions_11	OK\n" : "ut_key_functions_11	ERROR\n");
 	ft_putstr(ut_key_functions_12() ? "ut_key_functions_12	OK\n" : "ut_key_functions_12	ERROR\n");
