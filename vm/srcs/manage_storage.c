@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 18:22:05 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:05:23 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static t_storage	*create_storage(void)
 
 	if (!(storage = malloc(sizeof(*storage))))
 		return (NULL);
+	storage->cycle = 0;
 	storage->grid = NULL;
 	storage->first_champion = NULL;
 	storage->last_champion = NULL;

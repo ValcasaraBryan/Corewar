@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/20 15:45:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 11:40:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ t_instruction	g_tab_instructions[18] =
 
 int			main(int argv, char **argc)
 {
-	/*
 	(void)argc;
 	(void)argv;
+	/*
 	*/
+	/*
 	int			*args;
 	t_storage	*st;
 
@@ -66,15 +67,14 @@ int			main(int argv, char **argc)
 		return (CALL_FAILED);
 	}
 	print_storage(&st);
-	
+	*/
 
-	/*
 	all_ut();
 	all_ut_instr();
-	*/
-	
+	/*
 	free_storage(&st);
 	free(args);
+	*/
 	while (1);
 	return (0);
 }

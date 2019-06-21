@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/20 15:40:57 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 11:40:09 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2011,7 +2011,7 @@ static int		ut_thread_12(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = thread_change_cycle(NULL, &(st->grid), 0);
+	result = thread_change_cycle(NULL, &st, 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2019,7 +2019,7 @@ static int		ut_thread_12(void)
 static int		ut_thread_13(void)
 {
 	/*
-	** thread_change_cycle avec grid null
+	** thread_change_cycle avec storage null
 	*/
 	t_storage	*st;
 	int			result;
@@ -2036,13 +2036,13 @@ static int		ut_thread_14(void)
 	/*
 	** thread_change_cycle avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = thread_change_cycle(&th, &gr, 0);
+	result = thread_change_cycle(&th, &st, 0);
 	return (result == BAD_PARAM);
 }
 
@@ -2058,7 +2058,7 @@ static int		ut_thread_15(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = thread_change_cycle(&th, &(st->grid), 0);
+	result = thread_change_cycle(&th, &st, 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2066,21 +2066,36 @@ static int		ut_thread_15(void)
 static int		ut_thread_16(void)
 {
 	/*
-	** thread_change_cycle avec grid vide
+	** thread_change_cycle avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_change_cycle(&(st->last_thread), &gr, 0);
+	result = thread_change_cycle(&(st->last_thread), &st2, 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_thread_17(void)
+{
+	/*
+	** thread_change_cycle avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = thread_change_cycle(&(st->last_thread), &st, 0);
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_thread_18(void)
 {
 	/*
 	** thread_change_cycle avec valeurs charnieres (0 / 1)
@@ -2092,15 +2107,15 @@ static int		ut_thread_17(void)
 	add_thread(&st);
 	add_grid(&st);
 	thread_change_action(&(st->last_thread), 2);
-	result = thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result = thread_change_cycle(&(st->last_thread), &st, 1);
 	result += st->last_thread->cycle == 1 ? 1 : 0;
-	result += thread_change_cycle(&(st->last_thread), &(st->grid), 0);
+	result += thread_change_cycle(&(st->last_thread), &st, 0);
 	result += st->last_thread->cycle == 0 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + SUCCESS + 1);
 }
 
-static int		ut_thread_18(void)
+static int		ut_thread_19(void)
 {
 	/*
 	** thread_change_cycle avec valeurs impossibles (-1 / 2)
@@ -2112,17 +2127,17 @@ static int		ut_thread_18(void)
 	add_thread(&st);
 	add_grid(&st);
 	thread_change_action(&(st->last_thread), 2);
-	result = thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	result = thread_change_cycle(&(st->last_thread), &st, 1);
 	result += st->last_thread->cycle == 1 ? 1 : 0;
-	result += thread_change_cycle(&(st->last_thread), &(st->grid), -1);
+	result += thread_change_cycle(&(st->last_thread), &st, -1);
 	result += st->last_thread->cycle == 1 ? 1 : 0;
-	result += thread_change_cycle(&(st->last_thread), &(st->grid), 2);
+	result += thread_change_cycle(&(st->last_thread), &st, 2);
 	result += st->last_thread->cycle == 1 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + BAD_PARAM + 1 + BAD_PARAM + 1);
 }
 
-static int		ut_thread_19(void)
+static int		ut_thread_20(void)
 {
 	/*
 	** thread_change_cycle jusqu'a activation de la fonction
@@ -2134,12 +2149,12 @@ static int		ut_thread_19(void)
 	add_thread(&st);
 	add_grid(&st);
 	thread_change_action(&(st->last_thread), 2);
-	thread_change_cycle(&(st->last_thread), &(st->grid), 0);
-	thread_change_cycle(&(st->last_thread), &(st->grid), 1);
-	thread_change_cycle(&(st->last_thread), &(st->grid), 1);
-	thread_change_cycle(&(st->last_thread), &(st->grid), 1);
-	thread_change_cycle(&(st->last_thread), &(st->grid), 1);
-	result = thread_change_cycle(&(st->last_thread), &(st->grid), 1);
+	thread_change_cycle(&(st->last_thread), &st, 0);
+	thread_change_cycle(&(st->last_thread), &st, 1);
+	thread_change_cycle(&(st->last_thread), &st, 1);
+	thread_change_cycle(&(st->last_thread), &st, 1);
+	thread_change_cycle(&(st->last_thread), &st, 1);
+	result = thread_change_cycle(&(st->last_thread), &st, 1);
 	result += st->last_thread->cycle == 0 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1);
@@ -2692,6 +2707,12 @@ void			ut_thread(void)
 	ft_putstr(ut_thread_17() ? "ut_thread_17		OK\n" : "ut_thread_17		ERROR\n");
 	ft_putstr(ut_thread_18() ? "ut_thread_18		OK\n" : "ut_thread_18		ERROR\n");
 	ft_putstr(ut_thread_19() ? "ut_thread_19		OK\n" : "ut_thread_19		ERROR\n");
+	ft_putstr(ut_thread_20() ? "ut_thread_20		OK\n" : "ut_thread_20		ERROR\n");
+	/*
+	ft_putstr(ut_thread_21() ? "ut_thread_21		OK\n" : "ut_thread_21		ERROR\n");
+	ft_putstr(ut_thread_22() ? "ut_thread_22		OK\n" : "ut_thread_22		ERROR\n");
+	ft_putstr(ut_thread_23() ? "ut_thread_23		OK\n" : "ut_thread_23		ERROR\n");
+	*/
 	ft_putstr(ut_thread_24() ? "ut_thread_24		OK\n" : "ut_thread_24		ERROR\n");
 	ft_putstr(ut_thread_25() ? "ut_thread_25		OK\n" : "ut_thread_25		ERROR\n");
 	ft_putstr(ut_thread_26() ? "ut_thread_26		OK\n" : "ut_thread_26		ERROR\n");

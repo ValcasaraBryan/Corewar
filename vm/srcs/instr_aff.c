@@ -6,34 +6,39 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:07:59 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/17 16:51:09 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:24:00 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int			instr_aff_inner(t_thread **th, int ***gr)
+int			instr_aff_inner(t_storage **st, t_thread **th)
 {
 	int		reg;
-	int		res;
+	int		value;
 
-	reg = read_in_grid(gr, (*th)->where + 1 + 1, 1);
-	res = thread_get_value_reg(th, reg);
-	ft_putnbr(res);
-	if (thread_change_where(th, gr, (*th)->where + 1 + 1 + 1) != SUCCESS)
+	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
+		return (BAD_PARAM);
+	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, 1);
+	value = thread_get_value_reg(th, reg);
+	value = value % 256;
+	ft_putnbr(value);
+	if (thread_change_where(th,
+		&(*st)->grid, (*th)->where + 1 + 1 + 1) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
 }
 
-int			instr_aff(t_thread **th, int ***gr)
+int			instr_aff(t_storage **st, t_thread **th)
 {
 	int		*tab;
 
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_aff\n");
-	if (thread_check(th) < VALID_EMPTY || grid_check(gr) != VALID_FULL)
+	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (BAD_PARAM);
-	if (decrypt_op_code(&tab, read_in_grid(gr, (*th)->where + 1, 1)) != SUCCESS)
+	if (decrypt_op_code(&tab, read_in_grid(&(*st)->grid,
+		(*th)->where + 1, 1)) != SUCCESS)
 		return (CALL_FAILED);
 	if (tab[0] != REG_CODE || tab[1] != NO_CODE || tab[2] != NO_CODE)
 	{
@@ -41,5 +46,5 @@ int			instr_aff(t_thread **th, int ***gr)
 		return (NO_CHANGE);
 	}
 	free(tab);
-	return (instr_aff_inner(th, gr));
+	return (instr_aff_inner(st, th));
 }

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 19:09:39 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:04:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static t_champion	*create_champion(t_storage **st)
 	champion->number = 1;
 	champion->name = NULL;
 	champion->size = 1;
+	champion->last_live = 0;
 	champion->desc = NULL;
 	champion->first_byte = NULL;
 	champion->last_byte = NULL;

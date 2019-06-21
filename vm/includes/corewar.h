@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/20 15:36:48 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:15:11 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@
 
 # define REG_NUMBER		16
 # define MAGIC_NB		0x00EA83F3
+# define IDX_MOD		512
 
 /*
 ** unused
@@ -102,6 +103,7 @@ typedef struct			s_thread
 	int					cycle;
 	int					where;
 	int					carry;
+	int					live;
 	int					reg[REG_NUMBER];
 	struct s_thread		*prec;
 	struct s_thread		*next;
@@ -118,6 +120,7 @@ typedef struct			s_champion
 {
 	int					number;
 	int					size;
+	int					last_live;
 	char				*name;
 	char				*desc;
 	struct s_byte		*first_byte;
@@ -128,6 +131,7 @@ typedef struct			s_champion
 
 typedef struct			s_storage
 {
+	int					cycle;
 	int					**grid;
 	struct s_thread		*first_thread;
 	struct s_thread		*last_thread;
@@ -147,7 +151,7 @@ typedef struct			s_instruction
 	int					carry_after;
 	int					no_codage_byte;
 	int					size_four_dir;
-	int					(*fct_ptr)(t_thread **th, int ***gr);
+	int					(*fct_ptr)(t_storage **st, t_thread **th);
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[18];
@@ -193,7 +197,7 @@ int						grid_fill_with_champ(int ***grid, t_champion **ch,
 ** ------------------------	functions_thread			------------------------
 */
 int						thread_change_action(t_thread **th, int new_action);
-int						thread_change_cycle(t_thread **th, int ***gr, int type);
+int						thread_change_cycle(t_thread **th, t_storage **st, int type);
 int						thread_change_value_reg(t_thread **th, int reg,
 	int new_value);
 int						thread_change_where(t_thread **th, int ***gr,
@@ -203,87 +207,87 @@ int						thread_get_value_reg(t_thread **th, int reg);
 /*
 ** ------------------------	instr_add					------------------------
 */
-int						instr_add(t_thread **th, int ***gr);
+int						instr_add(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_aff					------------------------
 */
-int						instr_aff(t_thread **th, int ***gr);
+int						instr_aff(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_and					------------------------
 */
-int						instr_and(t_thread **th, int ***gr);
+int						instr_and(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_fork					------------------------
 */
-int						instr_fork(t_thread **th, int ***gr);
+int						instr_fork(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_ld					------------------------
 */
-int						instr_ld(t_thread **th, int ***gr);
+int						instr_ld(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_ldi					------------------------
 */
-int						instr_ldi(t_thread **th, int ***gr);
+int						instr_ldi(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_lfork					------------------------
 */
-int						instr_lfork(t_thread **th, int ***gr);
+int						instr_lfork(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_live					------------------------
 */
-int						instr_live(t_thread **th, int ***gr);
+int						instr_live(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_lld					------------------------
 */
-int						instr_lld(t_thread **th, int ***gr);
+int						instr_lld(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_lldi					------------------------
 */
-int						instr_lldi(t_thread **th, int ***gr);
+int						instr_lldi(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_move					------------------------
 */
-int						instr_move(t_thread **th, int ***gr);
+int						instr_move(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_or					------------------------
 */
-int						instr_or(t_thread **th, int ***gr);
+int						instr_or(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_st					------------------------
 */
-int						instr_st(t_thread **th, int ***gr);
+int						instr_st(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_sti					------------------------
 */
-int						instr_sti(t_thread **th, int ***gr);
+int						instr_sti(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_sub					------------------------
 */
-int						instr_sub(t_thread **th, int ***gr);
+int						instr_sub(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_xor					------------------------
 */
-int						instr_xor(t_thread **th, int ***gr);
+int						instr_xor(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	instr_zjmp					------------------------
 */
-int						instr_zjmp(t_thread **th, int ***gr);
+int						instr_zjmp(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	key_functions				------------------------
@@ -323,7 +327,6 @@ int						free_storage(t_storage **st);
 ** ------------------------	manage_thread				------------------------
 */
 int						add_thread(t_storage **st);
-int						dup_thread(t_thread **th);
 int						free_thread_list(t_storage **st);
 
 /*

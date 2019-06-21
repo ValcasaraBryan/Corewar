@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:32:22 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/18 18:20:41 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:11:16 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int		ut_add_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_add(NULL, &(st->grid));
+	result = instr_add(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -41,14 +41,14 @@ static int		ut_add_02(void)
 static int		ut_add_03(void)
 {
 	/*
-	** instr_add avec grid null
+	** instr_add avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_add(&(st->last_thread), NULL);
+	result = instr_add(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -58,13 +58,13 @@ static int		ut_add_04(void)
 	/*
 	** instr_add avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_add(&th, &gr);
+	result = instr_add(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -80,7 +80,7 @@ static int		ut_add_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_add(&th, &(st->grid));
+	result = instr_add(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -88,21 +88,36 @@ static int		ut_add_05(void)
 static int		ut_add_06(void)
 {
 	/*
-	** instr_add avec grid vide
+	** instr_add avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_add(&(st->last_thread), &gr);
+	result = instr_add(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_add_07(void)
+{
+	/*
+	** instr_add avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_add(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_add_08(void)
 {
 	/*
 	** instr_add avec params valides
@@ -121,7 +136,7 @@ static int		ut_add_07(void)
 	thread_change_value_reg(&(st->last_thread), 2, 7);
 	thread_change_value_reg(&(st->last_thread), 3, 9);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 9 ? 1 : 0;
-	result += instr_add(&(st->last_thread), &(st->grid));
+	result += instr_add(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 12 ? 1 : 0;
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1);
@@ -148,7 +163,7 @@ static int		ut_aff_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_aff(NULL, &(st->grid));
+	result = instr_aff(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -156,14 +171,14 @@ static int		ut_aff_02(void)
 static int		ut_aff_03(void)
 {
 	/*
-	** instr_aff avec grid null
+	** instr_aff avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_aff(&(st->last_thread), NULL);
+	result = instr_aff(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -173,13 +188,13 @@ static int		ut_aff_04(void)
 	/*
 	** instr_aff avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_aff(&th, &gr);
+	result = instr_aff(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -195,7 +210,7 @@ static int		ut_aff_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_aff(&th, &(st->grid));
+	result = instr_aff(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -203,21 +218,36 @@ static int		ut_aff_05(void)
 static int		ut_aff_06(void)
 {
 	/*
-	** instr_aff avec grid vide
+	** instr_aff avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_aff(&(st->last_thread), &gr);
+	result = instr_aff(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_aff_07(void)
+{
+	/*
+	** instr_aff avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_aff(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_aff_08(void)
 {
 	/*
 	** instr_aff avec params valides
@@ -232,7 +262,7 @@ static int		ut_aff_07(void)
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
 	thread_change_value_reg(&(st->last_thread), 1, 9);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 9 ? 1 : 0;
-	result += instr_aff(&(st->last_thread), &(st->grid));
+	result += instr_aff(&st, &(st->last_thread));
 	free_storage(&st);
 	return (result == 1 + SUCCESS);
 }
@@ -258,7 +288,7 @@ static int		ut_and_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_and(NULL, &(st->grid));
+	result = instr_and(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -266,14 +296,14 @@ static int		ut_and_02(void)
 static int		ut_and_03(void)
 {
 	/*
-	** instr_and avec grid null
+	** instr_and avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_and(&(st->last_thread), NULL);
+	result = instr_and(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -283,13 +313,13 @@ static int		ut_and_04(void)
 	/*
 	** instr_and avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_and(&th, &gr);
+	result = instr_and(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -305,7 +335,7 @@ static int		ut_and_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_and(&th, &(st->grid));
+	result = instr_and(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -313,21 +343,36 @@ static int		ut_and_05(void)
 static int		ut_and_06(void)
 {
 	/*
-	** instr_and avec grid vide
+	** instr_and avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_and(&(st->last_thread), &gr);
+	result = instr_and(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_and_07(void)
+{
+	/*
+	** instr_and avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_and(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_and_08(void)
 {
 	/*
 	** instr_and avec params valides
@@ -347,13 +392,13 @@ static int		ut_and_07(void)
 	thread_change_value_reg(&(st->last_thread), 2, 9);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_and(&(st->last_thread), &(st->grid));
+	result += instr_and(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == (5 & 9) ? 1 : 0;
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1);
 }
 
-static int		ut_and_08(void)
+static int		ut_and_09(void)
 {
 	/*
 	** instr_and avec params valides
@@ -371,7 +416,7 @@ static int		ut_and_08(void)
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 10, 1);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_and(&(st->last_thread), &(st->grid));
+	result += instr_and(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3)
 		== (read_in_grid(&(st->grid), st->last_thread->where - 9, 4)
 		& read_in_grid(&(st->grid), st->last_thread->where - 5, 4)) ? 1 : 0;
@@ -379,7 +424,7 @@ static int		ut_and_08(void)
 	return (result == 1 + SUCCESS + 1);
 }
 
-static int		ut_and_09(void)
+static int		ut_and_10(void)
 {
 	/*
 	** instr_and avec params valides
@@ -399,7 +444,7 @@ static int		ut_and_09(void)
 	write_in_grid(&(st->grid), 231, st->last_thread->where + 444, 4);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_and(&(st->last_thread), &(st->grid));
+	result += instr_and(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3)
 		== (read_in_grid(&(st->grid), st->last_thread->where + 69 - 7, 4)
 		& read_in_grid(&(st->grid), st->last_thread->where + 444 - 7, 4)) ? 1 : 0;
@@ -428,7 +473,7 @@ static int		ut_fork_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_fork(NULL, &(st->grid));
+	result = instr_fork(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -436,14 +481,14 @@ static int		ut_fork_02(void)
 static int		ut_fork_03(void)
 {
 	/*
-	** instr_fork avec grid null
+	** instr_fork avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_fork(&(st->last_thread), NULL);
+	result = instr_fork(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -453,13 +498,13 @@ static int		ut_fork_04(void)
 	/*
 	** instr_fork avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_fork(&th, &gr);
+	result = instr_fork(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -475,7 +520,7 @@ static int		ut_fork_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_fork(&th, &(st->grid));
+	result = instr_fork(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -483,21 +528,36 @@ static int		ut_fork_05(void)
 static int		ut_fork_06(void)
 {
 	/*
-	** instr_fork avec grid vide
+	** instr_fork avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
-	add_thread(&st);
-	result = instr_fork(&(st->last_thread), &gr);
+	add_grid(&st);
+	result = instr_fork(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_fork_07(void)
+{
+	/*
+	** instr_fork avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_fork(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_fork_08(void)
 {
 	/*
 	** instr_fork avec params valides
@@ -509,9 +569,9 @@ static int		ut_fork_07(void)
 	add_grid(&st);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 256, st->last_thread->where + 1, 2);
-	result = instr_fork(&(st->last_thread), &(st->grid));
-	result += st->last_thread->next->where == 256 ? 1 : 0;
-	result += st->last_thread->where == 3 ? 1 : 0;
+	result = instr_fork(&st, &(st->last_thread));
+	result += st->last_thread->where == 256 ? 1 : 0;
+	result += st->last_thread->prec->where == 3 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + 1);
 }
@@ -537,7 +597,7 @@ static int		ut_ld_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_ld(NULL, &(st->grid));
+	result = instr_ld(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -545,14 +605,14 @@ static int		ut_ld_02(void)
 static int		ut_ld_03(void)
 {
 	/*
-	** instr_ld avec grid null
+	** instr_ld avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_ld(&(st->last_thread), NULL);
+	result = instr_ld(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -562,13 +622,13 @@ static int		ut_ld_04(void)
 	/*
 	** instr_ld avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_ld(&th, &gr);
+	result = instr_ld(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -584,7 +644,7 @@ static int		ut_ld_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_ld(&th, &(st->grid));
+	result = instr_ld(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -592,21 +652,36 @@ static int		ut_ld_05(void)
 static int		ut_ld_06(void)
 {
 	/*
-	** instr_ld avec grid vide
+	** instr_ld avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
-	add_thread(&st);
-	result = instr_ld(&(st->last_thread), &gr);
+	add_grid(&st);
+	result = instr_ld(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_ld_07(void)
+{
+	/*
+	** instr_ld avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_ld(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_ld_08(void)
 {
 	/*
 	** instr_ld avec params valides
@@ -623,28 +698,28 @@ static int		ut_ld_07(void)
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 1, 1);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
-	result += instr_ld(&(st->last_thread), &(st->grid));
+	result += instr_ld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 1) == -1 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 2147483647, st->last_thread->where + 2, 4);
 	write_in_grid(&(st->grid), 2, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 2, 1);
 	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
-	result += instr_ld(&(st->last_thread), &(st->grid));
+	result += instr_ld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 2) == 2147483647 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), -2147483648, st->last_thread->where + 2, 4);
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 3, 1);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 1 ? 1 : 0;
-	result += instr_ld(&(st->last_thread), &(st->grid));
+	result += instr_ld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == -2147483648 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_ld_08(void)
+static int		ut_ld_09(void)
 {
 	/*
 	** instr_ld avec params valides
@@ -662,7 +737,7 @@ static int		ut_ld_08(void)
 	write_in_grid(&(st->grid), 65535, st->last_thread->where + 40, 4);
 	thread_change_value_reg(&(st->last_thread), 1, 1);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
-	result += instr_ld(&(st->last_thread), &(st->grid));
+	result += instr_ld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 1) == 65535 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 95, st->last_thread->where + 2, 2);
@@ -670,7 +745,7 @@ static int		ut_ld_08(void)
 	write_in_grid(&(st->grid), 3333, st->last_thread->where + 95, 4);
 	thread_change_value_reg(&(st->last_thread), 2, 1);
 	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
-	result += instr_ld(&(st->last_thread), &(st->grid));
+	result += instr_ld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 2) == 3333 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 5984, st->last_thread->where + 2, 2);
@@ -678,7 +753,7 @@ static int		ut_ld_08(void)
 	write_in_grid(&(st->grid), 23, st->last_thread->where + 5984, 4);
 	thread_change_value_reg(&(st->last_thread), 3, 1);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 1 ? 1 : 0;
-	result += instr_ld(&(st->last_thread), &(st->grid));
+	result += instr_ld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 23 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
@@ -706,7 +781,7 @@ static int		ut_ldi_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_ldi(NULL, &(st->grid));
+	result = instr_ldi(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -714,14 +789,14 @@ static int		ut_ldi_02(void)
 static int		ut_ldi_03(void)
 {
 	/*
-	** instr_ldi avec grid null
+	** instr_ldi avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_ldi(&(st->last_thread), NULL);
+	result = instr_ldi(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -731,13 +806,13 @@ static int		ut_ldi_04(void)
 	/*
 	** instr_ldi avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_ldi(&th, &gr);
+	result = instr_ldi(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -753,7 +828,7 @@ static int		ut_ldi_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_ldi(&th, &(st->grid));
+	result = instr_ldi(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -761,21 +836,36 @@ static int		ut_ldi_05(void)
 static int		ut_ldi_06(void)
 {
 	/*
-	** instr_ldi avec grid vide
+	** instr_ldi avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_ldi(&(st->last_thread), &gr);
+	result = instr_ldi(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_ldi_07(void)
+{
+	/*
+	** instr_ldi avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_ldi(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_ldi_08(void)
 {
 	/*
 	** instr_ldi avec params valides
@@ -798,7 +888,7 @@ static int		ut_ldi_07(void)
 	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 2) == 4 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
-	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += instr_ldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	thread_change_value_reg(&(st->last_thread), 1, 0);
@@ -806,14 +896,14 @@ static int		ut_ldi_07(void)
 	result += thread_get_value_reg(&(st->last_thread), 1) == 0 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
-	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += instr_ldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 1409352195 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + 1 + 1 + SUCCESS + 1 + 1 + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_ldi_08(void)
+static int		ut_ldi_09(void)
 {
 	/*
 	** instr_ldi avec params valides
@@ -831,20 +921,20 @@ static int		ut_ldi_08(void)
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 3, -1);
 	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
-	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += instr_ldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 2);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
-	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += instr_ldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 65537 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_ldi_09(void)
+static int		ut_ldi_10(void)
 {
 	/*
 	** instr_ldi avec params valides
@@ -863,14 +953,14 @@ static int		ut_ldi_09(void)
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 10, 4);
 	thread_change_value_reg(&(st->last_thread), 3, -1);
 	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
-	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += instr_ldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 20, st->last_thread->where + 2, 2);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 20, 4);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
-	result += instr_ldi(&(st->last_thread), &(st->grid));
+	result += instr_ldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 14942228 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
@@ -898,7 +988,7 @@ static int		ut_lfork_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_lfork(NULL, &(st->grid));
+	result = instr_lfork(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -906,14 +996,14 @@ static int		ut_lfork_02(void)
 static int		ut_lfork_03(void)
 {
 	/*
-	** instr_lfork avec grid null
+	** instr_lfork avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_lfork(&(st->last_thread), NULL);
+	result = instr_lfork(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -923,13 +1013,13 @@ static int		ut_lfork_04(void)
 	/*
 	** instr_lfork avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_lfork(&th, &gr);
+	result = instr_lfork(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -945,7 +1035,7 @@ static int		ut_lfork_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_lfork(&th, &(st->grid));
+	result = instr_lfork(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -953,21 +1043,36 @@ static int		ut_lfork_05(void)
 static int		ut_lfork_06(void)
 {
 	/*
-	** instr_lfork avec grid vide
+	** instr_lfork avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_lfork(&(st->last_thread), &gr);
+	result = instr_lfork(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_lfork_07(void)
+{
+	/*
+	** instr_lfork avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_lfork(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_lfork_08(void)
 {
 	/*
 	** instr_lfork avec params valides
@@ -979,9 +1084,9 @@ static int		ut_lfork_07(void)
 	add_grid(&st);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 256, st->last_thread->where + 1, 2);
-	result = instr_lfork(&(st->last_thread), &(st->grid));
-	result += st->last_thread->next->where == 256 ? 1 : 0;
-	result += st->last_thread->where == 3 ? 1 : 0;
+	result = instr_lfork(&st, &(st->last_thread));
+	result += st->last_thread->where == 256 ? 1 : 0;
+	result += st->last_thread->prec->where == 3 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + 1);
 }
@@ -1007,7 +1112,7 @@ static int		ut_live_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_live(NULL, &(st->grid));
+	result = instr_live(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1015,14 +1120,14 @@ static int		ut_live_02(void)
 static int		ut_live_03(void)
 {
 	/*
-	** instr_live avec grid null
+	** instr_live avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_live(&(st->last_thread), NULL);
+	result = instr_live(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1032,13 +1137,13 @@ static int		ut_live_04(void)
 	/*
 	** instr_live avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_live(&th, &gr);
+	result = instr_live(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -1054,7 +1159,7 @@ static int		ut_live_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_live(&th, &(st->grid));
+	result = instr_live(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1062,21 +1167,52 @@ static int		ut_live_05(void)
 static int		ut_live_06(void)
 {
 	/*
-	** instr_live avec grid vide
+	** instr_live avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_live(&(st->last_thread), &gr);
+	result = instr_live(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_live_07(void)
+{
+	/*
+	** instr_live avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_live(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_live_08(void)
+{
+	/*
+	** instr_live sans champion
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_grid(&st);
+	add_thread(&st);
+	result = instr_live(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_live_09(void)
 {
 	/*
 	** instr_live avec params valides
@@ -1086,8 +1222,9 @@ static int		ut_live_07(void)
 
 	add_storage(&st);
 	add_grid(&st);
+	add_champion(&st);
 	add_thread(&st);
-	result = instr_live(&(st->last_thread), &(st->grid));
+	result = instr_live(&st, &(st->last_thread));
 	free_storage(&st);
 	return (result == SUCCESS);
 }
@@ -1113,7 +1250,7 @@ static int		ut_lld_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_lld(NULL, &(st->grid));
+	result = instr_lld(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1121,14 +1258,14 @@ static int		ut_lld_02(void)
 static int		ut_lld_03(void)
 {
 	/*
-	** instr_lld avec grid null
+	** instr_lld avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_lld(&(st->last_thread), NULL);
+	result = instr_lld(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1138,13 +1275,13 @@ static int		ut_lld_04(void)
 	/*
 	** instr_lld avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_lld(&th, &gr);
+	result = instr_lld(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -1160,7 +1297,7 @@ static int		ut_lld_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_lld(&th, &(st->grid));
+	result = instr_lld(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1171,18 +1308,33 @@ static int		ut_lld_06(void)
 	** instr_lld avec grid vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_lld(&(st->last_thread), &gr);
+	result = instr_lld(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_lld_07(void)
+{
+	/*
+	** instr_lld avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_lld(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_lld_08(void)
 {
 	/*
 	** instr_lld avec params valides
@@ -1199,28 +1351,28 @@ static int		ut_lld_07(void)
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 1, 1);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
-	result += instr_lld(&(st->last_thread), &(st->grid));
+	result += instr_lld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 1) == -1 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 2147483647, st->last_thread->where + 2, 4);
 	write_in_grid(&(st->grid), 2, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 2, 1);
 	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
-	result += instr_lld(&(st->last_thread), &(st->grid));
+	result += instr_lld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 2) == 2147483647 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), -2147483648, st->last_thread->where + 2, 4);
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 3, 1);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 1 ? 1 : 0;
-	result += instr_lld(&(st->last_thread), &(st->grid));
+	result += instr_lld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == -2147483648 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_lld_08(void)
+static int		ut_lld_09(void)
 {
 	/*
 	** instr_lld avec params valides
@@ -1238,7 +1390,7 @@ static int		ut_lld_08(void)
 	write_in_grid(&(st->grid), 65535, st->last_thread->where + 40, 4);
 	thread_change_value_reg(&(st->last_thread), 1, 1);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
-	result += instr_lld(&(st->last_thread), &(st->grid));
+	result += instr_lld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 1) == 65535 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 95, st->last_thread->where + 2, 2);
@@ -1246,7 +1398,7 @@ static int		ut_lld_08(void)
 	write_in_grid(&(st->grid), 3333, st->last_thread->where + 95, 4);
 	thread_change_value_reg(&(st->last_thread), 2, 1);
 	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
-	result += instr_lld(&(st->last_thread), &(st->grid));
+	result += instr_lld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 2) == 3333 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 5984, st->last_thread->where + 2, 2);
@@ -1254,7 +1406,7 @@ static int		ut_lld_08(void)
 	write_in_grid(&(st->grid), 23, st->last_thread->where + 5984, 4);
 	thread_change_value_reg(&(st->last_thread), 3, 1);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 1 ? 1 : 0;
-	result += instr_lld(&(st->last_thread), &(st->grid));
+	result += instr_lld(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 23 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
@@ -1282,7 +1434,7 @@ static int		ut_lldi_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_lldi(NULL, &(st->grid));
+	result = instr_lldi(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1290,14 +1442,14 @@ static int		ut_lldi_02(void)
 static int		ut_lldi_03(void)
 {
 	/*
-	** instr_lldi avec grid null
+	** instr_lldi avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_lldi(&(st->last_thread), NULL);
+	result = instr_lldi(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1307,13 +1459,13 @@ static int		ut_lldi_04(void)
 	/*
 	** instr_lldi avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_lldi(&th, &gr);
+	result = instr_lldi(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -1329,7 +1481,7 @@ static int		ut_lldi_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_lldi(&th, &(st->grid));
+	result = instr_lldi(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1337,21 +1489,36 @@ static int		ut_lldi_05(void)
 static int		ut_lldi_06(void)
 {
 	/*
-	** instr_lldi avec grid vide
+	** instr_lldi avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_lldi(&(st->last_thread), &gr);
+	result = instr_lldi(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_lldi_07(void)
+{
+	/*
+	** instr_lldi avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_lldi(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_lldi_08(void)
 {
 	/*
 	** instr_lldi avec params valides
@@ -1374,7 +1541,7 @@ static int		ut_lldi_07(void)
 	result = thread_get_value_reg(&(st->last_thread), 1) == 1 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 2) == 4 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
-	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += instr_lldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	thread_change_value_reg(&(st->last_thread), 1, 0);
@@ -1382,14 +1549,14 @@ static int		ut_lldi_07(void)
 	result += thread_get_value_reg(&(st->last_thread), 1) == 0 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 2) == 1 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 3) == 64 ? 1 : 0;
-	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += instr_lldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 1409352195 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + 1 + 1 + SUCCESS + 1 + 1 + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_lldi_08(void)
+static int		ut_lldi_09(void)
 {
 	/*
 	** instr_lldi avec params valides
@@ -1407,20 +1574,20 @@ static int		ut_lldi_08(void)
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 6, 1);
 	thread_change_value_reg(&(st->last_thread), 3, -1);
 	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
-	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += instr_lldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 2);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 164 ? 1 : 0;
-	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += instr_lldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 65537 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_lldi_09(void)
+static int		ut_lldi_10(void)
 {
 	/*
 	** instr_lldi avec params valides
@@ -1439,14 +1606,14 @@ static int		ut_lldi_09(void)
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 10, 4);
 	thread_change_value_reg(&(st->last_thread), 3, -1);
 	result = thread_get_value_reg(&(st->last_thread), 3) == -1 ? 1 : 0;
-	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += instr_lldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 20, st->last_thread->where + 2, 2);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 4, 2);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 20, 4);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 228 ? 1 : 0;
-	result += instr_lldi(&(st->last_thread), &(st->grid));
+	result += instr_lldi(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 14942228 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
@@ -1474,7 +1641,7 @@ static int		ut_move_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_move(NULL, &(st->grid));
+	result = instr_move(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1482,14 +1649,14 @@ static int		ut_move_02(void)
 static int		ut_move_03(void)
 {
 	/*
-	** instr_move avec grid null
+	** instr_move avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_move(&(st->last_thread), NULL);
+	result = instr_move(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1499,13 +1666,13 @@ static int		ut_move_04(void)
 	/*
 	** instr_move avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_move(&th, &gr);
+	result = instr_move(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -1521,7 +1688,7 @@ static int		ut_move_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_move(&th, &(st->grid));
+	result = instr_move(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1529,21 +1696,36 @@ static int		ut_move_05(void)
 static int		ut_move_06(void)
 {
 	/*
-	** instr_move avec grid vide
+	** instr_move avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_move(&(st->last_thread), &gr);
+	result = instr_move(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_move_07(void)
+{
+	/*
+	** instr_move avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_move(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_move_08(void)
 {
 	/*
 	** instr_move avec params valides
@@ -1554,7 +1736,7 @@ static int		ut_move_07(void)
 	add_storage(&st);
 	add_grid(&st);
 	add_thread(&st);
-	result = instr_move(&(st->last_thread), &(st->grid));
+	result = instr_move(&st, &(st->last_thread));
 	free_storage(&st);
 	return (result == SUCCESS);
 }
@@ -1580,7 +1762,7 @@ static int		ut_or_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_or(NULL, &(st->grid));
+	result = instr_or(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1588,14 +1770,14 @@ static int		ut_or_02(void)
 static int		ut_or_03(void)
 {
 	/*
-	** instr_or avec grid null
+	** instr_or avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_or(&(st->last_thread), NULL);
+	result = instr_or(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1605,13 +1787,13 @@ static int		ut_or_04(void)
 	/*
 	** instr_or avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_or(&th, &gr);
+	result = instr_or(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -1627,7 +1809,7 @@ static int		ut_or_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_or(&th, &(st->grid));
+	result = instr_or(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1635,21 +1817,36 @@ static int		ut_or_05(void)
 static int		ut_or_06(void)
 {
 	/*
-	** instr_or avec grid vide
+	** instr_or avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_or(&(st->last_thread), &gr);
+	result = instr_or(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_or_07(void)
+{
+	/*
+	** instr_or avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_or(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_or_08(void)
 {
 	/*
 	** instr_or avec params valides
@@ -1669,13 +1866,13 @@ static int		ut_or_07(void)
 	thread_change_value_reg(&(st->last_thread), 2, 9);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_or(&(st->last_thread), &(st->grid));
+	result += instr_or(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == (5 | 9) ? 1 : 0;
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1);
 }
 
-static int		ut_or_08(void)
+static int		ut_or_09(void)
 {
 	/*
 	** instr_or avec params valides
@@ -1693,7 +1890,7 @@ static int		ut_or_08(void)
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 10, 1);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_or(&(st->last_thread), &(st->grid));
+	result += instr_or(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3)
 		== (read_in_grid(&(st->grid), st->last_thread->where - 9 , 4)
 		| read_in_grid(&(st->grid), st->last_thread->where - 5 , 4)) ? 1 : 0;
@@ -1701,7 +1898,7 @@ static int		ut_or_08(void)
 	return (result == 1 + SUCCESS + 1);
 }
 
-static int		ut_or_09(void)
+static int		ut_or_10(void)
 {
 	/*
 	** instr_or avec params valides
@@ -1721,7 +1918,7 @@ static int		ut_or_09(void)
 	write_in_grid(&(st->grid), 231, st->last_thread->where + 444, 4);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_or(&(st->last_thread), &(st->grid));
+	result += instr_or(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3)
 		== (read_in_grid(&(st->grid), st->last_thread->where + 69 - 7, 4)
 		| read_in_grid(&(st->grid), st->last_thread->where + 444 - 7, 4)) ? 1 : 0;
@@ -1750,7 +1947,7 @@ static int		ut_st_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_st(NULL, &(st->grid));
+	result = instr_st(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1758,14 +1955,14 @@ static int		ut_st_02(void)
 static int		ut_st_03(void)
 {
 	/*
-	** instr_st avec grid null
+	** instr_st avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_st(&(st->last_thread), NULL);
+	result = instr_st(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1775,13 +1972,13 @@ static int		ut_st_04(void)
 	/*
 	** instr_st avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_st(&th, &gr);
+	result = instr_st(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -1797,7 +1994,7 @@ static int		ut_st_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_st(&th, &(st->grid));
+	result = instr_st(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1805,21 +2002,36 @@ static int		ut_st_05(void)
 static int		ut_st_06(void)
 {
 	/*
-	** instr_st avec grid vide
+	** instr_st avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_st(&(st->last_thread), &gr);
+	result = instr_st(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_st_07(void)
+{
+	/*
+	** instr_st avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_st(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_st_08(void)
 {
 	/*
 	** instr_st avec params valides
@@ -1838,7 +2050,7 @@ static int		ut_st_07(void)
 	thread_change_value_reg(&(st->last_thread), 2, 44);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 15 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 2) == 44 ? 1 : 0;
-	result += instr_st(&(st->last_thread), &(st->grid));
+	result += instr_st(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 2) == 15 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 2, 1);
@@ -1847,14 +2059,14 @@ static int		ut_st_07(void)
 	thread_change_value_reg(&(st->last_thread), 4, 699);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 268 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 4) == 699 ? 1 : 0;
-	result += instr_st(&(st->last_thread), &(st->grid));
+	result += instr_st(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 4) == 268 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + 1 + SUCCESS + 1 + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_st_08(void)
+static int		ut_st_09(void)
 {
 	/*
 	** instr_st avec params valides
@@ -1871,14 +2083,14 @@ static int		ut_st_08(void)
 	write_in_grid(&(st->grid), 40, st->last_thread->where + 3, 2);
 	thread_change_value_reg(&(st->last_thread), 1, 15);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 15 ? 1 : 0;
-	result += instr_st(&(st->last_thread), &(st->grid));
+	result += instr_st(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 40 - 5, 4) == 15 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 2, 1);
 	write_in_grid(&(st->grid), 64, st->last_thread->where + 3, 2);
 	thread_change_value_reg(&(st->last_thread), 3, 5555);
 	result += thread_get_value_reg(&(st->last_thread), 3) == 5555 ? 1 : 0;
-	result += instr_st(&(st->last_thread), &(st->grid));
+	result += instr_st(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 64 - 5, 4) == 5555 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
@@ -1906,7 +2118,7 @@ static int		ut_sti_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_sti(NULL, &(st->grid));
+	result = instr_sti(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1914,14 +2126,14 @@ static int		ut_sti_02(void)
 static int		ut_sti_03(void)
 {
 	/*
-	** instr_sti avec grid null
+	** instr_sti avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_sti(&(st->last_thread), NULL);
+	result = instr_sti(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1931,13 +2143,13 @@ static int		ut_sti_04(void)
 	/*
 	** instr_sti avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_sti(&th, &gr);
+	result = instr_sti(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -1953,7 +2165,7 @@ static int		ut_sti_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_sti(&th, &(st->grid));
+	result = instr_sti(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1961,21 +2173,36 @@ static int		ut_sti_05(void)
 static int		ut_sti_06(void)
 {
 	/*
-	** instr_sti avec grid vide
+	** instr_sti avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_sti(&(st->last_thread), &gr);
+	result = instr_sti(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_sti_07(void)
+{
+	/*
+	** instr_sti avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_sti(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_sti_08(void)
 {
 	/*
 	** instr_sti avec params valides
@@ -1997,7 +2224,7 @@ static int		ut_sti_07(void)
 	result = thread_get_value_reg(&(st->last_thread), 1) == 15 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 2) == 44 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 3) == 78 ? 1 : 0;
-	result += instr_sti(&(st->last_thread), &(st->grid));
+	result += instr_sti(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 44 + 78 - 5, 4) == 15 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 4, st->last_thread->where + 2, 1);
@@ -2009,14 +2236,14 @@ static int		ut_sti_07(void)
 	result += thread_get_value_reg(&(st->last_thread), 4) == 268 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 5) == 699 ? 1 : 0;
 	result += thread_get_value_reg(&(st->last_thread), 6) == 5689 ? 1 : 0;
-	result += instr_sti(&(st->last_thread), &(st->grid));
+	result += instr_sti(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 699 + 5689 - 5, 4) == 268 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
 	return (result == 1 + 1 + 1 + SUCCESS + 1 + 1 + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_sti_08(void)
+static int		ut_sti_09(void)
 {
 	/*
 	** instr_sti avec params valides
@@ -2034,24 +2261,22 @@ static int		ut_sti_08(void)
 	write_in_grid(&(st->grid), 30, st->last_thread->where + 5, 2);
 	thread_change_value_reg(&(st->last_thread), 1, 100);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 100 ? 1 : 0;
-	result += instr_sti(&(st->last_thread), &(st->grid));
+	result += instr_sti(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 15 + 30 - 7, 4) == 100 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
-	
 	write_in_grid(&(st->grid), 4, st->last_thread->where + 2, 1);
 	write_in_grid(&(st->grid), 666, st->last_thread->where + 3, 2);
 	write_in_grid(&(st->grid), 999, st->last_thread->where + 5, 2);
 	thread_change_value_reg(&(st->last_thread), 4, 268);
 	result += thread_get_value_reg(&(st->last_thread), 4) == 268 ? 1 : 0;
-	result += instr_sti(&(st->last_thread), &(st->grid));
+	result += instr_sti(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 666 + 999 - 7, 4) == 268 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
-	
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1 + 1 + SUCCESS + 1);
 }
 
-static int		ut_sti_09(void)
+static int		ut_sti_10(void)
 {
 	/*
 	** instr_sti avec params valides
@@ -2070,7 +2295,7 @@ static int		ut_sti_09(void)
 	write_in_grid(&(st->grid), 30, st->last_thread->where + 5, 2);
 	thread_change_value_reg(&(st->last_thread), 1, 100);
 	result = thread_get_value_reg(&(st->last_thread), 1) == 100 ? 1 : 0;
-	result += instr_sti(&(st->last_thread), &(st->grid));
+	result += instr_sti(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 89 + 30 - 7, 4) == 100 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	write_in_grid(&(st->grid), 4, st->last_thread->where + 2, 1);
@@ -2079,7 +2304,7 @@ static int		ut_sti_09(void)
 	write_in_grid(&(st->grid), 999, st->last_thread->where + 5, 2);
 	thread_change_value_reg(&(st->last_thread), 4, 268);
 	result += thread_get_value_reg(&(st->last_thread), 4) == 268 ? 1 : 0;
-	result += instr_sti(&(st->last_thread), &(st->grid));
+	result += instr_sti(&st, &(st->last_thread));
 	result += read_in_grid(&(st->grid), st->last_thread->where + 46 + 999 - 7, 4) == 268 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	free_storage(&st);
@@ -2107,7 +2332,7 @@ static int		ut_sub_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_sub(NULL, &(st->grid));
+	result = instr_sub(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2115,14 +2340,14 @@ static int		ut_sub_02(void)
 static int		ut_sub_03(void)
 {
 	/*
-	** instr_sub avec grid null
+	** instr_sub avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_sub(&(st->last_thread), NULL);
+	result = instr_sub(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2132,13 +2357,13 @@ static int		ut_sub_04(void)
 	/*
 	** instr_sub avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_sub(&th, &gr);
+	result = instr_sub(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -2154,7 +2379,7 @@ static int		ut_sub_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_sub(&th, &(st->grid));
+	result = instr_sub(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2162,21 +2387,36 @@ static int		ut_sub_05(void)
 static int		ut_sub_06(void)
 {
 	/*
-	** instr_sub avec grid vide
+	** instr_sub avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_sub(&(st->last_thread), &gr);
+	result = instr_sub(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_sub_07(void)
+{
+	/*
+	** instr_sub avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_sub(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_sub_08(void)
 {
 	/*
 	** instr_sub avec params valides
@@ -2195,7 +2435,7 @@ static int		ut_sub_07(void)
 	thread_change_value_reg(&(st->last_thread), 2, 5);
 	thread_change_value_reg(&(st->last_thread), 3, 7);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 7 ? 1 : 0;
-	result += instr_sub(&(st->last_thread), &(st->grid));
+	result += instr_sub(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == 4 ? 1 : 0;
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1);
@@ -2222,7 +2462,7 @@ static int		ut_xor_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_xor(NULL, &(st->grid));
+	result = instr_xor(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2230,14 +2470,14 @@ static int		ut_xor_02(void)
 static int		ut_xor_03(void)
 {
 	/*
-	** instr_xor avec grid null
+	** instr_xor avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_xor(&(st->last_thread), NULL);
+	result = instr_xor(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2247,13 +2487,13 @@ static int		ut_xor_04(void)
 	/*
 	** instr_xor avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_xor(&th, &gr);
+	result = instr_xor(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -2269,7 +2509,7 @@ static int		ut_xor_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_xor(&th, &(st->grid));
+	result = instr_xor(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2277,21 +2517,36 @@ static int		ut_xor_05(void)
 static int		ut_xor_06(void)
 {
 	/*
-	** instr_xor avec grid vide
+	** instr_xor avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_xor(&(st->last_thread), &gr);
+	result = instr_xor(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_xor_07(void)
+{
+	/*
+	** instr_xor avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_xor(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_xor_08(void)
 {
 	/*
 	** instr_xor avec params valides
@@ -2311,13 +2566,13 @@ static int		ut_xor_07(void)
 	thread_change_value_reg(&(st->last_thread), 2, 9);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_xor(&(st->last_thread), &(st->grid));
+	result += instr_xor(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3) == (5 ^ 9) ? 1 : 0;
 	free_storage(&st);
 	return (result == 1 + SUCCESS + 1);
 }
 
-static int		ut_xor_08(void)
+static int		ut_xor_09(void)
 {
 	/*
 	** instr_xor avec params valides
@@ -2335,7 +2590,7 @@ static int		ut_xor_08(void)
 	write_in_grid(&(st->grid), 3, st->last_thread->where + 10, 1);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_xor(&(st->last_thread), &(st->grid));
+	result += instr_xor(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3)
 		== (read_in_grid(&(st->grid), st->last_thread->where - 9, 4)
 		^ read_in_grid(&(st->grid), st->last_thread->where - 5, 4)) ? 1 : 0;
@@ -2343,7 +2598,7 @@ static int		ut_xor_08(void)
 	return (result == 1 + SUCCESS + 1);
 }
 
-static int		ut_xor_09(void)
+static int		ut_xor_10(void)
 {
 	/*
 	** instr_xor avec params valides
@@ -2363,7 +2618,7 @@ static int		ut_xor_09(void)
 	write_in_grid(&(st->grid), 231, st->last_thread->where + 444, 4);
 	thread_change_value_reg(&(st->last_thread), 3, 15);
 	result = thread_get_value_reg(&(st->last_thread), 3) == 15 ? 1 : 0;
-	result += instr_xor(&(st->last_thread), &(st->grid));
+	result += instr_xor(&st, &(st->last_thread));
 	result += thread_get_value_reg(&(st->last_thread), 3)
 		== (read_in_grid(&(st->grid), st->last_thread->where + 69 - 7, 4)
 		^ read_in_grid(&(st->grid), st->last_thread->where + 444 - 7, 4)) ? 1 : 0;
@@ -2392,7 +2647,7 @@ static int		ut_zjmp_02(void)
 
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_zjmp(NULL, &(st->grid));
+	result = instr_zjmp(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2400,14 +2655,14 @@ static int		ut_zjmp_02(void)
 static int		ut_zjmp_03(void)
 {
 	/*
-	** instr_zjmp avec grid null
+	** instr_zjmp avec storage null
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_zjmp(&(st->last_thread), NULL);
+	result = instr_zjmp(NULL, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2417,13 +2672,13 @@ static int		ut_zjmp_04(void)
 	/*
 	** instr_zjmp avec params vides
 	*/
+	t_storage	*st;
 	t_thread	*th;
-	int			**gr;
 	int			result;
 
+	st = NULL;
 	th = NULL;
-	gr = NULL;
-	result = instr_zjmp(&th, &gr);
+	result = instr_zjmp(&st, &th);
 	return (result == BAD_PARAM);
 }
 
@@ -2439,7 +2694,7 @@ static int		ut_zjmp_05(void)
 	th = NULL;
 	add_storage(&st);
 	add_grid(&st);
-	result = instr_zjmp(&th, &(st->grid));
+	result = instr_zjmp(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -2447,21 +2702,36 @@ static int		ut_zjmp_05(void)
 static int		ut_zjmp_06(void)
 {
 	/*
-	** instr_zjmp avec grid vide
+	** instr_zjmp avec storage vide
 	*/
 	t_storage	*st;
-	int			**gr;
+	t_storage	*st2;
 	int			result;
 
-	gr = NULL;
+	st2 = NULL;
 	add_storage(&st);
 	add_thread(&st);
-	result = instr_zjmp(&(st->last_thread), &gr);
+	result = instr_zjmp(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
 
 static int		ut_zjmp_07(void)
+{
+	/*
+	** instr_zjmp avec grid vide
+	*/
+	t_storage	*st;
+	int			result;
+
+	add_storage(&st);
+	add_thread(&st);
+	result = instr_zjmp(&st, &(st->last_thread));
+	free_storage(&st);
+	return (result == BAD_PARAM);
+}
+
+static int		ut_zjmp_08(void)
 {
 	/*
 	** instr_zjmp avec params valides
@@ -2474,12 +2744,12 @@ static int		ut_zjmp_07(void)
 	add_thread(&st);
 	st->last_thread->carry = 1;
 	write_in_grid(&(st->grid), 500, st->last_thread->where + 1, 2);
-	result = instr_zjmp(&(st->last_thread), &(st->grid));
+	result = instr_zjmp(&st, &(st->last_thread));
 	result += st->last_thread->where == 500 ? 1 : 0;
 	thread_change_where(&(st->last_thread), &(st->grid), 0);
 	st->last_thread->carry = 0;
 	write_in_grid(&(st->grid), 500, st->last_thread->where + 1, 2);
-	result += instr_zjmp(&(st->last_thread), &(st->grid));
+	result += instr_zjmp(&st, &(st->last_thread));
 	result += st->last_thread->where == 0 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + NO_CHANGE + 1);
@@ -2494,8 +2764,8 @@ void			ut_add(void)
 	ft_putstr(ut_add_05() ? "ut_add_05	OK\n" : "ut_add_05	ERROR\n");
 	ft_putstr(ut_add_06() ? "ut_add_06	OK\n" : "ut_add_06	ERROR\n");
 	ft_putstr(ut_add_07() ? "ut_add_07	OK\n" : "ut_add_07	ERROR\n");
-	/*
 	ft_putstr(ut_add_08() ? "ut_add_08	OK\n" : "ut_add_08	ERROR\n");
+	/*
 	ft_putstr(ut_add_09() ? "ut_add_09	OK\n" : "ut_add_09	ERROR\n");
 	ft_putstr(ut_add_10() ? "ut_add_10	OK\n" : "ut_add_10	ERROR\n");
 	ft_putstr(ut_add_11() ? "ut_add_11	OK\n" : "ut_add_11	ERROR\n");
@@ -2515,8 +2785,8 @@ void			ut_aff(void)
 	ft_putstr(ut_aff_05() ? "ut_aff_05	OK\n" : "ut_aff_05	ERROR\n");
 	ft_putstr(ut_aff_06() ? "ut_aff_06	OK\n" : "ut_aff_06	ERROR\n");
 	ft_putstr(ut_aff_07() ? "ut_aff_07	OK\n" : "ut_aff_07	ERROR\n");
-	/*
 	ft_putstr(ut_aff_08() ? "ut_aff_08	OK\n" : "ut_aff_08	ERROR\n");
+	/*
 	ft_putstr(ut_aff_09() ? "ut_aff_09	OK\n" : "ut_aff_09	ERROR\n");
 	ft_putstr(ut_aff_10() ? "ut_aff_10	OK\n" : "ut_aff_10	ERROR\n");
 	ft_putstr(ut_aff_11() ? "ut_aff_11	OK\n" : "ut_aff_11	ERROR\n");
@@ -2538,8 +2808,8 @@ void			ut_and(void)
 	ft_putstr(ut_and_07() ? "ut_and_07	OK\n" : "ut_and_07	ERROR\n");
 	ft_putstr(ut_and_08() ? "ut_and_08	OK\n" : "ut_and_08	ERROR\n");
 	ft_putstr(ut_and_09() ? "ut_and_09	OK\n" : "ut_and_09	ERROR\n");
-	/*
 	ft_putstr(ut_and_10() ? "ut_and_10	OK\n" : "ut_and_10	ERROR\n");
+	/*
 	ft_putstr(ut_and_11() ? "ut_and_11	OK\n" : "ut_and_11	ERROR\n");
 	ft_putstr(ut_and_12() ? "ut_and_12	OK\n" : "ut_and_12	ERROR\n");
 	ft_putstr(ut_and_13() ? "ut_and_13	OK\n" : "ut_and_13	ERROR\n");
@@ -2557,8 +2827,8 @@ void			ut_fork(void)
 	ft_putstr(ut_fork_05() ? "ut_fork_05	OK\n" : "ut_fork_05	ERROR\n");
 	ft_putstr(ut_fork_06() ? "ut_fork_06	OK\n" : "ut_fork_06	ERROR\n");
 	ft_putstr(ut_fork_07() ? "ut_fork_07	OK\n" : "ut_fork_07	ERROR\n");
-	/*
 	ft_putstr(ut_fork_08() ? "ut_fork_08	OK\n" : "ut_fork_08	ERROR\n");
+	/*
 	ft_putstr(ut_fork_09() ? "ut_fork_09	OK\n" : "ut_fork_09	ERROR\n");
 	ft_putstr(ut_fork_10() ? "ut_fork_10	OK\n" : "ut_fork_10	ERROR\n");
 	ft_putstr(ut_fork_11() ? "ut_fork_11	OK\n" : "ut_fork_11	ERROR\n");
@@ -2579,8 +2849,8 @@ void			ut_ld(void)
 	ft_putstr(ut_ld_06() ? "ut_ld_06	OK\n" : "ut_ld_06	ERROR\n");
 	ft_putstr(ut_ld_07() ? "ut_ld_07	OK\n" : "ut_ld_07	ERROR\n");
 	ft_putstr(ut_ld_08() ? "ut_ld_08	OK\n" : "ut_ld_08	ERROR\n");
-	/*
 	ft_putstr(ut_ld_09() ? "ut_ld_09	OK\n" : "ut_ld_09	ERROR\n");
+	/*
 	ft_putstr(ut_ld_10() ? "ut_ld_10	OK\n" : "ut_ld_10	ERROR\n");
 	ft_putstr(ut_ld_11() ? "ut_ld_11	OK\n" : "ut_ld_11	ERROR\n");
 	ft_putstr(ut_ld_12() ? "ut_ld_12	OK\n" : "ut_ld_12	ERROR\n");
@@ -2601,8 +2871,8 @@ void			ut_ldi(void)
 	ft_putstr(ut_ldi_07() ? "ut_ldi_07	OK\n" : "ut_ldi_07	ERROR\n");
 	ft_putstr(ut_ldi_08() ? "ut_ldi_08	OK\n" : "ut_ldi_08	ERROR\n");
 	ft_putstr(ut_ldi_09() ? "ut_ldi_09	OK\n" : "ut_ldi_09	ERROR\n");
-	/*
 	ft_putstr(ut_ldi_10() ? "ut_ldi_10	OK\n" : "ut_ldi_10	ERROR\n");
+	/*
 	ft_putstr(ut_ldi_11() ? "ut_ldi_11	OK\n" : "ut_ldi_11	ERROR\n");
 	ft_putstr(ut_ldi_12() ? "ut_ldi_12	OK\n" : "ut_ldi_12	ERROR\n");
 	ft_putstr(ut_ldi_13() ? "ut_ldi_13	OK\n" : "ut_ldi_13	ERROR\n");
@@ -2620,8 +2890,8 @@ void			ut_lfork(void)
 	ft_putstr(ut_lfork_05() ? "ut_lfork_05	OK\n" : "ut_lfork_05	ERROR\n");
 	ft_putstr(ut_lfork_06() ? "ut_lfork_06	OK\n" : "ut_lfork_06	ERROR\n");
 	ft_putstr(ut_lfork_07() ? "ut_lfork_07	OK\n" : "ut_lfork_07	ERROR\n");
-	/*
 	ft_putstr(ut_lfork_08() ? "ut_lfork_08	OK\n" : "ut_lfork_08	ERROR\n");
+	/*
 	ft_putstr(ut_lfork_09() ? "ut_lfork_09	OK\n" : "ut_lfork_09	ERROR\n");
 	ft_putstr(ut_lfork_10() ? "ut_lfork_10	OK\n" : "ut_lfork_10	ERROR\n");
 	ft_putstr(ut_lfork_11() ? "ut_lfork_11	OK\n" : "ut_lfork_11	ERROR\n");
@@ -2641,9 +2911,9 @@ void			ut_live(void)
 	ft_putstr(ut_live_05() ? "ut_live_05	OK\n" : "ut_live_05	ERROR\n");
 	ft_putstr(ut_live_06() ? "ut_live_06	OK\n" : "ut_live_06	ERROR\n");
 	ft_putstr(ut_live_07() ? "ut_live_07	OK\n" : "ut_live_07	ERROR\n");
-	/*
 	ft_putstr(ut_live_08() ? "ut_live_08	OK\n" : "ut_live_08	ERROR\n");
 	ft_putstr(ut_live_09() ? "ut_live_09	OK\n" : "ut_live_09	ERROR\n");
+	/*
 	ft_putstr(ut_live_10() ? "ut_live_10	OK\n" : "ut_live_10	ERROR\n");
 	ft_putstr(ut_live_11() ? "ut_live_11	OK\n" : "ut_live_11	ERROR\n");
 	ft_putstr(ut_live_12() ? "ut_live_12	OK\n" : "ut_live_12	ERROR\n");
@@ -2663,8 +2933,8 @@ void			ut_lld(void)
 	ft_putstr(ut_lld_06() ? "ut_lld_06	OK\n" : "ut_lld_06	ERROR\n");
 	ft_putstr(ut_lld_07() ? "ut_lld_07	OK\n" : "ut_lld_07	ERROR\n");
 	ft_putstr(ut_lld_08() ? "ut_lld_08	OK\n" : "ut_lld_08	ERROR\n");
-	/*
 	ft_putstr(ut_lld_09() ? "ut_lld_09	OK\n" : "ut_lld_09	ERROR\n");
+	/*
 	ft_putstr(ut_lld_10() ? "ut_lld_10	OK\n" : "ut_lld_10	ERROR\n");
 	ft_putstr(ut_lld_11() ? "ut_lld_11	OK\n" : "ut_lld_11	ERROR\n");
 	ft_putstr(ut_lld_12() ? "ut_lld_12	OK\n" : "ut_lld_12	ERROR\n");
@@ -2685,8 +2955,8 @@ void			ut_lldi(void)
 	ft_putstr(ut_lldi_07() ? "ut_lldi_07	OK\n" : "ut_lldi_07	ERROR\n");
 	ft_putstr(ut_lldi_08() ? "ut_lldi_08	OK\n" : "ut_lldi_08	ERROR\n");
 	ft_putstr(ut_lldi_09() ? "ut_lldi_09	OK\n" : "ut_lldi_09	ERROR\n");
-	/*
 	ft_putstr(ut_lldi_10() ? "ut_lldi_10	OK\n" : "ut_lldi_10	ERROR\n");
+	/*
 	ft_putstr(ut_lldi_11() ? "ut_lldi_11	OK\n" : "ut_lldi_11	ERROR\n");
 	ft_putstr(ut_lldi_12() ? "ut_lldi_12	OK\n" : "ut_lldi_12	ERROR\n");
 	ft_putstr(ut_lldi_13() ? "ut_lldi_13	OK\n" : "ut_lldi_13	ERROR\n");
@@ -2704,8 +2974,8 @@ void			ut_move(void)
 	ft_putstr(ut_move_05() ? "ut_move_05	OK\n" : "ut_move_05	ERROR\n");
 	ft_putstr(ut_move_06() ? "ut_move_06	OK\n" : "ut_move_06	ERROR\n");
 	ft_putstr(ut_move_07() ? "ut_move_07	OK\n" : "ut_move_07	ERROR\n");
-	/*
 	ft_putstr(ut_move_08() ? "ut_move_08	OK\n" : "ut_move_08	ERROR\n");
+	/*
 	ft_putstr(ut_move_09() ? "ut_move_09	OK\n" : "ut_move_09	ERROR\n");
 	ft_putstr(ut_move_10() ? "ut_move_10	OK\n" : "ut_move_10	ERROR\n");
 	ft_putstr(ut_move_11() ? "ut_move_11	OK\n" : "ut_move_11	ERROR\n");
@@ -2727,8 +2997,8 @@ void			ut_or(void)
 	ft_putstr(ut_or_07() ? "ut_or_07	OK\n" : "ut_or_07	ERROR\n");
 	ft_putstr(ut_or_08() ? "ut_or_08	OK\n" : "ut_or_08	ERROR\n");
 	ft_putstr(ut_or_09() ? "ut_or_09	OK\n" : "ut_or_09	ERROR\n");
-	/*
 	ft_putstr(ut_or_10() ? "ut_or_10	OK\n" : "ut_or_10	ERROR\n");
+	/*
 	ft_putstr(ut_or_11() ? "ut_or_11	OK\n" : "ut_or_11	ERROR\n");
 	ft_putstr(ut_or_12() ? "ut_or_12	OK\n" : "ut_or_12	ERROR\n");
 	ft_putstr(ut_or_13() ? "ut_or_13	OK\n" : "ut_or_13	ERROR\n");
@@ -2747,8 +3017,8 @@ void			ut_st(void)
 	ft_putstr(ut_st_06() ? "ut_st_06	OK\n" : "ut_st_06	ERROR\n");
 	ft_putstr(ut_st_07() ? "ut_st_07	OK\n" : "ut_st_07	ERROR\n");
 	ft_putstr(ut_st_08() ? "ut_st_08	OK\n" : "ut_st_08	ERROR\n");
-	/*
 	ft_putstr(ut_st_09() ? "ut_st_09	OK\n" : "ut_st_09	ERROR\n");
+	/*
 	ft_putstr(ut_st_10() ? "ut_st_10	OK\n" : "ut_st_10	ERROR\n");
 	ft_putstr(ut_st_11() ? "ut_st_11	OK\n" : "ut_st_11	ERROR\n");
 	ft_putstr(ut_st_12() ? "ut_st_12	OK\n" : "ut_st_12	ERROR\n");
@@ -2769,8 +3039,8 @@ void			ut_sti(void)
 	ft_putstr(ut_sti_07() ? "ut_sti_07	OK\n" : "ut_sti_07	ERROR\n");
 	ft_putstr(ut_sti_08() ? "ut_sti_08	OK\n" : "ut_sti_08	ERROR\n");
 	ft_putstr(ut_sti_09() ? "ut_sti_09	OK\n" : "ut_sti_09	ERROR\n");
-	/*
 	ft_putstr(ut_sti_10() ? "ut_sti_10	OK\n" : "ut_sti_10	ERROR\n");
+	/*
 	ft_putstr(ut_sti_11() ? "ut_sti_11	OK\n" : "ut_sti_11	ERROR\n");
 	ft_putstr(ut_sti_12() ? "ut_sti_12	OK\n" : "ut_sti_12	ERROR\n");
 	ft_putstr(ut_sti_13() ? "ut_sti_13	OK\n" : "ut_sti_13	ERROR\n");
@@ -2788,8 +3058,8 @@ void			ut_sub(void)
 	ft_putstr(ut_sub_05() ? "ut_sub_05	OK\n" : "ut_sub_05	ERROR\n");
 	ft_putstr(ut_sub_06() ? "ut_sub_06	OK\n" : "ut_sub_06	ERROR\n");
 	ft_putstr(ut_sub_07() ? "ut_sub_07	OK\n" : "ut_sub_07	ERROR\n");
-	/*
 	ft_putstr(ut_sub_08() ? "ut_sub_08	OK\n" : "ut_sub_08	ERROR\n");
+	/*
 	ft_putstr(ut_sub_09() ? "ut_sub_09	OK\n" : "ut_sub_09	ERROR\n");
 	ft_putstr(ut_sub_10() ? "ut_sub_10	OK\n" : "ut_sub_10	ERROR\n");
 	ft_putstr(ut_sub_11() ? "ut_sub_11	OK\n" : "ut_sub_11	ERROR\n");
@@ -2811,8 +3081,8 @@ void			ut_xor(void)
 	ft_putstr(ut_xor_07() ? "ut_xor_07	OK\n" : "ut_xor_07	ERROR\n");
 	ft_putstr(ut_xor_08() ? "ut_xor_08	OK\n" : "ut_xor_08	ERROR\n");
 	ft_putstr(ut_xor_09() ? "ut_xor_09	OK\n" : "ut_xor_09	ERROR\n");
-	/*
 	ft_putstr(ut_xor_10() ? "ut_xor_10	OK\n" : "ut_xor_10	ERROR\n");
+	/*
 	ft_putstr(ut_xor_11() ? "ut_xor_11	OK\n" : "ut_xor_11	ERROR\n");
 	ft_putstr(ut_xor_12() ? "ut_xor_12	OK\n" : "ut_xor_12	ERROR\n");
 	ft_putstr(ut_xor_13() ? "ut_xor_13	OK\n" : "ut_xor_13	ERROR\n");
@@ -2830,8 +3100,8 @@ void			ut_zjmp(void)
 	ft_putstr(ut_zjmp_05() ? "ut_zjmp_05	OK\n" : "ut_zjmp_05	ERROR\n");
 	ft_putstr(ut_zjmp_06() ? "ut_zjmp_06	OK\n" : "ut_zjmp_06	ERROR\n");
 	ft_putstr(ut_zjmp_07() ? "ut_zjmp_07	OK\n" : "ut_zjmp_07	ERROR\n");
-	/*
 	ft_putstr(ut_zjmp_08() ? "ut_zjmp_08	OK\n" : "ut_zjmp_08	ERROR\n");
+	/*
 	ft_putstr(ut_zjmp_09() ? "ut_zjmp_09	OK\n" : "ut_zjmp_09	ERROR\n");
 	ft_putstr(ut_zjmp_10() ? "ut_zjmp_10	OK\n" : "ut_zjmp_10	ERROR\n");
 	ft_putstr(ut_zjmp_11() ? "ut_zjmp_11	OK\n" : "ut_zjmp_11	ERROR\n");

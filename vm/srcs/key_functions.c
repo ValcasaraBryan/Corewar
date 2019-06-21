@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/20 15:42:40 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 11:20:36 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int				cycle_to_die(t_storage **st, int nb_cycles)
 		current = (*st)->first_thread;
 		while (current != NULL)
 		{
-			if (thread_change_cycle(&current, &((*st)->grid), 1) < SUCCESS)
+			if (thread_change_cycle(&current, st, 1) < SUCCESS)
 				return (CALL_FAILED);
 			current = current->next;
 		}

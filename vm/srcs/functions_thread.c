@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/16 19:37:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 11:19:54 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int		thread_change_action(t_thread **th, int new_action)
 	return (SUCCESS);
 }
 
-int		thread_change_cycle(t_thread **th, int ***gr, int type)
+int		thread_change_cycle(t_thread **th, t_storage **st, int type)
 {
-	if (thread_check(th) < VALID_EMPTY || grid_check(gr) != VALID_FULL)
+	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (BAD_PARAM);
 	if (type == 0)
 		(*th)->cycle = 0;
@@ -34,10 +34,10 @@ int		thread_change_cycle(t_thread **th, int ***gr, int type)
 		(*th)->cycle += 1;
 		if ((*th)->cycle >= g_tab_instructions[(*th)->action].cycles_nb)
 		{
-			if (thread_change_cycle(th, gr, 0) != SUCCESS)
+			if (thread_change_cycle(th, st, 0) != SUCCESS)
 				return (CALL_FAILED);
-			if (g_tab_instructions[(*th)->action].fct_ptr(th, gr) != SUCCESS)
-				if (thread_change_where(th, gr, (*th)->where + 1) != SUCCESS)
+			if (g_tab_instructions[(*th)->action].fct_ptr(st, th) != SUCCESS)
+				if (thread_change_where(th, &((*st)->grid), (*th)->where + 1) != SUCCESS)
 					return (CALL_FAILED);
 		}
 	}
