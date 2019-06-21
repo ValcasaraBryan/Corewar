@@ -40,6 +40,7 @@ typedef struct		s_win
 	int				height;
 	int				text_height;
 	int				text_start;
+	int 			pause;
 }					t_win;
 
 typedef struct	s_point
@@ -63,6 +64,34 @@ SDL_Color	argb_to_sdl(Uint32 color)
 
 	c = (t_color)((int)color);
 	return ((SDL_Color){c.rgb[2], c.rgb[1], c.rgb[0], c.rgb[3]});
+}
+
+size_t		ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+char	*ft_strcat(char *dest, const char *src)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (dest[i])
+		++i;
+	while (src[j])
+	{
+		dest[i] = src[j];
+		++i;
+		++j;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 void		put_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
@@ -121,6 +150,79 @@ void		put_text(SDL_Surface *surface, SDL_Surface *text, int x, int y)
 	}
 }*/
 
+
+void ft_print_text(t_win *win, char *str, int line)
+{
+	SDL_Color Grey = {255, 255, 255, 255};
+
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, str, Grey);
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
+	SDL_Rect Message_rect; //create a rect
+	Message_rect.x = 66 * OCT_W;  //controls the rect's x coordinate 
+	Message_rect.y = line * OCT_H; // controls the rect's y coordinte
+	Message_rect.w = ft_strlen(str) * 7; // 21 controls the width of the rect
+	Message_rect.h = OCT_H; // controls the height of the rect
+	// write(1, "a", 1);
+	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
+	SDL_FreeSurface(surfaceMessage);
+	SDL_DestroyTexture(Message);
+
+}
+
+void ft_str_create_and_print(struct, char *str1, char *str2, line)
+{
+	char *dest;
+
+	if(!(dest = malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str3) + 1))))
+		return ;
+	dest = ft_strcat(dest, str1);
+	dest = ft_strcat(dest, str2);
+	free(str1);
+	free(str2);
+	ft_print_text(struct, dest, line);
+	free(dest);
+}
+
+void ft_put_players(t_win *win, int *line)
+{
+	t_storage tmp = storage->champion;
+
+	while (tmp)
+	{
+		ft_str_create_and_print(win, "Player -1 : ", tmp->name, *line);
+		*line++;
+		ft_str_create_and_print(win, "Last_live :                 ", ft_itoa(lastlive), *line);
+		*line++;
+		// ft_str_create_and_print(win, "Lives in current periode :    ", ft_itoa(lastlive), *line);
+		// *line += 2;
+		tmp = tmp->next;
+	}
+}
+
+
+void ft_put_infos(t_win *win)
+{
+	int line = 1;
+
+	
+	if (!win->pause)
+		ft_print_text(win, "PAUSE", line);
+	else
+		ft_print_text(win, "RUNNING", line);
+	line += 2;
+	ft_str_create_and_print(win, "Cycles : ", ft_itoa(storage->cycle), line);
+	line++;
+	ft_str_create_and_print(win, "Processes : ", ft_itoa(win->nb_process), line);
+	line += 2;
+	ft_put_players(win, &line);
+	line++;
+	// ft_str_create_and_print(win, "CYCLE_TO_DIE :", ft_itoa(win->nb_process), line);
+	// ft_str_create_and_print(win, "CYCLE_DELTA : ", ft_itoa(win->nb_process), line);
+	// ft_str_create_and_print(win, "NBR_LIVE : ", ft_itoa(win->nb_process), line);
+	// ft_str_create_and_print(win, "MAX_CHECKS : ", ft_itoa(win->nb_process), line);
+
+}
+
 int	init_font(t_win *win)
 {
 	if (TTF_Init() < 0)
@@ -147,25 +249,6 @@ char *ft_itoa_hexa(int a)
 	str[1] = tab[a % 16];
 	str[2] = '\0';
 	return (str);
-}
-
-char	*ft_strcat(char *dest, const char *src)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (dest[i])
-		++i;
-	while (src[j])
-	{
-		dest[i] = src[j];
-		++i;
-		++j;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
 char *ft_tab_int_to_string(int *tab)
@@ -296,6 +379,7 @@ int init_window(t_win *win)
 
 	
 	ft_put_treads(win);
+	ft_put_infos(win);
 
 	while(i < 64)
 	{
@@ -390,7 +474,7 @@ void	*ft_memalloc(size_t len)
 int main ()
 {
 	t_win win;
-
+	win.pause = 0;
 //	create_player(1, "toto");
 //	create_player(2, "tata");
 	init_sdl(&win);
