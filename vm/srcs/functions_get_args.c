@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:37:21 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/20 14:31:21 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:25:30 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,6 @@ int			get_flag_with_nb(char **str, int **args, int type)
 			(*args)[1] = 1;
 	}
 	return (type == 1 || type == 2 ? SUCCESS_INC : SUCCESS);
-}
-
-int			init_args(int **args)
-{
-	int		i;
-
-	if (!((*args) = malloc(sizeof(int) * (11 + 1))))
-		return (MALLOC_FAILED);
-	i = -1;
-	while (++i < 10)
-		(*args)[i] = -1;
-	(*args)[10] = 0;
-	(*args)[11] = 0;
-	return (SUCCESS);
 }
 
 int			print_error(void)

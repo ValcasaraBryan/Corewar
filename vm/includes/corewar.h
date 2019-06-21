@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 13:15:11 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:30:47 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@
 
 # define REG_NUMBER		16
 # define MAGIC_NB		0x00EA83F3
-# define IDX_MOD		512
 
 /*
 ** unused
@@ -132,6 +131,7 @@ typedef struct			s_champion
 typedef struct			s_storage
 {
 	int					cycle;
+	int					*args;
 	int					**grid;
 	struct s_thread		*first_thread;
 	struct s_thread		*last_thread;
@@ -294,7 +294,7 @@ int						instr_zjmp(t_storage **st, t_thread **th);
 */
 int						cycle_to_die(t_storage **st, int nb_cycles);
 int						intro_champions(t_storage **st);
-int						get_args(int nb_lines, char ***tab, int **args);
+int						get_args(t_storage **st, int nb_lines, char ***tab);
 int						read_in_grid(int ***grid, int where, int nb);
 int						write_in_grid(int ***grid, long value, int where,
 	int nb);
@@ -350,7 +350,7 @@ int						print_thread_list(t_storage **st);
 /*
 ** ------------------------	structs_setup				------------------------
 */
-int						setup_all(t_storage **st, char ***argc, int **args);
+int						setup_all(t_storage **st, int argv, char ***argc);
 int						setup_champions(t_storage **st, char ***t_p, int **t_n);
 int						setup_grid(t_storage **st);
 

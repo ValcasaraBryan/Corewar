@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 13:15:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:28:04 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 	new_thread->live = 0;
 	new_thread->where = (*th)->where;
 	if (thread_change_where(&new_thread, &(*st)->grid,
-		new_thread->where + (value % IDX_MOD) != SUCCESS)
+		new_thread->where + (value % IDX_MOD)) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
 }

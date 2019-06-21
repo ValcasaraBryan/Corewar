@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 11:40:55 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:47:49 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,39 +42,29 @@ t_instruction	g_tab_instructions[18] =
 
 int			main(int argv, char **argc)
 {
+	/*
 	(void)argc;
 	(void)argv;
-	/*
 	*/
-	/*
-	int			*args;
 	t_storage	*st;
-
-	if (get_args(argv, &argc, &args) != SUCCESS)
-	{
-		if (args != NULL)
-			free(args);
-		return (1);
-	}
+	
+	/*
 	printf("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n", args[0], args[1],
 		args[2], args[3], args[4], args[5],
 		args[6], args[7], args[8], args[9], args[10]);
-	if (setup_all(&st, &argc, &args) != SUCCESS
+	*/
+	if (setup_all(&st, argv, &argc) != SUCCESS
 		|| intro_champions(&st) != SUCCESS
-		|| cycle_to_die(&st, atoi(argc[1])) != SUCCESS)
+		|| cycle_to_die(&st, st->args[0]) != SUCCESS)
 	{
 		free_storage(&st);
 		return (CALL_FAILED);
 	}
-	print_storage(&st);
-	*/
-
+	/*
 	all_ut();
 	all_ut_instr();
-	/*
-	free_storage(&st);
-	free(args);
 	*/
+	free_storage(&st);
 	while (1);
 	return (0);
 }

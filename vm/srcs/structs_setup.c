@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/20 15:48:09 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:44:19 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,26 @@ int		setup_grid(t_storage **st)
 	return (SUCCESS);
 }
 
-int		setup_all(t_storage **st, char ***argc, int **args)
+int		setup_all(t_storage **st, int argv, char ***argc)
 {
 	char		**array_1;
 	int			*array_2;
 
-	if (argc == NULL || *argc == NULL
-		|| args == NULL || *args == NULL)
+	if (argc == NULL || *argc == NULL || argv <= 0)
+		return (BAD_PARAM);
 	array_1 = NULL;
 	array_2 = NULL;
-	if (tab_char_create(&array_1, argc, args) != SUCCESS
-		|| tab_int_create(&array_2, args) != SUCCESS)
+	if (add_storage(st) != SUCCESS
+		|| get_args(st, argv, argc) != SUCCESS)
+		return (CALL_FAILED);
+	if (tab_char_create(&array_1, argc, &((*st)->args)) != SUCCESS
+		|| tab_int_create(&array_2, &((*st)->args)) != SUCCESS)
 	{
 		free_tab_char(&array_1);
 		free_tab_int(&array_2);
 		return (CALL_FAILED);
 	}
-	if (add_storage(st) != SUCCESS
-		|| setup_champions(st, &array_1, &array_2) != SUCCESS
+	if (setup_champions(st, &array_1, &array_2) != SUCCESS
 		|| setup_grid(st) != SUCCESS)
 	{
 		free_tab_char(&array_1);

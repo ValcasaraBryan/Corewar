@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 11:20:36 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:49:05 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int				cycle_to_die(t_storage **st, int nb_cycles)
 	int			i;
 
 	i = -1;
+	printf("%d\n", nb_cycles);
 	while (++i < nb_cycles)
 	{
 		current = (*st)->first_thread;
@@ -56,27 +57,25 @@ int				intro_champions(t_storage **st)
 	return (SUCCESS);
 }
 
-int				get_args(int nb_lines, char ***tab, int **args)
+int				get_args(t_storage **st, int nb_lines, char ***tab)
 {
 	int			i;
 	int			result;
 
-	if (nb_lines < 2 || tab == NULL || *tab == NULL || args == NULL)
+	if (nb_lines < 2 || tab == NULL || *tab == NULL || storage_check(st, 0) != VALID_EMPTY)
 		return (print_error());
-	if (init_args(args) != SUCCESS || args == NULL || *args == NULL)
-		return (CALL_FAILED);
 	i = 0;
 	while (++i < nb_lines)
 	{
-		if ((result = get_args_inner(nb_lines, tab, args, i)) == SUCCESS_INC)
+		if ((result = get_args_inner(nb_lines, tab, &(*st)->args, i)) == SUCCESS_INC)
 			i++;
 		else if (result != SUCCESS)
 			return (print_error());
 	}
-	if ((*args)[10] == 0 || (*args)[3] == -1
-		|| ((*args)[4] != -1 && (*args)[5] == -1)
-		|| ((*args)[6] != -1 && (*args)[7] == -1)
-		|| ((*args)[8] != -1 && (*args)[9] == -1))
+	if ((*st)->args[10] == 0 || (*st)->args[3] == -1
+		|| ((*st)->args[4] != -1 && (*st)->args[5] == -1)
+		|| ((*st)->args[6] != -1 && (*st)->args[7] == -1)
+		|| ((*st)->args[8] != -1 && (*st)->args[9] == -1))
 		return (print_error());
 	return (SUCCESS);
 }
