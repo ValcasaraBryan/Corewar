@@ -166,62 +166,61 @@ void ft_print_text(t_win *win, char *str, int line)
 	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
 	SDL_FreeSurface(surfaceMessage);
 	SDL_DestroyTexture(Message);
-
 }
 
-void ft_str_create_and_print(struct, char *str1, char *str2, line)
-{
-	char *dest;
+// void ft_str_create_and_print(struct, char *str1, char *str2, line)
+// {
+// 	char *dest;
 
-	if(!(dest = malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str3) + 1))))
-		return ;
-	dest = ft_strcat(dest, str1);
-	dest = ft_strcat(dest, str2);
-	free(str1);
-	free(str2);
-	ft_print_text(struct, dest, line);
-	free(dest);
-}
+// 	if(!(dest = malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str3) + 1))))
+// 		return ;
+// 	dest = ft_strcat(dest, str1);
+// 	dest = ft_strcat(dest, str2);
+// 	free(str1);
+// 	free(str2);
+// 	ft_print_text(struct, dest, line);
+// 	free(dest);
+// }
 
-void ft_put_players(t_win *win, int *line)
-{
-	t_storage tmp = storage->champion;
+// void ft_put_players(t_win *win, int *line)
+// {
+// 	t_storage tmp = storage->champion;
 
-	while (tmp)
-	{
-		ft_str_create_and_print(win, "Player -1 : ", tmp->name, *line);
-		*line++;
-		ft_str_create_and_print(win, "Last_live :                 ", ft_itoa(lastlive), *line);
-		*line++;
-		// ft_str_create_and_print(win, "Lives in current periode :    ", ft_itoa(lastlive), *line);
-		// *line += 2;
-		tmp = tmp->next;
-	}
-}
+// 	while (tmp)
+// 	{
+// 		ft_str_create_and_print(win, "Player -1 : ", tmp->name, *line);
+// 		*line++;
+// 		ft_str_create_and_print(win, "Last_live :                 ", ft_itoa(lastlive), *line);
+// 		*line++;
+// 		// ft_str_create_and_print(win, "Lives in current periode :    ", ft_itoa(lastlive), *line);
+// 		// *line += 2;
+// 		tmp = tmp->next;
+// 	}
+// }
 
 
-void ft_put_infos(t_win *win)
-{
-	int line = 1;
+// void ft_put_infos(t_win *win)
+// {
+// 	int line = 1;
 
 	
-	if (!win->pause)
-		ft_print_text(win, "PAUSE", line);
-	else
-		ft_print_text(win, "RUNNING", line);
-	line += 2;
-	ft_str_create_and_print(win, "Cycles : ", ft_itoa(storage->cycle), line);
-	line++;
-	ft_str_create_and_print(win, "Processes : ", ft_itoa(win->nb_process), line);
-	line += 2;
-	ft_put_players(win, &line);
-	line++;
-	// ft_str_create_and_print(win, "CYCLE_TO_DIE :", ft_itoa(win->nb_process), line);
-	// ft_str_create_and_print(win, "CYCLE_DELTA : ", ft_itoa(win->nb_process), line);
-	// ft_str_create_and_print(win, "NBR_LIVE : ", ft_itoa(win->nb_process), line);
-	// ft_str_create_and_print(win, "MAX_CHECKS : ", ft_itoa(win->nb_process), line);
+// 	if (!win->pause)
+// 		ft_print_text(win, "PAUSE", line);
+// 	else
+// 		ft_print_text(win, "RUNNING", line);
+// 	line += 2;
+// 	ft_str_create_and_print(win, "Cycles : ", ft_itoa(storage->cycle), line);
+// 	line++;
+// 	ft_str_create_and_print(win, "Processes : ", ft_itoa(win->nb_process), line);
+// 	line += 2;
+// 	ft_put_players(win, &line);
+// 	line++;
+// 	// ft_str_create_and_print(win, "CYCLE_TO_DIE :", ft_itoa(win->nb_process), line);
+// 	// ft_str_create_and_print(win, "CYCLE_DELTA : ", ft_itoa(win->nb_process), line);
+// 	// ft_str_create_and_print(win, "NBR_LIVE : ", ft_itoa(win->nb_process), line);
+// 	// ft_str_create_and_print(win, "MAX_CHECKS : ", ft_itoa(win->nb_process), line);
 
-}
+// }
 
 int	init_font(t_win *win)
 {
@@ -279,7 +278,7 @@ int ft_put_treads(t_win *win)
 	// while (thread)
 	// {
 	int where = 128;
-	SDL_RenderFillRect(win->renderer, &rect);
+	// SDL_RenderFillRect(win->renderer, &rect);
 	rect.x = where % 64 * OCT_W;
 	rect.y = where / 64 * OCT_H;
 	rect.h = OCT_H;
@@ -292,28 +291,16 @@ int ft_put_treads(t_win *win)
 
 int init_window(t_win *win)
 {
-	// SDL_Renderer *renderer = NULL;
 	win->renderer = NULL;
 	SDL_Event event;
 	bool gameRunning = true;
-	// TTF_Font *police = NULL;
-	// SDL_Color Black = {0, 0, 0};
 	SDL_Surface *text = NULL;
-	// SDL_Surface *surfText = NULL;
-	// SDL_Rect position;
 	if (!(win->window = SDL_CreateWindow("Virtual Corewar Arena",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		win->width, win->height, SDL_WINDOW_RESIZABLE)))
 		return(0);
-	// win->surface = SDL_GetWindowSurface(win->window);
-	// SDL_SetWindowBordered(win->window, SDL_TRUE);
-	// SDL_SetSurfaceAlphaMod(win->surface, 255);
-	// SDL_SetSurfaceBlendMode(win->surface, SDL_BLENDMODE_NONE);
 	// put_line(win->surface, (t_point){50, 50}, (t_point){WIDTH - 50, 50}, WHITE);
-	// put_line(win->surface, (t_point){50, 50}, (t_point){50, LENGTH - 50}, WHITE);
-	// put_line(win->surface, (t_point){WIDTH - 50, 50}, (t_point){WIDTH - 50, LENGTH - 50}, WHITE);
-	// put_line(win->surface, (t_point){50, LENGTH - 50}, (t_point){WIDTH - 50, LENGTH - 50}, WHITE);
-	// SDL_FillRect(win->surface, NULL, GREY);
+
 	if (!(win->renderer = SDL_CreateRenderer(win->window, -1, 0)))
 		printf("SDL_Init failed: %s\n", SDL_GetError());
 	if (SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255))
@@ -323,11 +310,6 @@ int init_window(t_win *win)
 
 
 	TTF_Init();
-	// TTF_OpenFont("browzko.ttf", 30);
-	// text = TTF_RenderText_Blended(police, "Salut Camille", Black);
-	// position.x = 0;
-	// position.y = 0;
-	// SDL_BlitSurface(text, NULL, SDL_GetWindowSurface(win->window), &position);
 	
 	win->ttf_text = TTF_OpenFont("monofonto.ttf", 50); //this opens a font style and sets a size
 
@@ -379,7 +361,7 @@ int init_window(t_win *win)
 
 	
 	ft_put_treads(win);
-	ft_put_infos(win);
+	// ft_put_infos(win);
 
 	while(i < 64)
 	{
