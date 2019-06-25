@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:42 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 10:29:26 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:16:18 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	instr_sti_inner(t_storage **st, t_thread **th, int size1, int size2)
 	size1 = size1 == 4 ? 2 : size1;
 	where2 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1 + size1, size2);
 	where2 = size2 == 1 ? thread_get_value_reg(th, where2) : where2;
-	if (write_in_grid(&(*st)->grid, value, (*th)->where + where1 + where2, 4) != SUCCESS)
+	if (write_in_grid(&(*st)->grid, value, (*th)->where + (where1 + where2) % IDX_MOD, 4) != SUCCESS)
 		return (CALL_FAILED);
 	if (thread_change_where(th, &(*st)->grid,
 		(*th)->where + 1 + 1 + 1 + size1 + size2) != SUCCESS)

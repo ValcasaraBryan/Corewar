@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 10:29:40 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/25 17:03:44 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ int			instr_sub_inner(t_storage **st, t_thread **th)
 	reg3 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1 + 1, 1);
 	value1 = thread_get_value_reg(th, reg1);
 	value2 = thread_get_value_reg(th, reg2);
+	if (reg1 < 0 || reg1 > REG_NUMBER - 1 || reg2 < 0 || reg2 > REG_NUMBER - 1)
+	{
+		value1 = 0;
+		value2 = 0;
+	}
 	if (thread_change_value_reg(th, reg3, value1 - value2) != SUCCESS)
 		return (CALL_FAILED);
 	if (thread_change_where(th, &(*st)->grid,

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 15:47:49 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/25 16:49:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int			main(int argv, char **argc)
 		|| cycle_to_die(&st, st->args[0]) != SUCCESS)
 	{
 		free_storage(&st);
+		printf("Erreur\n");
 		return (CALL_FAILED);
 	}
 	/*
@@ -65,6 +66,6 @@ int			main(int argv, char **argc)
 	all_ut_instr();
 	*/
 	free_storage(&st);
-	while (1);
+	//while (1);
 	return (0);
 }

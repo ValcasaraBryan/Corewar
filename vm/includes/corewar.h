@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 15:30:47 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/25 17:45:12 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,5 +380,6 @@ int						decrypt_op_code(int **tab, int nb);
 void					print_nb_hexa(int nb);
 int						print_dump(t_storage **st);
 int						get_size_int(int code, int size_dir);
+int		failed_action_move(t_storage **st, t_thread **th, int nb_move);
 
 #endif

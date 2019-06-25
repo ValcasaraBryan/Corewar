@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:10:04 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 10:30:26 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:02:16 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int		instr_zjmp(t_storage **st, t_thread **th)
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_zjmp\n");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (BAD_PARAM);
+		return (failed_action_move(st, th, 1));
 	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 2);
 	if ((*th)->carry != 1)
-		return (NO_CHANGE);
+		return (failed_action_move(st, th, 1));
 	if (thread_change_where(th, &(*st)->grid, (*th)->where + value) != SUCCESS)
-		return (CALL_FAILED);
+		return (failed_action_move(st, th, 1));
 	return (SUCCESS);
 }

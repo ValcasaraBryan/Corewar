@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 15:49:05 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/25 18:55:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,14 @@ int				cycle_to_die(t_storage **st, int nb_cycles)
 	int			i;
 
 	i = -1;
-	printf("%d\n", nb_cycles);
+	current = (*st)->first_thread;
+	while (current != NULL)
+	{
+		if (thread_change_where(&current, &((*st)->grid), current->where) < SUCCESS)
+			return (CALL_FAILED);
+		current = current->next;
+	}
+
 	while (++i < nb_cycles)
 	{
 		current = (*st)->first_thread;
@@ -28,6 +35,8 @@ int				cycle_to_die(t_storage **st, int nb_cycles)
 				return (CALL_FAILED);
 			current = current->next;
 		}
+		/*if (i == 25)
+			print_storage(st);*/
 	}
 	print_dump(st);
 	return (SUCCESS);
@@ -36,15 +45,17 @@ int				cycle_to_die(t_storage **st, int nb_cycles)
 int				intro_champions(t_storage **st)
 {
 	t_champion	*current;
+	int			i;
 
 	if (storage_check(st, 0) != VALID_FULL)
 		return (BAD_PARAM);
 	current = (*st)->first_champion;
 	ft_putstr("Introducing contestants...\n");
+	i = 1;
 	while (current != NULL)
 	{
 		ft_putstr("* Player ");
-		ft_putnbr(current->number);
+		ft_putnbr(i);
 		ft_putstr(", weighing ");
 		ft_putnbr(current->size);
 		ft_putstr(" bytes, \"");
@@ -53,6 +64,7 @@ int				intro_champions(t_storage **st)
 		ft_putstr(current->desc);
 		ft_putstr("\") !\n");
 		current = current->next;
+		i++;
 	}
 	return (SUCCESS);
 }

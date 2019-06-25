@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:39 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 10:25:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:16:30 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	instr_ldi_inner(t_storage **st, t_thread **th, int size1, int size2)
 	value2 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + size1, size2);
 	value2 = size2 == 1 ? thread_get_value_reg(th, value2) : value2;
 	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + size1 + size2, 1);
-	total = read_in_grid(&(*st)->grid, (*th)->where + value1 + value2, 4);
+	total = read_in_grid(&(*st)->grid, (*th)->where + (value1 + value2) % IDX_MOD, 4);
 	if (thread_change_value_reg(th, reg, total) != SUCCESS)
 		return (CALL_FAILED);
 	if (thread_change_where(th, &(*st)->grid,
