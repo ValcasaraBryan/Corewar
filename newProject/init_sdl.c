@@ -32,6 +32,7 @@ typedef struct		s_win
 	SDL_Event		event;
 	SDL_Renderer 	*renderer;
 	SDL_Texture 	*texture;
+	SDL_Rect 		rect;
 	int				colors[4];
 	int				width;
 	int				height;
@@ -104,6 +105,11 @@ void ft_init_win(t_win *win)
 	write(1, "ch", 2);
 	win->height = HEIGHT;
 	write(1, "ch", 2);
+	win->rect.x = 0;
+	win->rect.y = 0;
+	win->rect.w = WIDTH;
+	win->rect.h = HEIGHT;
+
 }
 
 
@@ -128,6 +134,7 @@ int ft_init_window(t_win *win)
 		printf("SDL_Init failed: %s\n", SDL_GetError());
 	if (SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255))
 		printf("toto0");
+	SDL_RenderClear(win->renderer);
 	return (1);
 }
 
@@ -176,7 +183,7 @@ void ft_put_players(t_win *win, int line)
 
 	// while (tmp)
 	// {
-		ft_str_create_and_print(win, "Player -1 : ", "toto", line); //tmp->name, *line);
+		ft_str_create_and_print(win, "Player : ", "toto", line); //tmp->name, *line);
 		line++;
 		ft_str_create_and_print(win, "Last_live :                 ", "12", line); //ft_itoa(lastlive), *line);
 		line++;
@@ -212,23 +219,54 @@ void ft_put_infos(t_win *win)
 
 int ft_put_treads(t_win *win)
 {
+
+	int w = 128;
 	SDL_Rect rect;
+
 	win->texture = SDL_CreateTexture(win->renderer, SDL_PIXELFORMAT_RGBA8888, 
-                               SDL_TEXTUREACCESS_TARGET, 0, 0);
+                               SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
+	
 	SDL_SetRenderDrawColor(win->renderer, 100, 100, 100, 255); /* On dessine en gris */
-	SDL_SetRenderTarget(win->renderer, win->texture); /* On va dessiner sur la texture */
-	// while (thread)
-	// {
-	int where = 128;
-	// SDL_RenderFillRect(win->renderer, &rect);
-	rect.x = where % 64 * OCT_W;
-	rect.y = where / 64 * OCT_H;
-	rect.h = OCT_H;
-	rect.w = OCT_W;
-	SDL_RenderFillRect(win->renderer, &rect);
-	// }
+
+	
+	SDL_SetRenderTarget(win->renderer, win->texture);  // On va dessiner sur la texture 
+	while (w < 64 * 64)
+	{
+		write(1, "totototo\n", 9);
+		printf("w = %d\n", w);
+		rect.x = w % 64 * OCT_W;
+		rect.y = w / 64 * OCT_H;
+		rect.w = OCT_W;
+		rect.h = OCT_H;
+		SDL_RenderFillRect(win->renderer, &rect);
+		w = w * 2;
+	}
 	SDL_SetRenderTarget(win->renderer, NULL);
-	SDL_RenderCopy(win->renderer, win->texture, NULL, &rect);
+	// SDL_Rect rect;
+
+	// win->texture = SDL_CreateTexture(win->renderer, SDL_PIXELFORMAT_RGBA8888, 
+ //                               SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
+	// SDL_SetRenderTarget(win->renderer, win->texture); /* On va dessiner sur la texture */
+	// SDL_SetRenderDrawColor(win->renderer, 150, 0, 150, 255); /* On dessine en gris */
+	// // // while (thread)
+	// // // {
+	// int where = 128;
+	// // SDL_RenderFillRect(win->renderer, &rect);
+	// rect.x = where % 64 * OCT_W;
+	// rect.y = where / 64 * OCT_H;
+	// rect.h = OCT_H;
+	// rect.w = OCT_W;
+	// SDL_RenderFillRect(win->renderer, &rect);
+	// // int where = 999;
+	// // // SDL_RenderFillRect(win->renderer, &rect);
+	// // rect.x = where % 64 * OCT_W;
+	// // rect.y = where / 64 * OCT_H;
+	// // rect.h = OCT_H;
+	// // rect.w = OCT_W;
+	// // SDL_RenderFillRect(win->renderer, &rect);
+	// // }
+	// SDL_SetRenderTarget(win->renderer, NULL);
+	SDL_RenderCopy(win->renderer, win->texture, NULL, &win->rect);
 	SDL_DestroyTexture(win->texture);
 	return(1);
 }
@@ -255,7 +293,7 @@ void ft_write_line_in_renderer(t_win *win, int y, char *str)
 {
 	SDL_Color white = {255, 255, 255, 255};
 
-	write(1, str, 256);
+	// write(1, str, 256);
 	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, str, white);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
 	SDL_Rect Message_rect; //create a rect
@@ -305,7 +343,7 @@ int ft_print_grid(t_win *win)
 
 void ft_print_game(t_win *win)
 {
-	// ft_put_treads(win);
+	ft_put_treads(win);
 	write(1, "ah", 2);
 	ft_print_grid(win);
 
