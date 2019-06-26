@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 12:50:49 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:41:44 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,36 @@ int					free_thread_list(t_storage **st)
 	while (current != NULL)
 	{
 		next = current->next;
-		free_thread(&current);
+		if (free_thread(&current) != SUCCESS)
+			return (CALL_FAILED);
 		current = next;
 	}
 	free(current);
 	(*st)->first_thread = NULL;
 	(*st)->last_thread = NULL;
+	return (SUCCESS);
+}
+
+int					delete_thread(t_storage **st, t_thread **th)
+{
+	t_thread	*current;
+	t_thread	*next;
+	t_thread	*prec;
+
+	if (storage_check(st, 2) < VALID_EMPTY || thread_check(th) < VALID_EMPTY)
+		return (BAD_PARAM);
+	current = (*st)->first_thread;
+	next = current->next;
+	prec = current->prec;
+	if (next != NULL)
+		next->prec = current->prec;
+	else
+		(*st)->last_thread = prec;
+	if (prec != NULL)
+		prec->next = current->next;
+	else
+		(*st)->first_thread = next;
+	if (free_thread(&current) != SUCCESS)
+		return (CALL_FAILED);
 	return (SUCCESS);
 }

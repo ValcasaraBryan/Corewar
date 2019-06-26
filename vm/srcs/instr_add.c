@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:05:49 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 17:44:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 15:20:02 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int			instr_add_inner(t_storage **st, t_thread **th)
 {
-	int		reg1;
-	int		reg2;
-	int		reg3;
+	short	reg1;
+	short	reg2;
+	short	reg3;
 	int		value1;
 	int		value2;
 
@@ -27,7 +27,7 @@ int			instr_add_inner(t_storage **st, t_thread **th)
 	reg3 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1 + 1, 1);
 	value1 = thread_get_value_reg(th, reg1);
 	value2 = thread_get_value_reg(th, reg2);
-	if (reg1 < 0 || reg1 > REG_NUMBER - 1 || reg2 < 0 || reg2 > REG_NUMBER - 1)
+	if (reg1 <= 0 || reg1 > REG_NUMBER || reg2 <= 0 || reg2 > REG_NUMBER)
 	{
 		value1 = 0;
 		value2 = 0;

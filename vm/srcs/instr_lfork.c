@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 19:01:34 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 11:30:40 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int		instr_lfork_inner(t_storage **st, t_thread **th)
 	int			value;
 
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (BAD_PARAM);
+		return (failed_action_move(st, th, 1));
 	if (add_thread(st) != SUCCESS)
-		return (CALL_FAILED);
+		return (failed_action_move(st, th, 1));
 	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 2);
 	new_thread = (*st)->last_thread;
 	if (new_thread == NULL)

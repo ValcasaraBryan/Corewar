@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 17:39:33 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:48:23 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int		thread_change_cycle(t_thread **th, t_storage **st, int type)
 
 int		thread_change_value_reg(t_thread **th, int reg, int new_value)
 {
-	if (thread_check(th) < VALID_EMPTY || reg < 0 || reg > REG_NUMBER - 1)
+	if (thread_check(th) < VALID_EMPTY || reg <= 0 || reg > REG_NUMBER)
 		return (BAD_PARAM);
-	(*th)->reg[reg] = new_value;
+	(*th)->reg[reg - 1] = new_value;
 	return (SUCCESS);
 }
 
@@ -74,7 +74,7 @@ int		thread_change_where(t_thread **th, int ***gr, int new_where)
 
 int		thread_get_value_reg(t_thread **th, int reg)
 {
-	if (thread_check(th) < VALID_EMPTY || reg < 0 || reg > REG_NUMBER - 1)
+	if (thread_check(th) < VALID_EMPTY || reg <= 0 || reg > REG_NUMBER)
 		return (BAD_PARAM);
-	return ((*th)->reg[reg]);
+	return ((*th)->reg[reg - 1]);
 }

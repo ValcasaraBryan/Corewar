@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:34 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 17:51:11 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 15:31:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,29 @@
 
 static int	instr_st_inner(t_storage **st, t_thread **th, int size)
 {
-	int		reg;
+	short	reg;
 	int		value;
 	int		where;
 
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 2));
 	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, 1);
+	if (reg <= 0 || reg > REG_NUMBER)
+		return (SUCCESS);
 	value = thread_get_value_reg(th, reg);
 	where = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1, size);
-	where = where % IDX_MOD;
+	//printf("value = %d | reg = %d | where = %d\n", value, reg, where);
 	if (size == 2)
 	{
-		if (where == 0)
-			return (SUCCESS);
+		where = (short)where % IDX_MOD;
 		if (write_in_grid(&(*st)->grid, value, (*th)->where + where, 4) != SUCCESS)
-		return (failed_action_move(st, th, 2));
+			return (failed_action_move(st, th, 2));
 	}
 	else
 	{
+		where = where % IDX_MOD;
 		if (thread_change_value_reg(th, where, value) != SUCCESS)
-		return (failed_action_move(st, th, 2));
+			return (failed_action_move(st, th, 2));
 	}
 	if (thread_change_where(th, &(*st)->grid, (*th)->where + 1 + 1 + size + 1) != SUCCESS)
 		return (failed_action_move(st, th, 2));

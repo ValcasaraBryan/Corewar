@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 11:40:09 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 15:13:42 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2322,9 +2322,9 @@ static int		ut_thread_34(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_change_value_reg(&(st->last_thread), 0, 1);
+	result = thread_change_value_reg(&(st->last_thread), 1, 1);
 	result += st->last_thread->reg[0] == 1 ? 1 : 0;
-	result += thread_change_value_reg(&(st->last_thread), 15, 1);
+	result += thread_change_value_reg(&(st->last_thread), 16, 1);
 	result += st->last_thread->reg[15] == 1 ? 1 : 0;
 	free_storage(&st);
 	return (result == SUCCESS + 1 + SUCCESS + 1);
@@ -2380,12 +2380,12 @@ static int		ut_thread_38(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_change_value_reg(&(st->last_thread), 0, 2);
+	result = thread_change_value_reg(&(st->last_thread), 1, 2);
 	result += st->last_thread->reg[0] == 2 ? 1 : 0;
-	result += thread_change_value_reg(&(st->last_thread), 15, 5);
+	result += thread_change_value_reg(&(st->last_thread), 16, 5);
 	result += st->last_thread->reg[15] == 5 ? 1 : 0;
-	result += thread_get_value_reg(&(st->last_thread), 0);
-	result += thread_get_value_reg(&(st->last_thread), 15);
+	result += thread_get_value_reg(&(st->last_thread), 1);
+	result += thread_get_value_reg(&(st->last_thread), 16);
 	free_storage(&st);
 	return (result == SUCCESS + 1 + SUCCESS + 1 + 2 + 5);
 }

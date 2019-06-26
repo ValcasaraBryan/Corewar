@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:07:59 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 17:44:36 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 13:37:53 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			instr_aff_inner(t_storage **st, t_thread **th)
 {
-	int		reg;
+	short	reg;
 	int		value;
 
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)

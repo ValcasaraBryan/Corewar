@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 17:03:44 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 11:32:41 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			instr_sub_inner(t_storage **st, t_thread **th)
 	int		value2;
 
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (BAD_PARAM);
+		return (failed_action_move(st, th, 2));
 	reg1 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, 1);
 	reg2 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1, 1);
 	reg3 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1 + 1, 1);
@@ -33,10 +33,10 @@ int			instr_sub_inner(t_storage **st, t_thread **th)
 		value2 = 0;
 	}
 	if (thread_change_value_reg(th, reg3, value1 - value2) != SUCCESS)
-		return (CALL_FAILED);
+		return (failed_action_move(st, th, 2));
 	if (thread_change_where(th, &(*st)->grid,
 		(*th)->where + 1 + 1 + 1 + 1 + 1) != SUCCESS)
-		return (CALL_FAILED);
+		return (failed_action_move(st, th, 2));
 	(*th)->carry = value1 - value2 == 0 ? 1 : 0;
 	return (SUCCESS);
 }
@@ -48,13 +48,13 @@ int			instr_sub(t_storage **st, t_thread **th)
 	if (UT_PRINT >= 1)
 		ft_putstr("instr_sub\n");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (BAD_PARAM);
+		return (failed_action_move(st, th, 2));
 	if (decrypt_op_code(&tab, read_in_grid(&(*st)->grid, (*th)->where + 1, 1)) != SUCCESS)
-		return (CALL_FAILED);
+		return (failed_action_move(st, th, 2));
 	if (tab[0] != REG_CODE || tab[1] != REG_CODE || tab[2] != REG_CODE)
 	{
 		free(tab);
-		return (NO_CHANGE);
+		return (failed_action_move(st, th, 2));
 	}
 	free(tab);
 	return (instr_sub_inner(st, th));

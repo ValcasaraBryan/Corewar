@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 15:44:19 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:39:51 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 int		setup_champions(t_storage **st, char ***t_p, int **t_n)
 {
-	int		i;
+	int			i;
 
 	if (storage_check(st, 0) != VALID_EMPTY
-		|| t_p == NULL || t_n == NULL
-		|| (*t_p) == NULL || (*t_n) == NULL)
+		|| t_p == NULL || t_n == NULL || (*t_p) == NULL || (*t_n) == NULL)
 		return (BAD_PARAM);
 	i = -1;
 	while ((*t_p)[++i] != NULL)
@@ -27,9 +26,10 @@ int		setup_champions(t_storage **st, char ***t_p, int **t_n)
 			|| bin_extractor(&(*st)->last_champion, (*t_p)[i]) != SUCCESS
 			|| ((*st)->last_champion->number = (*t_n)[i]) == 0
 			|| add_thread(st) != SUCCESS
-			|| thread_change_value_reg(&(*st)->last_thread, 0,
+			|| thread_change_value_reg(&(*st)->last_thread, 1,
 				(*t_n)[i]) != SUCCESS)
 			return (CALL_FAILED);
+		(*st)->nb_champ_last_live = (*st)->last_champion->number;
 	}
 	return (SUCCESS);
 }
@@ -62,7 +62,39 @@ int		setup_grid(t_storage **st)
 	return (SUCCESS);
 }
 
-int		setup_all(t_storage **st, int argv, char ***argc)
+int		setup_thread(t_storage **st)
+{
+	t_thread	*current;
+	t_champion	*curr;
+	int			total;
+	int			nb;
+	int			where;
+
+	if (storage_check(st, 0) != VALID_FULL
+		|| storage_check(st, 2) != VALID_FULL)
+		return (BAD_PARAM);
+	total = 0;
+	curr = (*st)->first_champion;
+	while (curr != NULL && ++total != -1)
+	{
+		curr = curr->next;
+	}
+	nb = 0;
+	current = (*st)->first_thread;
+	while (current != NULL && ++nb != -1)
+	{
+		if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS)
+			return (BAD_PARAM);
+		where = (GRID_SIZE * GRID_SIZE / total) * (nb - 1);
+		if (thread_change_where(&current, &((*st)->grid), where) != SUCCESS)
+			return (CALL_FAILED);
+		current = current->next;
+	}
+	print_thread_list(st);
+	return (SUCCESS);
+}
+
+int				setup_all(t_storage **st, int argv, char ***argc)
 {
 	char		**array_1;
 	int			*array_2;
@@ -82,7 +114,8 @@ int		setup_all(t_storage **st, int argv, char ***argc)
 		return (CALL_FAILED);
 	}
 	if (setup_champions(st, &array_1, &array_2) != SUCCESS
-		|| setup_grid(st) != SUCCESS)
+		|| setup_grid(st) != SUCCESS
+		|| setup_thread(st) != SUCCESS)
 	{
 		free_tab_char(&array_1);
 		free_tab_int(&array_2);

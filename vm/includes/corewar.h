@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 17:45:12 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:09:27 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ typedef struct			s_champion
 {
 	int					number;
 	int					size;
-	int					last_live;
 	char				*name;
 	char				*desc;
 	struct s_byte		*first_byte;
@@ -131,6 +130,8 @@ typedef struct			s_champion
 typedef struct			s_storage
 {
 	int					cycle;
+	int					nb_live_current;
+	int					nb_champ_last_live;
 	int					*args;
 	int					**grid;
 	struct s_thread		*first_thread;
@@ -292,8 +293,9 @@ int						instr_zjmp(t_storage **st, t_thread **th);
 /*
 ** ------------------------	key_functions				------------------------
 */
-int						cycle_to_die(t_storage **st, int nb_cycles);
+int						process_battle(t_storage **st, int nb_cycles);
 int						intro_champions(t_storage **st);
+int				announce_winner(t_storage **st);
 int						get_args(t_storage **st, int nb_lines, char ***tab);
 int						read_in_grid(int ***grid, int where, int nb);
 int						write_in_grid(int ***grid, long value, int where,
@@ -328,6 +330,7 @@ int						free_storage(t_storage **st);
 */
 int						add_thread(t_storage **st);
 int						free_thread_list(t_storage **st);
+int						delete_thread(t_storage **st, t_thread **th);
 
 /*
 ** ------------------------	structs_check				------------------------
@@ -353,6 +356,7 @@ int						print_thread_list(t_storage **st);
 int						setup_all(t_storage **st, int argv, char ***argc);
 int						setup_champions(t_storage **st, char ***t_p, int **t_n);
 int						setup_grid(t_storage **st);
+int		setup_thread(t_storage **st);
 
 /*
 ** ------------------------	tempo_utility				------------------------

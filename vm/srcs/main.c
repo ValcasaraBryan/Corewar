@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 16:49:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:12:02 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int			main(int argv, char **argc)
 	*/
 	if (setup_all(&st, argv, &argc) != SUCCESS
 		|| intro_champions(&st) != SUCCESS
-		|| cycle_to_die(&st, st->args[0]) != SUCCESS)
+		|| process_battle(&st, st->args[0]) != SUCCESS)
 	{
 		free_storage(&st);
 		printf("Erreur\n");

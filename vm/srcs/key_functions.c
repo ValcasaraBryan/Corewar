@@ -6,39 +6,68 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 18:55:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:38:14 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int				cycle_to_die(t_storage **st, int nb_cycles)
+int				process_battle(t_storage **st, int nb_cycles)
 {
 	t_thread	*current;
+	t_thread	*next;
 	int			i;
+	int			j;
+	int			var_cycle_to_die;
 
-	i = -1;
-	current = (*st)->first_thread;
-	while (current != NULL)
+	i = 0;
+	j = 0;
+	var_cycle_to_die = CYCLE_TO_DIE;
+	while (i != -1 && ++i != nb_cycles)
 	{
-		if (thread_change_where(&current, &((*st)->grid), current->where) < SUCCESS)
-			return (CALL_FAILED);
-		current = current->next;
-	}
-
-	while (++i < nb_cycles)
-	{
+		if (i % var_cycle_to_die == 0)
+		{
+			printf("i = %d\n", i);
+			current = (*st)->first_thread;
+			while (current != NULL)
+			{
+				if (current->live == 1)
+				{
+					current->live = 0;
+					current = current->next;
+				}
+				else
+				{
+					next = current->next;
+					if (delete_thread(st, &current) != SUCCESS)
+						return (CALL_FAILED);
+					current = next;
+				}
+			}
+			nb_cycles = nb_cycles - var_cycle_to_die;
+			i = 0;
+			if ((*st)->nb_live_current >= NBR_LIVE || j >= MAX_CHECKS)
+			{
+				j = 0;
+				var_cycle_to_die = var_cycle_to_die - CYCLE_DELTA;
+			}
+			else
+				j++;
+		}
 		current = (*st)->first_thread;
+		if (current == NULL)
+			i = -1;
 		while (current != NULL)
 		{
 			if (thread_change_cycle(&current, st, 1) < SUCCESS)
 				return (CALL_FAILED);
 			current = current->next;
 		}
-		/*if (i == 25)
-			print_storage(st);*/
 	}
-	print_dump(st);
+	if (i != -1 && (*st)->args[0] != -1)
+		print_dump(st);
+	else
+		announce_winner(st);
 	return (SUCCESS);
 }
 
@@ -63,6 +92,31 @@ int				intro_champions(t_storage **st)
 		ft_putstr("\" (\"");
 		ft_putstr(current->desc);
 		ft_putstr("\") !\n");
+		current = current->next;
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int				announce_winner(t_storage **st)
+{
+	t_champion	*current;
+	int			i;
+
+	if (storage_check(st, 0) != VALID_FULL)
+		return (BAD_PARAM);
+	current = (*st)->first_champion;
+	i = 1;
+	while (current != NULL)
+	{
+		if (current->number == (*st)->nb_champ_last_live)
+		{
+			ft_putstr("Contestant ");
+			ft_putnbr(i);
+			ft_putstr(", \"");
+			ft_putstr(current->name);
+			ft_putstr("\", has won !\n");
+		}
 		current = current->next;
 		i++;
 	}

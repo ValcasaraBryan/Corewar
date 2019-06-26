@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 15:39:24 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 15:41:25 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static t_storage	*create_storage(void)
 	storage->args[10] = 0;
 	storage->args[11] = 0;
 	storage->cycle = 0;
+	storage->nb_live_current = 0;
+	storage->nb_champ_last_live = 0;
 	storage->grid = NULL;
 	storage->first_champion = NULL;
 	storage->last_champion = NULL;
