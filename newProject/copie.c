@@ -320,21 +320,21 @@ int init_window(t_win *win)
 
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage); //now you can convert it into a texture
 
-	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = 0;  //controls the rect's x coordinate 
-	Message_rect.y = 0; // controls the rect's y coordinte
-	Message_rect.w = 15; // controls the width of the rect
-	Message_rect.h = 15; // controls the height of the rect
+	// SDL_Rect Message_rect; //create a rect
+	// Message_rect.x = 0;  //controls the rect's x coordinate 
+	// Message_rect.y = 0; // controls the rect's y coordinte
+	// Message_rect.w = 15; // controls the width of the rect
+	// Message_rect.h = 15; // controls the height of the rect
 	
-	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
+	// SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
 
-	Message_rect.x = 0;  //controls the rect's x coordinate 
-	Message_rect.y = 200; // controls the rect's y coordinte
-	Message_rect.w = 15; // controls the width of the rect
-	Message_rect.h = 15; // controls the height of the rect
+	// Message_rect.x = 0;  //controls the rect's x coordinate 
+	// Message_rect.y = 200; // controls the rect's y coordinte
+	// Message_rect.w = 15; // controls the width of the rect
+	// Message_rect.h = 15; // controls the height of the rect
 
-	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
-	SDL_RenderClear(win->renderer);
+	// SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
+	// SDL_RenderClear(win->renderer);
 	//
 	//SDL_RenderPresent(renderer);
 
