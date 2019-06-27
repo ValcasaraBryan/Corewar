@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 15:13:42 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 16:20:41 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2333,15 +2333,15 @@ static int		ut_thread_34(void)
 static int		ut_thread_35(void)
 {
 	/*
-	** thread_change_value_reg avec valeurs impossibles (-1 / 16)
+	** thread_change_value_reg avec valeurs impossibles (0 / 17)
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_change_value_reg(&(st->last_thread), -1, 1);
-	result += thread_change_value_reg(&(st->last_thread), 16, 1);
+	result = thread_change_value_reg(&(st->last_thread), 0, 1);
+	result += thread_change_value_reg(&(st->last_thread), 17, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM + BAD_PARAM);
 }
@@ -2393,15 +2393,15 @@ static int		ut_thread_38(void)
 static int		ut_thread_39(void)
 {
 	/*
-	** thread_get_value_reg avec valeurs impossibles (-1 / 16)
+	** thread_get_value_reg avec valeurs impossibles (0 / 17)
 	*/
 	t_storage	*st;
 	int			result;
 
 	add_storage(&st);
 	add_thread(&st);
-	result = thread_get_value_reg(&(st->last_thread), -1);
-	result += thread_get_value_reg(&(st->last_thread), 16);
+	result = thread_get_value_reg(&(st->last_thread), 0);
+	result += thread_get_value_reg(&(st->last_thread), 17);
 	free_storage(&st);
 	return (result == BAD_PARAM + BAD_PARAM);
 }
@@ -2752,7 +2752,6 @@ void			all_ut(void)
 	ut_key_functions();
 	ut_storage();
 	ut_struct_check();
-	if (UT_PRINT >= 3)
 		ut_struct_print();
 	ut_struct_setup();
 	ut_thread();

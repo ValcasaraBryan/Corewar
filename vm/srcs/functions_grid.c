@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:55:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/12 11:24:40 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 16:04:52 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		grid_fill_with_champ(int ***grid, t_champion **ch, int nb, int total)
 	t_byte		*current;
 	int			where;
 
+	print_function_state("grid_fill_with_champ", "START");
 	if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS
 		|| champion_check(ch) != VALID_FULL || grid_check(grid) != VALID_FULL)
 		return (BAD_PARAM);
@@ -29,5 +30,6 @@ int		grid_fill_with_champ(int ***grid, t_champion **ch, int nb, int total)
 		where++;
 		current = current->next;
 	}
+	print_function_state("grid_fill_with_champ", "END");
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 17:39:51 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:09:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		setup_champions(t_storage **st, char ***t_p, int **t_n)
 {
 	int			i;
 
+	print_function_state("setup_champions", "START");
 	if (storage_check(st, 0) != VALID_EMPTY
 		|| t_p == NULL || t_n == NULL || (*t_p) == NULL || (*t_n) == NULL)
 		return (BAD_PARAM);
@@ -31,6 +32,7 @@ int		setup_champions(t_storage **st, char ***t_p, int **t_n)
 			return (CALL_FAILED);
 		(*st)->nb_champ_last_live = (*st)->last_champion->number;
 	}
+	print_function_state("setup_champions", "END");
 	return (SUCCESS);
 }
 
@@ -40,6 +42,7 @@ int		setup_grid(t_storage **st)
 	int			nb;
 	int			total;
 
+	print_function_state("setup_grid", "START");
 	if (storage_check(st, 0) != VALID_FULL
 		|| storage_check(st, 1) != VALID_EMPTY)
 		return (BAD_PARAM);
@@ -59,6 +62,7 @@ int		setup_grid(t_storage **st)
 			return (CALL_FAILED);
 		curr = curr->next;
 	}
+	print_function_state("setup_grid", "END");
 	return (SUCCESS);
 }
 
@@ -70,17 +74,18 @@ int		setup_thread(t_storage **st)
 	int			nb;
 	int			where;
 
+	print_function_state("setup_thread", "START");
 	if (storage_check(st, 0) != VALID_FULL
 		|| storage_check(st, 2) != VALID_FULL)
 		return (BAD_PARAM);
 	total = 0;
 	curr = (*st)->first_champion;
 	while (curr != NULL && ++total != -1)
-	{
 		curr = curr->next;
-	}
 	nb = 0;
 	current = (*st)->first_thread;
+	if (total == 0)
+		return (FAILURE);
 	while (current != NULL && ++nb != -1)
 	{
 		if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS)
@@ -90,7 +95,7 @@ int		setup_thread(t_storage **st)
 			return (CALL_FAILED);
 		current = current->next;
 	}
-	print_thread_list(st);
+	print_function_state("setup_thread", "END");
 	return (SUCCESS);
 }
 
@@ -99,6 +104,7 @@ int				setup_all(t_storage **st, int argv, char ***argc)
 	char		**array_1;
 	int			*array_2;
 
+	print_function_state("setup_all", "START");
 	if (argc == NULL || *argc == NULL || argv <= 0)
 		return (BAD_PARAM);
 	array_1 = NULL;
@@ -123,5 +129,6 @@ int				setup_all(t_storage **st, int argv, char ***argc)
 	}
 	free_tab_char(&array_1);
 	free_tab_int(&array_2);
+	print_function_state("setup_all", "END");
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 15:13:03 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:09:18 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		print_byte_list(t_champion **ch)
 {
 	t_byte		*current;
 
+	print_function_state("print_byte_list", "START");
 	if (champion_check(ch) < VALID_EMPTY)
 		return (BAD_PARAM);
 	ft_putstr("		-------------\n		BYTE LIST\n		");
@@ -27,6 +28,7 @@ int		print_byte_list(t_champion **ch)
 		current = current->next;
 	}
 	ft_putstr("\n		-------------\n");
+	print_function_state("print_byte_list", "END");
 	return (SUCCESS);
 }
 
@@ -34,6 +36,7 @@ int		print_champion_list(t_storage **st)
 {
 	t_champion	*current;
 
+	print_function_state("print_champion_list", "START");
 	if (storage_check(st, 0) < VALID_EMPTY)
 		return (BAD_PARAM);
 	ft_putstr("	-------------\n	CHAMPION LIST\n");
@@ -53,6 +56,7 @@ int		print_champion_list(t_storage **st)
 		current = current->next;
 	}
 	ft_putstr("	-------------\n");
+	print_function_state("print_champion_list", "END");
 	return (SUCCESS);
 }
 
@@ -61,24 +65,27 @@ int		print_grid(t_storage **st)
 	int			i;
 	int			j;
 
+	print_function_state("print_grid", "START");
 	i = -1;
-	if (storage_check(st, 1) < VALID_FULL)
+	if (storage_check(st, 1) != VALID_FULL)
 		return (BAD_PARAM);
-	while (((*st)->grid)[++i] != 0)
+	while (++i < GRID_SIZE)
 	{
 		j = -1;
-		while (((*st)->grid)[i][++j] != -1)
+		while (++j < GRID_SIZE)
 		{
 			print_nb_hexa(((*st)->grid)[i][j]);
 			ft_putchar(' ');
 		}
 		ft_putchar('\n');
 	}
+	print_function_state("print_grid", "END");
 	return (SUCCESS);
 }
 
 int		print_storage(t_storage **st)
 {
+	print_function_state("print_storage", "START");
 	if (storage_check(st, 0) < VALID_EMPTY)
 		return (BAD_PARAM);
 	ft_putstr("-------------\nSTORAGE\n");
@@ -86,6 +93,7 @@ int		print_storage(t_storage **st)
 	print_thread_list(st);
 	print_grid(st);
 	ft_putstr("-------------\n");
+	print_function_state("print_storage", "END");
 	return (SUCCESS);
 }
 
@@ -93,6 +101,7 @@ int		print_thread_list(t_storage **st)
 {
 	t_thread	*c;
 
+	print_function_state("print_thread_list", "START");
 	if (storage_check(st, 2) < VALID_EMPTY)
 		return (BAD_PARAM);
 	ft_putstr("	-------------\n	THREAD LIST\n");
@@ -142,5 +151,17 @@ int		print_thread_list(t_storage **st)
 		c = c->next;
 	}
 	ft_putstr("	-------------\n");
+	print_function_state("print_thread_list", "END");
 	return (SUCCESS);
+}
+
+void	print_function_state(char *name, char *msg)
+{
+	if (UT_PRINT >= 1)
+	{
+		ft_putstr(name);
+		ft_putchar(' ');
+		ft_putstr(msg);
+		ft_putchar('\n');
+	}
 }

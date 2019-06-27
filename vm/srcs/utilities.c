@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 15:56:14 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 17:45:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:10:14 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		convert_to_binary(char **res, int nb)
 {
 	int		i;
 
+	print_function_state("convert_to_binary", "START");
 	if (res == NULL || nb < 0 || nb > 255)
 		return (BAD_PARAM);
 	*res = NULL;
@@ -47,6 +48,7 @@ int		convert_to_binary(char **res, int nb)
 		(*res)[--i] = nb % 2 + 48;
 		nb = nb / 2;
 	}
+	print_function_state("convert_to_binary", "END");
 	return (SUCCESS);
 }
 
@@ -55,6 +57,7 @@ int		decrypt_op_code(int **tab, int nb)
 	char	*res;
 	int		i;
 
+	print_function_state("decrypt_op_code", "START");
 	if (tab == NULL || nb < 0 || nb > 255)
 		return (BAD_PARAM);
 	*tab = NULL;
@@ -74,6 +77,7 @@ int		decrypt_op_code(int **tab, int nb)
 			? IND_CODE : (*tab)[i];
 	}
 	free(res);
+	print_function_state("decrypt_op_code", "END");
 	return (SUCCESS);
 }
 
@@ -96,7 +100,7 @@ void	print_nb_hexa(int nb)
 	{
 		mod = nb % 16;
 		res[--size_max] = mod > 9 ? mod + 87 : mod + 48;
-		nb /= 16;
+		nb = nb / 16;
 	}
 	while (res[++i])
 		ft_putchar(res[i]);
@@ -107,20 +111,22 @@ int		print_dump(t_storage **st)
 	int			i;
 	int			j;
 
+	print_function_state("print_dump", "START");
 	i = -1;
 	if (storage_check(st, 1) < VALID_FULL)
 		return (BAD_PARAM);
-	while (((*st)->grid)[++i] != 0)
+	while (++i < GRID_SIZE)
 	{
 		j = -1;
 		ft_putstr(g_tab_dump[i]);
-		while (((*st)->grid)[i][++j] != -1)
+		while (++j < GRID_SIZE)
 		{
 			print_nb_hexa(((*st)->grid)[i][j]);
 			ft_putchar(' ');
 		}
 		ft_putchar('\n');
 	}
+	print_function_state("print_dump", "END");
 	return (SUCCESS);
 }
 
@@ -128,19 +134,23 @@ int		get_size_int(int code, int size_dir)
 {
 	int		res;
 
+	print_function_state("get_size_int", "START");
 	res = 0;
 	res = code == DIR_CODE ? size_dir : res;
 	res = code == IND_CODE ? 2 : res;
 	res = code == REG_CODE ? 1 : res;
+	print_function_state("get_size_int", "END");
 	return (res);
 }
 
 int		failed_action_move(t_storage **st, t_thread **th, int nb_move)
 {
+	print_function_state("failed_action_move", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL
 		|| (nb_move != 1 && nb_move != 2))
 		return (BAD_PARAM);
 	if (thread_change_where(th, &(*st)->grid, (*th)->where + nb_move) != SUCCESS)
 		return (CALL_FAILED);
+	print_function_state("failed_action_move", "END");
 	return (SUCCESS);
 }

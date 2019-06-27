@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 16:37:08 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 14:08:14 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static t_champion	*create_champion(t_storage **st)
 	int			result;
 	int			i;
 
+	print_function_state("create_champion", "START");
 	i = -1;
 	if ((result = storage_check(st, 0)) < VALID_EMPTY)
 		return (NULL);
@@ -31,6 +32,7 @@ static t_champion	*create_champion(t_storage **st)
 	champion->last_byte = NULL;
 	champion->prec = (*st)->last_champion;
 	champion->next = NULL;
+	print_function_state("create_champion", "END");
 	return (champion);
 }
 
@@ -38,6 +40,7 @@ static int			free_champion(t_champion **ch)
 {
 	int			result;
 
+	print_function_state("free_champion", "START");
 	if ((result = champion_check(ch)) < VALID_EMPTY)
 		return (BAD_PARAM);
 	if (result == VALID_FULL)
@@ -49,6 +52,7 @@ static int			free_champion(t_champion **ch)
 		free((*ch)->desc);
 	(*ch)->desc = NULL;
 	free((*ch));
+	print_function_state("free_champion", "END");
 	return (SUCCESS);
 }
 
@@ -57,6 +61,7 @@ int					add_champion(t_storage **st)
 	t_champion	*champion;
 	int			result;
 
+	print_function_state("add_champion", "START");
 	if ((result = storage_check(st, 0)) < VALID_EMPTY)
 		return (BAD_PARAM);
 	if ((champion = create_champion(st)) == NULL)
@@ -66,6 +71,7 @@ int					add_champion(t_storage **st)
 	else
 		(*st)->first_champion = champion;
 	(*st)->last_champion = champion;
+	print_function_state("add_champion", "END");
 	return (SUCCESS);
 }
 
@@ -74,6 +80,7 @@ int					free_champion_list(t_storage **st)
 	t_champion	*current;
 	t_champion	*next;
 
+	print_function_state("free_champion_list", "START");
 	if (storage_check(st, 0) < VALID_EMPTY)
 		return (BAD_PARAM);
 	current = (*st)->first_champion;
@@ -86,5 +93,6 @@ int					free_champion_list(t_storage **st)
 	free(current);
 	(*st)->first_champion = NULL;
 	(*st)->last_champion = NULL;
+	print_function_state("free_champion_list", "END");
 	return (SUCCESS);
 }

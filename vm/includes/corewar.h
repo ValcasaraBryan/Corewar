@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 17:09:27 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:00:58 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,10 +191,6 @@ int						grid_fill_with_champ(int ***grid, t_champion **ch,
 	int nb, int total);
 
 /*
-** ------------------------	functions_storage			------------------------
-*/
-
-/*
 ** ------------------------	functions_thread			------------------------
 */
 int						thread_change_action(t_thread **th, int new_action);
@@ -349,6 +345,7 @@ int						print_champion_list(t_storage **st);
 int						print_grid(t_storage **st);
 int						print_storage(t_storage **st);
 int						print_thread_list(t_storage **st);
+void	print_function_state(char *name, char *msg);
 
 /*
 ** ------------------------	structs_setup				------------------------
