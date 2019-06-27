@@ -6,17 +6,37 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:07 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/21 17:37:33 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:09:23 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		instr_live(int a, int b, int c)
+int		instr_live(t_storage **st, t_thread **th)
 {
-	(void)b;
-	(void)c;
-	if (a > -1)
-		return (1);
-	return (0);
+	t_champion	*current;
+	int			value;
+
+	if (UT_PRINT >= 1)
+		ft_putstr("instr_live\n");
+	if (thread_check(th) < VALID_EMPTY
+		|| storage_check(st, 0) != VALID_FULL
+		|| storage_check(st, 1) != VALID_FULL)
+		return (failed_action_move(st, th, 1));
+	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 4);
+	(*th)->live = 1;
+	(*st)->nb_live_current += 1;
+	current = (*st)->first_champion;
+	while (current != NULL)
+	{
+		if (current->number == value)
+		{
+			(*st)->nb_champ_last_live = current->number;
+			printf("live = %d\n", current->number);
+		}
+		current = current->next;
+	}
+	if (thread_change_where(th, &(*st)->grid, (*th)->where + 1 + 4) != SUCCESS)
+		return (failed_action_move(st, th, 1));
+	return (SUCCESS);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   champion_functions.c                               :+:      :+:    :+:   */
+/*   functions_champion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:18:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/22 15:39:20 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:36:28 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,38 @@
 
 int		champion_change_desc(t_champion **ch, char *new_desc)
 {
-	int		result;
-
-	result = check_champion_byte(ch);
-	if (result >= 0)
+	if (champion_check(ch) < VALID_EMPTY || new_desc == NULL)
+		return (BAD_PARAM);
+	if ((*ch)->desc != NULL)
 	{
-		if ((*ch)->desc != NULL)
-		{
-			free((*ch)->desc);
-			(*ch)->desc = NULL;
-		}
-		(*ch)->desc = ft_strdup(new_desc);
-		if ((*ch)->desc != NULL)
-			return (1);
+		free((*ch)->desc);
+		(*ch)->desc = NULL;
 	}
-	return (0);
+	(*ch)->desc = ft_strdup(new_desc);
+	if ((*ch)->desc == NULL)
+		return (CALL_FAILED);
+	return (SUCCESS);
 }
 
 int		champion_change_name(t_champion **ch, char *new_name)
 {
-	int		result;
-
-	result = check_champion_byte(ch);
-	if (result >= 0)
+	if (champion_check(ch) < VALID_EMPTY || new_name == NULL)
+		return (BAD_PARAM);
+	if ((*ch)->name != NULL)
 	{
-		if ((*ch)->name != NULL)
-		{
-			free((*ch)->name);
-			(*ch)->name = NULL;
-		}
-		(*ch)->name = ft_strdup(new_name);
-		if ((*ch)->name != NULL)
-			return (1);
+		free((*ch)->name);
+		(*ch)->name = NULL;
 	}
-	return (0);
+	(*ch)->name = ft_strdup(new_name);
+	if ((*ch)->name == NULL)
+		return (CALL_FAILED);
+	return (SUCCESS);
 }
 
-int		champion_change_number(t_champion **ch, int new_nb)
+int		champion_change_size(t_champion **ch, int new_size)
 {
-	int		result;
-
-	result = check_champion_byte(ch);
-	if (result >= 0)
-	{
-		(*ch)->number = new_nb;
-		if ((*ch)->number > 0 && (*ch)->number <= 4)
-			return (1);
-	}
-	return (0);
+	if (champion_check(ch) < VALID_EMPTY || new_size <= 0)
+		return (BAD_PARAM);
+	(*ch)->size = new_size;
+	return (SUCCESS);
 }

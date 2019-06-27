@@ -15,6 +15,8 @@ Check leaks :
 
 while; do leaks corewar; sleep 1; clear; done;
 
+valgrind --leak-check=full --show-leak-kinds=all -v ./corewar
+
 
 Norminette :
 
@@ -58,3 +60,8 @@ SHRT_MIN	-32768	8000
 			-2		FFFE
 			-1		FFFF
 			0		0000
+
+------------------------
+
+Lire fichier .cor dans vim
+:%!xxd

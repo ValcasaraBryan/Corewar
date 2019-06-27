@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/05/23 14:26:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:37:08 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,40 @@ static t_champion	*create_champion(t_storage **st)
 {
 	t_champion	*champion;
 	int			result;
+	int			i;
 
-	result = check_storage_champion(st);
-	if (result >= 0)
-	{
-		if (!(champion = malloc(sizeof(*champion))))
-			return (NULL);
-		champion->number = 1;
-		champion->name = NULL;
-		champion->desc = NULL;
-		champion->first_byte = NULL;
-		champion->last_byte = NULL;
-		champion->prec = (*st)->last_champion;
-		champion->next = NULL;
-		return (champion);
-	}
-	return (NULL);
+	i = -1;
+	if ((result = storage_check(st, 0)) < VALID_EMPTY)
+		return (NULL);
+	if (!(champion = malloc(sizeof(*champion))))
+		return (NULL);
+	champion->number = 1;
+	champion->name = NULL;
+	champion->size = 24;
+	champion->desc = NULL;
+	champion->first_byte = NULL;
+	champion->last_byte = NULL;
+	champion->prec = (*st)->last_champion;
+	champion->next = NULL;
+	return (champion);
+}
+
+static int			free_champion(t_champion **ch)
+{
+	int			result;
+
+	if ((result = champion_check(ch)) < VALID_EMPTY)
+		return (BAD_PARAM);
+	if (result == VALID_FULL)
+		free_byte_list(ch);
+	if ((*ch)->name != NULL)
+		free((*ch)->name);
+	(*ch)->name = NULL;
+	if ((*ch)->desc != NULL)
+		free((*ch)->desc);
+	(*ch)->desc = NULL;
+	free((*ch));
+	return (SUCCESS);
 }
 
 int					add_champion(t_storage **st)
@@ -39,79 +57,34 @@ int					add_champion(t_storage **st)
 	t_champion	*champion;
 	int			result;
 
-	champion = create_champion(st);
-	if (champion != NULL)
-	{
-		result = check_storage_champion(st);
-		if (result >= 0)
-		{
-			if (result == 1)
-				(*st)->last_champion->next = champion;
-			else
-				(*st)->first_champion = champion;
-			(*st)->last_champion = champion;
-			return (1);
-		}
-		free(champion);
-		return (0);
-	}
-	return (-1);
+	if ((result = storage_check(st, 0)) < VALID_EMPTY)
+		return (BAD_PARAM);
+	if ((champion = create_champion(st)) == NULL)
+		return (CALL_FAILED);
+	if (result == VALID_FULL)
+		(*st)->last_champion->next = champion;
+	else
+		(*st)->first_champion = champion;
+	(*st)->last_champion = champion;
+	return (SUCCESS);
 }
 
-int					check_champion_byte(t_champion **ch)
-{
-	if (ch != NULL && *ch != NULL)
-	{
-		if ((*ch)->first_byte != NULL && (*ch)->last_byte != NULL)
-			return (1);
-		return (0);
-	}
-	return (-1);
-}
-
-void				free_champion_list(t_storage **st)
+int					free_champion_list(t_storage **st)
 {
 	t_champion	*current;
 	t_champion	*next;
 
+	if (storage_check(st, 0) < VALID_EMPTY)
+		return (BAD_PARAM);
 	current = (*st)->first_champion;
 	while (current != NULL)
 	{
 		next = current->next;
-		if (check_champion_byte(&current) == 1)
-			free_byte_list(&current);
-		if (current->name != NULL)
-			free(current->name);
-		current->name = NULL;
-		if (current->desc != NULL)
-			free(current->desc);
-		current->desc = NULL;
-		free(current);
+		free_champion(&current);
 		current = next;
 	}
 	free(current);
 	(*st)->first_champion = NULL;
 	(*st)->last_champion = NULL;
-}
-
-void				print_champion_list(t_storage **st)
-{
-	t_champion	*current;
-
-	if (check_storage_champion(st) >= 0)
-	{
-		ft_putstr("	-------------\n");
-		ft_putstr("	CHAMPION LIST\n");
-		current = (*st)->first_champion;
-		while (current != NULL)
-		{
-			printf("	-------------\n");
-			printf("	number : %d\n", current->number);
-			printf("	name   : %s\n", current->name != NULL ? current->name : "");
-			printf("	desc   : %s\n", current->desc != NULL ? current->desc : "");
-			print_byte_list(&current);
-			current = current->next;
-		}
-		printf("	-------------\n");
-	}
+	return (SUCCESS);
 }

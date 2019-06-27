@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/22 18:19:12 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/06/19 17:40:54 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,17 @@ DIR_INCL =		./includes
 DIR_LIBFT =		./libft
 DIR_OBJS =		./objs
 DIR_SRCS =		./srcs
-FLAGS_COMP =	-Wall -Wextra -Werror
+FLAGS_COMP =	-g -Wall -Wextra -Werror
 FLAGS_INCL =	-I $(DIR_INCL)
 FLAGS_LIBFT =	-L $(DIR_LIBFT) -lft
 FILES_HEADER =	corewar.h
-FILES_SRCS =	functions_byte.c		\
+FILES_SRCS =	bin_extractor.c			\
+				functions_byte.c		\
 				functions_champion.c	\
+				functions_get_args.c	\
 				functions_grid.c		\
+				functions_storage.c		\
+				functions_thread.c		\
 				instr_add.c				\
 				instr_aff.c				\
 				instr_and.c				\
@@ -34,6 +38,7 @@ FILES_SRCS =	functions_byte.c		\
 				instr_live.c			\
 				instr_lld.c				\
 				instr_lldi.c			\
+				instr_move.c			\
 				instr_or.c				\
 				instr_st.c				\
 				instr_sti.c				\
@@ -47,6 +52,11 @@ FILES_SRCS =	functions_byte.c		\
 				manage_grid.c			\
 				manage_storage.c		\
 				manage_thread.c			\
+				structs_check.c			\
+				structs_print.c			\
+				structs_setup.c			\
+				tempo_utility.c			\
+				unit_tests_instr.c		\
 				unit_tests.c			\
 				utilities.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
@@ -83,4 +93,12 @@ fclean :
 
 re : fclean all
 
-.PHONY: clean fclean re all libft
+normec :
+	@$(MAKE) -C $(DIR_LIBFT)/ normec
+	@norminette -R CheckForbiddenSourceHeader $(SRCS)
+
+normeh :
+	@$(MAKE) -C $(DIR_LIBFT)/ normeh
+	@norminette -R CheckForbiddenSourceHeader $(HEADERS)
+
+.PHONY: all clean fclean re libft normec normeh

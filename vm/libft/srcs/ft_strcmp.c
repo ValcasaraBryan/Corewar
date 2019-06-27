@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_byte.c                                   :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/22 16:18:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 17:10:59 by jdurand-         ###   ########.fr       */
+/*   Created: 2018/04/05 17:31:24 by jdurand-          #+#    #+#             */
+/*   Updated: 2018/04/09 10:29:48 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <corewar.h>
-
-int		byte_change_value(t_byte **bt, int new_value)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	if (byte_check(bt) != VALID_FULL || new_value < 0 || new_value > 255)
-		return (BAD_PARAM);
-	(*bt)->value = new_value;
-	return (SUCCESS);
+	int		i;
+
+	i = 0;
+	while (s1[i])
+	{
+		if (((unsigned char*)s1)[i] != ((unsigned char*)s2)[i])
+			return (((unsigned char*)s1)[i] - ((unsigned char*)s2)[i]);
+		i++;
+	}
+	return (((unsigned char*)s1)[i] - ((unsigned char*)s2)[i]);
 }

@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 16:18:24 by jdurand-          #+#    #+#              #
-#    Updated: 2019/05/22 15:30:50 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/06/19 17:34:52 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,14 @@ DIR_SRCS =		./srcs
 FLAGS_COMP =	-Wall -Wextra -Werror
 FLAGS_INCL =	-I $(DIR_INCL)
 FILES_HEADER =	libft.h
-FILES_SRCS =	ft_atoi.c		\
-				ft_putchar.c	\
-				ft_putnbr.c		\
-				ft_putstr.c		\
-				ft_strdup.c		\
-				ft_strlen.c		\
+FILES_SRCS =	ft_atoi.c			\
+				ft_putchar.c		\
+				ft_putnbr.c			\
+				ft_putstr.c			\
+				ft_putstr_fd.c		\
+				ft_strcmp.c			\
+				ft_strdup.c			\
+				ft_strlen.c			\
 				ft_strnew.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
 OBJS =			$(FILES_SRCS:%.c=$(DIR_OBJS)/%.o)
@@ -52,4 +54,10 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: clean fclean re all
+normec :
+	@norminette -R CheckForbiddenSourceHeader $(SRCS)
+
+normeh :
+	@norminette -R CheckForbiddenSourceHeader $(HEADERS)
+
+.PHONY: all clean fclean re normec normeh

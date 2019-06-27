@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_byte.c                                   :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/22 16:18:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 17:10:59 by jdurand-         ###   ########.fr       */
+/*   Created: 2018/04/07 14:09:27 by jdurand-          #+#    #+#             */
+/*   Updated: 2018/04/10 15:48:26 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <corewar.h>
+#include "libft.h"
 
-int		byte_change_value(t_byte **bt, int new_value)
+void	ft_putstr_fd(char const *s, int fd)
 {
-	if (byte_check(bt) != VALID_FULL || new_value < 0 || new_value > 255)
-		return (BAD_PARAM);
-	(*bt)->value = new_value;
-	return (SUCCESS);
+	write(fd, s, ft_strlen(s));
 }

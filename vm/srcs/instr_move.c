@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_byte.c                                   :+:      :+:    :+:   */
+/*   instr_move.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/22 16:18:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/10 17:10:59 by jdurand-         ###   ########.fr       */
+/*   Created: 2019/05/24 19:19:03 by jdurand-          #+#    #+#             */
+/*   Updated: 2019/06/21 10:28:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		byte_change_value(t_byte **bt, int new_value)
+int		instr_move(t_storage **st, t_thread **th)
 {
-	if (byte_check(bt) != VALID_FULL || new_value < 0 || new_value > 255)
+	if (UT_PRINT >= 1)
+		ft_putstr("instr_move\n");
+	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (BAD_PARAM);
-	(*bt)->value = new_value;
+	if (thread_change_where(th, &(*st)->grid, (*th)->where + 1) != SUCCESS)
+		return (CALL_FAILED);
 	return (SUCCESS);
 }
