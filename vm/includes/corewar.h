@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:00:58 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:37:54 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct			s_storage
 	int					nb_champ_last_live;
 	int					*args;
 	int					**grid;
+	int					**color_grid;
 	struct s_thread		*first_thread;
 	struct s_thread		*last_thread;
 	struct s_champion	*first_champion;
@@ -188,6 +189,9 @@ int						print_error(void);
 ** ------------------------	functions_grid				------------------------
 */
 int						grid_fill_with_champ(int ***grid, t_champion **ch,
+	int nb, int total);
+
+int						grid_fill_with_champ_color(int ***grid, t_champion **ch,
 	int nb, int total);
 
 /*
@@ -312,8 +316,8 @@ int						free_champion_list(t_storage **st);
 /*
 ** ------------------------	manage_grid					------------------------
 */
-int						add_grid(t_storage **st);
-int						free_grid(t_storage **st);
+int						add_grid(t_storage **st, int type);
+int						free_grid(t_storage **st, int type);
 
 /*
 ** ------------------------	manage_storage				------------------------
@@ -342,7 +346,7 @@ int						thread_check(t_thread **th);
 */
 int						print_byte_list(t_champion **ch);
 int						print_champion_list(t_storage **st);
-int						print_grid(t_storage **st);
+int						print_grid(t_storage **st, int type);
 int						print_storage(t_storage **st);
 int						print_thread_list(t_storage **st);
 void	print_function_state(char *name, char *msg);

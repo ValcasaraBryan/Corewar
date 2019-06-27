@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:09:55 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:40:00 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ int		setup_grid(t_storage **st)
 	total = 0;
 	curr = (*st)->first_champion;
 	while (curr != NULL && ++total != -1)
-	{
 		curr = curr->next;
-	}
-	if (add_grid(st) != SUCCESS)
+	if (add_grid(st, 1) != SUCCESS)
 		return (CALL_FAILED);
 	nb = 0;
 	curr = (*st)->first_champion;
@@ -63,6 +61,34 @@ int		setup_grid(t_storage **st)
 		curr = curr->next;
 	}
 	print_function_state("setup_grid", "END");
+	return (SUCCESS);
+}
+
+int		setup_color_grid(t_storage **st)
+{
+	t_champion	*curr;
+	int			nb;
+	int			total;
+
+	print_function_state("setup_color_grid", "START");
+	if (storage_check(st, 0) != VALID_FULL
+		|| storage_check(st, 3) != VALID_EMPTY)
+		return (BAD_PARAM);
+	total = 0;
+	curr = (*st)->first_champion;
+	while (curr != NULL && ++total != -1)
+		curr = curr->next;
+	if (add_grid(st, 3) != SUCCESS)
+		return (CALL_FAILED);
+	nb = 0;
+	curr = (*st)->first_champion;
+	while (curr != NULL && ++nb != -1)
+	{
+		if (grid_fill_with_champ_color(&((*st)->color_grid), &curr, nb, total) != SUCCESS)
+			return (CALL_FAILED);
+		curr = curr->next;
+	}
+	print_function_state("setup_color_grid", "END");
 	return (SUCCESS);
 }
 
@@ -121,6 +147,7 @@ int				setup_all(t_storage **st, int argv, char ***argc)
 	}
 	if (setup_champions(st, &array_1, &array_2) != SUCCESS
 		|| setup_grid(st) != SUCCESS
+		|| setup_color_grid(st) != SUCCESS
 		|| setup_thread(st) != SUCCESS)
 	{
 		free_tab_char(&array_1);
@@ -129,6 +156,7 @@ int				setup_all(t_storage **st, int argv, char ***argc)
 	}
 	free_tab_char(&array_1);
 	free_tab_int(&array_2);
+	print_storage(st);
 	print_function_state("setup_all", "END");
 	return (SUCCESS);
 }

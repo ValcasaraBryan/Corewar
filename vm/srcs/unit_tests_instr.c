@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:32:22 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/21 15:35:11 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:28:38 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int		ut_add_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_add(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -79,7 +79,7 @@ static int		ut_add_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_add(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -126,7 +126,7 @@ static int		ut_add_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -162,7 +162,7 @@ static int		ut_aff_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_aff(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -209,7 +209,7 @@ static int		ut_aff_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_aff(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -256,7 +256,7 @@ static int		ut_aff_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 64, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -287,7 +287,7 @@ static int		ut_and_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_and(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -334,7 +334,7 @@ static int		ut_and_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_and(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -382,7 +382,7 @@ static int		ut_and_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -408,7 +408,7 @@ static int		ut_and_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 164, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 4);
@@ -434,7 +434,7 @@ static int		ut_and_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 244, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 69, st->last_thread->where + 2, 2);
@@ -472,7 +472,7 @@ static int		ut_fork_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_fork(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -519,7 +519,7 @@ static int		ut_fork_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_fork(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -536,7 +536,7 @@ static int		ut_fork_06(void)
 
 	st2 = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_fork(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -566,7 +566,7 @@ static int		ut_fork_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 256, st->last_thread->where + 1, 2);
 	result = instr_fork(&st, &(st->last_thread));
@@ -596,7 +596,7 @@ static int		ut_ld_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_ld(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -643,7 +643,7 @@ static int		ut_ld_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_ld(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -660,7 +660,7 @@ static int		ut_ld_06(void)
 
 	st2 = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_ld(&st2, &(st->last_thread));
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -691,7 +691,7 @@ static int		ut_ld_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 144, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 4);
@@ -729,7 +729,7 @@ static int		ut_ld_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 208, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 40, st->last_thread->where + 2, 2);
@@ -780,7 +780,7 @@ static int		ut_ldi_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_ldi(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -827,7 +827,7 @@ static int		ut_ldi_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_ldi(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -875,7 +875,7 @@ static int		ut_ldi_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -913,7 +913,7 @@ static int		ut_ldi_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 164, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 2);
@@ -944,7 +944,7 @@ static int		ut_ldi_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 228, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 10, st->last_thread->where + 2, 2);
@@ -987,7 +987,7 @@ static int		ut_lfork_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_lfork(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1034,7 +1034,7 @@ static int		ut_lfork_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_lfork(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1081,7 +1081,7 @@ static int		ut_lfork_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 256, st->last_thread->where + 1, 2);
 	result = instr_lfork(&st, &(st->last_thread));
@@ -1111,7 +1111,7 @@ static int		ut_live_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_live(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1158,7 +1158,7 @@ static int		ut_live_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_live(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1205,7 +1205,7 @@ static int		ut_live_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	result = instr_live(&st, &(st->last_thread));
 	free_storage(&st);
@@ -1221,7 +1221,7 @@ static int		ut_live_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_champion(&st);
 	add_thread(&st);
 	result = instr_live(&st, &(st->last_thread));
@@ -1249,7 +1249,7 @@ static int		ut_lld_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_lld(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1296,7 +1296,7 @@ static int		ut_lld_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_lld(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1344,7 +1344,7 @@ static int		ut_lld_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 144, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 4);
@@ -1382,7 +1382,7 @@ static int		ut_lld_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 208, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 40, st->last_thread->where + 2, 2);
@@ -1433,7 +1433,7 @@ static int		ut_lldi_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_lldi(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1480,7 +1480,7 @@ static int		ut_lldi_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_lldi(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1528,7 +1528,7 @@ static int		ut_lldi_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -1566,7 +1566,7 @@ static int		ut_lldi_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 164, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 2);
@@ -1597,7 +1597,7 @@ static int		ut_lldi_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 228, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 10, st->last_thread->where + 2, 2);
@@ -1640,7 +1640,7 @@ static int		ut_move_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_move(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1687,7 +1687,7 @@ static int		ut_move_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_move(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1734,7 +1734,7 @@ static int		ut_move_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	result = instr_move(&st, &(st->last_thread));
 	free_storage(&st);
@@ -1761,7 +1761,7 @@ static int		ut_or_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_or(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1808,7 +1808,7 @@ static int		ut_or_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_or(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1856,7 +1856,7 @@ static int		ut_or_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -1882,7 +1882,7 @@ static int		ut_or_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 164, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 4);
@@ -1908,7 +1908,7 @@ static int		ut_or_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 244, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 69, st->last_thread->where + 2, 2);
@@ -1946,7 +1946,7 @@ static int		ut_st_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_st(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -1993,7 +1993,7 @@ static int		ut_st_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_st(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2041,7 +2041,7 @@ static int		ut_st_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 80, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -2076,7 +2076,7 @@ static int		ut_st_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 112, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -2117,7 +2117,7 @@ static int		ut_sti_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_sti(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2164,7 +2164,7 @@ static int		ut_sti_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_sti(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2212,7 +2212,7 @@ static int		ut_sti_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -2253,7 +2253,7 @@ static int		ut_sti_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 104, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -2286,7 +2286,7 @@ static int		ut_sti_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 120, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -2331,7 +2331,7 @@ static int		ut_sub_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_sub(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2378,7 +2378,7 @@ static int		ut_sub_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_sub(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2425,7 +2425,7 @@ static int		ut_sub_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -2461,7 +2461,7 @@ static int		ut_xor_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_xor(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2508,7 +2508,7 @@ static int		ut_xor_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_xor(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2556,7 +2556,7 @@ static int		ut_xor_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 84, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 1, st->last_thread->where + 2, 1);
@@ -2582,7 +2582,7 @@ static int		ut_xor_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 164, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), -1, st->last_thread->where + 2, 4);
@@ -2608,7 +2608,7 @@ static int		ut_xor_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	write_in_grid(&(st->grid), 244, st->last_thread->where + 1, 1);
 	write_in_grid(&(st->grid), 69, st->last_thread->where + 2, 2);
@@ -2646,7 +2646,7 @@ static int		ut_zjmp_02(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_zjmp(&st, NULL);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2693,7 +2693,7 @@ static int		ut_zjmp_05(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = instr_zjmp(&st, &th);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2740,7 +2740,7 @@ static int		ut_zjmp_08(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	st->last_thread->carry = 1;
 	write_in_grid(&(st->grid), 500, st->last_thread->where + 1, 2);

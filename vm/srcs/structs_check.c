@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 20:00:24 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:07:49 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:15:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,16 @@ int		thread_check(t_thread **th)
 int		storage_check(t_storage **st, int type)
 {
 	print_function_state("storage_check", "START");
-	if (st == NULL || *st == NULL || type < 0 || type > 2)
+	if (st == NULL || *st == NULL || type < 0 || type > 3)
 		return (BAD_PARAM);
 	if (type == 0)
 		return (((*st)->first_champion == NULL || (*st)->last_champion == NULL)
 			? VALID_EMPTY : VALID_FULL);
 	else if (type == 1)
 		return ((*st)->grid == NULL ? VALID_EMPTY : VALID_FULL);
-	else
+	else if (type == 2)
 		return (((*st)->first_thread == NULL || (*st)->last_thread == NULL)
 			? VALID_EMPTY : VALID_FULL);
+	else
+		return ((*st)->color_grid == NULL ? VALID_EMPTY : VALID_FULL);
 }

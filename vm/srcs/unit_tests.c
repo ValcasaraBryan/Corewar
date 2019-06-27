@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:57:10 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 16:20:41 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:39:36 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -572,7 +572,7 @@ static int		ut_grid_01(void)
 	*/
 	int			result;
 
-	result = add_grid(NULL);
+	result = add_grid(NULL, 1);
 	return (result == BAD_PARAM);
 }
 
@@ -585,7 +585,7 @@ static int		ut_grid_02(void)
 	int			result;
 
 	st = NULL;
-	result = add_grid(&st);
+	result = add_grid(&st, 1);
 	return (result == BAD_PARAM);
 }
 
@@ -598,7 +598,7 @@ static int		ut_grid_03(void)
 	int			result;
 
 	add_storage(&st);
-	result = add_grid(&st);
+	result = add_grid(&st, 1);
 	free_storage(&st);
 	return (result == SUCCESS);
 }
@@ -610,7 +610,7 @@ static int		ut_grid_04(void)
 	*/
 	int			result;
 
-	result = free_grid(NULL);
+	result = free_grid(NULL, 1);
 	return (result == BAD_PARAM);
 }
 
@@ -623,7 +623,7 @@ static int		ut_grid_05(void)
 	int			result;
 
 	add_storage(&st);
-	result = free_grid(&st);
+	result = free_grid(&st, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -637,8 +637,8 @@ static int		ut_grid_06(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
-	result = free_grid(&st);
+	add_grid(&st, 1);
+	result = free_grid(&st, 1);
 	free_storage(&st);
 	return (result == SUCCESS);
 }
@@ -686,7 +686,7 @@ static int		ut_grid_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = grid_fill_with_champ(&(st->grid), NULL, 1, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -703,7 +703,7 @@ static int		ut_grid_10(void)
 
 	ch = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = grid_fill_with_champ(&(st->grid), &ch, 1, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -719,7 +719,7 @@ static int		ut_grid_11(void)
 
 	add_storage(&st);
 	add_champion(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = grid_fill_with_champ(&(st->grid), &(st->last_champion), 1, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -734,7 +734,7 @@ static int		ut_grid_12(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_champion(&st);
 	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
@@ -754,7 +754,7 @@ static int		ut_grid_13(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_champion(&st);
 	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
@@ -780,7 +780,7 @@ static int		ut_grid_14(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_champion(&st);
 	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
@@ -812,7 +812,7 @@ static int		ut_grid_15(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_champion(&st);
 	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
@@ -850,7 +850,7 @@ static int		ut_grid_16(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_champion(&st);
 	st->last_champion->number = 1;
 	add_byte(&(st->last_champion));
@@ -897,7 +897,7 @@ static int		ut_key_functions_04(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = read_in_grid(&(st->grid), 0, 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -912,7 +912,7 @@ static int		ut_key_functions_05(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	write_in_grid(&(st->grid), 3, 0, 1);
 	write_in_grid(&(st->grid), 4, GRID_SIZE * GRID_SIZE - 1, 1);
 	result = read_in_grid(&(st->grid), 0, 1);
@@ -932,7 +932,7 @@ static int		ut_key_functions_06(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	write_in_grid(&(st->grid), -256, 0, 1);
 	write_in_grid(&(st->grid), 255, 1, 1);
 	write_in_grid(&(st->grid), -65536, 2, 2);
@@ -982,7 +982,7 @@ static int		ut_key_functions_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = write_in_grid(&(st->grid), 0, 0, 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -997,7 +997,7 @@ static int		ut_key_functions_12(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = write_in_grid(&(st->grid), 5, GRID_SIZE * GRID_SIZE - 1, 1);
 	result += read_in_grid(&(st->grid), GRID_SIZE * GRID_SIZE - 1, 1) == 5 ? 1 : 0;
 	result += write_in_grid(&(st->grid), 0, GRID_SIZE * GRID_SIZE - 1, 1);
@@ -1019,7 +1019,7 @@ static int		ut_key_functions_13(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = write_in_grid(&(st->grid), -256, 0, 1);
 	result += read_in_grid(&(st->grid), 0, 1) == 0 ? 1 : 0;
 	result += write_in_grid(&(st->grid), 255, 1, 1);
@@ -1225,7 +1225,7 @@ static int		ut_struct_check_10(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = grid_check(&(st->grid));
 	free_storage(&st);
 	return (result == VALID_FULL);
@@ -1307,7 +1307,7 @@ static int		ut_struct_check_16(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = storage_check(&st, 1);
 	free_storage(&st);
 	return (result == VALID_FULL);
@@ -1481,7 +1481,7 @@ static int		ut_struct_print_07(void)
 	*/
 	int			result;
 
-	result = print_grid(NULL);
+	result = print_grid(NULL, 1);
 	return (result == BAD_PARAM);
 }
 
@@ -1494,7 +1494,7 @@ static int		ut_struct_print_08(void)
 	int			result;
 
 	add_storage(&st);
-	result = print_grid(&st);
+	result = print_grid(&st, 1);
 	free_storage(&st);
 	return (result == BAD_PARAM);
 }
@@ -1508,8 +1508,8 @@ static int		ut_struct_print_09(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
-	result = print_grid(&st);
+	add_grid(&st, 1);
+	result = print_grid(&st, 1);
 	free_storage(&st);
 	return (result == SUCCESS);
 }
@@ -2010,7 +2010,7 @@ static int		ut_thread_12(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = thread_change_cycle(NULL, &st, 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2057,7 +2057,7 @@ static int		ut_thread_15(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = thread_change_cycle(&th, &st, 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2105,7 +2105,7 @@ static int		ut_thread_18(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	thread_change_action(&(st->last_thread), 2);
 	result = thread_change_cycle(&(st->last_thread), &st, 1);
 	result += st->last_thread->cycle == 1 ? 1 : 0;
@@ -2125,7 +2125,7 @@ static int		ut_thread_19(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	thread_change_action(&(st->last_thread), 2);
 	result = thread_change_cycle(&(st->last_thread), &st, 1);
 	result += st->last_thread->cycle == 1 ? 1 : 0;
@@ -2147,7 +2147,7 @@ static int		ut_thread_20(void)
 
 	add_storage(&st);
 	add_thread(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	thread_change_action(&(st->last_thread), 2);
 	thread_change_cycle(&(st->last_thread), &st, 0);
 	thread_change_cycle(&(st->last_thread), &st, 1);
@@ -2180,7 +2180,7 @@ static int		ut_thread_25(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = thread_change_where(NULL, &(st->grid), 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2227,7 +2227,7 @@ static int		ut_thread_28(void)
 
 	th = NULL;
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	result = thread_change_where(&th, &(st->grid), 0);
 	free_storage(&st);
 	return (result == BAD_PARAM);
@@ -2259,7 +2259,7 @@ static int		ut_thread_30(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	result = thread_change_where(&(st->last_thread), &(st->grid), GRID_SIZE * GRID_SIZE - 1);
 	result += st->last_thread->where == GRID_SIZE * GRID_SIZE - 1 ? 1 : 0;
@@ -2278,7 +2278,7 @@ static int		ut_thread_31(void)
 	int			result;
 
 	add_storage(&st);
-	add_grid(&st);
+	add_grid(&st, 1);
 	add_thread(&st);
 	result = thread_change_where(&(st->last_thread), &(st->grid), GRID_SIZE * GRID_SIZE - 1);
 	result += st->last_thread->where == GRID_SIZE * GRID_SIZE - 1 ? 1 : 0;

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:09:18 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:41:02 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,29 @@ int		print_champion_list(t_storage **st)
 	return (SUCCESS);
 }
 
-int		print_grid(t_storage **st)
+int		print_grid(t_storage **st, int type)
 {
 	int			i;
 	int			j;
 
 	print_function_state("print_grid", "START");
 	i = -1;
-	if (storage_check(st, 1) != VALID_FULL)
+	if ((type != 1 && type != 3)
+		|| storage_check(st, type) != VALID_FULL)
 		return (BAD_PARAM);
+	ft_putstr(type == 1
+		? "	-------------\n	GRID\n" : "	-------------\n	COLOR GRID\n");
 	while (++i < GRID_SIZE)
 	{
 		j = -1;
 		while (++j < GRID_SIZE)
 		{
-			print_nb_hexa(((*st)->grid)[i][j]);
+			print_nb_hexa((type == 1 ? (*st)->grid : (*st)->color_grid)[i][j]);
 			ft_putchar(' ');
 		}
 		ft_putchar('\n');
 	}
+	ft_putstr("	-------------\n");
 	print_function_state("print_grid", "END");
 	return (SUCCESS);
 }
@@ -91,7 +95,8 @@ int		print_storage(t_storage **st)
 	ft_putstr("-------------\nSTORAGE\n");
 	print_champion_list(st);
 	print_thread_list(st);
-	print_grid(st);
+	print_grid(st, 1);
+	print_grid(st, 3);
 	ft_putstr("-------------\n");
 	print_function_state("print_storage", "END");
 	return (SUCCESS);
