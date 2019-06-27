@@ -96,15 +96,15 @@ char	*ft_strcat(char *dest, const char *src)
 void ft_init_win(t_win *win)
 {
 	win->pause = 0;
-	write(1, "ch", 2);
+	// write(1, "ch", 2);
 	win->renderer = NULL;
-	write(1, "ch", 2);
+	// write(1, "ch", 2);
 	win->ttf_text = NULL;
-	write(1, "ch", 2);
+	// write(1, "ch", 2);
 	win->width = WIDTH;
-	write(1, "ch", 2);
+	// write(1, "ch", 2);
 	win->height = HEIGHT;
-	write(1, "ch", 2);
+	// write(1, "ch", 2);
 	win->rect.x = 0;
 	win->rect.y = 0;
 	win->rect.w = WIDTH;
@@ -167,14 +167,39 @@ void ft_str_create_and_print(t_win *win, char *str1, char *str2, int line)
 {
 	char *dest;
 
-	if(!(dest = malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2) + 1))))
+	if(!(dest = (char *)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2) + 1))))
 		return ;
+	bzero(dest, ft_strlen(str1) + ft_strlen(str2) + 1);
+	// printf("%p\n", &dest);
+	// write(1, "\n dest1 = ", 10);
+	// write(1, dest, ft_strlen(dest));
 	dest = ft_strcat(dest, str1);
 	dest = ft_strcat(dest, str2);
 	// free(str1);
 	// free(str2);
+	// write(1, "\n str1 = ", 9);
+	// write(1, str1, ft_strlen(str1));
+	// write(1, "\n str2 = ", 9);
+	// write(1, str2, ft_strlen(str2));
+	// write(1, "\n dest = ", 9);
+	// write(1, dest, ft_strlen(dest));
+	// write(1, "\n", 1);
 	ft_print_text(win, dest, line);
-	// free(dest);
+
+	free(dest);
+}
+
+int		ft_size(uintmax_t n)
+{
+	int	size;
+
+	size = 1;
+	while (n / 10)
+	{
+		size++;
+		n = n / 10;
+	}
+	return (size);
 }
 
 void ft_put_players(t_win *win, int line)
@@ -183,7 +208,12 @@ void ft_put_players(t_win *win, int line)
 
 	// while (tmp)
 	// {
-		ft_str_create_and_print(win, "Player : ", "toto", line); //tmp->name, *line);
+		// char *str;
+		// str = malloc(sizeof(char) * (10 + ft_size(12)));
+		// str = ft_strcat(str, "Player ");
+		// str = ft_strcat(str, ft_itoa_hexa(12));
+		// str = ft_strcat(str, ": ");
+		ft_str_create_and_print(win, "Player -1: ", "toto", line); //tmp->name, *line);
 		line++;
 		ft_str_create_and_print(win, "Last_live :                 ", "12", line); //ft_itoa(lastlive), *line);
 		line++;
@@ -225,15 +255,12 @@ int ft_put_treads(t_win *win)
 
 	win->texture = SDL_CreateTexture(win->renderer, SDL_PIXELFORMAT_RGBA8888, 
                                SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
-	
 	SDL_SetRenderDrawColor(win->renderer, 100, 100, 100, 255); /* On dessine en gris */
-
-	
 	SDL_SetRenderTarget(win->renderer, win->texture);  // On va dessiner sur la texture 
 	while (w < 64 * 64)
 	{
-		write(1, "totototo\n", 9);
-		printf("w = %d\n", w);
+		// write(1, "totototo\n", 9);
+		// printf("w = %d\n", w);
 		rect.x = w % 64 * OCT_W;
 		rect.y = w / 64 * OCT_H;
 		rect.w = OCT_W;
@@ -242,30 +269,6 @@ int ft_put_treads(t_win *win)
 		w = w * 2;
 	}
 	SDL_SetRenderTarget(win->renderer, NULL);
-	// SDL_Rect rect;
-
-	// win->texture = SDL_CreateTexture(win->renderer, SDL_PIXELFORMAT_RGBA8888, 
- //                               SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
-	// SDL_SetRenderTarget(win->renderer, win->texture); /* On va dessiner sur la texture */
-	// SDL_SetRenderDrawColor(win->renderer, 150, 0, 150, 255); /* On dessine en gris */
-	// // // while (thread)
-	// // // {
-	// int where = 128;
-	// // SDL_RenderFillRect(win->renderer, &rect);
-	// rect.x = where % 64 * OCT_W;
-	// rect.y = where / 64 * OCT_H;
-	// rect.h = OCT_H;
-	// rect.w = OCT_W;
-	// SDL_RenderFillRect(win->renderer, &rect);
-	// // int where = 999;
-	// // // SDL_RenderFillRect(win->renderer, &rect);
-	// // rect.x = where % 64 * OCT_W;
-	// // rect.y = where / 64 * OCT_H;
-	// // rect.h = OCT_H;
-	// // rect.w = OCT_W;
-	// // SDL_RenderFillRect(win->renderer, &rect);
-	// // }
-	// SDL_SetRenderTarget(win->renderer, NULL);
 	SDL_RenderCopy(win->renderer, win->texture, NULL, &win->rect);
 	SDL_DestroyTexture(win->texture);
 	return(1);
@@ -288,7 +291,7 @@ char *ft_tab_int_to_string(int *tab)
 	}
 	return (line);
 }
-
+/*
 void ft_write_line_in_renderer(t_win *win, int y, char *str)
 {
 	SDL_Color white = {255, 255, 255, 255};
@@ -304,6 +307,7 @@ void ft_write_line_in_renderer(t_win *win, int y, char *str)
 	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
 	// SDL_FreeSurface(surfaceMessage);
 	SDL_DestroyTexture(Message);
+	free(str);
 }
 
 
@@ -339,50 +343,103 @@ int ft_print_grid(t_win *win)
 		free(grid[i]);
 	free(grid);
 	return (1);
+}*/
+
+void ft_write_octet_in_renderer(t_win *win, char *str, SDL_Rect *rect)
+{
+	// write(1, str, 256);
+	SDL_Surface *surface_message;
+	SDL_Texture *message;
+
+	surface_message = TTF_RenderText_Solid(win->ttf_text, str, argb_to_sdl(P1));
+	message = SDL_CreateTextureFromSurface(win->renderer, surface_message);
+	SDL_RenderCopy(win->renderer, message, NULL, rect);
+	SDL_FreeSurface(surface_message);
+	SDL_DestroyTexture(message);
+	free(str);
+}
+
+
+void ft_print_grid(t_win *win)
+{
+	int i = 0;
+	int j = 0;
+	int **grid = NULL;
+
+	grid = (int **)malloc(sizeof(int *) * 64);
+
+	srand(time(NULL));
+	while(i < 64)
+	{
+		j = 0;
+		grid[i] = malloc (sizeof(int) * 64);
+		while (j < 64)
+		{
+			grid[i][j] = rand() % 255;
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	j = 0;
+	SDL_Rect rect;
+
+	while(i < 64)
+	{
+		j = 0;
+		while (j < 64)
+		{
+			rect.x = j * OCT_W + OCT_W / 6;
+			rect.y = i * OCT_H;
+			rect.w = 2 * OCT_W / 3;
+			rect.h = OCT_H;
+			ft_write_octet_in_renderer(win, ft_itoa_hexa(grid[i][j]), &rect);
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while(++i < 64)
+		free(grid[i]);
+	free(grid);
 }
 
 void ft_print_game(t_win *win)
 {
 	ft_put_treads(win);
-	write(1, "ah", 2);
+	// write(1, "ah", 2);
 	ft_print_grid(win);
 
-	write(1, "bh", 2);
+	// write(1, "bh", 2);
 //	if(end)
 //		ft_put_infos_end(win);
 //	else
-		ft_put_infos(win);
+	ft_put_infos(win);
 }
 
 
 int main()
 {
 	int gameRunning = 1;
-	write(1, "bh", 2);
 	t_win win;
-	write(1, "bh", 2);
 	// bzero(win);
 	// win->pause = 0;
-	write(1, "bh", 2);
 	ft_init_win(&win);
-	write(1, "bh", 2);
 	ft_init_sdl(&win);
-	write(1, "bh", 2);
-	SDL_Event event;
 	while (gameRunning)
 	{
-    	if (SDL_PollEvent(&event))
+    	if (SDL_PollEvent(&win.event))
     	{
-    	    if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
+    	    if (win.event.type == SDL_QUIT ||win. event.key.keysym.sym == SDLK_ESCAPE)
     		    gameRunning = false;
-    	    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
+    	    if (win.event.type == SDL_KEYDOWN && win.event.key.keysym.sym == SDLK_SPACE)
     	    	win.pause = (win.pause == 1)? 0 : 1;
 			SDL_RenderClear(win.renderer);
     	    ft_print_game(&win);
 			SDL_RenderPresent(win.renderer);
     	}
     }
-	write(1, "bh", 2);
+	// write(1, "bh", 2);
 	return(0);
 }
 
