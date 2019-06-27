@@ -5,9 +5,9 @@
 #include <unistd.h>
 #include "./SDL2_ttf.framework/Headers/SDL_ttf.h"
 #include <stdbool.h>
-#define WIDTH 4000
+#define WIDTH 2300
 #define HEIGHT 1152
-#define WHITE 0xff0000
+#define WHITE 0xffffff
 #define GREY 0x202020
 # define P1 0x33cc33
 # define P2 0x0099ff
@@ -93,6 +93,21 @@ char	*ft_strcat(char *dest, const char *src)
 	return (dest);
 }
 
+int ft_color_octet(int player)
+{
+	if (player == 0)
+		return (WHITE);
+	else if (player == 1)
+		return (P1);
+	else if (player == 2)
+		return (P2);
+	else if (player == 3)
+		return (P3);
+	else if (player == 4)
+		return (P4);
+	return (-1);
+}
+
 void ft_init_win(t_win *win)
 {
 	win->pause = 0;
@@ -149,16 +164,34 @@ int ft_init_sdl(t_win *win)
 
 void ft_print_text(t_win *win, char *str, int line)
 {
-	SDL_Color white = {255, 255, 255, 255};
+	SDL_Surface* surfaceMessage;
+	SDL_Texture* Message;
+	SDL_Rect rect;
 
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, str, white);
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
-	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = 66 * OCT_W;  //controls the rect's x coordinate 
-	Message_rect.y = line * OCT_H; // controls the rect's y coordinte
-	Message_rect.w = ft_strlen(str) * 7; // 21 controls the width of the rect
-	Message_rect.h = OCT_H; // controls the height of the rect
-	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
+	surfaceMessage = TTF_RenderText_Solid(win->ttf_text, str, argb_to_sdl(WHITE));
+	Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
+	rect.x = 66 * OCT_W;  //controls the rect's x coordinate 
+	rect.y = line * OCT_H; // controls the rect's y coordinte
+	rect.w = ft_strlen(str) * 9; // 21 controls the width of the rect
+	rect.h = OCT_H; // controls the height of the rect
+	SDL_RenderCopy(win->renderer, Message, NULL, &rect);
+	SDL_FreeSurface(surfaceMessage);
+	SDL_DestroyTexture(Message);
+}
+
+void ft_print_name_colored(t_win *win, char *intro, char *name , int num_player)
+{
+	SDL_Surface* surfaceMessage;
+	SDL_Texture* Message;
+	SDL_Rect rect;
+
+	surfaceMessage = TTF_RenderText_Solid(win->ttf_text, name, argb_to_sdl(ft_color_octet(num_player)));
+	Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
+	rect.x = 66 * OCT_W + ft_strlen(intro) * 9;  //controls the rect's x coordinate 
+	rect.y = (8 + (num_player - 1) * 4) * OCT_H; // controls the rect's y coordinte
+	rect.w = ft_strlen(name) * 9; // 21 controls the width of the rect
+	rect.h = OCT_H; // controls the height of the rect
+	SDL_RenderCopy(win->renderer, Message, NULL, &rect);
 	SDL_FreeSurface(surfaceMessage);
 	SDL_DestroyTexture(Message);
 }
@@ -167,7 +200,7 @@ void ft_str_create_and_print(t_win *win, char *str1, char *str2, int line)
 {
 	char *dest;
 
-	if(!(dest = (char *)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2) + 1))))
+	if (!(dest = (char *)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2) + 1))))
 		return ;
 	bzero(dest, ft_strlen(str1) + ft_strlen(str2) + 1);
 	// printf("%p\n", &dest);
@@ -185,7 +218,6 @@ void ft_str_create_and_print(t_win *win, char *str1, char *str2, int line)
 	// write(1, dest, ft_strlen(dest));
 	// write(1, "\n", 1);
 	ft_print_text(win, dest, line);
-
 	free(dest);
 }
 
@@ -202,25 +234,31 @@ int		ft_size(uintmax_t n)
 	return (size);
 }
 
-void ft_put_players(t_win *win, int line)
+int ft_put_players(t_win *win, int line)
 {
 	// t_storage tmp = storage->champion;
+	int nb_players = 0;
 
-	// while (tmp)
-	// {
-		// char *str;
-		// str = malloc(sizeof(char) * (10 + ft_size(12)));
-		// str = ft_strcat(str, "Player ");
-		// str = ft_strcat(str, ft_itoa_hexa(12));
-		// str = ft_strcat(str, ": ");
-		ft_str_create_and_print(win, "Player -1: ", "toto", line); //tmp->name, *line);
+	// while(tmp)
+	while (++nb_players <= 3)
+	{
+		char *str;
+		str = malloc(sizeof(char) * (10 + ft_size(1)));
+		bzero(str, 10 + ft_size(12));
+		str = ft_strcat(str, "Player ");
+		str = ft_strcat(str, ft_itoa_hexa(1));
+		str = ft_strcat(str, ": ");
+		ft_str_create_and_print(win, str, "\0", line); //tmp->name, *line);
+		ft_print_name_colored(win, str, "toto", nb_players);
 		line++;
-		ft_str_create_and_print(win, "Last_live :                 ", "12", line); //ft_itoa(lastlive), *line);
+		ft_str_create_and_print(win, "   Last_live :                   ", "12", line); //ft_itoa(lastlive), *line);
 		line++;
-		// ft_str_create_and_print(win, "Lives in current periode :    ", ft_itoa(lastlive), *line);
-		// *line += 2;
+		ft_str_create_and_print(win, "   Lives in current periode :    ", "0", line);//ft_itoa(lastlive), *line);
+		line += 2;
+		free(str);
 		// tmp = tmp->next;
-	// }
+	}
+	return (nb_players * 3);
 }
 
 
@@ -228,28 +266,28 @@ void ft_put_infos(t_win *win)
 {
 	int line = 1;
 
-	
 	if (win->pause)
 		ft_print_text(win, "PAUSE", line);
 	else
 		ft_print_text(win, "RUNNING", line);
 	line += 2;
 	ft_str_create_and_print(win, "Cycles : ", "12", line); //ft_itoa(storage->cycle), line);
-	line++;
-	ft_str_create_and_print(win, "Processes : ", "1", line); //ft_itoa(win->nb_process), line);
 	line += 2;
-	ft_put_players(win, line);
-	line+= 5;
-	// ft_str_create_and_print(win, "CYCLE_TO_DIE :", ft_itoa(win->nb_process), line);
-	// ft_str_create_and_print(win, "CYCLE_DELTA : ", ft_itoa(win->nb_process), line);
-	// ft_str_create_and_print(win, "NBR_LIVE : ", ft_itoa(win->nb_process), line);
-	// ft_str_create_and_print(win, "MAX_CHECKS : ", ft_itoa(win->nb_process), line);
+	ft_str_create_and_print(win, "Processes : ", "1", line); //ft_itoa(win->nb_process), line);
+	line += 3;
+	line += ft_put_players(win, line) + 2;
+	ft_str_create_and_print(win, "CYCLE_TO_DIE : ", "1536", line); //ft_itoa(st cycle to die), line);
+	line += 2;
+	ft_str_create_and_print(win, "CYCLE_DELTA : ", "50", line); //ft_itoa(CYCLEDELTA), line);
+	line += 2;
+	ft_str_create_and_print(win, "NBR_LIVE : ", "21", line); //ft_itoa(NBRLIVE), line);
+	line += 2;
+	ft_str_create_and_print(win, "MAX_CHECKS : ", "10", line); //ft_itoa(MAXCHECKS), line);
 
 }
 
 int ft_put_treads(t_win *win)
 {
-
 	int w = 128;
 	SDL_Rect rect;
 
@@ -345,13 +383,13 @@ int ft_print_grid(t_win *win)
 	return (1);
 }*/
 
-void ft_write_octet_in_renderer(t_win *win, char *str, SDL_Rect *rect)
+void ft_write_octet_in_renderer(t_win *win, char *str, SDL_Rect *rect, int grid2)
 {
 	// write(1, str, 256);
 	SDL_Surface *surface_message;
 	SDL_Texture *message;
 
-	surface_message = TTF_RenderText_Solid(win->ttf_text, str, argb_to_sdl(P1));
+	surface_message = TTF_RenderText_Solid(win->ttf_text, str, argb_to_sdl(grid2));
 	message = SDL_CreateTextureFromSurface(win->renderer, surface_message);
 	SDL_RenderCopy(win->renderer, message, NULL, rect);
 	SDL_FreeSurface(surface_message);
@@ -359,23 +397,26 @@ void ft_write_octet_in_renderer(t_win *win, char *str, SDL_Rect *rect)
 	free(str);
 }
 
-
 void ft_print_grid(t_win *win)
 {
 	int i = 0;
 	int j = 0;
 	int **grid = NULL;
+	int **grid2 = NULL;
 
 	grid = (int **)malloc(sizeof(int *) * 64);
+	grid2 = (int **)malloc(sizeof(int *) * 64);
 
 	srand(time(NULL));
 	while(i < 64)
 	{
 		j = 0;
 		grid[i] = malloc (sizeof(int) * 64);
+		grid2[i] = malloc (sizeof(int) * 64);
 		while (j < 64)
 		{
 			grid[i][j] = rand() % 255;
+			grid2[i][j] = rand() % 4;
 			j++;
 		}
 		i++;
@@ -393,15 +434,19 @@ void ft_print_grid(t_win *win)
 			rect.y = i * OCT_H;
 			rect.w = 2 * OCT_W / 3;
 			rect.h = OCT_H;
-			ft_write_octet_in_renderer(win, ft_itoa_hexa(grid[i][j]), &rect);
+			ft_write_octet_in_renderer(win, ft_itoa_hexa(grid[i][j]), &rect, ft_color_octet(grid2[i][j]));
 			j++;
 		}
 		i++;
 	}
 	i = 0;
 	while(++i < 64)
+	{
 		free(grid[i]);
+		free(grid2[i]);
+	}
 	free(grid);
+	free(grid2);
 }
 
 void ft_print_game(t_win *win)
@@ -439,6 +484,8 @@ int main()
 			SDL_RenderPresent(win.renderer);
     	}
     }
+    SDL_DestroyWindow(win.window);
+    SDL_Quit();
 	// write(1, "bh", 2);
 	return(0);
 }
