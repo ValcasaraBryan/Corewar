@@ -208,7 +208,6 @@ void ft_str_create_and_print(t_win *win, char *str1, char *str2, int line)
 	// write(1, dest, ft_strlen(dest));
 	dest = ft_strcat(dest, str1);
 	dest = ft_strcat(dest, str2);
-	// free(str1);
 	// free(str2);
 	// write(1, "\n str1 = ", 9);
 	// write(1, str1, ft_strlen(str1));
@@ -288,7 +287,7 @@ void ft_put_infos(t_win *win)
 
 int ft_put_treads(t_win *win)
 {
-	int w = 128;
+	int w = 127;
 	SDL_Rect rect;
 
 	win->texture = SDL_CreateTexture(win->renderer, SDL_PIXELFORMAT_RGBA8888, 
