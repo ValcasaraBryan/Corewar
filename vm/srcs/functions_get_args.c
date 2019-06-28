@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:37:21 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/25 15:08:26 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 13:53:26 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int			get_args_inner(int nb_lines, char ***tab, int **args, int i)
 {
+	print_function_state("get_args_inner", "START");
 	if (ft_strcmp((*tab)[i], "-v") == 0)
 		return (get_flag_with_nb(&((*tab)[i]), args, 3));
 	else if (ft_strcmp((*tab)[i], "-dump") == 0)
@@ -30,6 +31,7 @@ int			get_args_inner(int nb_lines, char ***tab, int **args, int i)
 	}
 	else
 		return (get_champion(args, &((*tab)[i]), i));
+	print_function_state("get_args_inner", "END");
 	return (FAILURE);
 }
 
@@ -38,6 +40,7 @@ int			get_champion(int **args, char **str, int i)
 	int		j;
 	int		num_arg;
 
+	print_function_state("get_champion", "START");
 	if ((*args)[10] > 3)
 		return (BAD_PARAM);
 	j = ft_strlen(*str);
@@ -50,6 +53,7 @@ int			get_champion(int **args, char **str, int i)
 		(*args)[num_arg] = i;
 		(*args)[10] += 1;
 	}
+	print_function_state("get_champion", "END");
 	return (SUCCESS);
 }
 
@@ -58,6 +62,7 @@ int			get_flag_with_nb(char **str, int **args, int type)
 	int		result;
 	int		num_arg;
 
+	print_function_state("get_flag_with_nb", "START");
 	if (args == NULL || *args == NULL || str == NULL || *str == NULL
 		|| type < 1 || type > 3)
 		return (BAD_PARAM);
@@ -79,11 +84,14 @@ int			get_flag_with_nb(char **str, int **args, int type)
 		else
 			(*args)[1] = 1;
 	}
+	print_function_state("get_flag_with_nb", "END");
 	return (type == 1 || type == 2 ? SUCCESS_INC : SUCCESS);
 }
 
 int			print_error(void)
 {
+	print_function_state("print_error", "START");
 	ft_putstr_fd("usage : ./corewar [-v | -dump N] [-n N] <file.cor> ...\n", 2);
+	print_function_state("print_error", "END");
 	return (FAILURE);
 }

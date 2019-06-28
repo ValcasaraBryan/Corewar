@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 17:38:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:57:25 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ int				process_battle(t_storage **st, int nb_cycles)
 	int			j;
 	int			var_cycle_to_die;
 
-	i = 0;
+	print_function_state("process_battle", "START");
+	i = 1;
 	j = 0;
 	var_cycle_to_die = CYCLE_TO_DIE;
-	while (i != -1 && ++i != nb_cycles)
+	while (i != -1 && i != nb_cycles && var_cycle_to_die > 0)
 	{
 		if (i % var_cycle_to_die == 0)
 		{
-			printf("i = %d\n", i);
+			//printf("i = %d\n", i);
+			//print_thread_list(st);
 			current = (*st)->first_thread;
 			while (current != NULL)
 			{
@@ -57,17 +59,22 @@ int				process_battle(t_storage **st, int nb_cycles)
 		current = (*st)->first_thread;
 		if (current == NULL)
 			i = -1;
-		while (current != NULL)
+		else
 		{
-			if (thread_change_cycle(&current, st, 1) < SUCCESS)
-				return (CALL_FAILED);
-			current = current->next;
+			while (current != NULL)
+			{
+				if (thread_change_cycle(&current, st, 1) != SUCCESS)
+					return (CALL_FAILED);
+				current = current->next;
+			}
+			i++;
 		}
 	}
 	if (i != -1 && (*st)->args[0] != -1)
 		print_dump(st);
 	else
 		announce_winner(st);
+	print_function_state("process_battle", "END");
 	return (SUCCESS);
 }
 
@@ -76,6 +83,7 @@ int				intro_champions(t_storage **st)
 	t_champion	*current;
 	int			i;
 
+	print_function_state("intro_champions", "START");
 	if (storage_check(st, 0) != VALID_FULL)
 		return (BAD_PARAM);
 	current = (*st)->first_champion;
@@ -95,6 +103,7 @@ int				intro_champions(t_storage **st)
 		current = current->next;
 		i++;
 	}
+	print_function_state("intro_champions", "END");
 	return (SUCCESS);
 }
 
@@ -103,6 +112,7 @@ int				announce_winner(t_storage **st)
 	t_champion	*current;
 	int			i;
 
+	print_function_state("announce_winner", "START");
 	if (storage_check(st, 0) != VALID_FULL)
 		return (BAD_PARAM);
 	current = (*st)->first_champion;
@@ -120,6 +130,7 @@ int				announce_winner(t_storage **st)
 		current = current->next;
 		i++;
 	}
+	print_function_state("announce_winner", "END");
 	return (SUCCESS);
 }
 
@@ -128,6 +139,7 @@ int				get_args(t_storage **st, int nb_lines, char ***tab)
 	int			i;
 	int			result;
 
+	print_function_state("get_args", "START");
 	if (nb_lines < 2 || tab == NULL || *tab == NULL || storage_check(st, 0) != VALID_EMPTY)
 		return (print_error());
 	i = 0;
@@ -143,6 +155,7 @@ int				get_args(t_storage **st, int nb_lines, char ***tab)
 		|| ((*st)->args[6] != -1 && (*st)->args[7] == -1)
 		|| ((*st)->args[8] != -1 && (*st)->args[9] == -1))
 		return (print_error());
+	print_function_state("get_args", "END");
 	return (SUCCESS);
 }
 
@@ -153,6 +166,7 @@ int				read_in_grid(int ***gr, int where, int nb)
 	int			line;
 	int			res;
 
+	print_function_state("read_in_grid", "START");
 	if (grid_check(gr) != VALID_FULL || (nb != 1 && nb != 2 && nb != 4))
 		return (BAD_PARAM);
 	where = where < 0 ? GRID_SIZE * GRID_SIZE + where : where;
@@ -167,6 +181,7 @@ int				read_in_grid(int ***gr, int where, int nb)
 		res += (*gr)[line][col];
 		where += 1;
 	}
+	print_function_state("read_in_grid", "END");
 	return (res);
 }
 
@@ -177,6 +192,7 @@ int				write_in_grid(int ***gr, long value, int where, int nb)
 	int			line;
 	long		res;
 
+	print_function_state("write_in_grid", "START");
 	if (grid_check(gr) != VALID_FULL || (nb != 1 && nb != 2 && nb != 4))
 		return (BAD_PARAM);
 	where = where < 0 ? GRID_SIZE * GRID_SIZE + where : where;
@@ -192,7 +208,8 @@ int				write_in_grid(int ***gr, long value, int where, int nb)
 		col = where % GRID_SIZE;
 		line = where / GRID_SIZE;
 		(*gr)[line][col] = res % 256;
-		res /= 256;
+		res = res / 256;
 	}
+	print_function_state("write_in_grid", "END");
 	return (SUCCESS);
 }

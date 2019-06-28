@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:07 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 17:09:23 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:03:00 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int		instr_live(t_storage **st, t_thread **th)
 	t_champion	*current;
 	int			value;
 
-	if (UT_PRINT >= 1)
-		ft_putstr("instr_live\n");
+	print_function_state("instr_live", "START");
 	if (thread_check(th) < VALID_EMPTY
 		|| storage_check(st, 0) != VALID_FULL
 		|| storage_check(st, 1) != VALID_FULL)
@@ -30,13 +29,11 @@ int		instr_live(t_storage **st, t_thread **th)
 	while (current != NULL)
 	{
 		if (current->number == value)
-		{
 			(*st)->nb_champ_last_live = current->number;
-			printf("live = %d\n", current->number);
-		}
 		current = current->next;
 	}
 	if (thread_change_where(th, &(*st)->grid, (*th)->where + 1 + 4) != SUCCESS)
 		return (failed_action_move(st, th, 1));
+	print_function_state("instr_live", "END");
 	return (SUCCESS);
 }

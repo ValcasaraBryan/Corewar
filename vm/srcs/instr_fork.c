@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 13:38:32 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:57:22 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 {
 	t_thread	*new_thread;
 	short		value;
+	int			i;
 
+	print_function_state("instr_fork_inner", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 1));
 	if (add_thread(st) != SUCCESS)
@@ -27,12 +29,16 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 		return (failed_action_move(st, th, 1));
 	new_thread->action = 0;
 	new_thread->cycle = 0;
-	new_thread->carry = 0;
-	new_thread->live = 0;
 	new_thread->where = (*th)->where;
+	new_thread->carry = (*th)->carry;
+	new_thread->live = (*th)->live;
+	i = -1;
+	while (++i < REG_NUMBER)
+		new_thread->reg[i] = (*th)->reg[i];
 	if (thread_change_where(&new_thread, &(*st)->grid,
 		new_thread->where + (value % IDX_MOD)) != SUCCESS)
 		return (failed_action_move(st, th, 1));
+	print_function_state("instr_fork_inner", "END");
 	return (SUCCESS);
 }
 
@@ -40,8 +46,7 @@ int		instr_fork(t_storage **st, t_thread **th)
 {
 	t_thread	*old_thread;
 
-	if (UT_PRINT >= 1)
-		ft_putstr("instr_fork\n");
+	print_function_state("instr_fork", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 1));
 	old_thread = *th;
@@ -49,5 +54,6 @@ int		instr_fork(t_storage **st, t_thread **th)
 		return (failed_action_move(st, th, 1));
 	if (thread_change_where(&old_thread, &(*st)->grid, old_thread->where + 1 + 2) != SUCCESS)
 		return (failed_action_move(st, th, 1));
+	print_function_state("instr_fork", "END");
 	return (SUCCESS);
 }

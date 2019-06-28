@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/06/19 17:40:54 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/06/27 18:00:43 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ FILES_SRCS =	bin_extractor.c			\
 				functions_champion.c	\
 				functions_get_args.c	\
 				functions_grid.c		\
-				functions_storage.c		\
 				functions_thread.c		\
 				instr_add.c				\
 				instr_aff.c				\

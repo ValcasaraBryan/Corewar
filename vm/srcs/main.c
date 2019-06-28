@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 17:12:02 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:05:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,30 @@ t_instruction	g_tab_instructions[18] =
 
 int			main(int argv, char **argc)
 {
-	/*
-	(void)argc;
-	(void)argv;
-	*/
 	t_storage	*st;
 	
-	/*
-	printf("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n", args[0], args[1],
-		args[2], args[3], args[4], args[5],
-		args[6], args[7], args[8], args[9], args[10]);
-	*/
+	print_function_state("main", "START");
 	if (setup_all(&st, argv, &argc) != SUCCESS
 		|| intro_champions(&st) != SUCCESS
 		|| process_battle(&st, st->args[0]) != SUCCESS)
 	{
 		free_storage(&st);
-		printf("Erreur\n");
+		ft_putstr("Erreur\n");
 		return (CALL_FAILED);
 	}
-	/*
+	free_storage(&st);
+	print_function_state("main", "END");
+	return (0);
+}
+
+int			main_2(int argv, char **argc)
+{
+	(void)argc;
+	(void)argv;
+	
+	print_function_state("main", "START");
 	all_ut();
 	all_ut_instr();
-	*/
-	free_storage(&st);
-	//while (1);
+	print_function_state("main", "END");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/26 14:30:44 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/27 14:05:07 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	instr_xor_inner(t_storage **st, t_thread **th, int size1, int size2)
 	int		value1;
 	int		value2;
 
+	print_function_state("instr_xor_inner", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 2));
 	value1 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, size1);
@@ -34,6 +35,7 @@ static int	instr_xor_inner(t_storage **st, t_thread **th, int size1, int size2)
 		(*th)->where + 1 + size1 + size2 + 1 + 1) != SUCCESS)
 		return (failed_action_move(st, th, 2));
 	(*th)->carry = (value1 ^ value2) == 0 ? 1 : 0;
+	print_function_state("instr_xor_inner", "END");
 	return (SUCCESS);
 }
 
@@ -43,8 +45,7 @@ int			instr_xor(t_storage **st, t_thread **th)
 	int		size1;
 	int		size2;
 
-	if (UT_PRINT >= 1)
-		ft_putstr("instr_xor\n");
+	print_function_state("instr_xor", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 2));
 	if (decrypt_op_code(&tab, read_in_grid(&(*st)->grid,
@@ -60,5 +61,6 @@ int			instr_xor(t_storage **st, t_thread **th)
 	size1 = get_size_int(tab[0], 4);
 	size2 = get_size_int(tab[1], 4);
 	free(tab);
+	print_function_state("instr_xor", "END");
 	return (instr_xor_inner(st, th, size1, size2));
 }
