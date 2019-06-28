@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:55:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:33:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 09:44:18 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int		grid_fill_with_champ(int ***grid, t_champion **ch, int nb, int total)
 	return (SUCCESS);
 }
 
-int		grid_fill_with_champ_color(int ***grid, t_champion **ch, int nb, int total)
+int		grid_fill_with_champ_color(int ***grid, t_champion **ch, int nb,
+	int total)
 {
 	t_byte		*current;
 	int			where;

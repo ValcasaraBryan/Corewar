@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:37:54 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:46:39 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ typedef struct			s_byte
 
 typedef struct			s_champion
 {
+	int					last_live;
+	int					current_lives;
 	int					number;
 	int					size;
 	char				*name;
@@ -386,5 +388,9 @@ void					print_nb_hexa(int nb);
 int						print_dump(t_storage **st);
 int						get_size_int(int code, int size_dir);
 int		failed_action_move(t_storage **st, t_thread **th, int nb_move);
+int			set_value(t_thread **th, int ***grid, int size, int where);
+int			set_value_spe(t_thread **th, int ***grid, int size, int where);
+int			set_value_mod(t_thread **th, int ***grid, int size, int where);
+int			set_value_mod_spe(t_thread **th, int ***grid, int size, int where);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 17:57:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:31:34 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int				process_battle(t_storage **st, int nb_cycles)
 {
-	t_thread	*current;
+	t_champion	*current_champ;
+	t_thread	*current_thread;
 	t_thread	*next;
 	int			i;
 	int			j;
@@ -26,25 +27,30 @@ int				process_battle(t_storage **st, int nb_cycles)
 	var_cycle_to_die = CYCLE_TO_DIE;
 	while (i != -1 && i != nb_cycles && var_cycle_to_die > 0)
 	{
+		(*st)->cycle += 1;
 		if (i % var_cycle_to_die == 0)
 		{
-			//printf("i = %d\n", i);
-			//print_thread_list(st);
-			current = (*st)->first_thread;
-			while (current != NULL)
+			current_thread = (*st)->first_thread;
+			while (current_thread != NULL)
 			{
-				if (current->live == 1)
+				if (current_thread->live == 1)
 				{
-					current->live = 0;
-					current = current->next;
+					current_thread->live = 0;
+					current_thread = current_thread->next;
 				}
 				else
 				{
-					next = current->next;
-					if (delete_thread(st, &current) != SUCCESS)
+					next = current_thread->next;
+					if (delete_thread(st, &current_thread) != SUCCESS)
 						return (CALL_FAILED);
-					current = next;
+					current_thread = next;
 				}
+			}
+			current_champ = (*st)->first_champion;
+			while (current_champ != NULL)
+			{
+				current_champ->current_lives = 0;
+				current_champ = current_champ->next;
 			}
 			nb_cycles = nb_cycles - var_cycle_to_die;
 			i = 0;
@@ -56,16 +62,16 @@ int				process_battle(t_storage **st, int nb_cycles)
 			else
 				j++;
 		}
-		current = (*st)->first_thread;
-		if (current == NULL)
+		current_thread = (*st)->first_thread;
+		if (current_thread == NULL)
 			i = -1;
 		else
 		{
-			while (current != NULL)
+			while (current_thread != NULL)
 			{
-				if (thread_change_cycle(&current, st, 1) != SUCCESS)
+				if (thread_change_cycle(&current_thread, st, 1) != SUCCESS)
 					return (CALL_FAILED);
-				current = current->next;
+				current_thread = current_thread->next;
 			}
 			i++;
 		}
@@ -140,12 +146,14 @@ int				get_args(t_storage **st, int nb_lines, char ***tab)
 	int			result;
 
 	print_function_state("get_args", "START");
-	if (nb_lines < 2 || tab == NULL || *tab == NULL || storage_check(st, 0) != VALID_EMPTY)
+	if (nb_lines < 2 || tab == NULL || *tab == NULL
+		|| storage_check(st, 0) != VALID_EMPTY)
 		return (print_error());
 	i = 0;
 	while (++i < nb_lines)
 	{
-		if ((result = get_args_inner(nb_lines, tab, &(*st)->args, i)) == SUCCESS_INC)
+		if ((result = get_args_inner(nb_lines, tab,
+			&(*st)->args, i)) == SUCCESS_INC)
 			i++;
 		else if (result != SUCCESS)
 			return (print_error());

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 17:57:22 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:16:01 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,10 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 	int			i;
 
 	print_function_state("instr_fork_inner", "START");
-	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (failed_action_move(st, th, 1));
 	if (add_thread(st) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 2);
-	new_thread = (*st)->last_thread;
-	if (new_thread == NULL)
+	if ((new_thread = (*st)->last_thread) == NULL)
 		return (failed_action_move(st, th, 1));
 	new_thread->action = 0;
 	new_thread->cycle = 0;
@@ -44,15 +41,15 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 
 int		instr_fork(t_storage **st, t_thread **th)
 {
-	t_thread	*old_thread;
+	t_thread	*old;
 
 	print_function_state("instr_fork", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 1));
-	old_thread = *th;
+	old = *th;
 	if (instr_fork_inner(st, th) != SUCCESS)
 		return (failed_action_move(st, th, 1));
-	if (thread_change_where(&old_thread, &(*st)->grid, old_thread->where + 1 + 2) != SUCCESS)
+	if (thread_change_where(&old, &(*st)->grid, old->where + 1 + 2) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	print_function_state("instr_fork", "END");
 	return (SUCCESS);

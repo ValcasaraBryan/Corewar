@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:07:59 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 13:57:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:16:14 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int			instr_aff_inner(t_storage **st, t_thread **th)
 	int		value;
 
 	print_function_state("instr_aff_inner", "START");
-	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (failed_action_move(st, th, 2));
 	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, 1);
 	value = thread_get_value_reg(th, reg);
 	value = value % 256;

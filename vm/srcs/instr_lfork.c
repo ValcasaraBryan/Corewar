@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:02:47 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:16:36 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int		instr_lfork_inner(t_storage **st, t_thread **th)
 	int			i;
 
 	print_function_state("instr_lfork_inner", "START");
-	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (failed_action_move(st, th, 1));
 	if (add_thread(st) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 2);
@@ -36,7 +34,7 @@ int		instr_lfork_inner(t_storage **st, t_thread **th)
 	while (++i < REG_NUMBER)
 		new_thread->reg[i] = (*th)->reg[i];
 	if (thread_change_where(&new_thread, &(*st)->grid,
-		new_thread->where + (value % IDX_MOD)) != SUCCESS)
+		new_thread->where + value) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	print_function_state("instr_lfork_inner", "END");
 	return (SUCCESS);
@@ -44,15 +42,15 @@ int		instr_lfork_inner(t_storage **st, t_thread **th)
 
 int		instr_lfork(t_storage **st, t_thread **th)
 {
-	t_thread	*old_thread;
+	t_thread	*old;
 
 	print_function_state("instr_lfork", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 1));
-	old_thread = *th;
+	old = *th;
 	if (instr_lfork_inner(st, th) != SUCCESS)
 		return (failed_action_move(st, th, 1));
-	if (thread_change_where(&old_thread, &(*st)->grid, old_thread->where + 1 + 2) != SUCCESS)
+	if (thread_change_where(&old, &(*st)->grid, old->where + 1 + 2) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	print_function_state("instr_lfork", "END");
 	return (SUCCESS);

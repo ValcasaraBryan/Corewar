@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:40:00 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:21:30 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ int				setup_all(t_storage **st, int argv, char ***argc)
 	}
 	free_tab_char(&array_1);
 	free_tab_int(&array_2);
-	print_storage(st);
 	print_function_state("setup_all", "END");
 	return (SUCCESS);
 }

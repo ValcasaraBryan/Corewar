@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 15:56:14 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:10:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:49:50 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ int		decrypt_op_code(int **tab, int nb)
 
 void	print_nb_hexa(int nb)
 {
-	char		res[3];
-	int			mod;
-	int			size_max;
-	int			i;
+	char	res[3];
+	int		mod;
+	int		size_max;
+	int		i;
 
 	if (nb < 0 || nb > 255)
 		return ;
@@ -108,8 +108,8 @@ void	print_nb_hexa(int nb)
 
 int		print_dump(t_storage **st)
 {
-	int			i;
-	int			j;
+	int		i;
+	int		j;
 
 	print_function_state("print_dump", "START");
 	i = -1;
@@ -149,7 +149,8 @@ int		failed_action_move(t_storage **st, t_thread **th, int nb_move)
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL
 		|| (nb_move != 1 && nb_move != 2))
 		return (BAD_PARAM);
-	if (thread_change_where(th, &(*st)->grid, (*th)->where + nb_move) != SUCCESS)
+	if (thread_change_where(th, &(*st)->grid,
+		(*th)->where + nb_move) != SUCCESS)
 		return (CALL_FAILED);
 	print_function_state("failed_action_move", "END");
 	return (SUCCESS);

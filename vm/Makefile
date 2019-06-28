@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/06/27 18:00:43 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/06/28 12:50:25 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ FILES_SRCS =	bin_extractor.c			\
 				manage_grid.c			\
 				manage_storage.c		\
 				manage_thread.c			\
+				set_values_instr.c		\
 				structs_check.c			\
 				structs_print.c			\
 				structs_setup.c			\

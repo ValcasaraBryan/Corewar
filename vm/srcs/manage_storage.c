@@ -6,16 +6,35 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:30:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:29:19 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
+static void			init_storage(t_storage **st)
+{
+	int				i;
+
+	i = -1;
+	while (++i < 10)
+		(*st)->args[i] = -1;
+	(*st)->args[10] = 0;
+	(*st)->args[11] = 0;
+	(*st)->cycle = 0;
+	(*st)->nb_live_current = 0;
+	(*st)->nb_champ_last_live = 0;
+	(*st)->grid = NULL;
+	(*st)->color_grid = NULL;
+	(*st)->first_champion = NULL;
+	(*st)->last_champion = NULL;
+	(*st)->first_thread = NULL;
+	(*st)->last_thread = NULL;
+}
+
 static t_storage	*create_storage(void)
 {
-	t_storage	*storage;
-	int			i;
+	t_storage		*storage;
 
 	print_function_state("create_storage", "START");
 	if (!(storage = malloc(sizeof(*storage))))
@@ -25,27 +44,14 @@ static t_storage	*create_storage(void)
 		free(storage);
 		return (NULL);
 	}
-	i = -1;
-	while (++i < 10)
-		storage->args[i] = -1;
-	storage->args[10] = 0;
-	storage->args[11] = 0;
-	storage->cycle = 0;
-	storage->nb_live_current = 0;
-	storage->nb_champ_last_live = 0;
-	storage->grid = NULL;
-	storage->color_grid = NULL;
-	storage->first_champion = NULL;
-	storage->last_champion = NULL;
-	storage->first_thread = NULL;
-	storage->last_thread = NULL;
+	init_storage(&storage);
 	print_function_state("create_storage", "END");
 	return (storage);
 }
 
 int					add_storage(t_storage **st)
 {
-	t_storage	*storage;
+	t_storage		*storage;
 
 	print_function_state("add_storage", "START");
 	if (st == NULL)

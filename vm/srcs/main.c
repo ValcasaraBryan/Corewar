@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:05:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:24:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ t_instruction	g_tab_instructions[18] =
 int			main(int argv, char **argc)
 {
 	t_storage	*st;
-	
+
 	print_function_state("main", "START");
 	if (setup_all(&st, argv, &argc) != SUCCESS
 		|| intro_champions(&st) != SUCCESS
 		|| process_battle(&st, st->args[0]) != SUCCESS)
 	{
 		free_storage(&st);
-		ft_putstr("Erreur\n");
 		return (CALL_FAILED);
 	}
 	free_storage(&st);
@@ -58,11 +57,10 @@ int			main(int argv, char **argc)
 	return (0);
 }
 
-int			main_2(int argv, char **argc)
+int			main_(int argv, char **argc)
 {
 	(void)argc;
 	(void)argv;
-	
 	print_function_state("main", "START");
 	all_ut();
 	all_ut_instr();

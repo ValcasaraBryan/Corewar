@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 16:12:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:06:08 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int		thread_change_cycle(t_thread **th, t_storage **st, int type)
 			if (thread_change_cycle(th, st, 0) != SUCCESS)
 				return (CALL_FAILED);
 			if (g_tab_instructions[(*th)->action].fct_ptr(st, th) != SUCCESS)
-				if (thread_change_where(th, &((*st)->grid), (*th)->where + 1) != SUCCESS)
+				if (thread_change_where(th, &((*st)->grid),
+					(*th)->where + 1) != SUCCESS)
 					return (CALL_FAILED);
 		}
 	}

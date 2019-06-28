@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:37:21 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 13:53:26 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 09:45:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,8 @@ int			get_flag_with_nb(char **str, int **args, int type)
 	{
 		if ((*args)[0] != -1 || (*args)[1] != -1 || (*args)[10] != 0)
 			return (BAD_PARAM);
-		if (type == 1)
-			(*args)[0] = result;
-		else
-			(*args)[1] = 1;
+		(*args)[0] = type == 1 ? result : (*args)[0];
+		(*args)[1] = type != 1 ? 1 : (*args)[1];
 	}
 	print_function_state("get_flag_with_nb", "END");
 	return (type == 1 || type == 2 ? SUCCESS_INC : SUCCESS);

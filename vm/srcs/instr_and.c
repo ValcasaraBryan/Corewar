@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:08 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 13:58:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:40:52 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,10 @@ static int	instr_and_inner(t_storage **st, t_thread **th, int size1, int size2)
 	int		value2;
 
 	print_function_state("instr_and_inner", "START");
-	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
-		return (failed_action_move(st, th, 2));
-	value1 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, size1);
-	value1 = size1 == 1 ? thread_get_value_reg(th, value1) : value1;
-	value1 = size1 == 2 ? read_in_grid(&(*st)->grid,
-		(*th)->where + (short)value1, 4) : value1;
-	value2 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + size1, size2);
-	value2 = size2 == 1 ? thread_get_value_reg(th, value2) : value2;
-	value2 = size2 == 2 ? read_in_grid(&(*st)->grid,
-		(*th)->where + (short)value2, 4) : value2;
+	value1 = set_value_mod(th, &(*st)->grid, size1,
+		(*th)->where + 1 + 1);
+	value2 = set_value_mod(th, &(*st)->grid, size2,
+		(*th)->where + 1 + 1 + size1);
 	if (thread_change_value_reg(th, read_in_grid(&(*st)->grid, (*th)->where
 		+ 1 + 1 + size1 + size2, 1), (value1 & value2)) != SUCCESS)
 		return (failed_action_move(st, th, 2));
