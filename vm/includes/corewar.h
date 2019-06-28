@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "../libft/includes/libft.h"
+# include <SDL2/SDL.h>
+# include "../../newProject/SDL2_ttf.framework/Headers/SDL_ttf.h"
 
 # define GRID_SIZE		64
 
@@ -127,6 +129,30 @@ typedef struct			s_champion
 	struct s_champion	*next;
 }						t_champion;
 
+typedef union					u_color
+{
+	int				color;
+	unsigned char	rgb[4];
+}					t_color;
+
+typedef struct		s_win
+{
+	SDL_Window		*window;
+	SDL_Surface		*surface;
+	TTF_Font		*ttf_text;
+	SDL_Event		event;
+	SDL_Renderer 	*renderer;
+	SDL_Texture 	*texture;
+	SDL_Rect 		rect;
+	int				colors[4];
+	int				width;
+	int				height;
+	int				text_height;
+	int				text_start;
+	int 			pause;
+	int 			nb_threads;
+}					t_win;
+
 typedef struct			s_storage
 {
 	int					cycle;
@@ -139,6 +165,7 @@ typedef struct			s_storage
 	struct s_thread		*last_thread;
 	struct s_champion	*first_champion;
 	struct s_champion	*last_champion;
+	struct s_win 		*win;
 }						t_storage;
 
 typedef struct			s_instruction
@@ -157,6 +184,13 @@ typedef struct			s_instruction
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[18];
+
+/*
+**							garance
+*/
+int ft_print_game(t_storage **st);
+int ft_init_sdl(t_storage **st);
+int ft_init_win(t_storage **st);
 
 /*
 ** ------------------------	bin_extractor				------------------------

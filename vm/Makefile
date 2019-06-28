@@ -20,6 +20,8 @@ DIR_SRCS =		./srcs
 FLAGS_COMP =	-g -Wall -Wextra -Werror
 FLAGS_INCL =	-I $(DIR_INCL)
 FLAGS_LIBFT =	-L $(DIR_LIBFT) -lft
+FLAGS_INCL_SDL = -I ~/.brew/include/SDL2
+FLAGS_LIB_SDL = -L ~/.brew/lib/ -lsdl2 -lsdl2_ttf
 FILES_HEADER =	corewar.h
 FILES_SRCS =	bin_extractor.c			\
 				functions_byte.c		\
@@ -57,21 +59,22 @@ FILES_SRCS =	bin_extractor.c			\
 				tempo_utility.c			\
 				unit_tests_instr.c		\
 				unit_tests.c			\
-				utilities.c
+				utilities.c 			\
+				init_sdl.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
 OBJS =			$(FILES_SRCS:%.c=$(DIR_OBJS)/%.o)
 SRCS =			$(FILES_SRCS:%.c=$(DIR_SRCS)/%.c)
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c
 	@mkdir -p objs
-	@$(CC) $(FLAGS_COMP) -c $< -o $@ $(FLAGS_INCL)
+	@$(CC) $(FLAGS_COMP) -c $< -o $@ $(FLAGS_INCL) $(FLAGS_INCL_SDL)
 	@printf "."
 
 all : libft
 	@$(MAKE) $(NAME)
 
 $(NAME) : $(OBJS)
-	@$(CC) $(FLAGS_COMP) -o $(NAME) $(OBJS) $(FLAGS_LIBFT)
+	@$(CC) $(FLAGS_COMP) -o $(NAME) $(OBJS) $(FLAGS_LIBFT) $(FLAGS_LIB_SDL)
 	@echo
 	@echo $(DIR_CURR) : \"$(NAME)\" made successfully
 

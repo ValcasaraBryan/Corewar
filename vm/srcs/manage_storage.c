@@ -39,6 +39,7 @@ static t_storage	*create_storage(void)
 	storage->last_champion = NULL;
 	storage->first_thread = NULL;
 	storage->last_thread = NULL;
+	storage->win = NULL;
 	print_function_state("create_storage", "END");
 	return (storage);
 }

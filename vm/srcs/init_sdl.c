@@ -1,9 +1,8 @@
-#include <SDL2/SDL.h>
+
 // #include <SDL2/SDL_ttf.h>
-#include "../op.h"
+// #include "../op.h"
 #include <math.h>
 #include <unistd.h>
-#include "./SDL2_ttf.framework/Headers/SDL_ttf.h"
 #include <stdbool.h>
 #define WIDTH 2300
 #define HEIGHT 1152
@@ -19,28 +18,28 @@
 #include <stdlib.h>
 #include "corewar.h"
 
-typedef union					u_color
-{
-	int				color;
-	unsigned char	rgb[4];
-}					t_color;
+// typedef union					u_color
+// {
+// 	int				color;
+// 	unsigned char	rgb[4];
+// }					t_color;
 
-typedef struct		s_win
-{
-	SDL_Window		*window;
-	SDL_Surface		*surface;
-	TTF_Font		*ttf_text;
-	SDL_Event		event;
-	SDL_Renderer 	*renderer;
-	SDL_Texture 	*texture;
-	SDL_Rect 		rect;
-	int				colors[4];
-	int				width;
-	int				height;
-	int				text_height;
-	int				text_start;
-	int 			pause;
-}					t_win;
+// typedef struct		s_win
+// {
+// 	SDL_Window		*window;
+// 	SDL_Surface		*surface;
+// 	TTF_Font		*ttf_text;
+// 	SDL_Event		event;
+// 	SDL_Renderer 	*renderer;
+// 	SDL_Texture 	*texture;
+// 	SDL_Rect 		rect;
+// 	int				colors[4];
+// 	int				width;
+// 	int				height;
+// 	int				text_height;
+// 	int				text_start;
+// 	int 			pause;
+// }					t_win;
 // extern t_player *g_players;
 
 SDL_Color	argb_to_sdl(Uint32 color)
@@ -111,7 +110,13 @@ int ft_color_octet(int player)
 
 int ft_init_win(t_storage **st)
 {
+	t_win *win;
+	if (!(win = malloc(sizeof(t_win *))))
+		return (0);
+	(*st)->win = win;
+	printf("coucou1win\n");
 	(*st)->win->pause = 0;
+	printf("coucou1\n");
 	// write(1, "ch", 2);
 	(*st)->win->renderer = NULL;
 	// write(1, "ch", 2);
@@ -125,6 +130,9 @@ int ft_init_win(t_storage **st)
 	(*st)->win->rect.y = 0;
 	(*st)->win->rect.w = WIDTH;
 	(*st)->win->rect.h = HEIGHT;
+	(*st)->win->nb_threads = 0;
+
+	printf("coucou1\n");
 	return (1);
 }
 
@@ -133,10 +141,13 @@ int ft_init_font(t_storage **st)
 {
 	if (TTF_Init() < 0)
 		return (0);
-	(*st)->win->ttf_text = NULL;
+	printf("coucouifont 2\n");
+	// (*st)->win->ttf_text = NULL;
 	(*st)->win->ttf_text = TTF_OpenFont("monofonto.ttf", 80);
+	printf("coucofontt 23\n");
 	if ((*st)->win->ttf_text == NULL)
 		return (0);
+	printf("coucoufont 24\n");
 	return (1);
 }
 
@@ -156,12 +167,16 @@ int ft_init_window(t_storage **st)
 
 int ft_init_sdl(t_storage **st)
 {
+	printf("coucouinit\n");
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (0);
+	printf("coucouinit 2\n");
 	if (!ft_init_window(st))
 		return (0);
+	printf("coucouinit 23\n");
 	if (!ft_init_font(st))
 		return (0);
+	printf("coucouinit 24\n");
 	return (1);
 }
 
@@ -223,11 +238,13 @@ void ft_str_create_and_print(t_storage **st, char *str1, char *str2, int line)
 	free(dest);
 }
 
-int		ft_size(uintmax_t n)
+static int	ft_size(int n)
 {
 	int	size;
 
 	size = 1;
+	if (n < 0)
+		size++;
 	while (n / 10)
 	{
 		size++;
@@ -236,14 +253,42 @@ int		ft_size(uintmax_t n)
 	return (size);
 }
 
+char		*ft_itoa(int n)
+{
+	int		size;
+	char	*s;
+
+	size = ft_size(n);
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	if (n == 0)
+		return (ft_strdup("0"));
+	if (!(s = (char *)malloc(size + 1)))
+		return (NULL);
+	if (n < 0)
+	{
+		s[0] = '-';
+		n = -n;
+	}
+	s[size] = '\0';
+	while (n > 0)
+	{
+		s[size - 1] = n % 10 + 48;
+		n = n / 10;
+		--size;
+	}
+	return (s);
+}
+
 int ft_put_players(t_storage **st, int line)
 {
-	// t_storage tmp = storage->champion;
+	t_champion *tmp = (*st)->first_champion;
 	int nb_players = 0;
 
-	// while(tmp)
-	while (++nb_players <= 3)
+	while (tmp)
+	// while (++nb_players <= 3)
 	{
+		nb_players++;
 		char *str;
 		str = malloc(sizeof(char) * (10 + ft_size(1)));
 		bzero(str, 10 + ft_size(12));
@@ -251,14 +296,14 @@ int ft_put_players(t_storage **st, int line)
 		str = ft_strcat(str, ft_itoa_hexa(1));
 		str = ft_strcat(str, ": ");
 		ft_str_create_and_print(st, str, "\0", line); //tmp->name, *line);
-		ft_print_name_colored(st, str, "toto", nb_players);
+		ft_print_name_colored(st, str, tmp->name, nb_players);
 		line++;
 		ft_str_create_and_print(st, "   Last_live :                   ", "12", line); //ft_itoa(lastlive), *line);
 		line++;
 		ft_str_create_and_print(st, "   Lives in current periode :    ", "0", line);//ft_itoa(lastlive), *line);
 		line += 2;
 		free(str);
-		// tmp = tmp->next;
+		tmp = tmp->next;
 	}
 	return (nb_players * 3);
 }
@@ -273,44 +318,55 @@ void ft_put_infos(t_storage **st)
 	else
 		ft_print_text(st, "RUNNING", line);
 	line += 2;
-	ft_str_create_and_print(st, "Cycles : ", "12", line); //ft_itoa(storage->cycle), line);
+	ft_str_create_and_print(st, "Cycles : ", ft_itoa((*st)->cycle), line);
 	line += 2;
-	ft_str_create_and_print(st, "Processes : ", "1", line); //ft_itoa(win->nb_process), line);
+	ft_str_create_and_print(st, "Processes : ", ft_itoa((*st)->win->nb_threads), line);
 	line += 3;
 	line += ft_put_players(st, line) + 2;
-	ft_str_create_and_print(st, "CYCLE_TO_DIE : ", "1536", line); //ft_itoa(st cycle to die), line);
+	ft_str_create_and_print(st, "CYCLE_TO_DIE : ", ft_itoa(CYCLE_TO_DIE), line);
 	line += 2;
-	ft_str_create_and_print(st, "CYCLE_DELTA : ", "50", line); //ft_itoa(CYCLEDELTA), line);
+	ft_str_create_and_print(st, "CYCLE_DELTA : ", ft_itoa(CYCLE_DELTA), line);
 	line += 2;
-	ft_str_create_and_print(st, "NBR_LIVE : ", "21", line); //ft_itoa(NBRLIVE), line);
+	ft_str_create_and_print(st, "NBR_LIVE : ", ft_itoa((*st)->nb_live_current), line);
 	line += 2;
-	ft_str_create_and_print(st, "MAX_CHECKS : ", "10", line); //ft_itoa(MAXCHECKS), line);
+	ft_str_create_and_print(st, "MAX_CHECKS : ", ft_itoa(MAX_CHECKS), line);
 
 }
 
 int ft_put_treads(t_storage **st)
 {
-	int w = 127;
+	t_thread *tmp = (*st)->first_thread;
 	SDL_Rect rect;
 
-	(*st)->win->texture = SDL_CreateTexture((*st)->win->renderer, SDL_PIXELFORMAT_RGBA8888, 
+	(*st)->win->nb_threads = 0;
+	// (*st)->win->texture 
+	SDL_Texture *texture = SDL_CreateTexture((*st)->win->renderer, SDL_PIXELFORMAT_RGBA8888, 
                                SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
+	SDL_SetRenderDrawColor((*st)->win->renderer, 0, 0, 0, 255);
+	SDL_RenderClear((*st)->win->renderer);
+	sleep(2);
+	// SDL_RenderCopy((*st)->win->renderer, texture, NULL, &(SDL_Rect){0, 0, WIDTH, HEIGHT});
+
+	SDL_RenderFillRect((*st)->win->renderer, &(SDL_Rect){0, 0, WIDTH, HEIGHT});
 	SDL_SetRenderDrawColor((*st)->win->renderer, 100, 100, 100, 255); /* On dessine en gris */
-	SDL_SetRenderTarget((*st)->win->renderer, (*st)->win->texture);  // On va dessiner sur la texture 
-	while (w < 64 * 64)
+
+	// SDL_RenderCopy((*st)->win->renderer, texture, NULL, &(*st)->win->rect);
+	SDL_SetRenderTarget((*st)->win->renderer, texture);  // On va dessiner sur la texture 
+	while (tmp)
 	{
 		// write(1, "totototo\n", 9);
-		// printf("w = %d\n", w);
-		rect.x = w % 64 * OCT_W;
-		rect.y = w / 64 * OCT_H;
+		printf("w = %d\n", tmp->where);
+		rect.x = tmp->where % 64 * OCT_W;
+		rect.y = tmp->where / 64 * OCT_H;
 		rect.w = OCT_W;
 		rect.h = OCT_H;
 		SDL_RenderFillRect((*st)->win->renderer, &rect);
-		w = w * 2;
+		tmp = tmp->next;
+		(*st)->win->nb_threads++;
 	}
 	SDL_SetRenderTarget((*st)->win->renderer, NULL);
-	SDL_RenderCopy((*st)->win->renderer, (*st)->win->texture, NULL, &(*st)->win->rect);
-	SDL_DestroyTexture((*st)->win->texture);
+	SDL_RenderCopy((*st)->win->renderer, texture, NULL, &(*st)->win->rect);
+	SDL_DestroyTexture(texture);
 	return(1);
 }
 
@@ -436,7 +492,7 @@ void ft_print_grid(t_storage **st)
 			rect.y = i * OCT_H;
 			rect.w = 2 * OCT_W / 3;
 			rect.h = OCT_H;
-			ft_write_octet_in_renderer(st, ft_itoa_hexa(st->grid[i][j]), &rect, ft_color_octet((*st)->colo_grid[i][j]));
+			ft_write_octet_in_renderer(st, ft_itoa_hexa((*st)->grid[i][j]), &rect, ft_color_octet((*st)->color_grid[i][j]));
 			j++;
 		}
 		i++;
@@ -451,19 +507,26 @@ void ft_print_grid(t_storage **st)
 	// free(grid2);
 }
 
-void ft_print_game(t_storage **st)
+int ft_print_game(t_storage **st)
 {
-	SDL_RenderClear((*st)->win->renderer);
-	ft_put_treads(st);
-	// write(1, "ah", 2);
-	ft_print_grid(st);
 
-	// write(1, "bh", 2);
-//	if(end)
-//		ft_put_infos_end(win);
-//	else
-	ft_put_infos(st);
-	SDL_RenderPresent((*st)->win->renderer);
+	printf("coucou\n");
+	int gameRunning = 1;
+    // if (SDL_PollEvent(&(*st)->win->event))
+    // {
+    	SDL_PollEvent(&(*st)->win->event);
+        if ((*st)->win->event.type == SDL_QUIT || (*st)->win->event.key.keysym.sym == SDLK_ESCAPE)
+    	    gameRunning = -1;
+        if ((*st)->win->event.type == SDL_KEYDOWN && (*st)->win->event.key.keysym.sym == SDLK_SPACE)
+        	(*st)->win->pause = ((*st)->win->pause == 1)? 0 : 1;
+		ft_put_treads(st);
+		ft_print_grid(st);
+		ft_put_infos(st);
+		SDL_RenderPresent((*st)->win->renderer);
+        SDL_RenderClear((*st)->win->renderer);
+        sleep(2);
+    // }
+    return (gameRunning);
 }
 
 
@@ -487,6 +550,8 @@ void ft_print_game(t_storage **st)
 //     	}
 //     }
 //     SDL_DestroyWindow(win.window);
+       // SDL_DestroyRenderer((*st)->win->renderer);
+// 		TTF_Quit();
 //     SDL_Quit();
 // 	// write(1, "bh", 2);
 // 	return(0);

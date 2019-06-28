@@ -67,8 +67,13 @@ int				process_battle(t_storage **st, int nb_cycles)
 					return (CALL_FAILED);
 				current = current->next;
 			}
-			i++;
 		}
+
+		printf("coucou2\n");
+		if (ft_print_game(st) == -1)
+			i = -2;
+		(*st)->cycle++;
+		i++;
 	}
 	if (i != -1 && (*st)->args[0] != -1)
 		print_dump(st);
