@@ -14,6 +14,7 @@
 # define P4 0xff9933
 # define OCT_W 28
 # define OCT_H 18
+# define LETTER_W 7
 #include <time.h>
 #include <stdlib.h>
 #include "corewar.h"
@@ -48,6 +49,48 @@ SDL_Color	argb_to_sdl(Uint32 color)
 
 	c = (t_color)((int)color);
 	return ((SDL_Color){c.rgb[2], c.rgb[1], c.rgb[0], c.rgb[3]});
+}
+
+static int	ft_size(int n)
+{
+	int	size;
+
+	size = 1;
+	if (n < 0)
+		size++;
+	while (n / 10)
+	{
+		size++;
+		n = n / 10;
+	}
+	return (size);
+}
+
+char		*ft_itoa(int n)
+{
+	int		size;
+	char	*s;
+
+	size = ft_size(n);
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	if (n == 0)
+		return (ft_strdup("0"));
+	if (!(s = (char *)malloc(size + 1)))
+		return (NULL);
+	if (n < 0)
+	{
+		s[0] = '-';
+		n = -n;
+	}
+	s[size] = '\0';
+	while (n > 0)
+	{
+		s[size - 1] = n % 10 + 48;
+		n = n / 10;
+		--size;
+	}
+	return (s);
 }
 
 char *ft_itoa_hexa(int a)
@@ -108,6 +151,69 @@ int ft_color_octet(int player)
 	return (-1);
 }
 
+char	*ft_ctoa(char c)
+{
+	char *str;
+
+	if (!(str = malloc(sizeof(char) * 2)))
+		return (NULL);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
+}
+
+void ft_fill_alphabet_color(t_storage **st, SDL_Texture ***tab_color, int color)
+{
+	int i = -1;
+	SDL_Texture *tmp;
+
+	while (++i < 37)
+	{
+	printf("coucouatt\n");
+		if (i < 10)
+			(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, ft_itoa(i), argb_to_sdl(color));
+		if (i < 36)
+			(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, ft_ctoa((char)i), argb_to_sdl(color));
+		else
+			(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, " ", argb_to_sdl(color));
+	printf("coucouat\n");
+		(*tab_color)[i] = SDL_CreateTextureFromSurface((*st)->win->renderer, (*st)->win->surface);
+	printf("coucoua\n");
+		SDL_FreeSurface((*st)->win->surface);
+	printf("coucou\n");
+	}
+}
+
+int ft_init_alphabet_color(t_storage **st)
+{
+	printf("coucoua\n");
+	if (!((*st)->win->tab_w = malloc(sizeof(*(*st)->win->tab_w) * 37)))
+		return (0);
+	printf("coucoub\n");
+	ft_fill_alphabet_color(st, &(*st)->win->tab_w, WHITE);
+	printf("coucouc\n");
+	if (!((*st)->win->tab_b = malloc(sizeof(SDL_Texture *) * 37)))
+		return (0);
+	ft_fill_alphabet_color(st, &(*st)->win->tab_b, P1);
+	if (!((*st)->win->tab_o = malloc(sizeof(SDL_Texture *) * 37)))
+		return (0);
+	ft_fill_alphabet_color(st, &(*st)->win->tab_o, P2);
+	if (!((*st)->win->tab_v = malloc(sizeof(SDL_Texture *) * 37)))
+		return (0);
+	ft_fill_alphabet_color(st, &(*st)->win->tab_v, P3);
+	if (!((*st)->win->tab_g = malloc(sizeof(SDL_Texture *) * 37)))
+		return (0);
+	ft_fill_alphabet_color(st, &(*st)->win->tab_g, P4);
+	if(&(*st)->win->tab_g[0])
+	{
+		printf("ola\n");
+		sleep(3);
+	}
+	return (1);
+}
+
+int ft_init_font(t_storage **st);
+
 int ft_init_win(t_storage **st)
 {
 	t_win *win;
@@ -115,23 +221,44 @@ int ft_init_win(t_storage **st)
 		return (0);
 	(*st)->win = win;
 	printf("coucou1win\n");
+	char c = 98;
+	write(1, &c, 1);
 	(*st)->win->pause = 0;
 	printf("coucou1\n");
 	// write(1, "ch", 2);
 	(*st)->win->renderer = NULL;
 	// write(1, "ch", 2);
-	(*st)->win->ttf_text = NULL;
+	if (!ft_init_font(st))
+		return (0);
 	// write(1, "ch", 2);
 	(*st)->win->width = WIDTH;
 	// write(1, "ch", 2);
 	(*st)->win->height = HEIGHT;
 	// write(1, "ch", 2);
-	(*st)->win->rect.x = 0;
-	(*st)->win->rect.y = 0;
-	(*st)->win->rect.w = WIDTH;
-	(*st)->win->rect.h = HEIGHT;
+	if (!((*st)->win->rect = malloc(sizeof(SDL_Rect))))
+		return (0);
+	(*st)->win->rect->x = 0;
+	(*st)->win->rect->y = 0;
+	(*st)->win->rect->w = WIDTH;
+	(*st)->win->rect->h = HEIGHT;
 	(*st)->win->nb_threads = 0;
 
+	printf("coucou123\n");
+	ft_init_alphabet_color(st);
+	printf("coucou1456\n");
+	// if (!((*st)->win->tab_w = malloc(sizeof((*st)->win->tab_w) * 37)))
+	// 	return (0);
+	// int i = -1;
+	// while (++i < 37)
+	// {
+	// 	if (i < 10)
+	// 		(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, ft_itoa(i), argb_to_sdl(WHITE));
+	// 	if (i < 36)
+	// 		(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, ft_ctoa((char)i), argb_to_sdl(WHITE));
+	// 	else
+	// 		(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, " ", argb_to_sdl(WHITE));
+	// 	(*st)->win->tab_w[i] = SDL_CreateTextureFromSurface((*st)->win->renderer, (*st)->win->surface);
+	// }
 	printf("coucou1\n");
 	return (1);
 }
@@ -174,8 +301,6 @@ int ft_init_sdl(t_storage **st)
 	if (!ft_init_window(st))
 		return (0);
 	printf("coucouinit 23\n");
-	if (!ft_init_font(st))
-		return (0);
 	printf("coucouinit 24\n");
 	return (1);
 }
@@ -238,48 +363,6 @@ void ft_str_create_and_print(t_storage **st, char *str1, char *str2, int line)
 	free(dest);
 }
 
-static int	ft_size(int n)
-{
-	int	size;
-
-	size = 1;
-	if (n < 0)
-		size++;
-	while (n / 10)
-	{
-		size++;
-		n = n / 10;
-	}
-	return (size);
-}
-
-char		*ft_itoa(int n)
-{
-	int		size;
-	char	*s;
-
-	size = ft_size(n);
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	if (n == 0)
-		return (ft_strdup("0"));
-	if (!(s = (char *)malloc(size + 1)))
-		return (NULL);
-	if (n < 0)
-	{
-		s[0] = '-';
-		n = -n;
-	}
-	s[size] = '\0';
-	while (n > 0)
-	{
-		s[size - 1] = n % 10 + 48;
-		n = n / 10;
-		--size;
-	}
-	return (s);
-}
-
 int ft_put_players(t_storage **st, int line)
 {
 	t_champion *tmp = (*st)->first_champion;
@@ -335,40 +418,70 @@ void ft_put_infos(t_storage **st)
 
 int ft_put_treads(t_storage **st)
 {
+	t_thread *tmp;
+
+	tmp = (*st)->first_thread;
+	(*st)->win->nb_threads = 0;
+	(*st)->win->texture = SDL_CreateTexture((*st)->win->renderer, SDL_PIXELFORMAT_RGBA8888,
+                               SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
+	 // On va dessiner sur la texture	
+	SDL_SetRenderTarget((*st)->win->renderer, (*st)->win->texture);
+	SDL_SetRenderDrawColor((*st)->win->renderer, 0, 0, 0, 255);
+	SDL_RenderFillRect((*st)->win->renderer, &(SDL_Rect){0, 0, WIDTH, HEIGHT});
+	SDL_SetRenderDrawColor((*st)->win->renderer, 100, 100, 100, 255);
+	while (tmp != NULL)
+	{
+		printf("w = %d\n", tmp->where);
+		(*st)->win->rect->x = tmp->where % 64 * OCT_W;
+		(*st)->win->rect->y = tmp->where / 64 * OCT_H;
+		(*st)->win->rect->w = OCT_W;
+		(*st)->win->rect->h = OCT_H;
+		SDL_RenderFillRect((*st)->win->renderer, (*st)->win->rect);
+		tmp = tmp->next;
+		(*st)->win->nb_threads++;
+	}
+	SDL_SetRenderTarget((*st)->win->renderer, NULL);
+	SDL_RenderCopy((*st)->win->renderer, (*st)->win->texture, NULL, &(SDL_Rect){0, 0, WIDTH, HEIGHT});
+	SDL_DestroyTexture((*st)->win->texture);
+	(*st)->win->texture = NULL;
+	return(1);
+}
+
+/*int ft_put_treads(t_storage **st)
+{
 	t_thread *tmp = (*st)->first_thread;
-	SDL_Rect rect;
+	SDL_Rect *rect;
+	SDL_Texture *texture;
 
 	(*st)->win->nb_threads = 0;
-	// (*st)->win->texture 
-	SDL_Texture *texture = SDL_CreateTexture((*st)->win->renderer, SDL_PIXELFORMAT_RGBA8888, 
+	if (!(rect = malloc(sizeof(SDL_Rect))))
+		return (0);
+	texture = SDL_CreateTexture((*st)->win->renderer, SDL_PIXELFORMAT_RGBA8888, 
                                SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
-	SDL_SetRenderDrawColor((*st)->win->renderer, 0, 0, 0, 255);
+
 	SDL_RenderClear((*st)->win->renderer);
-	sleep(2);
-	// SDL_RenderCopy((*st)->win->renderer, texture, NULL, &(SDL_Rect){0, 0, WIDTH, HEIGHT});
 
+	SDL_SetRenderTarget((*st)->win->renderer, texture);  // On va dessiner sur la texture
+	SDL_SetRenderDrawColor((*st)->win->renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect((*st)->win->renderer, &(SDL_Rect){0, 0, WIDTH, HEIGHT});
-	SDL_SetRenderDrawColor((*st)->win->renderer, 100, 100, 100, 255); /* On dessine en gris */
-
-	// SDL_RenderCopy((*st)->win->renderer, texture, NULL, &(*st)->win->rect);
-	SDL_SetRenderTarget((*st)->win->renderer, texture);  // On va dessiner sur la texture 
+	SDL_SetRenderDrawColor((*st)->win->renderer, 100, 100, 100, 255);
 	while (tmp)
 	{
-		// write(1, "totototo\n", 9);
 		printf("w = %d\n", tmp->where);
-		rect.x = tmp->where % 64 * OCT_W;
-		rect.y = tmp->where / 64 * OCT_H;
-		rect.w = OCT_W;
-		rect.h = OCT_H;
-		SDL_RenderFillRect((*st)->win->renderer, &rect);
+		rect->x = tmp->where % 64 * OCT_W;
+		rect->y = tmp->where / 64 * OCT_H;
+		rect->w = OCT_W;
+		rect->h = OCT_H;
+		SDL_RenderFillRect((*st)->win->renderer, rect);
 		tmp = tmp->next;
 		(*st)->win->nb_threads++;
 	}
 	SDL_SetRenderTarget((*st)->win->renderer, NULL);
 	SDL_RenderCopy((*st)->win->renderer, texture, NULL, &(*st)->win->rect);
 	SDL_DestroyTexture(texture);
+	texture = NULL;
 	return(1);
-}
+}*/
 
 char *ft_tab_int_to_string(int *tab)
 {
@@ -387,146 +500,211 @@ char *ft_tab_int_to_string(int *tab)
 	}
 	return (line);
 }
-/*
-void ft_write_line_in_renderer(t_win *win, int y, char *str)
+
+void ft_write_octet_in_renderer(t_storage **st, char *str, int grid2)
 {
-	SDL_Color white = {255, 255, 255, 255};
-
-	// write(1, str, 256);
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(win->ttf_text, str, white);
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(win->renderer, surfaceMessage);
-	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = 0;  //controls the rect's x coordinate 
-	Message_rect.y = y; // controls the rect's y coordinte
-	Message_rect.w = OCT_W * 64; // 21 controls the width of the rect
-	Message_rect.h = OCT_H; // controls the height of the rect
-	SDL_RenderCopy(win->renderer, Message, NULL, &Message_rect);
-	// SDL_FreeSurface(surfaceMessage);
-	SDL_DestroyTexture(Message);
-	free(str);
-}
-
-
-int ft_print_grid(t_win *win)
-{
-	int i = 0;
-	int j = 0;
-	int **grid = NULL;
-
-	grid = (int **)malloc(sizeof(int *) * 64);
-
-	srand(time(NULL));
-	while(i < 64)
-	{
-		j = 0;
-		grid[i] = malloc (sizeof(int) * 64);
-		while (j < 64)
-		{
-			grid[i][j] = rand() % 255;
-			j++;
-		}
-		i++;
-	}
-
-	i = 0;
-	while(i < 64)
-	{
-		ft_write_line_in_renderer(win, i * OCT_H, ft_tab_int_to_string(grid[i]));
-		i++;
-	}
-	i = -1;
-	while(++i < 64)
-		free(grid[i]);
-	free(grid);
-	return (1);
-}*/
-
-void ft_write_octet_in_renderer(t_storage **st, char *str, SDL_Rect *rect, int grid2)
-{
-	// write(1, str, 256);
-	SDL_Surface *surface_message;
+	/*SDL_Surface *surface_message;
 	SDL_Texture *message;
 
 	surface_message = TTF_RenderText_Solid((*st)->win->ttf_text, str, argb_to_sdl(grid2));
 	message = SDL_CreateTextureFromSurface((*st)->win->renderer, surface_message);
-	SDL_RenderCopy((*st)->win->renderer, message, NULL, rect);
+	// SDL_RenderCopy((*st)->win->renderer, message, NULL, rect);
 	SDL_FreeSurface(surface_message);
-	SDL_DestroyTexture(message);
+	SDL_DestroyTexture(message);*/
+
+
+
+
+
+	(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, str, argb_to_sdl(grid2));
+	SDL_RenderCopy((*st)->win->renderer, (*st)->win->message, NULL, (*st)->win->rect);
+	SDL_FreeSurface((*st)->win->surface);
+	//SDL_DestroyTexture((*st)->win->message);
+
+
+
+
+
 	free(str);
+}
+
+
+
+/*
+void ft_write_octet_in_renderer(t_storage **st, int i, int j)
+{
+	// SDL_Surface *surface_message;
+	// SDL_Texture *message;
+
+	(*st)->win->rect.x = j * OCT_W + OCT_W / 6;
+	(*st)->win->rect.y = i * OCT_H;
+	(*st)->win->rect.w = 2 * OCT_W / 3;
+	(*st)->win->rect.h = OCT_H;
+	(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, ft_itoa_hexa((*st)->grid[i][j]), argb_to_sdl((*st)->color_grid[i][j]));
+	(*st)->win->message = SDL_CreateTextureFromSurface((*st)->win->renderer, (*st)->win->surface);
+	SDL_SetRenderTarget((*st)->win->renderer, (*st)->win->texture);  // On va dessiner sur la texture
+	SDL_RenderCopy((*st)->win->renderer, (*st)->win->message, NULL, &(*st)->win->rect);
+	SDL_FreeSurface((*st)->win->surface);
+	SDL_DestroyTexture((*st)->win->message);
+	// free(str);
+}*/
+
+/*
+void ft_create_rect(t_storage **st, int i, char *str)
+{
+	(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text, str, argb_to_sdl(WHITE));
+	(*st)->win->message = SDL_CreateTextureFromSurface((*st)->win->renderer, (*st)->win->surface);
+	SDL_Rect Message_rect;
+	Message_rect.x = 0;  //controls the rect's x coordinate 
+	Message_rect.y = i * OCT_H;
+	Message_rect.w = OCT_W * 64; // controls the width of the rect
+	Message_rect.h = OCT_H;
+	SDL_RenderCopy((*st)->win->renderer, (*st)->win->message, NULL, &Message_rect);
+	SDL_FreeSurface((*st)->win->surface);
+	SDL_DestroyTexture((*st)->win->message);
+
+}
+
+void ft_print_grid(t_storage **st)
+{
+	int i = 0;
+	while (i < 64)
+	{
+		ft_create_rect(st, i, ft_tab_int_to_string((*st)->grid[i]));
+		i++;
+	}
+}
+*/
+
+SDL_Texture *ft_grep_caract( SDL_Texture **tab, char c)
+{
+	// printf("coucou ici c = %c\n", c);
+	if (c >= '0' && c <= '9')
+	{
+		// printf("CHIFFRE c = %c\n", c);
+		return (tab[c - 48]);
+	}
+	if (c >= 'a' && c <= 'z')
+	{
+		// printf("LETTRE c = %c\n", c);
+		return (tab[c - 97 + 10]);
+	}
+	return (NULL);
+}
+
+SDL_Texture *ft_grep_texture(t_storage **st, char c, int color)
+{
+	// if (color)
+		// printf("coucou là color = %d\n", color);
+	if (color == 0)
+	{
+		// printf("color = %c et ", color);
+		return (ft_grep_caract((*st)->win->tab_w, c));
+	}
+	if (color == 1)
+	{
+		// printf("color = %c et ", color);
+		return (ft_grep_caract((*st)->win->tab_b, c));
+	}
+	if (color == 2)
+	{
+		// printf("color = %c et ", color);
+		return (ft_grep_caract((*st)->win->tab_o, c));
+	}
+	if (color == 3)
+	{
+		// printf("color = %c et ", color);
+		return (ft_grep_caract((*st)->win->tab_v, c));
+	}
+	else if (color == 4)
+	{
+		// printf("color = %c et ", color);
+		return (ft_grep_caract((*st)->win->tab_g, c));
+	}
+	return (NULL);
+}
+
+void ft_write_caract_in_renderer(t_storage **st, int i, int j, char *str)
+{
+	int k = -1;
+	while (++k < 4)
+	{
+		// printf("                ah bon i = %d j = %d\n", i , j);
+		(*st)->win->rect->y = i * OCT_H;
+		(*st)->win->rect->x = j * OCT_W + k * LETTER_W;
+		(*st)->win->rect->h = OCT_H;
+		(*st)->win->rect->w = LETTER_W;
+		if(!((*st)->win->tab_w)[36])
+			printf("TA MERE");
+		if (k == 0 || k == 3)
+			SDL_RenderCopy((*st)->win->renderer, (*st)->win->tab_w[36], NULL, (*st)->win->rect);
+		else
+		{
+			// printf("str = %s c = %c\n", str, str[k - 1]);
+			SDL_RenderCopy((*st)->win->renderer, ft_grep_texture(st, str[k - 1], (*st)->color_grid[i][j]), NULL, (*st)->win->rect);
+		}
+	}
 }
 
 void ft_print_grid(t_storage **st)
 {
 	int i = 0;
 	int j = 0;
-	// int **grid = NULL;
-	// int **grid2 = NULL;
 
-	// grid = (int **)malloc(sizeof(int *) * 64);
-	// grid2 = (int **)malloc(sizeof(int *) * 64);
-
-	// srand(time(NULL));
-	// while(i < 64)
-	// {
-	// 	j = 0;
-	// 	grid[i] = malloc (sizeof(int) * 64);
-	// 	grid2[i] = malloc (sizeof(int) * 64);
-	// 	while (j < 64)
-	// 	{
-	// 		grid[i][j] = rand() % 255;
-	// 		grid2[i][j] = rand() % 4;
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
-	// i = 0;
-	// j = 0;
-	SDL_Rect rect;
-
+	(*st)->win->message = SDL_CreateTextureFromSurface((*st)->win->renderer, (*st)->win->surface);
 	while(i < 64)
 	{
 		j = 0;
 		while (j < 64)
 		{
-			rect.x = j * OCT_W + OCT_W / 6;
-			rect.y = i * OCT_H;
-			rect.w = 2 * OCT_W / 3;
-			rect.h = OCT_H;
-			ft_write_octet_in_renderer(st, ft_itoa_hexa((*st)->grid[i][j]), &rect, ft_color_octet((*st)->color_grid[i][j]));
+			ft_write_caract_in_renderer(st, i, j, ft_itoa_hexa((*st)->grid[i][j]));
 			j++;
 		}
 		i++;
 	}
-	// i = 0;
-	// while(++i < 64)
-	// {
-	// 	free(grid[i]);
-	// 	free(grid2[i]);
-	// }
-	// free(grid);
-	// free(grid2);
 }
+
+
+/*
+void ft_print_grid(t_storage **st)
+{
+	int i = 0;
+	int j = 0;
+
+	(*st)->win->message = SDL_CreateTextureFromSurface((*st)->win->renderer, (*st)->win->surface);
+	while(i < 64)
+	{
+		j = 0;
+		while (j < 64)
+		{
+			(*st)->win->rect->x = j * OCT_W + OCT_W / 6;
+			(*st)->win->rect->y = i * OCT_H;
+			(*st)->win->rect->w = 2 * OCT_W / 3;
+			(*st)->win->rect->h = OCT_H;
+
+			ft_write_octet_in_renderer(st, ft_itoa_hexa((*st)->grid[i][j]), ft_color_octet((*st)->color_grid[i][j]));
+			j++;
+		}
+		i++;
+	}
+}
+*/
 
 int ft_print_game(t_storage **st)
 {
 
 	printf("coucou\n");
-	int gameRunning = 1;
     // if (SDL_PollEvent(&(*st)->win->event))
     // {
-    	SDL_PollEvent(&(*st)->win->event);
-        if ((*st)->win->event.type == SDL_QUIT || (*st)->win->event.key.keysym.sym == SDLK_ESCAPE)
-    	    gameRunning = -1;
-        if ((*st)->win->event.type == SDL_KEYDOWN && (*st)->win->event.key.keysym.sym == SDLK_SPACE)
-        	(*st)->win->pause = ((*st)->win->pause == 1)? 0 : 1;
-		ft_put_treads(st);
-		ft_print_grid(st);
-		ft_put_infos(st);
-		SDL_RenderPresent((*st)->win->renderer);
-        SDL_RenderClear((*st)->win->renderer);
-        sleep(2);
+
+	ft_put_treads(st);
+	ft_print_grid(st);
+	ft_put_infos(st);
+	SDL_RenderPresent((*st)->win->renderer);
+    SDL_RenderClear((*st)->win->renderer);
+        // sleep(1);
     // }
-    return (gameRunning);
+    return (1);
 }
 
 

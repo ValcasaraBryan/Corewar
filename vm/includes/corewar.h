@@ -143,7 +143,8 @@ typedef struct		s_win
 	SDL_Event		event;
 	SDL_Renderer 	*renderer;
 	SDL_Texture 	*texture;
-	SDL_Rect 		rect;
+	SDL_Texture 	*message;
+	SDL_Rect 		*rect;
 	int				colors[4];
 	int				width;
 	int				height;
@@ -151,6 +152,11 @@ typedef struct		s_win
 	int				text_start;
 	int 			pause;
 	int 			nb_threads;
+	SDL_Texture		**tab_w;
+	SDL_Texture		**tab_b;
+	SDL_Texture		**tab_o;
+	SDL_Texture		**tab_v;
+	SDL_Texture		**tab_g;
 }					t_win;
 
 typedef struct			s_storage
