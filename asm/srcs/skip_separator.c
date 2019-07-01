@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   skip_separator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:43:46 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 15:43:49 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/01 19:28:56 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

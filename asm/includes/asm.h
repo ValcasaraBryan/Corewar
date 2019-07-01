@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/19 18:51:56 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/01 18:58:04 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,11 @@ typedef struct		s_line
 {
 	char			*line;
 	int				current;
-	int				n_line;
 }					t_line;
 
 typedef struct		s_error
 {
-	t_token			token;
+	t_token			*token;
 	t_ins			*instruction;
 	t_label			*label;
 	int				index_params;
@@ -237,7 +236,7 @@ int		get_token(t_data *data);
 /*
 **			token_utility.c
 */
-t_token		token_val(t_token add, int start, int end, int n_line);
+t_token		token_val(t_token add, int start, int end);
 void		erase_token(t_token **token);
 t_token		cpy_token(t_token *token);
 /*

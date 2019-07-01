@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   token_utility.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:29:24 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 15:32:47 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/01 18:53:21 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-t_token		token_val(t_token add, int start, int end, int n_line)
+t_token		token_val(t_token add, int start, int end)
 {
 	add.type = -1;
 	add.start = start;
 	add.end = end;
-	add.n_line = n_line;
 	return (add);
 }
 
@@ -44,7 +43,6 @@ t_token	cpy_token(t_token *token)
 	new.type = token->type;
 	new.start = token->start;
 	new.end = token->end;
-	new.n_line = token->n_line;
 	new.next = NULL;
 	return (new);
 }

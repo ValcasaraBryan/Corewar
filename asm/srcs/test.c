@@ -13,7 +13,6 @@ void	init_data(t_data *data, char *av)
 	data->quote = false;
 	data->line.line = NULL;
 	data->line.current = 0;
-	data->line.n_line = 0;
 	data->token = NULL;
 	data->ins = NULL;
 	data->ins_label = NULL;

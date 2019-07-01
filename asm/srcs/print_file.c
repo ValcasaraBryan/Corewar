@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/17 18:46:20 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/01 18:57:03 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int		write_file(t_data *data, int i)
 		data->ins = data->ins->next;
 	}
 	close(data->fd_file);
+	ft_printf(SUCCESS, data->name_cor);
 	return (1);
 }

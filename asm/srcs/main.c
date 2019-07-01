@@ -16,11 +16,11 @@ void	init_data(t_data *data, char *av)
 	data->comment = false;
 	data->line.line = NULL;
 	data->line.current = 0;
-	data->line.n_line = 1;
 	data->token = NULL;
 	data->ins = NULL;
 	data->ins_label = NULL;
 	data->label = NULL;
+	data->error.token = NULL;
 	data->error.instruction = NULL;
 	data->error.label = NULL;
 	data->n_line = 1;
@@ -52,7 +52,6 @@ int		main(int argc, char **argv)
 		{
 			if (!(write_file(&data, 0)))
 				return (0);
-			ft_printf(SUCCESS, data.name_cor);
 		}
 	}
 	return (0);

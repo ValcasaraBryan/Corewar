@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/19 19:03:35 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/01 19:30:05 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			}
 			else
 			{
-				data->error.token = cpy_token(*tmp);
-				data->error.instruction = ins;
-				data->error.label = NULL;
 				data->error.index_params = i;
 				return (0); // type d'argument non valide
 			}
@@ -88,16 +85,13 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			}
 			else
 			{
-				data->error.token = cpy_token(*tmp);
-				data->error.instruction = ins;
-				data->error.label = NULL;
 				data->error.index_params = i;
 				return (0); // type d'argument non valide
 			}
 		}
 		else
 		{
-			ft_printf("nothing %s\n", (*tmp)->cut);
+			ft_printf("nothing %s | %d\n", (*tmp)->cut, (*tmp)->type);
 			return (0);
 		}
 		if ((*tmp)->next)
@@ -105,10 +99,11 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 		else
 			break ;
 		if (!(skip_separator(tmp, val, &i)))
+		{
 			return (0);
+		}
 		ins->octet = ins->octet << bin;
 	}
-	// ft_printf("%d < %d\n", i, val->len_params);
 	if (i < val->len_params - 1)
 	{
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/06/19 19:14:06 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/01 19:07:57 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,8 @@ int		step(t_data *data)
 	if (!data->line.line && !data->ret)
 		return (0);
 	data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
-	// ft_printf("%s\n", data->line.line);
 	if (!(get_token(data)))
-	{
-		ft_printf("error get_token\n");
 		return (0);
-	}
 	return (1);
 }
 
@@ -157,7 +153,7 @@ int		parsing_asm(t_data *data)
 			ft_printf("no newline\n");
 			return (0);
 		}
-		// ft_printf("%s|%d", data->line.line, data->line.n_line);
+		// ft_printf("%s", data->line.line);
 		data->line.current = 0;
 	}
 	// ft_printf("[%s]\n", data->header.prog_name);
@@ -166,37 +162,40 @@ int		parsing_asm(t_data *data)
 	if (!(check_label(data)))
 		return (0);
 	if ((data->name && data->comment) || error(data->error))
-	{
-		ft_printf("error name or comment\n");
 		return (0);
-	}
-	// if (!(suffix_name(data, SUFFIX)))
-		// return (0);
+	if (!(suffix_name(data, SUFFIX)))
+		return (0);
 	return (1);
 }
 
 int		error(t_error error)
 {
 	char *type;
-	if (!error.instruction || !error.label)
-		return (0);
-	ft_printf("%s %d [%03d:%03d]\n", error.token.cut, error.token.type, error.token.n_line, error.token.start);
-	if (error.token.type == DIRECT || error.token.type == DIRECT_LABEL)
-		type = DIRECT_MSG;
-	else if (error.token.type == INDIRECT || error.token.type == INDIRECT_LABEL)
-		type = INDIRECT_MSG;
-	else if (error.token.type == REGISTER)
-		type = REGISTER_MSG;
-	else
-		type = NULL;
-	if (error.instruction->codage[error.index_params] != error.instruction->ins.params[error.index_params])
+
+	type = NULL;
+	// ft_printf("%p %p %p\n", error.token, error.instruction, error.label);
+	if (error.token)
 	{
-		ft_fprintf(INVALID_PARAMS, S_ERR, error.index_params, type, error.instruction->ins.ins);
-		return (1);
+		if (error.token->type == DIRECT || error.token->type == DIRECT_LABEL)
+			type = DIRECT_MSG;
+		else if (error.token->type == INDIRECT || error.token->type == INDIRECT_LABEL)
+			type = INDIRECT_MSG;
+		else if (error.token->type == REGISTER)
+			type = REGISTER_MSG;
+		ft_printf("%s | %d\n", error.token->cut, error.token->type);
 	}
-	// ft_printf("%d\n", error.instruction->codage[error.index_params]);
-	// ft_printf("%s %d\n", error.instruction->ins.ins, error.instruction->ins.params[error.index_params]);
-	// ft_printf("%p\n", error.label);
-	// ft_printf("%d\n", error.index_params);
-	return (0);
+	else if (error.instruction)
+	{
+		if (error.instruction->codage[error.index_params] != error.instruction->ins.params[error.index_params])
+			ft_fprintf(INVALID_PARAMS, S_ERR, error.index_params, type, error.instruction->ins.ins);
+	}
+	else if (error.label)
+	{
+		
+	}
+	else
+	{
+		return (0);
+	}
+	return (1);
 }
