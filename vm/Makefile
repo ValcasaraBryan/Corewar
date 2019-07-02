@@ -60,7 +60,11 @@ FILES_SRCS =	bin_extractor.c			\
 				unit_tests_instr.c		\
 				unit_tests.c			\
 				utilities.c 			\
-				init_sdl.c
+				visu_init_sdl.c			\
+				visu_print_grid.c 		\
+				visu_print_infos.c 		\
+				visu_print_threads.c	\
+				visu_utilities.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)
 OBJS =			$(FILES_SRCS:%.c=$(DIR_OBJS)/%.o)
 SRCS =			$(FILES_SRCS:%.c=$(DIR_SRCS)/%.c)

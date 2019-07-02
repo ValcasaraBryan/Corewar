@@ -15,6 +15,7 @@
 int				process_battle(t_storage **st, int nb_cycles)
 {
 	t_thread	*current;
+	SDL_Event	eventtest;
 	t_thread	*next;
 	int			i;
 	int			j;
@@ -26,19 +27,14 @@ int				process_battle(t_storage **st, int nb_cycles)
 	var_cycle_to_die = CYCLE_TO_DIE;
 	unsigned int checkTime = SDL_GetTicks();
 	const unsigned int fps = 60;
-	while (i > -1 && i != nb_cycles && var_cycle_to_die > 0)
+	while (SDL_PollEvent(&eventtest) > -1)
 	{
-		// printf("test\n");
+		if (!(i > -1 && i != nb_cycles && var_cycle_to_die > 0))
+			break ;
 		if ((*st)->win->pause != 1 && SDL_GetTicks() > (checkTime + 1000 / fps))
 		{
-		    /* Code à exécuter 20 fois / seconde ... */
-
-	    	/* On remet à jour le temps à contrôler */
-		
 			if (i % var_cycle_to_die == 0)
 			{
-				//printf("i = %d\n", i);
-				//print_thread_list(st);
 				current = (*st)->first_thread;
 				while (current != NULL)
 				{
@@ -77,18 +73,40 @@ int				process_battle(t_storage **st, int nb_cycles)
 					current = current->next;
 				}
 			}
-
-			printf("coucou2\n");
-			ft_print_game(st);
+			printf("ft_print_game debut\n");
+			if (ft_print_game(st) != SUCCESS)
+				return (FAILURE);
+			printf("ft_print_game fin\n");
+			//sleep(1);
 			(*st)->cycle++;
 			i++;
 	   		checkTime = SDL_GetTicks();
 		}
-    	SDL_PollEvent(&(*st)->win->event);
-        if ((*st)->win->event.type == SDL_QUIT || (*st)->win->event.key.keysym.sym == SDLK_ESCAPE)
-    	    i = -2;
-        if ((*st)->win->event.type == SDL_KEYDOWN && (*st)->win->event.key.keysym.sym == SDLK_SPACE)
-        	(*st)->win->pause = ((*st)->win->pause == 1)? 0 : 1;
+		printf("debut bug ici ??\n");
+		printf("mid bug ici ??\n");
+    	if (eventtest.type == SDL_QUIT)
+    		i = -2;
+    	if (eventtest.key.keysym.sym == SDLK_ESCAPE)
+    		i = -2;
+    	/*printf("c\n");
+        	 || (*st)->win->event->key.keysym.sym == SDLK_ESCAPE))
+    		    i = -2;
+			printf("test5\n");
+        	if (((*st)->win->event->type == SDL_KEYDOWN && (*st)->win->event->key.keysym.sym == SDLK_SPACE))
+    	    	(*st)->win->pause = ((*st)->win->pause == 1)? 0 : 1;*/
+
+		/*if (SDL_PollEvent(((*st)->win->event)) == 1)
+		{
+			// SDL_PumpEvents();
+			// printf("%s\n", SDL_GetError());
+        	if (((*st)->win->event->type == SDL_QUIT || (*st)->win->event->key.keysym.sym == SDLK_ESCAPE))
+    		    i = -2;
+			printf("test5\n");
+        	if (((*st)->win->event->type == SDL_KEYDOWN && (*st)->win->event->key.keysym.sym == SDLK_SPACE))
+    	    	(*st)->win->pause = ((*st)->win->pause == 1)? 0 : 1;
+    	}*/
+		printf("fin bug ici ??\n");
+		printf("test6\n");
 	}
 	if (i != -1 && (*st)->args[0] != -1)
 		print_dump(st);

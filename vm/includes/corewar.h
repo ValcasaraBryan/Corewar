@@ -140,14 +140,12 @@ typedef struct		s_win
 	SDL_Window		*window;
 	SDL_Surface		*surface;
 	TTF_Font		*ttf_text;
-	SDL_Event		event;
+	SDL_Event		*event;
 	SDL_Renderer 	*renderer;
 	SDL_Texture 	*texture;
 	SDL_Texture 	*message;
 	SDL_Rect 		*rect;
 	int				colors[4];
-	int				width;
-	int				height;
 	int				text_height;
 	int				text_start;
 	int 			pause;
@@ -194,9 +192,51 @@ extern t_instruction	g_tab_instructions[18];
 /*
 **							garance
 */
+# include <math.h>
+# include <unistd.h>
+# include <stdbool.h>
+# define WIDTH 2300
+# define HEIGHT 1152
+# define WHITE 0xffffff
+# define GREY 0x202020
+# define P1 0x33cc33
+# define P2 0x0099ff
+# define P3 0xff00ff
+# define P4 0xff9933
+# define OCT_W 28
+# define OCT_H 18
+# define LETTER_W 7
+# include <time.h>
+# include <stdlib.h>
+
+
+
 int ft_print_game(t_storage **st);
 int ft_init_sdl(t_storage **st);
 int ft_init_win(t_storage **st);
+
+
+
+
+
+
+int	ft_size(int n);
+SDL_Color	argb_to_sdl(Uint32 color);
+char		*ft_itoa(int n);
+char *ft_itoa_hexa(int a);
+int ft_color_octet(int player);
+char	*ft_ctoa(char c);
+size_t		ft_strlen(const char *str);
+char	*ft_strcat(char *dest, const char *src);
+
+
+
+
+
+
+int				ft_print_infos(t_storage **st);
+int			ft_print_threads(t_storage **st);
+int		ft_print_grid(t_storage **st);
 
 /*
 ** ------------------------	bin_extractor				------------------------

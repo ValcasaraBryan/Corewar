@@ -154,13 +154,11 @@ int				setup_all(t_storage **st, int argv, char ***argc)
 		free_tab_int(&array_2);
 		return (CALL_FAILED);
 	}
-	printf("coucou1\n");
-	if (!ft_init_win(st) || !ft_init_sdl(st))
+	if (ft_init_sdl(st) != SUCCESS
+		|| ft_init_win(st) != SUCCESS)
 		return (CALL_FAILED);
-	printf("coucou1 bis\n");
 	free_tab_char(&array_1);
 	free_tab_int(&array_2);
-	print_storage(st);
 	print_function_state("setup_all", "END");
 	return (SUCCESS);
 }
