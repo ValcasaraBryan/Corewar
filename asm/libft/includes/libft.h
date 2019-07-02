@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 17:12:51 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/18 04:10:03 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/02 16:40:50 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int					free_tab_str(char ***str);
 /*
 **	ft_is
 */
-int					ft_is_whitespace(char c);
+int					ft_is_whitespace(int c);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
@@ -87,6 +87,7 @@ int					ft_putstr_len(const char *str, size_t len, int fd);
 **	ft_str
 */
 int					ft_str_is_digit(char *str);
+int					ft_str_is(char *str, int (*fonction)(int));
 int					ft_str_is_int(char *str);
 char				*ft_strcat(char *s1, const char *s2);
 char				*ft_strchr(const char *s, int c);

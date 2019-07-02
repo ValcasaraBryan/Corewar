@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/01 18:57:03 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:01:33 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		write_file(t_data *data, int i)
 	if ((data->fd_file = open(data->name_cor, O_CREAT | O_RDWR | O_TRUNC,
 		S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH)) == -1)
 	{
-		ft_fprintf(NO_FILE, S_ERR, OPEN, data->name_cor);
+		ft_fprintf(NO_FILE, S_ERR, CREAT, data->name_cor);
 		return (0);
 	}
 	print_octet(data->fd_file, data->header.magic, 4);

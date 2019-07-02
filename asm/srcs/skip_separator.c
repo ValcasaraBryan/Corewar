@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:43:46 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/01 19:28:56 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:06:41 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int		skip_separator(t_token **tmp, t_op *val, int *i)
 			(*tmp) = (*tmp)->next;
 		else
 		{
-			ft_printf("ENDLINE\n");
+			ft_fprintf(MSG_SYN, S_ERR, TOKEN_ENDLINE);
 			return (0);
 		}
 	}
 	else
 	{
-		ft_printf("syntax error %s\n", (*tmp)->cut);
+		ft_fprintf(MSG_SYN, S_ERR, (*tmp)->cut);
 		return (0);
 	}
 	return (1);

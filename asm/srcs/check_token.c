@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/01 19:31:29 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:17:39 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,31 @@ char		*into_quote(char *str)
 	while (str[++i])
 	{
 		if (str[i] == CMD_CHAR)
+		{
+			i++;
 			break ;
+		}
 	}
 	while (str[i + ++j])
 	{
 		if (str[i + j] == CMD_CHAR)
+		{
+			j++;
 			break ;
+		}
 	}
-	return (NULL);
+	if (i == j)
+		return (ft_strdup(""));
+	else if (i < j)
+		return (ft_strcut(str, i, j));
+	else
+		return (NULL);
 }
 
-int			add_quote(t_data *data, t_token **token, t_op *val)
+int			add_quote(t_data *data, t_token **token)
 {
 	char	*tmp;
-	int		type;
+	char	*string;
 
 	if ((*token)->type == NAME)
 	{
@@ -48,11 +59,18 @@ int			add_quote(t_data *data, t_token **token, t_op *val)
 		tmp = (char *)data->header.comment;
 	}
 	if ((*token)->next)
+	{
+		data->name = ((*token)->type == NAME) ? true : data->name;
+		data->comment = ((*token)->type == COMMENT) ? true : data->comment;
 		(*token) = (*token)->next;
+	}
 	else
 		return (0);
-	type = add_type((*token)->cut, &val);
-	ft_strcpy(tmp, (*token)->cut);
+	if (!(string = into_quote((*token)->cut)))
+		return (0);
+	ft_strcpy(tmp, string);
+	free(string);
+	string = NULL;
 	return (1);
 }
 int		check_token(t_data *data)
@@ -69,47 +87,51 @@ int		check_token(t_data *data)
 	while (tmp)
 	{
 		tmp->type = add_type(tmp->cut, &val);
-		// ft_printf("%s | %d\n", tmp->cut, tmp->type);
-		if (tmp->type == INSTRUCTION || (tmp->type == LABEL && !val))
-		{
-			type = tmp->type;
-			if (type == INSTRUCTION && val)
-			{
-				ins_tmp = add_instruction(&data->ins, *val);
-				ins_tmp->len += (ins_tmp->ins.opcode == LIVE || ins_tmp->ins.opcode == FORK
-				|| ins_tmp->ins.opcode == ZJMP || ins_tmp->ins.opcode == LFORK) ? 1 : 2;
-			}
-			else if (type == LABEL)
-			{
-				add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1), data->header.prog_size);
-			}
-		}
-		else if (tmp->type == NAME || tmp->type == COMMENT)
+		// ft_printf("%s\n", tmp->cut);
+		if (tmp->type == NAME || tmp->type == COMMENT)
 		{
 			// ft_printf("%s %d\n", data->line.line, tmp->type);
-			if (!(add_quote(data, &tmp, val)))
+			if (!(add_quote(data, &tmp)))
 			{
-				data->error.token = tmp;
-				data->error.instruction = ins_tmp;
+				ft_printf("add_quote\n");
+				data->error.error = true;
 				return (0);
+			}
+		}
+		else if (data->name && data->comment && tmp->type > 0)
+		{
+			if (tmp->type == INSTRUCTION || (tmp->type == LABEL && !val))
+			{
+				type = tmp->type;
+				if (type == INSTRUCTION && val)
+				{
+					ins_tmp = add_instruction(&data->ins, *val);
+					ins_tmp->len += (ins_tmp->ins.opcode == LIVE || ins_tmp->ins.opcode == FORK
+					|| ins_tmp->ins.opcode == ZJMP || ins_tmp->ins.opcode == LFORK) ? 1 : 2;
+				}
+				else if (type == LABEL)
+					add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1), data->header.prog_size);
+			}
+			else
+			{
+				if (!val || !(check_params(data, &tmp, ins_tmp, val)))
+				{
+					data->error.error = true;
+					return (0);
+				}
+				data->header.prog_size += ins_tmp->len;
 			}
 		}
 		else
 		{
-			if (!val || !(check_params(data, &tmp, ins_tmp, val)))
-			{
-				data->error.token = tmp;
-				data->error.instruction = ins_tmp;
-				return (0);
-			}
-			data->header.prog_size += ins_tmp->len;
+			ft_fprintf(MSG_SYN, S_ERR, tmp->cut);
+			data->error.error = true;
+			return (0);
 		}
 		if (tmp->next)
 			tmp = tmp->next;
 		else
 			break ;
 	}
-	if (tmp->type == INSTRUCTION)
-		return (0);
 	return (1);
 }

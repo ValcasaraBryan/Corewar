@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:46:16 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/19 19:47:01 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 15:50:48 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int		get_arg(t_data *data, char *str, int (*fonction)(char))
 		while (str[++i] != '\n')
 			if (fonction(str[i]))
 				break ;
+
+		// ft_printf("%s - %d\n", str, i);
 	}
 	else
 	{

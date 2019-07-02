@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:37:32 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/19 17:13:59 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:52:39 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int		add_type(char *str, t_op **val)
 		return (COMMENT);
 	else if (ft_is_string(str))
 		return (STRING);
-	else if (ft_is_label(str, false) == -1)
-		return (0);
 	else
-		return (INSTRUCTION);
+		return (0);
 }

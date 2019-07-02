@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/01 18:58:04 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:22:42 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #define S_ERR	2
 #define READ	"read"
 #define OPEN	"open"
+#define CREAT	"create"
 #define NO_FILE	"Can't %s source file %s\n"
 #define SUCCESS	"Writing output program to %s\n"
 #define SUFF_F	".s"
@@ -64,29 +65,14 @@
 #define TRUE					1
 #define IN_TRUE					2
 #define FALSE					0
-#define	INDIRECT_MSG			"indirect"
-#define DIRECT_MSG				"direct"
-#define REGISTER_MSG			"register"
-#define TOKEN_DIRECT			"DIRECT"
-#define TOKEN_INDIRECT			"INDIRECT"
-#define TOKEN_REGISTER			"REGISTER"
-#define TOKEN_DIRECT_LABEL		"DIRECT_LABEL"
-#define TOKEN_INDIRECT_LABEL	"INDIRECT_LABEL"
-#define TOKEN_LABEL				"LABEL"
-#define TOKEN_SEPARATOR			"SEPARATOR"
 #define TOKEN_ENDLINE			"ENDLINE"
-#define TOKEN_END				"END"
-#define LINE					"\n"
-#define ERROR_COUNT				"Invalid parameter count for instruction %s"
-#define ERROR_PARAMS			"Invalid parameter %d type %s for instruction %s"
-#define MSG_LABEL				"No such label %s while attempting to dereference"
-#define MSG_SYN					"Syntax error at"
-#define MSG_TOKEN				" token [%s][%03d:%03d]"
-#define ARG						" \"%s\""
-#define SYNTAX_ARG				MSG_SYN MSG_TOKEN ARG LINE
-#define ERROR_LABEL				MSG_LABE MSG_TOKEN ARG LINE
-#define SYNTAX					MSG_SYN MSG_TOKEN LINE
-#define INVALID_PARAMS			ERROR_PARAMS LINE
+#define NO_NEWLINE				"Syntax error - unexpected end of input (Perhaps you forgot to end with a newline ?)\n"
+#define COMMAND_MISS			".name or .comment on first lines missing\n"
+#define UNDEFINED_TOKEN			"Token \"%s\" unknown\n"
+#define ERROR_COUNT				"Invalid parameter count for instruction %s\n"
+#define ERROR_PARAMS			"Invalid parameter %d for instruction %s \"%s\"\n"
+#define MSG_LABEL				"No such label \"%s\" while attempting to dereference token \n"
+#define MSG_SYN					"Syntax error at token \"%s\"\n"
 
 typedef struct		s_op
 {
@@ -148,10 +134,7 @@ typedef struct		s_line
 
 typedef struct		s_error
 {
-	t_token			*token;
-	t_ins			*instruction;
-	t_label			*label;
-	int				index_params;
+	bool			error;
 }					t_error;
 
 typedef struct		s_data

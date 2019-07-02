@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/01 19:30:05 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:27:08 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			}
 			else
 			{
-				data->error.index_params = i;
+				if ((*tmp)->type == DIRECT_LABEL && T_DIR == (T_DIR & (val->params[i])))
+					ft_fprintf(MSG_LABEL, S_ERR, (*tmp)->cut);
+				else if (T_DIR == (T_DIR & (val->params[i])))
+					ft_fprintf(ERROR_PARAMS, S_ERR, i, val->ins, (*tmp)->cut);
 				return (0); // type d'argument non valide
 			}
 		}
@@ -85,13 +88,16 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			}
 			else
 			{
-				data->error.index_params = i;
+				if ((*tmp)->type == INDIRECT_LABEL && T_IND == (T_IND & (val->params[i])))
+					ft_fprintf(MSG_LABEL, S_ERR, (*tmp)->cut);
+				else if (T_IND != (T_IND & (val->params[i])))
+					ft_fprintf(ERROR_PARAMS, S_ERR, i, val->ins, (*tmp)->cut);
 				return (0); // type d'argument non valide
 			}
 		}
 		else
 		{
-			ft_printf("nothing %s | %d\n", (*tmp)->cut, (*tmp)->type);
+			ft_fprintf(MSG_SYN, S_ERR, (*tmp)->cut);
 			return (0);
 		}
 		if ((*tmp)->next)
@@ -99,13 +105,17 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 		else
 			break ;
 		if (!(skip_separator(tmp, val, &i)))
+			return (0);
+		if (i >= val->len_params)
 		{
+			ft_fprintf(ERROR_PARAMS, S_ERR, i, val->ins, (*tmp)->cut);
 			return (0);
 		}
 		ins->octet = ins->octet << bin;
 	}
 	if (i < val->len_params - 1)
 	{
+		ft_fprintf(ERROR_COUNT, S_ERR, val->ins);
 		return (0);
 	}
 	while (++i < 4)

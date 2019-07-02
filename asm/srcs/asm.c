@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/01 19:07:57 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:43:39 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		check_label(t_data *data)
 		def = data->label;
 		while (def)
 		{
+			// ft_printf("%s - %s\n", tmp->label, def->label);
 			if (tmp->len == def->len)
 				if (ft_strncmp(tmp->label, def->label, tmp->len) == 0)
 				{
@@ -80,7 +81,7 @@ int		check_label(t_data *data)
 			tmp->ins->params[tmp->index_params] = def->index_ins - tmp->index_ins;
 		else
 		{
-			ft_printf("No such label %s while attempting to dereference token \"%s\"\n", tmp->label, tmp->token.cut);
+			ft_fprintf(MSG_LABEL, S_ERR, tmp->token.cut);
 			return (0);
 		}
 		tmp = tmp->next;
@@ -121,13 +122,13 @@ int		read_line(t_data *data, int *i)
 			data->line.line = ft_str_biggest(&data->line.line, BUFF_SIZE);
 			(*i) = 0;
 		}
-		else
-			ft_strcat(data->line.line, buf);
+		ft_strcat(data->line.line, buf);
 		if (buf[0] == CMD_CHAR)
 			quote = (quote == false) ? true : false;
 		if (buf[0] == 10 && quote == false)
 			return (1);
 	}
+	data->line.line = (ft_str_is(data->line.line, ft_is_whitespace)) ? NULL : data->line.line;
 	return (data->line.line ? -1 : 0);
 }
 
@@ -150,18 +151,20 @@ int		parsing_asm(t_data *data)
 		}
 		if ((data->ret = read_line(data, &i)) == -1)
 		{
-			ft_printf("no newline\n");
+			ft_fprintf(NO_NEWLINE, S_ERR);
 			return (0);
 		}
-		// ft_printf("%s", data->line.line);
+		// ft_printf("%s\n", data->line.line);
 		data->line.current = 0;
 	}
-	// ft_printf("[%s]\n", data->header.prog_name);
-	// ft_printf("[%s]\n", data->header.comment);
-	// ft_fprintf(SYNTAX_ARG, S_ERR, "instruction", data->token->n_line, data->token->start, data->token->cut);
-	if (!(check_label(data)))
+	if (!data->name || !data->comment)
+	{
+		ft_fprintf(COMMAND_MISS, S_ERR);
 		return (0);
-	if ((data->name && data->comment) || error(data->error))
+	}
+	if (error(data->error))
+		return (0);
+	if (!(check_label(data)))
 		return (0);
 	if (!(suffix_name(data, SUFFIX)))
 		return (0);
@@ -170,32 +173,8 @@ int		parsing_asm(t_data *data)
 
 int		error(t_error error)
 {
-	char *type;
-
-	type = NULL;
-	// ft_printf("%p %p %p\n", error.token, error.instruction, error.label);
-	if (error.token)
-	{
-		if (error.token->type == DIRECT || error.token->type == DIRECT_LABEL)
-			type = DIRECT_MSG;
-		else if (error.token->type == INDIRECT || error.token->type == INDIRECT_LABEL)
-			type = INDIRECT_MSG;
-		else if (error.token->type == REGISTER)
-			type = REGISTER_MSG;
-		ft_printf("%s | %d\n", error.token->cut, error.token->type);
-	}
-	else if (error.instruction)
-	{
-		if (error.instruction->codage[error.index_params] != error.instruction->ins.params[error.index_params])
-			ft_fprintf(INVALID_PARAMS, S_ERR, error.index_params, type, error.instruction->ins.ins);
-	}
-	else if (error.label)
-	{
-		
-	}
+	if (error.error)
+		return (1);
 	else
-	{
 		return (0);
-	}
-	return (1);
 }

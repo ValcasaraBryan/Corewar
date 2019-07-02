@@ -20,9 +20,7 @@ void	init_data(t_data *data, char *av)
 	data->ins = NULL;
 	data->ins_label = NULL;
 	data->label = NULL;
-	data->error.token = NULL;
-	data->error.instruction = NULL;
-	data->error.label = NULL;
+	data->error.error = false;
 	data->n_line = 1;
 	data->index = 0;
 	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
@@ -41,7 +39,7 @@ int		main(int argc, char **argv)
 		init_data(&data, argv[argc - 1]);
 		if ((data.fd = open(data.name_s, O_RDONLY)) == -1)
 		{
-			ft_fprintf(NO_FILE, S_ERR, data.name_s);
+			ft_fprintf(NO_FILE, S_ERR, OPEN, data.name_s);
 			return (0);
 		}
 		if (!(parsing_asm(&data)))

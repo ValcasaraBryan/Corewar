@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_whitespace.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 04:05:42 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/05/18 04:09:48 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/02 16:40:41 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_is_whitespace(char c)
+int		ft_is_whitespace(int c)
 {
 	if (c == 32 || c == 9 || c == 11 || c == 13)
 		return (1);
