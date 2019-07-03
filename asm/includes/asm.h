@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/02 16:22:42 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:34:37 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ typedef struct		s_data
 
 extern t_op			op_tab[REG_NUMBER + 1];
 
-int		error(t_error error);
 int			parsing_asm(t_data *data);
 void		print_list(t_data *data);
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
@@ -243,5 +242,5 @@ int		skip_separator(t_token **tmp, t_op *val, int *i);
 */
 int		skip_whitespace(char *str, int val);
 int		ft_end_word(char c);
-int		get_arg(t_data *data, char *str, int (*fonction)(char));
+int		get_arg(char *str, int (*fonction)(char));
 #endif

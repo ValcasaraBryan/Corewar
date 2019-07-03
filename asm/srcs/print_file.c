@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/02 16:01:33 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:56:07 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,25 @@ void	print_tab(int fd, t_ins *ins)
 	}
 }
 
+void	erase_ins(t_ins **ins)
+{
+	t_ins *tmp;
+
+	while (*ins)
+	{
+		tmp = (*ins)->next;
+		free((*ins)->params);
+		(*ins)->params = NULL;
+		free(*ins);
+		*ins = NULL;
+		*ins = tmp;
+	}
+}
+
 int		write_file(t_data *data, int i)
 {
+	t_ins	*tmp;
+
 	if ((data->fd_file = open(data->name_cor, O_CREAT | O_RDWR | O_TRUNC,
 		S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH)) == -1)
 	{
@@ -60,16 +77,18 @@ int		write_file(t_data *data, int i)
 	print_octet(data->fd_file, data->header.prog_size, 4);
 	write(data->fd_file, data->header.comment, COMMENT_LENGTH);
 	print_octet(data->fd_file, 0, 4);
-	while (data->ins)
+	tmp = data->ins;
+	while (tmp)
 	{
 		i = -1;
-		print_octet(data->fd_file, data->ins->ins.opcode, 1);
-		if (data->ins->ins.opcode != LIVE && data->ins->ins.opcode != FORK
-			&& data->ins->ins.opcode != ZJMP && data->ins->ins.opcode != LFORK)
-			print_octet(data->fd_file, data->ins->octet, 1);
-		print_tab(data->fd_file, data->ins);
-		data->ins = data->ins->next;
+		print_octet(data->fd_file, tmp->ins.opcode, 1);
+		if (tmp->ins.opcode != LIVE && tmp->ins.opcode != FORK
+			&& tmp->ins.opcode != ZJMP && tmp->ins.opcode != LFORK)
+			print_octet(data->fd_file, tmp->octet, 1);
+		print_tab(data->fd_file, tmp);
+		tmp = tmp->next;
 	}
+	erase_ins(&data->ins);
 	close(data->fd_file);
 	ft_printf(SUCCESS, data->name_cor);
 	return (1);

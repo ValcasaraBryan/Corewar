@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/02 16:17:39 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:08:33 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int		check_token(t_data *data)
 			// ft_printf("%s %d\n", data->line.line, tmp->type);
 			if (!(add_quote(data, &tmp)))
 			{
-				ft_printf("add_quote\n");
 				data->error.error = true;
 				return (0);
 			}

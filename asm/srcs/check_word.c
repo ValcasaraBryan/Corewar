@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:46:16 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/02 15:50:48 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:34:31 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		ft_end_word(char c)
 	return (0);
 }
 
-int		get_arg(t_data *data, char *str, int (*fonction)(char))
+int		get_arg(char *str, int (*fonction)(char))
 {
 	int	i;
 
@@ -52,8 +52,6 @@ int		get_arg(t_data *data, char *str, int (*fonction)(char))
 		{
 			if (str[i] == CMD_CHAR)
 				return (i + 1);
-			else if (str[i] == '\n')
-				data->n_line++;
 		}
 	}
 	return (i);

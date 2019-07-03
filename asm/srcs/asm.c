@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/02 16:43:39 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:18:31 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,38 @@ int		step(t_data *data)
 	return (1);
 }
 
+void	erase_label(t_label **label)
+{
+	t_label *tmp;
+
+	while (*label)
+	{
+		tmp = (*label)->next;
+		free((*label)->token.cut);
+		(*label)->token.cut = NULL;
+		free((*label)->label);
+		(*label)->label = NULL;
+		free(*label);
+		*label = NULL;
+		*label = tmp;
+	}
+}
+
+void	erase_name_label(t_name_label **label)
+{
+	t_name_label *tmp;
+
+	while (*label)
+	{
+		tmp = (*label)->next;
+		free((*label)->label);
+		(*label)->label = NULL;
+		free(*label);
+		*label = NULL;
+		*label = tmp;
+	}
+}
+
 int		check_label(t_data *data)
 {
 	t_label			*tmp;
@@ -86,6 +118,8 @@ int		check_label(t_data *data)
 		}
 		tmp = tmp->next;
 	}
+	erase_name_label(&data->label);
+	erase_label(&data->ins_label);
 	return (1);
 }
 
@@ -162,19 +196,11 @@ int		parsing_asm(t_data *data)
 		ft_fprintf(COMMAND_MISS, S_ERR);
 		return (0);
 	}
-	if (error(data->error))
+	if (data->error.error)
 		return (0);
 	if (!(check_label(data)))
 		return (0);
 	if (!(suffix_name(data, SUFFIX)))
 		return (0);
 	return (1);
-}
-
-int		error(t_error error)
-{
-	if (error.error)
-		return (1);
-	else
-		return (0);
 }

@@ -42,15 +42,15 @@ int		main(int argc, char **argv)
 			ft_fprintf(NO_FILE, S_ERR, OPEN, data.name_s);
 			return (0);
 		}
-		if (!(parsing_asm(&data)))
-		{
-			// ft_printf("Syntax error at token [TOKEN][%03d:%03d] %s \"%s\"\n", data.error.n_line, data.error.index, data.error.type, data.error.token);
-		}
-		else
-		{
+		if ((parsing_asm(&data)))
 			if (!(write_file(&data, 0)))
+			{
+			ft_printf("token\t:\t%p\nins\t:\t%p\nlabel\t:\t%p\nn_label\t:\t%p\n", data.token, data.ins, data.ins_label, data.label);
+				while (1);
 				return (0);
-		}
+			}
+			ft_printf("token\t:\t%p\nins\t:\t%p\nlabel\t:\t%p\nn_label\t:\t%p\n", data.token, data.ins, data.ins_label, data.label);
+		while (1);
 	}
 	return (0);
 }
