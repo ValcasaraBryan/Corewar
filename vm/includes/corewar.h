@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _COREWAR_H
+#ifndef COREWAR_H
 
-# define _COREWAR_H
+# define COREWAR_H
 
 # include <stdlib.h>
 # include <fcntl.h>
@@ -205,7 +205,7 @@ extern t_instruction	g_tab_instructions[18];
 # define P4 0xff9933
 # define OCT_W 28
 # define OCT_H 18
-# define LETTER_W 7
+# define LETTER_W 10
 # include <time.h>
 # include <stdlib.h>
 
@@ -237,6 +237,7 @@ char	*ft_strcat(char *dest, const char *src);
 int				ft_print_infos(t_storage **st);
 int			ft_print_threads(t_storage **st);
 int		ft_print_grid(t_storage **st);
+void		ft_free_visu(t_storage **st);
 
 /*
 ** ------------------------	bin_extractor				------------------------

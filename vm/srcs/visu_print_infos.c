@@ -83,6 +83,8 @@ static int			ft_str_create_and_print(t_storage **st, char *str1,
 	/////////
 	bzero(dest, size_total + 1);
 	//////////
+
+	//////////free src2
 	dest = ft_strcat(dest, str1);
 	dest = ft_strcat(dest, str2);
 	if (ft_print_text(st, dest, line) != SUCCESS)
@@ -102,6 +104,7 @@ static int			ft_put_players(t_storage **st, int line)
 
 	nb_players = 0;
 	tmp = (*st)->first_champion;
+	//////////////////////free tmp
 	while (tmp != NULL)
 	{
 		nb_players += 1;

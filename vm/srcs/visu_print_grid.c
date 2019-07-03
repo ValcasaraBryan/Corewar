@@ -42,26 +42,27 @@ static int				ft_write_caract_in_renderer(t_storage **st, int i,
 	int		k;
 
 	k = -1;
-	while (++k < 4)
+
+	(*st)->win->rect->y = i * OCT_H;
+	(*st)->win->rect->x = j * OCT_W + 4;
+	(*st)->win->rect->h = OCT_H;
+	(*st)->win->rect->w = LETTER_W;
+	if (SDL_RenderCopy((*st)->win->renderer,
+			ft_grep_texture(st, str[0],
+			(*st)->color_grid[i][j]), NULL, (*st)->win->rect) < 0)
 	{
-		(*st)->win->rect->y = i * OCT_H;
-		(*st)->win->rect->x = j * OCT_W + k * LETTER_W;
-		(*st)->win->rect->h = OCT_H;
-		(*st)->win->rect->w = LETTER_W;
-		if (k == 0 || k == 3)
-		{
-			if (SDL_RenderCopy((*st)->win->renderer, (*st)->win->tab_w[36],
-				NULL, (*st)->win->rect) < 0)
-				return (FAILURE);
-		}
-		else
-		{
-			if (SDL_RenderCopy((*st)->win->renderer,
-				ft_grep_texture(st, str[k - 1],
-				(*st)->color_grid[i][j]), NULL, (*st)->win->rect) < 0)
-				return (FAILURE);
-		}
+		free(str);
+		return (FAILURE);
 	}
+	(*st)->win->rect->x = j * OCT_W + 4 + LETTER_W;
+	if (SDL_RenderCopy((*st)->win->renderer,
+			ft_grep_texture(st, str[1],
+			(*st)->color_grid[i][j]), NULL, (*st)->win->rect) < 0)
+	{
+		free(str);
+		return (FAILURE);
+	}
+	free(str);
 	return (SUCCESS);
 }
 

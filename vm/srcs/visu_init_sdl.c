@@ -72,19 +72,18 @@ int			ft_fill_alphabet_color(t_storage **st, SDL_Texture ***tab,
 	int color)
 {
 	int		i;
+	char 	*letter;
 
 	i = -1;
-	while (++i < 37)
+	while (++i < 36)
 	{
 		if (i < 10)
-			(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text,
-				ft_itoa(i), argb_to_sdl(color));
+			letter = ft_itoa(i);
 		else if (i < 36)
-			(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text,
-				ft_ctoa((char)(i + 87)), argb_to_sdl(color));
-		else
-			(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text,
-				" ", argb_to_sdl(color));
+			letter = ft_ctoa((char)(i + 87));
+		(*st)->win->surface = TTF_RenderText_Solid((*st)->win->ttf_text,
+				letter, argb_to_sdl(color));
+		free(letter);
 		if ((*st)->win->surface == NULL)
 			return (FAILURE);
 		if (((*tab)[i] = SDL_CreateTextureFromSurface((*st)->win->renderer,
@@ -100,23 +99,23 @@ int			ft_fill_alphabet_color(t_storage **st, SDL_Texture ***tab,
 
 int			ft_init_alphabet_color(t_storage **st)
 {
-	if (!((*st)->win->tab_w = malloc(sizeof(*(*st)->win->tab_w) * 37)))
+	if (!((*st)->win->tab_w = malloc(sizeof(*(*st)->win->tab_w) * 36)))
 		return (FAILURE);
 	if ((ft_fill_alphabet_color(st, &(*st)->win->tab_w, WHITE)) != SUCCESS)
 		return (FAILURE);
-	if (!((*st)->win->tab_b = malloc(sizeof(SDL_Texture *) * 37)))
+	if (!((*st)->win->tab_b = malloc(sizeof(SDL_Texture *) * 36)))
 		return (FAILURE);
 	if ((ft_fill_alphabet_color(st, &(*st)->win->tab_b, P1)) != SUCCESS)
 		return (FAILURE);
-	if (!((*st)->win->tab_o = malloc(sizeof(SDL_Texture *) * 37)))
+	if (!((*st)->win->tab_o = malloc(sizeof(SDL_Texture *) * 36)))
 		return (FAILURE);
 	if ((ft_fill_alphabet_color(st, &(*st)->win->tab_o, P2)) != SUCCESS)
 		return (FAILURE);
-	if (!((*st)->win->tab_v = malloc(sizeof(SDL_Texture *) * 37)))
+	if (!((*st)->win->tab_v = malloc(sizeof(SDL_Texture *) * 36)))
 		return (FAILURE);
 	if ((ft_fill_alphabet_color(st, &(*st)->win->tab_v, P3)) != SUCCESS)
 		return (FAILURE);
-	if (!((*st)->win->tab_g = malloc(sizeof(SDL_Texture *) * 37)))
+	if (!((*st)->win->tab_g = malloc(sizeof(SDL_Texture *) * 36)))
 		return (FAILURE);
 	if ((ft_fill_alphabet_color(st, &(*st)->win->tab_g, P4)) != SUCCESS)
 		return (FAILURE);
@@ -167,12 +166,16 @@ int			ft_print_game(t_storage **st)
 {
 	if (ft_print_threads(st) != SUCCESS)
 		return (FAILURE);
+	printf("after print ft_print_threads");
 	if (ft_print_grid(st) != SUCCESS)
 		return (FAILURE);
+	printf("after print ft_print_grid");
 	if (ft_print_infos(st) != SUCCESS)
 		return (FAILURE);
+	printf("after print ft_print_infos");
 	SDL_RenderPresent((*st)->win->renderer);
 	if (SDL_RenderClear((*st)->win->renderer) < 0)
 		return (FAILURE);
+	printf("after print SDL_RenderClear");
 	return (SUCCESS);
 }

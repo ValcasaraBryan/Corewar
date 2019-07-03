@@ -15,7 +15,7 @@
 int				process_battle(t_storage **st, int nb_cycles)
 {
 	t_thread	*current;
-	SDL_Event	eventtest;
+	//SDL_Event	eventtest;
 	t_thread	*next;
 	int			i;
 	int			j;
@@ -25,14 +25,18 @@ int				process_battle(t_storage **st, int nb_cycles)
 	i = 1;
 	j = 0;
 	var_cycle_to_die = CYCLE_TO_DIE;
-	unsigned int checkTime = SDL_GetTicks();
-	const unsigned int fps = 60;
-	while (SDL_PollEvent(&eventtest) > -1)
+	//unsigned int checkTime = SDL_GetTicks();
+	//const unsigned int fps = 60;
+	while (i > -1)
 	{
+	printf("test\n");
 		if (!(i > -1 && i != nb_cycles && var_cycle_to_die > 0))
 			break ;
-		if ((*st)->win->pause != 1 && SDL_GetTicks() > (checkTime + 1000 / fps))
+	printf("test\n");
+		if (((*st)->args[1] == 1 && (*st)->win->pause != 1) || (*st)->args[1] != 1)
+		// && SDL_GetTicks() > (checkTime + 1000 / fps))
 		{
+	printf("test2\n");
 			if (i % var_cycle_to_die == 0)
 			{
 				current = (*st)->first_thread;
@@ -74,20 +78,30 @@ int				process_battle(t_storage **st, int nb_cycles)
 				}
 			}
 			printf("ft_print_game debut\n");
-			if (ft_print_game(st) != SUCCESS)
+			if ((*st)->args[1] == 1 && ft_print_game(st) != SUCCESS)
+			{
+				// ft_free_visu(st);
 				return (FAILURE);
+			}
 			printf("ft_print_game fin\n");
 			//sleep(1);
 			(*st)->cycle++;
+			printf("cycle = %d\n", (*st)->cycle);
 			i++;
-	   		checkTime = SDL_GetTicks();
+			i = -1;
+			//checkTime = SDL_GetTicks();
 		}
 		printf("debut bug ici ??\n");
-		printf("mid bug ici ??\n");
-    	if (eventtest.type == SDL_QUIT)
-    		i = -2;
-    	if (eventtest.key.keysym.sym == SDLK_ESCAPE)
-    		i = -2;
+		/*while (SDL_PollEvent(&eventtest) > 0)
+		{
+			printf("type = %d\n", eventtest.type);
+			printf("mid bug ici ??\n");
+			if (eventtest.type == SDL_QUIT)
+				i = -2;
+			printf("mid bug 2 ici ??\n");
+			// if (eventtest.key.keysym.sym == SDLK_ESCAPE)
+			// 	i = -2;
+		}*/
     	/*printf("c\n");
         	 || (*st)->win->event->key.keysym.sym == SDLK_ESCAPE))
     		    i = -2;
@@ -108,11 +122,13 @@ int				process_battle(t_storage **st, int nb_cycles)
 		printf("fin bug ici ??\n");
 		printf("test6\n");
 	}
+	printf("test\n");
 	if (i != -1 && (*st)->args[0] != -1)
 		print_dump(st);
 	else
 		announce_winner(st);
 	print_function_state("process_battle", "END");
+	// ft_free_visu(st);
 	return (SUCCESS);
 }
 

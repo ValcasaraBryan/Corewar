@@ -55,6 +55,8 @@ int			main(int argv, char **argc)
 	}
 	free_storage(&st);
 	print_function_state("main", "END");
+	ft_free_visu(&st);
+	while (1);
 	return (0);
 }
 

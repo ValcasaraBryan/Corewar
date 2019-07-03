@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC =			gcc
+CC =			clang
 NAME =			corewar
 DIR_CURR =		/vm
 DIR_INCL =		./includes
@@ -60,6 +60,7 @@ FILES_SRCS =	bin_extractor.c			\
 				unit_tests_instr.c		\
 				unit_tests.c			\
 				utilities.c 			\
+				visu_free.c				\
 				visu_init_sdl.c			\
 				visu_print_grid.c 		\
 				visu_print_infos.c 		\
