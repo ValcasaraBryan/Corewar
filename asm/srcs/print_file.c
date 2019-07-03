@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 13:56:07 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/03 14:51:46 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	print_octet(int fd, unsigned int val, size_t nb)
 
 	if (nb > 4)
 		return ;
+	tmp = 0;
 	while (nb--)
 	{
 		index = 255 << 8 * nb;
@@ -91,5 +92,7 @@ int		write_file(t_data *data, int i)
 	erase_ins(&data->ins);
 	close(data->fd_file);
 	ft_printf(SUCCESS, data->name_cor);
+	free(data->name_cor);
+	data->name_cor = NULL;
 	return (1);
 }
