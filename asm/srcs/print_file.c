@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 17:33:02 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 17:40:22 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,6 @@ void	print_tab(int fd, t_ins *ins)
 			print_octet(fd, ins->params[i], 1);
 		else
 			print_octet(fd, (unsigned short)ins->params[i], 2);
-	}
-}
-
-void	erase_ins(t_ins **ins)
-{
-	t_ins *tmp;
-
-	while (*ins)
-	{
-		tmp = (*ins)->next;
-		free((*ins)->params);
-		(*ins)->params = NULL;
-		free(*ins);
-		*ins = NULL;
-		*ins = tmp;
 	}
 }
 

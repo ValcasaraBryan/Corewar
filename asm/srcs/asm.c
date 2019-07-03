@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 17:32:48 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 17:43:53 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,38 +54,6 @@ int		step(t_data *data)
 		return (0);
 	free_line(&data->line.line);
 	return (1);
-}
-
-void	erase_label(t_label **label)
-{
-	t_label *tmp;
-
-	while (*label)
-	{
-		tmp = (*label)->next;
-		free((*label)->token.cut);
-		(*label)->token.cut = NULL;
-		free((*label)->label);
-		(*label)->label = NULL;
-		free(*label);
-		*label = NULL;
-		*label = tmp;
-	}
-}
-
-void	erase_name_label(t_name_label **label)
-{
-	t_name_label *tmp;
-
-	while (*label)
-	{
-		tmp = (*label)->next;
-		free((*label)->label);
-		(*label)->label = NULL;
-		free(*label);
-		*label = NULL;
-		*label = tmp;
-	}
 }
 
 int		check_label(t_data *data)
@@ -186,13 +154,13 @@ int		parsing_asm(t_data *data)
 		data->line.current = 0;
 	}
 	free_line(&data->line.line);
+	if (data->error.error)
+		return (0);
 	if (!data->name || !data->comment)
 	{
 		ft_fprintf(COMMAND_MISS, S_ERR);
 		return (0);
 	}
-	if (data->error.error)
-		return (0);
 	if (!(check_label(data)))
 		return (0);
 	if (!(suffix_name(data, SUFFIX)))

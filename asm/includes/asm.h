@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 17:32:55 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 17:42:10 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,6 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
 void		add_word(t_data *data, t_token word);
 int		ft_end_word(char c);
 int		skip_whitespace(char *str, int val);
-void	erase_label(t_label **label);
-void	erase_name_label(t_name_label **label);
-void	erase_ins(t_ins **ins);
 /*
 **			list_chain_new.c
 */
@@ -222,7 +219,6 @@ int		get_token(t_data *data);
 **			token_utility.c
 */
 t_token		token_val(t_token add, int start, int end);
-void		erase_token(t_token **token);
 t_token		cpy_token(t_token *token);
 /*
 **			add_type.c
@@ -246,4 +242,11 @@ int		skip_separator(t_token **tmp, t_op *val, int *i);
 int		skip_whitespace(char *str, int val);
 int		ft_end_word(char c);
 int		get_arg(char *str, int (*fonction)(char));
+/*
+**			liberation.c
+*/
+void	erase_token(t_token **token);
+void	erase_ins(t_ins **ins);
+void	erase_label(t_label **label);
+void	erase_name_label(t_name_label **label);
 #endif

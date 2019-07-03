@@ -20,7 +20,8 @@ OBJET_ASM = objets/asm.o\
 			objets/add_word.o\
 			objets/check_params.o\
 			objets/skip_separator.o\
-			objets/check_word.o
+			objets/check_word.o\
+			objets/liberation.o
 
 OBJ = objets/%.o
 
