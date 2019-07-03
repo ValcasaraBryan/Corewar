@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:13 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:47:51 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/02 13:04:52 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int			instr_lld_inner(t_storage **st, t_thread **th, int size)
 
 	print_function_state("instr_lld_inner", "START");
 	value = set_value(th, &(*st)->grid, size, (*th)->where + 1 + 1);
+	value = (short)value;
 	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + size, 1);
 	if (thread_change_value_reg(th, reg, value) != SUCCESS)
 		return (failed_action_move(st, th, 2));

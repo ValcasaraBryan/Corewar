@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 15:56:14 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:49:50 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/02 10:18:58 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,5 +153,12 @@ int		failed_action_move(t_storage **st, t_thread **th, int nb_move)
 		(*th)->where + nb_move) != SUCCESS)
 		return (CALL_FAILED);
 	print_function_state("failed_action_move", "END");
+	return (SUCCESS);
+}
+
+int			check_reg(int reg)
+{
+	if (reg <= 0 || reg > REG_NUMBER)
+		return (BAD_PARAM);
 	return (SUCCESS);
 }

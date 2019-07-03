@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:05:49 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:15:42 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/02 10:22:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ int			instr_add_inner(t_storage **st, t_thread **th)
 	reg1 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, 1);
 	reg2 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1, 1);
 	reg3 = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + 1 + 1, 1);
-	value1 = reg1 <= 0 || reg1 > REG_NUMBER || reg2 <= 0 || reg2 > REG_NUMBER
-		? 0 : thread_get_value_reg(th, reg1);
-	value2 = reg1 <= 0 || reg1 > REG_NUMBER || reg2 <= 0 || reg2 > REG_NUMBER
-		? 0 : thread_get_value_reg(th, reg2);
+	if (check_reg(reg1) != SUCCESS
+		|| check_reg(reg2) != SUCCESS
+		|| check_reg(reg3) != SUCCESS)
+		return (failed_action_move(st, th, 2));
+	value1 = thread_get_value_reg(th, reg1);
+	value2 = thread_get_value_reg(th, reg2);
 	if (thread_change_value_reg(th, reg3, value1 + value2) != SUCCESS)
 		return (failed_action_move(st, th, 2));
 	if (thread_change_where(th, &(*st)->grid,

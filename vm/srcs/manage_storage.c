@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:29:19 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:23:41 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void			init_storage(t_storage **st)
 	(*st)->last_champion = NULL;
 	(*st)->first_thread = NULL;
 	(*st)->last_thread = NULL;
+	(*st)->win = NULL;
 }
 
 static t_storage	*create_storage(void)

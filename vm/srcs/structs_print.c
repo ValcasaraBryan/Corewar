@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:32:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:42:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int		print_thread_list(t_storage **st)
 
 void	print_function_state(char *name, char *msg)
 {
-	if (UT_PRINT >= 1)
+	if (UT_PRINT >= 2)
 	{
 		ft_putstr(name);
 		ft_putchar(' ');

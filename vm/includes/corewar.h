@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:46:39 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:28:51 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "../libft/includes/libft.h"
+# include <SDL2/SDL.h>
+# include "SDL_ttf.h"
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		0
+# define UT_PRINT		1
 
 # define MOVE			"move"
 # define LIVE			"live"
@@ -129,6 +131,34 @@ typedef struct			s_champion
 	struct s_champion	*next;
 }						t_champion;
 
+typedef union					u_color
+{
+	int				color;
+	unsigned char	rgb[4];
+}					t_color;
+
+typedef struct		s_win
+{
+	SDL_Window		*window;
+	SDL_Surface		*surface;
+	TTF_Font		*ttf_text;
+	SDL_Event		*event;
+	SDL_Renderer 	*renderer;
+	SDL_Texture 	*texture;
+	SDL_Texture 	*message;
+	SDL_Rect 		*rect;
+	int				colors[4];
+	int				text_height;
+	int				text_start;
+	int 			pause;
+	int 			nb_threads;
+	SDL_Texture		**tab_w;
+	SDL_Texture		**tab_b;
+	SDL_Texture		**tab_o;
+	SDL_Texture		**tab_v;
+	SDL_Texture		**tab_g;
+}					t_win;
+
 typedef struct			s_storage
 {
 	int					cycle;
@@ -141,6 +171,7 @@ typedef struct			s_storage
 	struct s_thread		*last_thread;
 	struct s_champion	*first_champion;
 	struct s_champion	*last_champion;
+	struct s_win 		*win;
 }						t_storage;
 
 typedef struct			s_instruction
@@ -159,6 +190,55 @@ typedef struct			s_instruction
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[18];
+/*
+**							garance
+*/
+# include <math.h>
+# include <unistd.h>
+# include <stdbool.h>
+# define WIDTH 2300
+# define HEIGHT 1152
+# define WHITE 0xffffff
+# define GREY 0x202020
+# define P1 0x33cc33
+# define P2 0x0099ff
+# define P3 0xff00ff
+# define P4 0xff9933
+# define OCT_W 28
+# define OCT_H 18
+# define LETTER_W 10
+# include <time.h>
+# include <stdlib.h>
+
+
+
+int ft_print_game(t_storage **st);
+int ft_init_sdl(t_storage **st);
+int ft_init_win(t_storage **st);
+
+
+
+
+
+
+int	ft_size(int n);
+SDL_Color	argb_to_sdl(Uint32 color);
+char		*ft_itoa(int n);
+char *ft_itoa_hexa(int a);
+int ft_color_octet(int player);
+char	*ft_ctoa(char c);
+size_t		ft_strlen(const char *str);
+char	*ft_strcat(char *dest, const char *src);
+
+
+
+
+
+
+int				ft_print_infos(t_storage **st);
+int			ft_print_threads(t_storage **st);
+int		ft_print_grid(t_storage **st);
+void		ft_free_visu(t_storage **st);
 
 /*
 ** ------------------------	bin_extractor				------------------------
@@ -392,5 +472,6 @@ int			set_value(t_thread **th, int ***grid, int size, int where);
 int			set_value_spe(t_thread **th, int ***grid, int size, int where);
 int			set_value_mod(t_thread **th, int ***grid, int size, int where);
 int			set_value_mod_spe(t_thread **th, int ***grid, int size, int where);
+int			check_reg(int reg);
 
 #endif

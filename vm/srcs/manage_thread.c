@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:25:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/02 10:31:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static t_thread		*create_thread(t_storage **st)
 	while (++i < REG_NUMBER)
 		thread->reg[i] = 0;
 	thread->where = 0;
-	thread->prec = (*st)->last_thread;
-	thread->next = NULL;
+	thread->next = (*st)->first_thread;
+	thread->prec = NULL;
 	print_function_state("create_thread", "END");
 	return (thread);
 }
@@ -58,10 +58,10 @@ int					add_thread(t_storage **st)
 	if ((thread = create_thread(st)) == NULL)
 		return (CALL_FAILED);
 	if (result == VALID_FULL)
-		(*st)->last_thread->next = thread;
+		(*st)->first_thread->prec = thread;
 	else
-		(*st)->first_thread = thread;
-	(*st)->last_thread = thread;
+		(*st)->last_thread = thread;
+	(*st)->first_thread = thread;
 	print_function_state("add_thread", "END");
 	return (SUCCESS);
 }

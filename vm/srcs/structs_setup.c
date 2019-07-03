@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 10:21:30 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:25:56 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,10 @@ int				setup_all(t_storage **st, int argv, char ***argc)
 		free_tab_int(&array_2);
 		return (CALL_FAILED);
 	}
+	if ((*st)->args[1] == 1)
+		if (ft_init_sdl(st) != SUCCESS
+			|| ft_init_win(st) != SUCCESS)
+			return (CALL_FAILED);
 	free_tab_char(&array_1);
 	free_tab_int(&array_2);
 	print_function_state("setup_all", "END");

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:16:01 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/02 10:32:57 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 	if (add_thread(st) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 2);
-	if ((new_thread = (*st)->last_thread) == NULL)
+	if ((new_thread = (*st)->first_thread) == NULL)
 		return (failed_action_move(st, th, 1));
 	new_thread->action = 0;
 	new_thread->cycle = 0;

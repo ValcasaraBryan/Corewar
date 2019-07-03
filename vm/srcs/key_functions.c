@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:31:34 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:26:54 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int				process_battle(t_storage **st, int nb_cycles)
 {
-	t_champion	*current_champ;
-	t_thread	*current_thread;
+	t_thread	*current;
+	//SDL_Event	eventtest;
 	t_thread	*next;
 	int			i;
 	int			j;
@@ -25,62 +25,109 @@ int				process_battle(t_storage **st, int nb_cycles)
 	i = 1;
 	j = 0;
 	var_cycle_to_die = CYCLE_TO_DIE;
-	while (i != -1 && i != nb_cycles && var_cycle_to_die > 0)
+	//unsigned int checkTime = SDL_GetTicks();
+	//const unsigned int fps = 60;
+	while (i > -1)
 	{
-		(*st)->cycle += 1;
-		if (i % var_cycle_to_die == 0)
+	printf("test\n");
+		if (!(i > -1 && i != nb_cycles && var_cycle_to_die > 0))
+			break ;
+	printf("test\n");
+		if (((*st)->args[1] == 1 && (*st)->win->pause != 1) || (*st)->args[1] != 1)
+		// && SDL_GetTicks() > (checkTime + 1000 / fps))
 		{
-			current_thread = (*st)->first_thread;
-			while (current_thread != NULL)
+	printf("test2\n");
+			if (i % var_cycle_to_die == 0)
 			{
-				if (current_thread->live == 1)
+				current = (*st)->first_thread;
+				while (current != NULL)
 				{
-					current_thread->live = 0;
-					current_thread = current_thread->next;
+					if (current->live == 1)
+					{
+						current->live = 0;
+						current = current->next;
+					}
+					else
+					{
+						next = current->next;
+						if (delete_thread(st, &current) != SUCCESS)
+							return (CALL_FAILED);
+						current = next;
+					}
+				}
+				nb_cycles = nb_cycles - var_cycle_to_die;
+				i = 0;
+				if ((*st)->nb_live_current >= NBR_LIVE || j >= MAX_CHECKS)
+				{
+					j = 0;
+					var_cycle_to_die = var_cycle_to_die - CYCLE_DELTA;
 				}
 				else
+					j++;
+			}
+			current = (*st)->first_thread;
+			if (current == NULL)
+				i = -1;
+			else
+			{
+				while (current != NULL)
 				{
-					next = current_thread->next;
-					if (delete_thread(st, &current_thread) != SUCCESS)
+					if (thread_change_cycle(&current, st, 1) != SUCCESS)
 						return (CALL_FAILED);
-					current_thread = next;
+					current = current->next;
 				}
 			}
-			current_champ = (*st)->first_champion;
-			while (current_champ != NULL)
+			printf("ft_print_game debut\n");
+			if ((*st)->args[1] == 1 && ft_print_game(st) != SUCCESS)
 			{
-				current_champ->current_lives = 0;
-				current_champ = current_champ->next;
+				// ft_free_visu(st);
+				return (FAILURE);
 			}
-			nb_cycles = nb_cycles - var_cycle_to_die;
-			i = 0;
-			if ((*st)->nb_live_current >= NBR_LIVE || j >= MAX_CHECKS)
-			{
-				j = 0;
-				var_cycle_to_die = var_cycle_to_die - CYCLE_DELTA;
-			}
-			else
-				j++;
-		}
-		current_thread = (*st)->first_thread;
-		if (current_thread == NULL)
-			i = -1;
-		else
-		{
-			while (current_thread != NULL)
-			{
-				if (thread_change_cycle(&current_thread, st, 1) != SUCCESS)
-					return (CALL_FAILED);
-				current_thread = current_thread->next;
-			}
+			printf("ft_print_game fin\n");
+			//sleep(1);
+			(*st)->cycle++;
+			printf("cycle = %d\n", (*st)->cycle);
 			i++;
+			i = -1;
+			//checkTime = SDL_GetTicks();
 		}
+		printf("debut bug ici ??\n");
+		/*while (SDL_PollEvent(&eventtest) > 0)
+		{
+			printf("type = %d\n", eventtest.type);
+			printf("mid bug ici ??\n");
+			if (eventtest.type == SDL_QUIT)
+				i = -2;
+			printf("mid bug 2 ici ??\n");
+			// if (eventtest.key.keysym.sym == SDLK_ESCAPE)
+			// 	i = -2;
+		}*/
+    	/*printf("c\n");
+        	 || (*st)->win->event->key.keysym.sym == SDLK_ESCAPE))
+    		    i = -2;
+			printf("test5\n");
+        	if (((*st)->win->event->type == SDL_KEYDOWN && (*st)->win->event->key.keysym.sym == SDLK_SPACE))
+    	    	(*st)->win->pause = ((*st)->win->pause == 1)? 0 : 1;*/
+		/*if (SDL_PollEvent(((*st)->win->event)) == 1)
+		{
+			// SDL_PumpEvents();
+			// printf("%s\n", SDL_GetError());
+        	if (((*st)->win->event->type == SDL_QUIT || (*st)->win->event->key.keysym.sym == SDLK_ESCAPE))
+    		    i = -2;
+			printf("test5\n");
+        	if (((*st)->win->event->type == SDL_KEYDOWN && (*st)->win->event->key.keysym.sym == SDLK_SPACE))
+    	    	(*st)->win->pause = ((*st)->win->pause == 1)? 0 : 1;
+    	}*/
+		printf("fin bug ici ??\n");
+		printf("test6\n");
 	}
+	printf("test\n");
 	if (i != -1 && (*st)->args[0] != -1)
 		print_dump(st);
 	else
 		announce_winner(st);
 	print_function_state("process_battle", "END");
+	// ft_free_visu(st);
 	return (SUCCESS);
 }
 
