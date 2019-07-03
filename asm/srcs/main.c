@@ -23,9 +23,10 @@ void	init_data(t_data *data, char *av)
 	data->error.error = false;
 	data->n_line = 1;
 	data->index = 0;
-	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
-	ft_bzero(data->header.comment, COMMENT_LENGTH);
 	data->header.magic = COREWAR_EXEC_MAGIC;
+	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH + 1);
+	data->header.prog_size = 0;
+	ft_bzero(data->header.comment, COMMENT_LENGTH + 1);
 }
 
 int		main(int argc, char **argv)
@@ -43,14 +44,10 @@ int		main(int argc, char **argv)
 			return (0);
 		}
 		if ((parsing_asm(&data)))
-			if (!(write_file(&data, 0)))
-			{
-			ft_printf("token\t:\t%p\nins\t:\t%p\nlabel\t:\t%p\nn_label\t:\t%p\n", data.token, data.ins, data.ins_label, data.label);
-				while (1);
-				return (0);
-			}
-			ft_printf("token\t:\t%p\nins\t:\t%p\nlabel\t:\t%p\nn_label\t:\t%p\n", data.token, data.ins, data.ins_label, data.label);
-		while (1);
+			write_file(&data, 0);
+		erase_name_label(&data.label);
+		erase_label(&data.ins_label);
+		erase_ins(&data.ins);
 	}
 	return (0);
 }

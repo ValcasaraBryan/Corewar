@@ -20,6 +20,7 @@ void	init_data(t_data *data, char *av)
 	ft_bzero(data->header.prog_name, PROG_NAME_LENGTH);
 	ft_bzero(data->header.comment, COMMENT_LENGTH);
 	data->header.magic = COREWAR_EXEC_MAGIC;
+	data->header.prog_size = 0;
 }
 
 int		asm_main(int argc, char **argv)

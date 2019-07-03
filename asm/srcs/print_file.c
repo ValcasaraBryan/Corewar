@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 14:52:30 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/03 17:33:02 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	print_octet(int fd, unsigned int val, size_t nb)
 
 	if (nb > 4)
 		return ;
-	tmp = 0;
-	index = 0;
 	while (nb--)
 	{
 		index = 255 << 8 * nb;
@@ -63,7 +61,7 @@ void	erase_ins(t_ins **ins)
 	}
 }
 
-int		write_file(t_data *data, int i)
+void		write_file(t_data *data, int i)
 {
 	t_ins	*tmp;
 
@@ -71,7 +69,7 @@ int		write_file(t_data *data, int i)
 		S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH)) == -1)
 	{
 		ft_fprintf(NO_FILE, S_ERR, CREAT, data->name_cor);
-		return (0);
+		return ;
 	}
 	print_octet(data->fd_file, data->header.magic, 4);
 	write(data->fd_file, data->header.prog_name, PROG_NAME_LENGTH);
@@ -90,10 +88,8 @@ int		write_file(t_data *data, int i)
 		print_tab(data->fd_file, tmp);
 		tmp = tmp->next;
 	}
-	erase_ins(&data->ins);
 	close(data->fd_file);
 	ft_printf(SUCCESS, data->name_cor);
 	free(data->name_cor);
 	data->name_cor = NULL;
-	return (1);
 }

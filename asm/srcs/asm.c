@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 14:44:15 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/03 17:32:48 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int		step(t_data *data)
 	data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
 	if (!(get_token(data)))
 		return (0);
+	free_line(&data->line.line);
 	return (1);
 }
 
@@ -118,8 +119,6 @@ int		check_label(t_data *data)
 		}
 		tmp = tmp->next;
 	}
-	erase_name_label(&data->label);
-	erase_label(&data->ins_label);
 	return (1);
 }
 
@@ -162,7 +161,8 @@ int		read_line(t_data *data, int *i)
 		if (buf[0] == 10 && quote == false)
 			return (1);
 	}
-	data->line.line = (ft_str_is(data->line.line, ft_is_whitespace)) ? NULL : data->line.line;
+	if (ft_str_is(data->line.line, ft_is_whitespace))
+		free_line(&data->line.line);
 	return (data->line.line ? -1 : 0);
 }
 
@@ -178,19 +178,14 @@ int		parsing_asm(t_data *data)
 	}
 	while (step(data))
 	{
-		if (data->line.line)
-		{
-			free(data->line.line);
-			data->line.line = NULL;
-		}
 		if ((data->ret = read_line(data, &i)) == -1)
 		{
 			ft_fprintf(NO_NEWLINE, S_ERR);
 			return (0);
 		}
-		// ft_printf("%s\n", data->line.line);
 		data->line.current = 0;
 	}
+	free_line(&data->line.line);
 	if (!data->name || !data->comment)
 	{
 		ft_fprintf(COMMAND_MISS, S_ERR);

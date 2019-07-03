@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 13:34:37 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/03 17:32:55 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
 void		add_word(t_data *data, t_token word);
 int		ft_end_word(char c);
 int		skip_whitespace(char *str, int val);
+void	erase_label(t_label **label);
+void	erase_name_label(t_name_label **label);
+void	erase_ins(t_ins **ins);
 /*
 **			list_chain_new.c
 */
@@ -186,7 +189,7 @@ void		add_label(t_label **old, t_label cpy);
 */
 void	print_octet(int fd, unsigned int val, size_t nb);
 void	print_tab(int fd, t_ins *ins);
-int		write_file(t_data *data, int i);
+void	write_file(t_data *data, int i);
 /*
 **			ft_is.c
 */
