@@ -1,5 +1,4 @@
 NAME = asm
-TEST = test
 
 arg =
 
@@ -33,7 +32,7 @@ CC = @gcc
 
 CFLAGS = -Wall -Wextra -Werror -I includes -I libft/includes -I ../op.h
 
-all : lib $(NAME) test
+all : lib $(NAME)
 
 objets :
 	@mkdir -p objets
