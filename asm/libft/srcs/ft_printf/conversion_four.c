@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conversion_four.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 16:42:13 by brvalcas          #+#    #+#             */
-/*   Updated: 2018/10/18 16:42:14 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:38:17 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ char					*string_unix(va_list ap, t_string *list)
 {
 	wchar_t				*str;
 	char				*data;
-	int					octet;
-	int					i;
 
-	i = -1;
-	octet = 0;
 	str = va_arg(ap, wchar_t *);
 	if (!str)
 		return (ft_strdup("(null)"));
