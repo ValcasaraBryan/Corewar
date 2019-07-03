@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_is_int.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 11:38:35 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/10 14:57:25 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:11:51 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static long	pow(long nb)
+static long	puissance(long nb)
 {
 	long	i;
 	long	val;
@@ -44,7 +44,7 @@ int			ft_str_is_int(char *str)
 	if ((len = ft_strlen(str + neg)) > 10)
 		return (0);
 	while (++i + neg < len)
-		val += (str[len - (i - neg) - 1] - 48) * pow(i);
+		val += (str[len - (i - neg) - 1] - 48) * puissance(i);
 	val = (neg) ? val * -1 : val;
 	return ((val >= INT_MIN && val <= INT_MAX) ? 1 : 0);
 }
