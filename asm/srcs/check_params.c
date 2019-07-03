@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   check_params.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 14:12:30 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/03 20:15:24 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+int		error_params(int index, int type, char *ins)
+{
+	char	*type_string;
+
+	type_string = NULL;
+	if (type == DIRECT_LABEL || type == DIRECT)
+		type_string = DIRECT_MSG;
+	else if (type == INDIRECT_LABEL || type == INDIRECT)
+		type_string = INDIRECT_MSG;
+	else if (type == REGISTER)
+		type_string = REGISTER_MSG;
+	else if (type == INSTRUCTION)
+		type_string = INSTRUCTION_MSG;
+	ft_fprintf(BAD_PARAMS, S_ERR, index, type_string, ins);
+	return (0);
+}
 
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 {
@@ -23,12 +40,10 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 	while ((*tmp))
 	{
 		(*tmp)->type = add_type((*tmp)->cut, &val);
-        // ft_printf("%s | %s | %d / %d\n", (*tmp)->cut, data->line.line, (*tmp)->type, val->params[i]);
 		if ((*tmp)->type == DIRECT || (*tmp)->type == DIRECT_LABEL || (*tmp)->type == REGISTER)
 		{
 			if (((*tmp)->type == DIRECT || (*tmp)->type == DIRECT_LABEL) && T_DIR == (T_DIR & (val->params[i])))
 			{
-                // ft_printf("ceci est un direct %s | %d\n", (*tmp)->cut, (T_DIR & (val->params[i])));
 				ins->octet += DIR_CODE;
 				ins->codage[i] = DIR_CODE;
 				ins->len += ins->ins.direct == 1 ? 2 : 4;
@@ -47,7 +62,6 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			}
 			else if ((*tmp)->type == REGISTER && T_REG == (T_REG & (val->params[i])))
 			{
-                // ft_printf("ceci est un registre %s\n", (*tmp)->cut);
 				if (ft_strlen((*tmp)->cut) > 3)
 					return (0);
 				ins->octet += REG_CODE;
@@ -56,20 +70,12 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 				ins->params[i] = ft_atoi((*tmp)->cut + 1);
 			}
 			else
-			{
-				if ((*tmp)->type == DIRECT_LABEL && T_DIR == (T_DIR & (val->params[i])))
-					ft_fprintf(MSG_LABEL, S_ERR, (*tmp)->cut);
-				else if (T_DIR == (T_DIR & (val->params[i])))
-					ft_fprintf(ERROR_PARAMS, S_ERR, i, val->ins, (*tmp)->cut);
-				return (0); // type d'argument non valide
-			}
+				return (error_params(i, (*tmp)->type, val->ins));
 		}
 		else if ((*tmp)->type == INDIRECT || (*tmp)->type == INDIRECT_LABEL)
 		{
-			// ft_printf("%d - %d - %d | i = %d\n", T_IND, (val->params[i]), (T_IND & (val->params[i])), i);
 			if (((*tmp)->type == INDIRECT || (*tmp)->type == INDIRECT_LABEL) && T_IND == (T_IND & (val->params[i])))
 			{
-                // ft_printf("ceci est un indirect %s\n", (*tmp)->cut);
 				ins->octet += IND_CODE;
 				ins->codage[i] = IND_CODE;
 				ins->len += ins->ins.indirect == 1 ? 2 : 4;
@@ -87,13 +93,7 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 				}
 			}
 			else
-			{
-				if ((*tmp)->type == INDIRECT_LABEL && T_IND == (T_IND & (val->params[i])))
-					ft_fprintf(MSG_LABEL, S_ERR, (*tmp)->cut);
-				else if (T_IND != (T_IND & (val->params[i])))
-					ft_fprintf(ERROR_PARAMS, S_ERR, i, val->ins, (*tmp)->cut);
-				return (0); // type d'argument non valide
-			}
+				return (error_params(i, (*tmp)->type, val->ins));
 		}
 		else
 		{
@@ -104,13 +104,10 @@ int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 			(*tmp) = (*tmp)->next;
 		else
 			break ;
+		if (i >= val->len_params)
+			return (error_params(i, (*tmp)->type, val->ins));
 		if (!(skip_separator(tmp, val, &i)))
 			return (0);
-		if (i >= val->len_params)
-		{
-			ft_fprintf(ERROR_PARAMS, S_ERR, i, val->ins, (*tmp)->cut);
-			return (0);
-		}
 		ins->octet = ins->octet << bin;
 	}
 	if (i < val->len_params - 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 14:08:33 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/03 20:20:36 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,8 @@ int		check_token(t_data *data)
 	while (tmp)
 	{
 		tmp->type = add_type(tmp->cut, &val);
-		// ft_printf("%s\n", tmp->cut);
 		if (tmp->type == NAME || tmp->type == COMMENT)
 		{
-			// ft_printf("%s %d\n", data->line.line, tmp->type);
 			if (!(add_quote(data, &tmp)))
 			{
 				data->error.error = true;
@@ -113,7 +111,12 @@ int		check_token(t_data *data)
 			}
 			else
 			{
-				if (!val || !(check_params(data, &tmp, ins_tmp, val)))
+				if (!val)
+				{
+					data->error.error = true;
+					return (error_params_two(tmp->type, tmp->cut));
+				}
+				if (!(check_params(data, &tmp, ins_tmp, val)))
 				{
 					data->error.error = true;
 					return (0);

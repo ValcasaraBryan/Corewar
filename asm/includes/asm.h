@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 17:42:10 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 20:10:18 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,26 @@
 #define TRUE					1
 #define IN_TRUE					2
 #define FALSE					0
+#define DIRECT_MSG				"direct"
+#define INDIRECT_MSG			"indirect"
+#define REGISTER_MSG			"register"
+#define INSTRUCTION_MSG			"instruction"
 #define TOKEN_ENDLINE			"ENDLINE"
+#define MSG_DIRECT				"DIRECT"
+#define MSG_DIRECT_LABEL		"DIRECT_LABEL"
+#define MSG_INDIRECT			"INDIRECT"
+#define MSG_INDIRECT_LABEL		"INDIRECT_LABEL"
+#define MSG_REGISTER			"REGISTER"
+#define MSG_INSTRUCTION			"INSTRUCTION"
+#define MSG_SEPARATEUR			"SEPARATOR"
 #define NO_NEWLINE				"Syntax error - unexpected end of input (Perhaps you forgot to end with a newline ?)\n"
 #define COMMAND_MISS			".name or .comment on first lines missing\n"
-#define UNDEFINED_TOKEN			"Token \"%s\" unknown\n"
-#define ERROR_COUNT				"Invalid parameter count for instruction %s\n"
 #define ERROR_PARAMS			"Invalid parameter %d for instruction %s \"%s\"\n"
+#define BAD_PARAMS				"Invalid parameter %d type %s for instruction %s\n"
+#define ERROR_COUNT				"Invalid parameter count for instruction %s\n"
 #define MSG_LABEL				"No such label \"%s\" while attempting to dereference token \n"
 #define MSG_SYN					"Syntax error at token \"%s\"\n"
+#define MSG_SYN_TYPE			"Syntax error at token %s \"%s\"\n"
 
 typedef struct		s_op
 {
@@ -231,10 +243,12 @@ void		add_word(t_data *data, t_token word);
 /*
 **			check_params.c
 */
+int		error_params(int index, int type, char *ins);
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
 /*
 **			skip_separator.c
 */
+int		error_params_two(int type, char *ins);
 int		skip_separator(t_token **tmp, t_op *val, int *i);
 /*
 **			check_word.c

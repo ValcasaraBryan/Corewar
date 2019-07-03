@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 17:43:53 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/03 19:56:24 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int		check_label(t_data *data)
 		def = data->label;
 		while (def)
 		{
-			// ft_printf("%s - %s\n", tmp->label, def->label);
 			if (tmp->len == def->len)
 				if (ft_strncmp(tmp->label, def->label, tmp->len) == 0)
 				{
@@ -131,7 +130,7 @@ int		read_line(t_data *data, int *i)
 	}
 	if (ft_str_is(data->line.line, ft_is_whitespace))
 		free_line(&data->line.line);
-	return (data->line.line ? -1 : 0);
+	return (data->line.line && quote == false ? -1 : 0);
 }
 
 int		parsing_asm(t_data *data)
@@ -148,6 +147,7 @@ int		parsing_asm(t_data *data)
 	{
 		if ((data->ret = read_line(data, &i)) == -1)
 		{
+			free_line(&data->line.line);
 			ft_fprintf(NO_NEWLINE, S_ERR);
 			return (0);
 		}
