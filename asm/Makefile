@@ -50,9 +50,6 @@ $(NAME) : $(OBJET_ASM) srcs/main.c
 	@echo "Compilation asm	Done !"
 	@echo "-------------------------------"
 
-test : $(OBJET_ASM) srcs/test.c
-	@$(CC) $(CFLAGS) $(LIB) $(OBJET_ASM) srcs/test.c ../op.c -o $(TEST)
-
 clean :
 	@make clean -C libft
 	@rm -rf $(OBJ)
