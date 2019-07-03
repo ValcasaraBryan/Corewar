@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 14:51:46 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/03 14:52:30 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	print_octet(int fd, unsigned int val, size_t nb)
 	if (nb > 4)
 		return ;
 	tmp = 0;
+	index = 0;
 	while (nb--)
 	{
 		index = 255 << 8 * nb;
