@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:58:00 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:04:38 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		print_dump(t_storage **st)
 	int		i;
 	int		j;
 
-	print_function_state("print_dump", "START");
 	i = -1;
 	if (storage_check(st, 1) < VALID_FULL)
 		return (BAD_PARAM);
@@ -49,19 +48,7 @@ int		print_dump(t_storage **st)
 		}
 		ft_putchar('\n');
 	}
-	print_function_state("print_dump", "END");
 	return (SUCCESS);
-}
-
-void	print_function_state(char *name, char *msg)
-{
-	if (UT_PRINT >= 2)
-	{
-		ft_putstr(name);
-		ft_putchar(' ');
-		ft_putstr(msg);
-		ft_putchar('\n');
-	}
 }
 
 void	print_nb_hexa(int nb)
@@ -89,7 +76,7 @@ void	print_nb_hexa(int nb)
 		ft_putchar(res[i]);
 }
 
-int			print_usage(void)
+int		print_usage(void)
 {
 	ft_putstr_fd("usage : ./corewar [-v | -dump N] [-n N] <file.cor> ...\n", 2);
 	return (FAILURE);

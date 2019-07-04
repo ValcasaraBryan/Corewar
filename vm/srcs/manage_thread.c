@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 09:30:50 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:03:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static t_thread		*create_thread(t_storage **st)
 	t_thread	*thread;
 	int			i;
 
-	print_function_state("create_thread", "START");
 	if (storage_check(st, 2) < VALID_EMPTY)
 		return (NULL);
 	if (!(thread = malloc(sizeof(*thread))))
@@ -33,18 +32,15 @@ static t_thread		*create_thread(t_storage **st)
 	thread->where = 0;
 	thread->next = (*st)->first_thread;
 	thread->prec = NULL;
-	print_function_state("create_thread", "END");
 	return (thread);
 }
 
 static int			free_thread(t_thread **th)
 {
-	print_function_state("free_thread", "START");
 	if (thread_check(th) < VALID_EMPTY)
 		return (BAD_PARAM);
 	free((*th));
 	(*th) = NULL;
-	print_function_state("free_thread", "END");
 	return (SUCCESS);
 }
 
@@ -53,7 +49,6 @@ int					add_thread(t_storage **st)
 	t_thread	*thread;
 	int			result;
 
-	print_function_state("add_thread", "START");
 	if ((result = storage_check(st, 2)) < VALID_EMPTY)
 		return (BAD_PARAM);
 	if ((thread = create_thread(st)) == NULL)
@@ -63,7 +58,6 @@ int					add_thread(t_storage **st)
 	else
 		(*st)->last_thread = thread;
 	(*st)->first_thread = thread;
-	print_function_state("add_thread", "END");
 	return (SUCCESS);
 }
 
@@ -72,7 +66,6 @@ int					free_thread_list(t_storage **st)
 	t_thread	*current;
 	t_thread	*next;
 
-	print_function_state("free_thread_list", "START");
 	if (storage_check(st, 2) < VALID_EMPTY)
 		return (BAD_PARAM);
 	current = (*st)->first_thread;
@@ -86,7 +79,6 @@ int					free_thread_list(t_storage **st)
 	free(current);
 	(*st)->first_thread = NULL;
 	(*st)->last_thread = NULL;
-	print_function_state("free_thread_list", "END");
 	return (SUCCESS);
 }
 
@@ -96,7 +88,6 @@ int					delete_thread(t_storage **st, t_thread **th)
 	t_thread	*next;
 	t_thread	*prec;
 
-	print_function_state("delete_thread", "START");
 	if (storage_check(st, 2) < VALID_EMPTY || thread_check(th) < VALID_EMPTY)
 		return (BAD_PARAM);
 	current = *th;
@@ -112,6 +103,5 @@ int					delete_thread(t_storage **st, t_thread **th)
 		(*st)->first_thread = next;
 	if (free_thread(&current) != SUCCESS)
 		return (CALL_FAILED);
-	print_function_state("delete_thread", "END");
 	return (SUCCESS);
 }

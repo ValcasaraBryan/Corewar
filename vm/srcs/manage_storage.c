@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 11:14:08 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:02:37 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static t_storage	*create_storage(void)
 {
 	t_storage		*storage;
 
-	print_function_state("create_storage", "START");
 	if (!(storage = malloc(sizeof(*storage))))
 		return (NULL);
 	ft_bzero(storage, sizeof(*storage));
@@ -48,7 +47,6 @@ static t_storage	*create_storage(void)
 	}
 	ft_bzero(storage->args, sizeof(*(storage->args)) * (11 + 1));
 	init_storage(&storage);
-	print_function_state("create_storage", "END");
 	return (storage);
 }
 
@@ -56,19 +54,16 @@ int					add_storage(t_storage **st)
 {
 	t_storage		*storage;
 
-	print_function_state("add_storage", "START");
 	if (st == NULL)
 		return (BAD_PARAM);
 	if ((storage = create_storage()) == NULL)
 		return (CALL_FAILED);
 	(*st) = storage;
-	print_function_state("add_storage", "END");
 	return (SUCCESS);
 }
 
 int					free_storage(t_storage **st)
 {
-	print_function_state("free_storage", "START");
 	if (storage_check(st, 0) < VALID_EMPTY)
 		return (BAD_PARAM);
 	if (storage_check(st, 0) == VALID_FULL)
@@ -83,6 +78,5 @@ int					free_storage(t_storage **st)
 	free((*st)->args);
 	free(*st);
 	*st = NULL;
-	print_function_state("free_storage", "END");
 	return (SUCCESS);
 }

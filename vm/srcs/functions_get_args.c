@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:37:21 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:53:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:55:46 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ static int	get_args_inner(int nb_lines, char ***tab, int **args, int i)
 	return (FAILURE);
 }
 
-int				get_args(t_storage **st, int nb_lines, char ***tab)
+int			get_args(t_storage **st, int nb_lines, char ***tab)
 {
-	int			i;
-	int			result;
+	int		i;
+	int		result;
 
 	if (nb_lines < 2 || tab == NULL || *tab == NULL
 		|| storage_check(st, 0) != VALID_EMPTY)

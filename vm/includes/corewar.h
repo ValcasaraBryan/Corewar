@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 15:31:55 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 19:34:36 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,12 @@
 # define DIR_CODE		2
 # define IND_CODE		3
 
-# define REG_NUMBER		16
+# define NAME_LENGTH	(128)
+# define DESC_LENGTH	(2048)
+# define M_NB_LENGTH	(4)
 # define MAGIC_NB		0x00EA83F3
+
+# define REG_NUMBER		16
 # define MAX_PLAYERS	4
 # define IDX_MOD		(MEM_SIZE / 8)
 
@@ -98,10 +102,6 @@
 # define MAX_ARGS		4
 # define MEM_SIZE		(4*1024)
 # define CH_MAX_SIZE	(MEM_SIZE / 6)
-
-# define NAME_LENGTH	(128)
-# define DESC_LENGTH	(2048)
-# define M_NB_LENGTH	(4)
 
 typedef struct			s_thread
 {
@@ -191,6 +191,7 @@ typedef struct			s_instruction
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[18];
+
 /*
 **						garance
 */
@@ -213,40 +214,25 @@ extern t_instruction	g_tab_instructions[18];
 
 
 
-int ft_print_game(t_storage **st);
-int ft_init_sdl(t_storage **st);
-int ft_init_win(t_storage **st);
-
-
-
-
-
+int			ft_print_game(t_storage **st, int *var_cycle_to_die);
+int			ft_init_sdl(t_storage **st);
+int			ft_init_win(t_storage **st);
 
 SDL_Color	argb_to_sdl(Uint32 color);
-char *ft_itoa_hexa(int a);
-int ft_color_octet(int player);
-char	*ft_ctoa(char c);
+char		*ft_itoa_hexa(int a);
+int			ft_color_octet(int player);
+char		*ft_ctoa(char c);
 
-
-
-
-
-
-int				ft_print_infos(t_storage **st);
+int			ft_print_infos(t_storage **st, int *var_cycle_to_die);
 int			ft_print_threads(t_storage **st);
-int		ft_print_grid(t_storage **st);
-int		ft_free_visu(t_storage **st);
+int			ft_print_grid(t_storage **st);
+int			ft_free_visu(t_storage **st);
 
 
 
-
-int						init_args(int **args);
-
-
-
-
-
-
+int			ft_str_create_and_print(t_storage **st, char *str1, char **str2, int line);
+int			ft_finish(t_storage **st, SDL_Surface **srf, SDL_Texture **msg, SDL_Rect *rect);
+int			ft_put_players(t_storage **st, int line);
 
 
 /*
@@ -257,8 +243,8 @@ int						bin_extractor(t_champion **ch, char *path);
 /*
 ** ------------------------	functions_announce			------------------------
 */
-int				announce_champions(t_storage **st);
-int				announce_winner(t_storage **st);
+int						announce_champions(t_storage **st);
+int						announce_winner(t_storage **st);
 
 /*
 ** ------------------------	functions_byte				------------------------
@@ -298,7 +284,7 @@ int						write_in_grid_color(t_storage **st, int t_where,
 ** ------------------------	functions_storage			------------------------
 */
 int						storage_get_total_champions(t_storage **st);
-int																storage_get_total_threads(t_storage **st);
+int						storage_get_total_threads(t_storage **st);
 
 /*
 ** ------------------------	functions_thread			------------------------
@@ -418,7 +404,6 @@ int						free_grid(t_storage **st, int type);
 ** ------------------------	manage_print				------------------------
 */
 int						print_dump(t_storage **st);
-void					print_function_state(char *name, char *msg);
 void					print_nb_hexa(int nb);
 int						print_usage(void);
 
@@ -443,10 +428,14 @@ int						process_battle(t_storage **st, int nb_cycles);
 /*
 ** ------------------------	set_values_instr			------------------------
 */
-int			set_value(t_thread **th, int ***grid, int size, int where);
-int			set_value_spe(t_thread **th, int ***grid, int size, int where);
-int			set_value_mod(t_thread **th, int ***grid, int size, int where);
-int			set_value_mod_spe(t_thread **th, int ***grid, int size, int where);
+int						set_value(t_thread **th, int ***grid, int size,
+	int where);
+int						set_value_spe(t_thread **th, int ***grid, int size,
+	int where);
+int						set_value_mod(t_thread **th, int ***grid, int size,
+	int where);
+int						set_value_mod_spe(t_thread **th, int ***grid, int size,
+	int where);
 
 /*
 ** ------------------------	structs_check				------------------------
@@ -463,20 +452,21 @@ int						thread_check(t_thread **th);
 int						setup_all(t_storage **st, int argv, char ***argc);
 
 /*
-** ------------------------	tempo_utility				------------------------
+** ------------------------	utilities_a					------------------------
+*/
+int						convert_to_binary(char **res, int nb);
+int						decrypt_op_code(int **tab, int nb);
+int						get_size_int(int code, int size_dir);
+int						failed_action_move(t_storage **st, t_thread **th,
+	int nb_move);
+int						check_reg(int reg);
+
+/*
+** ------------------------	utilities_b				------------------------
 */
 int						free_tab_char(char ***tab);
 int						free_tab_int(int **tab);
 int						tab_char_create(char ***tab, char ***argc, int **args);
 int						tab_int_create(int **tab, int **args);
-
-/*
-** ------------------------	utilities					------------------------
-*/
-int						convert_to_binary(char **res, int nb);
-int						decrypt_op_code(int **tab, int nb);
-int						get_size_int(int code, int size_dir);
-int		failed_action_move(t_storage **st, t_thread **th, int nb_move);
-int			check_reg(int reg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 10:14:59 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:01:53 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int		free_grid_item(int ***gr)
 {
 	int		i;
 
-	print_function_state("free_grid_item", "START");
 	if (grid_check(gr) != VALID_FULL)
 		return (BAD_PARAM);
 	i = -1;
@@ -27,7 +26,6 @@ static int		free_grid_item(int ***gr)
 	}
 	free(*gr);
 	*gr = NULL;
-	print_function_state("free_grid_item", "END");
 	return (VALID_FULL);
 }
 
@@ -64,7 +62,6 @@ static int		**create_grid(t_storage **st, int type)
 	int			**grid;
 	int			result;
 
-	print_function_state("create_grid", "START");
 	if ((type != 1 && type != 3)
 		|| (result = storage_check(st, type)) != VALID_EMPTY)
 		return (NULL);
@@ -73,7 +70,6 @@ static int		**create_grid(t_storage **st, int type)
 	ft_bzero(grid, sizeof(int *) * (GRID_SIZE + 1));
 	if (setup_empty_grid(&grid, 0, 0) != SUCCESS)
 		return (NULL);
-	print_function_state("create_grid", "END");
 	return (grid);
 }
 
@@ -82,7 +78,6 @@ int				add_grid(t_storage **st, int type)
 	int			**grid;
 	int			result;
 
-	print_function_state("add_grid", "START");
 	if ((type != 1 && type != 3)
 		|| (result = storage_check(st, type)) != VALID_EMPTY)
 		return (BAD_PARAM);
@@ -92,13 +87,11 @@ int				add_grid(t_storage **st, int type)
 		(*st)->grid = grid;
 	else
 		(*st)->color_grid = grid;
-	print_function_state("add_grid", "END");
 	return (SUCCESS);
 }
 
 int				free_grid(t_storage **st, int type)
 {
-	print_function_state("free_grid", "START");
 	if ((type != 1 && type != 3)
 		|| storage_check(st, type) != VALID_FULL)
 		return (BAD_PARAM);
@@ -106,6 +99,5 @@ int				free_grid(t_storage **st, int type)
 		free_grid_item(&((*st)->grid));
 	else
 		free_grid_item(&((*st)->color_grid));
-	print_function_state("free_grid", "END");
 	return (SUCCESS);
 }

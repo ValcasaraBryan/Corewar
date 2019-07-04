@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/02 10:32:57 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:56:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 	short		value;
 	int			i;
 
-	print_function_state("instr_fork_inner", "START");
 	if (add_thread(st) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 2);
@@ -35,7 +34,6 @@ int		instr_fork_inner(t_storage **st, t_thread **th)
 	if (thread_change_where(&new_thread, &(*st)->grid,
 		new_thread->where + (value % IDX_MOD)) != SUCCESS)
 		return (failed_action_move(st, th, 1));
-	print_function_state("instr_fork_inner", "END");
 	return (SUCCESS);
 }
 
@@ -43,7 +41,6 @@ int		instr_fork(t_storage **st, t_thread **th)
 {
 	t_thread	*old;
 
-	print_function_state("instr_fork", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 1));
 	old = *th;
@@ -51,6 +48,5 @@ int		instr_fork(t_storage **st, t_thread **th)
 		return (failed_action_move(st, th, 1));
 	if (thread_change_where(&old, &(*st)->grid, old->where + 1 + 2) != SUCCESS)
 		return (failed_action_move(st, th, 1));
-	print_function_state("instr_fork", "END");
 	return (SUCCESS);
 }

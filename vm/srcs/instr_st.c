@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:34 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:12:46 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:00:24 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	instr_st_inner(t_storage **st, t_thread **th, int size)
 	int		value;
 	int		where;
 
-	print_function_state("instr_st_inner", "START");
 	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, 1);
 	if (reg <= 0 || reg > REG_NUMBER)
 		return (SUCCESS);
@@ -37,7 +36,6 @@ static int	instr_st_inner(t_storage **st, t_thread **th, int size)
 	if (thread_change_where(th, &(*st)->grid,
 		(*th)->where + 1 + 1 + size + 1) != SUCCESS)
 		return (failed_action_move(st, th, 2));
-	print_function_state("instr_st_inner", "END");
 	return (SUCCESS);
 }
 
@@ -46,7 +44,6 @@ int			instr_st(t_storage **st, t_thread **th)
 	int		*tab;
 	int		size;
 
-	print_function_state("instr_st", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 2));
 	if (decrypt_op_code(&tab, read_in_grid(&(*st)->grid,
@@ -60,6 +57,5 @@ int			instr_st(t_storage **st, t_thread **th)
 	}
 	size = get_size_int(tab[1], 4);
 	free(tab);
-	print_function_state("instr_st", "END");
 	return (instr_st_inner(st, th, size));
 }

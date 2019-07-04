@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:42 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:31:38 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:05:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int			instr_sti(t_storage **st, t_thread **th)
 	int		size1;
 	int		size2;
 
-	print_function_state("instr_sti", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (BAD_PARAM);
 	if (decrypt_op_code(&tab, read_in_grid(&(*st)->grid,
@@ -62,6 +61,5 @@ int			instr_sti(t_storage **st, t_thread **th)
 	size1 = get_size_int(tab[1], 4);
 	size2 = get_size_int(tab[2], 4);
 	free(tab);
-	print_function_state("instr_sti", "END");
 	return (instr_sti_inner(st, th, size1, size2));
 }

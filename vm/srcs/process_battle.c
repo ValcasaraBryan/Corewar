@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 10:04:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 15:31:35 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 16:40:42 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,20 @@ static int		update_cycle_threads(t_storage **st)
 	return (SUCCESS);
 }
 
+static int		update_champions(t_storage **st)
+{
+	t_champion	*current;
+
+	current = (*st)->first_champion;
+	while (current != NULL)
+	{
+		current->current_lives = 0;
+		current = current->next;
+	}
+	(*st)->nb_live_current = 0;
+	return (SUCCESS);
+}
+
 static int		update_threads(t_storage **st, int *i, int *j,
 	int *var_cycle_to_die)
 {
@@ -59,6 +73,8 @@ static int		update_threads(t_storage **st, int *i, int *j,
 			(*var_cycle_to_die) = (*var_cycle_to_die) - CYCLE_DELTA;
 		(*j) = ((*st)->nb_live_current >= NBR_LIVE
 			|| (*j) >= MAX_CHECKS) ? 0 : (*j) + 1;
+		if (update_champions(st) != SUCCESS)
+			return (FAILURE);
 	}
 	if (update_cycle_threads(st) != SUCCESS)
 		return (CALL_FAILED);
@@ -85,7 +101,8 @@ int				process_battle(t_storage **st, int nb_cycles)
 			&& SDL_GetTicks() > (check_time + 1000 / FPS)))
 		{
 			if (update_threads(st, &i, &j, &var_cycle_to_die) != SUCCESS
-				|| ((*st)->args[1] == 1 && ft_print_game(st) != SUCCESS))
+				|| ((*st)->args[1] == 1
+				&& ft_print_game(st, &var_cycle_to_die) != SUCCESS))
 				return (FAILURE);
 			check_time = SDL_GetTicks();
 		}

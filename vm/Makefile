@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/07/04 14:43:37 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/07/04 18:18:21 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,12 +60,13 @@ FILES_SRCS =	bin_extractor.c			\
 				set_values_instr.c		\
 				structs_check.c			\
 				structs_setup.c			\
-				tempo_utility.c			\
-				utilities.c 			\
+				utilities_a.c 			\
+				utilities_b.c 			\
 				visu_free.c				\
 				visu_init_sdl.c			\
 				visu_print_grid.c 		\
 				visu_print_infos.c 		\
+				visu_print_players.c	\
 				visu_print_threads.c	\
 				visu_utilities.c
 HEADERS =		$(FILES_HEADER:%.h=$(DIR_INCL)/%.h)

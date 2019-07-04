@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:39 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/02 12:52:52 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:58:32 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	instr_ldi_inner(t_storage **st, t_thread **th, int size1, int size2)
 	int		value1;
 	int		value2;
 
-	print_function_state("instr_ldi_inner", "START");
 	value1 = set_value_mod_spe(th, &(*st)->grid, size1, (*th)->where + 1 + 1);
 	size1 = size1 == 4 ? 2 : size1;
 	value2 = set_value_mod_spe(th, &(*st)->grid, size2,
@@ -34,7 +33,6 @@ static int	instr_ldi_inner(t_storage **st, t_thread **th, int size1, int size2)
 		(*th)->where + 1 + 1 + size1 + size2 + 1) != SUCCESS)
 		return (failed_action_move(st, th, 2));
 	(*th)->carry = total == 0 ? 1 : 0;
-	print_function_state("instr_ldi_inner", "END");
 	return (SUCCESS);
 }
 
@@ -44,7 +42,6 @@ int			instr_ldi(t_storage **st, t_thread **th)
 	int		size1;
 	int		size2;
 
-	print_function_state("instr_ldi", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 2));
 	if (decrypt_op_code(&tab, read_in_grid(&(*st)->grid,
@@ -60,6 +57,5 @@ int			instr_ldi(t_storage **st, t_thread **th)
 	size1 = get_size_int(tab[0], 4);
 	size2 = get_size_int(tab[1], 4);
 	free(tab);
-	print_function_state("instr_ldi", "END");
 	return (instr_ldi_inner(st, th, size1, size2));
 }

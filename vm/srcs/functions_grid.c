@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:55:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 10:19:11 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:55:56 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int			grid_fill_with_champ(int ***grid, t_champion **ch, int nb,
 	t_byte	*current;
 	int		where;
 
-	print_function_state("grid_fill_with_champ", "START");
 	if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS
 		|| champion_check(ch) != VALID_FULL || grid_check(grid) != VALID_FULL)
 		return (BAD_PARAM);
@@ -31,7 +30,6 @@ int			grid_fill_with_champ(int ***grid, t_champion **ch, int nb,
 		where++;
 		current = current->next;
 	}
-	print_function_state("grid_fill_with_champ", "END");
 	return (SUCCESS);
 }
 
@@ -41,7 +39,6 @@ int			grid_fill_with_champ_color(int ***grid, t_champion **ch, int nb,
 	t_byte	*current;
 	int		where;
 
-	print_function_state("grid_fill_with_champ_color", "START");
 	if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS
 		|| champion_check(ch) != VALID_FULL || grid_check(grid) != VALID_FULL)
 		return (BAD_PARAM);
@@ -54,6 +51,5 @@ int			grid_fill_with_champ_color(int ***grid, t_champion **ch, int nb,
 		where++;
 		current = current->next;
 	}
-	print_function_state("grid_fill_with_champ_color", "END");
 	return (SUCCESS);
 }

@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:38:49 by jdurand-          #+#    #+#             */
-/*   Updated: 2018/04/11 18:39:31 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:55:19 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_nbrlen(int nbr)
+int		ft_nbrlen(int n)
 {
 	int	size;
 
