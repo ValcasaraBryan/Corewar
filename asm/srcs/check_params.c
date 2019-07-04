@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_params.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 20:15:24 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:48:10 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-
-int		error_params(int index, int type, char *ins)
-{
-	char	*type_string;
-
-	type_string = NULL;
-	if (type == DIRECT_LABEL || type == DIRECT)
-		type_string = DIRECT_MSG;
-	else if (type == INDIRECT_LABEL || type == INDIRECT)
-		type_string = INDIRECT_MSG;
-	else if (type == REGISTER)
-		type_string = REGISTER_MSG;
-	else if (type == INSTRUCTION)
-		type_string = INSTRUCTION_MSG;
-	ft_fprintf(BAD_PARAMS, S_ERR, index, type_string, ins);
-	return (0);
-}
 
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val)
 {

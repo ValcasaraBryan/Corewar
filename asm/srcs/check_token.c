@@ -6,85 +6,76 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 14:02:05 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 14:46:56 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-char		*into_quote(char *str)
+int		not_instruction(t_data *data, t_token **tmp, t_ins *ins_tmp, t_op *val)
 {
-	int		i;
-	int		j;
-
-	i = -1;
-	j = -1;
-	while (str[++i])
+	if (!val)
 	{
-		if (str[i] == CMD_CHAR)
-		{
-			i++;
-			break ;
-		}
+		data->error.error = true;
+		return (error_params_two((*tmp)->type, (*tmp)->cut));
 	}
-	while (str[i + ++j])
+	if (!(check_params(data, tmp, ins_tmp, val)))
 	{
-		if (str[i + j] == CMD_CHAR)
-		{
-			j++;
-			break ;
-		}
+		data->error.error = true;
+		return (0);
 	}
-	if (i == j)
-		return (ft_strdup(""));
-	else if (i < j)
-		return (ft_strcut(str, i, j));
-	else
-		return (NULL);
+	data->header.prog_size += ins_tmp->len;
+	return (1);
 }
 
-int			add_quote(t_data *data, t_token **token)
+int			is_instruction(t_data *data, t_token *tmp, t_ins **ins_tmp,
+			t_op *val)
 {
-	char	*tmp;
-	char	*string;
+	int		type;
 
-	if ((*token)->type == NAME)
+	type = tmp->type;
+	if (type == INSTRUCTION && val)
 	{
-		data->len = PROG_NAME_LENGTH;
-		tmp = (char *)data->header.prog_name;
+		*ins_tmp = add_instruction(&data->ins, *val);
+		(*ins_tmp)->len += ((*ins_tmp)->ins.opcode == LIVE
+			|| (*ins_tmp)->ins.opcode == FORK || (*ins_tmp)->ins.opcode == ZJMP
+				|| (*ins_tmp)->ins.opcode == LFORK) ? 1 : 2;
 	}
-	else if ((*token)->type == COMMENT)
+	else if (type == LABEL)
+		add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1),
+			data->header.prog_size);
+	return (1);
+}
+
+int		token(t_data *data, t_token **tmp, t_ins **ins_tmp, t_op *val)
+{
+	if ((*tmp)->type == NAME || (*tmp)->type == COMMENT)
 	{
-		data->len = COMMENT_LENGTH;
-		tmp = (char *)data->header.comment;
+		if (!(add_quote(data, tmp)))
+		{
+			data->error.error = true;
+			return (0);
+		}
 	}
-	if ((*token)->next)
+	else if (data->name && data->comment && (*tmp)->type > 0)
 	{
-		data->name = ((*token)->type == NAME) ? true : data->name;
-		data->comment = ((*token)->type == COMMENT) ? true : data->comment;
-		(*token) = (*token)->next;
+		if ((*tmp)->type == INSTRUCTION || ((*tmp)->type == LABEL && !val))
+			return (is_instruction(data, (*tmp), ins_tmp, val));
+		else
+			if (!(not_instruction(data, tmp, (*ins_tmp), val)))
+				return (0);
 	}
 	else
 	{
-		ft_fprintf(MSG_SYN, S_ERR, TOKEN_ENDLINE);
+		ft_fprintf(MSG_SYN, S_ERR, (*tmp)->cut);
+		data->error.error = true;
 		return (0);
 	}
-	if (!(string = into_quote((*token)->cut)))
-		return (0);
-	if ((int)ft_strlen(string) > data->len)
-	{
-		ft_fprintf(MSG_TOO_LONG, S_ERR, tmp == data->header.comment ? MSG_COMMENT : MSG_NAME, data->len);
-		free_line(&string);
-		return (0);
-	}
-	ft_strcpy(tmp, string);
-	free_line(&string);
 	return (1);
 }
 int		check_token(t_data *data)
 {
 	t_op	*val;
-	int		type;
 	t_ins	*ins_tmp;
 	t_token	*tmp;
 
@@ -92,52 +83,12 @@ int		check_token(t_data *data)
 		return (1);
 	tmp = data->token;
 	val = NULL;
+	ins_tmp = NULL;
 	while (tmp)
 	{
 		tmp->type = add_type(tmp->cut, &val);
-		if (tmp->type == NAME || tmp->type == COMMENT)
-		{
-			if (!(add_quote(data, &tmp)))
-			{
-				data->error.error = true;
-				return (0);
-			}
-		}
-		else if (data->name && data->comment && tmp->type > 0)
-		{
-			if (tmp->type == INSTRUCTION || (tmp->type == LABEL && !val))
-			{
-				type = tmp->type;
-				if (type == INSTRUCTION && val)
-				{
-					ins_tmp = add_instruction(&data->ins, *val);
-					ins_tmp->len += (ins_tmp->ins.opcode == LIVE || ins_tmp->ins.opcode == FORK
-					|| ins_tmp->ins.opcode == ZJMP || ins_tmp->ins.opcode == LFORK) ? 1 : 2;
-				}
-				else if (type == LABEL)
-					add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1), data->header.prog_size);
-			}
-			else
-			{
-				if (!val)
-				{
-					data->error.error = true;
-					return (error_params_two(tmp->type, tmp->cut));
-				}
-				if (!(check_params(data, &tmp, ins_tmp, val)))
-				{
-					data->error.error = true;
-					return (0);
-				}
-				data->header.prog_size += ins_tmp->len;
-			}
-		}
-		else
-		{
-			ft_fprintf(MSG_SYN, S_ERR, tmp->cut);
-			data->error.error = true;
+		if (!(token(data, &tmp, &ins_tmp, val)))
 			return (0);
-		}
 		if (tmp->next)
 			tmp = tmp->next;
 		else

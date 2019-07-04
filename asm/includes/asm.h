@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 13:56:20 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 14:50:29 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,11 @@ int			ft_number_ok(char *str);
 /*
 **			check_token.c
 */
-int		check_token(t_data *data);
+int			not_instruction(t_data *data, t_token **tmp, t_ins *ins_tmp, t_op *val);
+int			is_instruction(t_data *data, t_token *tmp, t_ins **ins_tmp,
+			t_op *val);
+int			token(t_data *data, t_token **tmp, t_ins **ins_tmp, t_op *val);
+int			check_token(t_data *data);
 /*
 **			get_token.c
 */
@@ -246,12 +250,10 @@ void		add_word(t_data *data, t_token word);
 /*
 **			check_params.c
 */
-int		error_params(int index, int type, char *ins);
 int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
 /*
 **			skip_separator.c
 */
-int		error_params_two(int type, char *ins);
 int		skip_separator(t_token **tmp, t_op *val, int *i);
 /*
 **			check_word.c
@@ -266,4 +268,16 @@ void	erase_token(t_token **token);
 void	erase_ins(t_ins **ins);
 void	erase_label(t_label **label);
 void	erase_name_label(t_name_label **label);
+/*
+**			quote.c
+*/
+char		*retour_into_quote(int i, int j, char *str);
+char		*into_quote(char *str);
+int			retour_add_quote(t_data *data, t_token **token, char *tmp, char *string);
+int			add_quote(t_data *data, t_token **token);
+/*
+**			error_msg.c
+*/
+int		error_params(int index, int type, char *ins);
+int		error_params_two(int type, char *ins);
 #endif
