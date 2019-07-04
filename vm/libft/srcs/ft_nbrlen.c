@@ -14,15 +14,15 @@
 
 int		ft_nbrlen(int nbr)
 {
-	int		i;
+	int	size;
 
-	i = 0;
-	if (nbr == 0)
-		return (1);
-	while (nbr != 0)
+	size = 1;
+	if (n < 0)
+		size++;
+	while (n / 10)
 	{
-		i++;
-		nbr /= 10;
+		size++;
+		n = n / 10;
 	}
-	return (i);
+	return (size);
 }

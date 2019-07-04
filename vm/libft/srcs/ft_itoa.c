@@ -14,20 +14,28 @@
 
 char		*ft_itoa(int n)
 {
-	char	*res;
-	int		minus;
-	int		len;
+	int		size;
+	char	*s;
 
-	minus = n < 0 ? 1 : 0;
-	len = ft_nbrlen(n);
-	if (!(res = ft_strnew(len + minus)))
+	size = ft_nbrlen(n);
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	if (n == 0)
+		return (ft_strdup("0"));
+	if (!(s = (char *)malloc(size + 1)))
 		return (NULL);
-	res[0] = minus == 1 ? '-' : '0';
-	while (len > 0)
+	ft_bzero(s, size + 1);
+	if (n < 0)
 	{
-		res[len - 1 + minus] = n > 0 ? n % 10 + 48 : -(n % 10) + 48;
-		n = n / 10;
-		len--;
+		s[0] = '-';
+		n = -n;
 	}
-	return (res);
+	s[size] = '\0';
+	while (n > 0)
+	{
+		s[size - 1] = n % 10 + 48;
+		n = n / 10;
+		--size;
+	}
+	return (s);
 }
