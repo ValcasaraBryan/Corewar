@@ -89,9 +89,9 @@ static int			ft_str_create_and_print(t_storage **st, char *str1,
 	if (!(dest = (char *)malloc(sizeof(char) * (size_total + 1))))
 		return (FAILURE);
 	ft_bzero(dest, sizeof(char) * (size_total + 1));
-	//////////free src2
 	dest = ft_strcat(dest, str1);
 	dest = ft_strcat(dest, str2);
+	free(str2);
 	if (ft_print_text(st, dest, line) != SUCCESS)
 	{
 		free(dest);
@@ -113,22 +113,22 @@ static int			ft_put_players(t_storage **st, int line)
 	while (tmp != NULL)
 	{
 		nb_players += 1;
-		if (!(str = malloc(sizeof(char) * (10 + ft_size(1)))))
+		if (!(str = malloc(sizeof(char) * (10 + ft_size(tmp->number)))))
 			return (FAILURE);
-		ft_bzero(str, sizeof(char) * (10 + ft_size(1)));
+		ft_bzero(str, sizeof(char) * (10 + ft_size(tmp->number)));
 		//////////?????????
-		bzero(str, 10 + ft_size(12));
+		// bzero(str, 10 + ft_size(12));
 		///////////
 		str = ft_strcat(str, "Player ");
-		str = ft_strcat(str, ft_itoa_hexa(1));
+		str = ft_strcat(str, ft_itoa(tmp->number));
 		str = ft_strcat(str, ": ");
 		///////////////////////////////////////////////
-		ft_str_create_and_print(st, str, "\0", line); //tmp->name, *line);
+		ft_str_create_and_print(st, str, ft_strdup(tmp->name), line);
 		ft_print_name_colored(st, str, tmp->name, nb_players);
 		line++;
-		ft_str_create_and_print(st, "   Last_live :                   ", "12", line); //ft_itoa(lastlive), *line);
+		ft_str_create_and_print(st, "   Last_live :                   ", ft_itoa(tmp->last_live), line);
 		line++;
-		ft_str_create_and_print(st, "   Lives in current periode :    ", "0", line);//ft_itoa(lastlive), *line);
+		ft_str_create_and_print(st, "   Lives in current periode :    ", ft_itoa(tmp->current_lives), line);
 		///////////////////////////////////////////////
 		line += 2;
 		free(str);
