@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   visu_print_grid.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:56:01 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/02 15:56:04 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/07/04 10:17:23 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static SDL_Texture		*ft_grep_caract(SDL_Texture **tab, char c)
+static SDL_Texture	*ft_grep_caract(SDL_Texture **tab, char c)
 {
 	if (c >= '0' && c <= '9')
 		return (tab[c - 48]);
@@ -21,7 +21,7 @@ static SDL_Texture		*ft_grep_caract(SDL_Texture **tab, char c)
 	return (NULL);
 }
 
-static SDL_Texture		*ft_grep_texture(t_storage **st, char c, int color)
+static SDL_Texture	*ft_grep_texture(t_storage **st, char c, int color)
 {
 	if (color == 0)
 		return (ft_grep_caract((*st)->win->tab_w, c));
@@ -36,13 +36,12 @@ static SDL_Texture		*ft_grep_texture(t_storage **st, char c, int color)
 	return (NULL);
 }
 
-static int				ft_write_caract_in_renderer(t_storage **st, int i,
+static int			ft_write_caract_in_renderer(t_storage **st, int i,
 	int j, char *str)
 {
 	int		k;
 
 	k = -1;
-
 	(*st)->win->rect->y = i * OCT_H;
 	(*st)->win->rect->x = j * OCT_W + 4;
 	(*st)->win->rect->h = OCT_H;
@@ -66,10 +65,10 @@ static int				ft_write_caract_in_renderer(t_storage **st, int i,
 	return (SUCCESS);
 }
 
-int						ft_print_grid(t_storage **st)
+int					ft_print_grid(t_storage **st)
 {
-	int		i;
-	int		j;
+	int				i;
+	int				j;
 
 	i = -1;
 	while (++i < 64)

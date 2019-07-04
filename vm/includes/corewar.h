@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/03 16:28:51 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 12:39:26 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define GRID_SIZE		64
 
-# define UT_PRINT		1
+# define UT_PRINT		0
 
 # define MOVE			"move"
 # define LIVE			"live"
@@ -80,6 +80,8 @@
 # define REG_NUMBER		16
 # define MAGIC_NB		0x00EA83F3
 
+# define FPS			60
+
 /*
 ** unused
 */
@@ -90,7 +92,7 @@
 # define IDX_MOD		(MEM_SIZE / 8)
 # define CH_MAX_SIZE	(MEM_SIZE / 6)
 
-# define CYCLE_TO_DIE	1536
+# define CYCLE_TO_DIE	10
 # define CYCLE_DELTA	50
 # define NBR_LIVE		21
 # define MAX_CHECKS		10
@@ -131,33 +133,29 @@ typedef struct			s_champion
 	struct s_champion	*next;
 }						t_champion;
 
-typedef union					u_color
+typedef union			u_color
 {
-	int				color;
-	unsigned char	rgb[4];
-}					t_color;
+	int					color;
+	unsigned char		rgb[4];
+}						t_color;
 
-typedef struct		s_win
+typedef struct			s_win
 {
-	SDL_Window		*window;
-	SDL_Surface		*surface;
-	TTF_Font		*ttf_text;
-	SDL_Event		*event;
-	SDL_Renderer 	*renderer;
-	SDL_Texture 	*texture;
-	SDL_Texture 	*message;
-	SDL_Rect 		*rect;
-	int				colors[4];
-	int				text_height;
-	int				text_start;
-	int 			pause;
-	int 			nb_threads;
-	SDL_Texture		**tab_w;
-	SDL_Texture		**tab_b;
-	SDL_Texture		**tab_o;
-	SDL_Texture		**tab_v;
-	SDL_Texture		**tab_g;
-}					t_win;
+	int 				pause;
+	int 				nb_threads;
+	SDL_Event			*event;
+	SDL_Rect 			*rect;
+	SDL_Renderer 		*renderer;
+	SDL_Surface			*surface;
+	SDL_Texture 		*texture;
+	SDL_Texture			**tab_b;
+	SDL_Texture			**tab_g;
+	SDL_Texture			**tab_o;
+	SDL_Texture			**tab_v;
+	SDL_Texture			**tab_w;
+	SDL_Window			*window;
+	TTF_Font			*ttf_text;
+}						t_win;
 
 typedef struct			s_storage
 {
@@ -191,7 +189,7 @@ typedef struct			s_instruction
 
 extern t_instruction	g_tab_instructions[18];
 /*
-**							garance
+**						garance
 */
 # include <math.h>
 # include <unistd.h>
@@ -238,7 +236,7 @@ char	*ft_strcat(char *dest, const char *src);
 int				ft_print_infos(t_storage **st);
 int			ft_print_threads(t_storage **st);
 int		ft_print_grid(t_storage **st);
-void		ft_free_visu(t_storage **st);
+int		ft_free_visu(t_storage **st);
 
 /*
 ** ------------------------	bin_extractor				------------------------
@@ -286,6 +284,12 @@ int						thread_change_value_reg(t_thread **th, int reg,
 int						thread_change_where(t_thread **th, int ***gr,
 	int new_where);
 int						thread_get_value_reg(t_thread **th, int reg);
+
+/*
+** ------------------------	functions_storage			------------------------
+*/
+int						storage_get_total_champions(t_storage **st);
+int						storage_get_total_threads(t_storage **st);
 
 /*
 ** ------------------------	instr_add					------------------------
@@ -375,9 +379,8 @@ int						instr_zjmp(t_storage **st, t_thread **th);
 /*
 ** ------------------------	key_functions				------------------------
 */
-int						process_battle(t_storage **st, int nb_cycles);
 int						intro_champions(t_storage **st);
-int				announce_winner(t_storage **st);
+int						announce_winner(t_storage **st);
 int						get_args(t_storage **st, int nb_lines, char ***tab);
 int						read_in_grid(int ***grid, int where, int nb);
 int						write_in_grid(int ***grid, long value, int where,
@@ -402,6 +405,15 @@ int						add_grid(t_storage **st, int type);
 int						free_grid(t_storage **st, int type);
 
 /*
+** ------------------------	manage_print				------------------------
+*/
+int						print_dump(t_storage **st);
+void					print_function_state(char *name, char *msg);
+int						print_grid(t_storage **st, int type);
+void					print_nb_hexa(int nb);
+int						print_storage(t_storage **st);
+
+/*
 ** ------------------------	manage_storage				------------------------
 */
 int						add_storage(t_storage **st);
@@ -415,6 +427,11 @@ int						free_thread_list(t_storage **st);
 int						delete_thread(t_storage **st, t_thread **th);
 
 /*
+** ------------------------	process_battle				------------------------
+*/
+int						process_battle(t_storage **st, int nb_cycles);
+
+/*
 ** ------------------------	structs_check				------------------------
 */
 int						byte_check(t_byte **bt);
@@ -422,16 +439,6 @@ int						champion_check(t_champion **ch);
 int						grid_check(int ***gr);
 int						storage_check(t_storage **st, int type);
 int						thread_check(t_thread **th);
-
-/*
-** ------------------------	structs_print				------------------------
-*/
-int						print_byte_list(t_champion **ch);
-int						print_champion_list(t_storage **st);
-int						print_grid(t_storage **st, int type);
-int						print_storage(t_storage **st);
-int						print_thread_list(t_storage **st);
-void	print_function_state(char *name, char *msg);
 
 /*
 ** ------------------------	structs_setup				------------------------
@@ -450,22 +457,10 @@ int						tab_char_create(char ***tab, char ***argc, int **args);
 int						tab_int_create(int **tab, int **args);
 
 /*
-** ------------------------	unit_tests_instr			------------------------
-*/
-void					all_ut_instr(void);
-
-/*
-** ------------------------	unit_tests					------------------------
-*/
-void					all_ut(void);
-
-/*
 ** ------------------------	utilities					------------------------
 */
 int						convert_to_binary(char **res, int nb);
 int						decrypt_op_code(int **tab, int nb);
-void					print_nb_hexa(int nb);
-int						print_dump(t_storage **st);
 int						get_size_int(int code, int size_dir);
 int		failed_action_move(t_storage **st, t_thread **th, int nb_move);
 int			set_value(t_thread **th, int ***grid, int size, int where);

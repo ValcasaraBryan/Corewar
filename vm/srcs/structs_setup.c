@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/03 16:25:56 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 12:43:31 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		setup_champions(t_storage **st, char ***t_p, int **t_n)
+int				setup_champions(t_storage **st, char ***t_p, int **t_n)
 {
 	int			i;
 
@@ -36,7 +36,7 @@ int		setup_champions(t_storage **st, char ***t_p, int **t_n)
 	return (SUCCESS);
 }
 
-int		setup_grid(t_storage **st)
+int				setup_grid(t_storage **st)
 {
 	t_champion	*curr;
 	int			nb;
@@ -46,10 +46,8 @@ int		setup_grid(t_storage **st)
 	if (storage_check(st, 0) != VALID_FULL
 		|| storage_check(st, 1) != VALID_EMPTY)
 		return (BAD_PARAM);
-	total = 0;
-	curr = (*st)->first_champion;
-	while (curr != NULL && ++total != -1)
-		curr = curr->next;
+	if ((total = storage_get_total_champions(st)) <= 0)
+		return (FAILURE);
 	if (add_grid(st, 1) != SUCCESS)
 		return (CALL_FAILED);
 	nb = 0;
@@ -64,7 +62,7 @@ int		setup_grid(t_storage **st)
 	return (SUCCESS);
 }
 
-int		setup_color_grid(t_storage **st)
+int				setup_color_grid(t_storage **st)
 {
 	t_champion	*curr;
 	int			nb;
@@ -74,17 +72,16 @@ int		setup_color_grid(t_storage **st)
 	if (storage_check(st, 0) != VALID_FULL
 		|| storage_check(st, 3) != VALID_EMPTY)
 		return (BAD_PARAM);
-	total = 0;
-	curr = (*st)->first_champion;
-	while (curr != NULL && ++total != -1)
-		curr = curr->next;
+	if ((total = storage_get_total_champions(st)) <= 0)
+		return (FAILURE);
 	if (add_grid(st, 3) != SUCCESS)
 		return (CALL_FAILED);
 	nb = 0;
 	curr = (*st)->first_champion;
 	while (curr != NULL && ++nb != -1)
 	{
-		if (grid_fill_with_champ_color(&((*st)->color_grid), &curr, nb, total) != SUCCESS)
+		if (grid_fill_with_champ_color(&((*st)->color_grid), &curr, nb,
+			total) != SUCCESS)
 			return (CALL_FAILED);
 		curr = curr->next;
 	}
@@ -92,10 +89,9 @@ int		setup_color_grid(t_storage **st)
 	return (SUCCESS);
 }
 
-int		setup_thread(t_storage **st)
+int				setup_thread(t_storage **st)
 {
-	t_thread	*current;
-	t_champion	*curr;
+	t_thread	*curr;
 	int			total;
 	int			nb;
 	int			where;
@@ -104,22 +100,18 @@ int		setup_thread(t_storage **st)
 	if (storage_check(st, 0) != VALID_FULL
 		|| storage_check(st, 2) != VALID_FULL)
 		return (BAD_PARAM);
-	total = 0;
-	curr = (*st)->first_champion;
-	while (curr != NULL && ++total != -1)
-		curr = curr->next;
-	nb = 0;
-	current = (*st)->first_thread;
-	if (total == 0)
+	if ((total = storage_get_total_champions(st)) <= 0)
 		return (FAILURE);
-	while (current != NULL && ++nb != -1)
+	nb = 0;
+	curr = (*st)->first_thread;
+	while (curr != NULL && ++nb != -1)
 	{
 		if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS)
 			return (BAD_PARAM);
 		where = (GRID_SIZE * GRID_SIZE / total) * (nb - 1);
-		if (thread_change_where(&current, &((*st)->grid), where) != SUCCESS)
+		if (thread_change_where(&curr, &((*st)->grid), where) != SUCCESS)
 			return (CALL_FAILED);
-		current = current->next;
+		curr = curr->next;
 	}
 	print_function_state("setup_thread", "END");
 	return (SUCCESS);
@@ -127,39 +119,28 @@ int		setup_thread(t_storage **st)
 
 int				setup_all(t_storage **st, int argv, char ***argc)
 {
-	char		**array_1;
-	int			*array_2;
+	char		**a_1;
+	int			*a_2;
 
-	print_function_state("setup_all", "START");
 	if (argc == NULL || *argc == NULL || argv <= 0)
 		return (BAD_PARAM);
-	array_1 = NULL;
-	array_2 = NULL;
-	if (add_storage(st) != SUCCESS
-		|| get_args(st, argv, argc) != SUCCESS)
-		return (CALL_FAILED);
-	if (tab_char_create(&array_1, argc, &((*st)->args)) != SUCCESS
-		|| tab_int_create(&array_2, &((*st)->args)) != SUCCESS)
-	{
-		free_tab_char(&array_1);
-		free_tab_int(&array_2);
-		return (CALL_FAILED);
-	}
-	if (setup_champions(st, &array_1, &array_2) != SUCCESS
-		|| setup_grid(st) != SUCCESS
-		|| setup_color_grid(st) != SUCCESS
+	a_1 = NULL;
+	a_2 = NULL;
+	if (add_storage(st) != SUCCESS || get_args(st, argv, argc) != SUCCESS
+		|| tab_char_create(&a_1, argc, &((*st)->args)) != SUCCESS
+		|| tab_int_create(&a_2, &((*st)->args)) != SUCCESS
+		|| setup_champions(st, &a_1, &a_2) != SUCCESS
+		|| setup_grid(st) != SUCCESS || setup_color_grid(st) != SUCCESS
 		|| setup_thread(st) != SUCCESS)
 	{
-		free_tab_char(&array_1);
-		free_tab_int(&array_2);
+		free_tab_char(&a_1);
+		free_tab_int(&a_2);
 		return (CALL_FAILED);
 	}
-	if ((*st)->args[1] == 1)
-		if (ft_init_sdl(st) != SUCCESS
-			|| ft_init_win(st) != SUCCESS)
-			return (CALL_FAILED);
-	free_tab_char(&array_1);
-	free_tab_int(&array_2);
-	print_function_state("setup_all", "END");
+	free_tab_char(&a_1);
+	free_tab_int(&a_2);
+	if ((*st)->args[1] == 1
+		&& (ft_init_sdl(st) != SUCCESS || ft_init_win(st) != SUCCESS))
+		return (CALL_FAILED);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 18:18:44 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/03 16:23:41 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 11:14:08 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ static t_storage	*create_storage(void)
 	print_function_state("create_storage", "START");
 	if (!(storage = malloc(sizeof(*storage))))
 		return (NULL);
+	ft_bzero(storage, sizeof(*storage));
 	if (!((storage->args) = malloc(sizeof(*(storage->args)) * (11 + 1))))
 	{
 		free(storage);
 		return (NULL);
 	}
+	ft_bzero(storage->args, sizeof(*(storage->args)) * (11 + 1));
 	init_storage(&storage);
 	print_function_state("create_storage", "END");
 	return (storage);
@@ -77,6 +79,7 @@ int					free_storage(t_storage **st)
 		free_thread_list(st);
 	if (storage_check(st, 3) == VALID_FULL)
 		free_grid(st, 3);
+	ft_free_visu(st);
 	free((*st)->args);
 	free(*st);
 	*st = NULL;

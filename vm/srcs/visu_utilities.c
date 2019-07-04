@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visu_utilities.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:56:30 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/02 15:56:32 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/07/04 12:27:01 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*ft_ctoa(char c)
 
 	if (!(str = malloc(sizeof(char) * 2)))
 		return (NULL);
+	ft_bzero(str, sizeof(char) * 2);
 	str[0] = c;
 	str[1] = '\0';
 	return (str);
@@ -69,6 +70,7 @@ char *ft_itoa_hexa(int a)
 	tab = "0123456789abcdef";
 	if (!(str = malloc(sizeof(char) * 3)))
 		return (NULL);
+	ft_bzero(str, sizeof(char) * 3);
 	str[0] = tab[a / 16];
 	str[1] = tab[a % 16];
 	str[2] = '\0';

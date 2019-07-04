@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 10:06:08 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 10:19:35 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		thread_change_action(t_thread **th, int new_action)
+int			thread_change_action(t_thread **th, int new_action)
 {
 	print_function_state("thread_change_action", "START");
 	if (thread_check(th) < VALID_EMPTY)
@@ -25,7 +25,7 @@ int		thread_change_action(t_thread **th, int new_action)
 	return (SUCCESS);
 }
 
-int		thread_change_cycle(t_thread **th, t_storage **st, int type)
+int			thread_change_cycle(t_thread **th, t_storage **st, int type)
 {
 	print_function_state("thread_change_cycle", "START");
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
@@ -51,7 +51,7 @@ int		thread_change_cycle(t_thread **th, t_storage **st, int type)
 	return (SUCCESS);
 }
 
-int		thread_change_value_reg(t_thread **th, int reg, int new_value)
+int			thread_change_value_reg(t_thread **th, int reg, int new_value)
 {
 	print_function_state("thread_change_value_reg", "START");
 	if (thread_check(th) < VALID_EMPTY || reg <= 0 || reg > REG_NUMBER)
@@ -61,7 +61,7 @@ int		thread_change_value_reg(t_thread **th, int reg, int new_value)
 	return (SUCCESS);
 }
 
-int		thread_change_where(t_thread **th, int ***gr, int new_where)
+int			thread_change_where(t_thread **th, int ***gr, int new_where)
 {
 	int		new_action;
 	int		tempo;
@@ -81,7 +81,7 @@ int		thread_change_where(t_thread **th, int ***gr, int new_where)
 	return (SUCCESS);
 }
 
-int		thread_get_value_reg(t_thread **th, int reg)
+int			thread_get_value_reg(t_thread **th, int reg)
 {
 	print_function_state("thread_get_value_reg", "START");
 	if (thread_check(th) < VALID_EMPTY || reg <= 0 || reg > REG_NUMBER)

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:56:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 14:07:34 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 09:28:02 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_byte	*create_byte(t_champion **ch)
 		return (NULL);
 	if (!(byte = malloc(sizeof(*byte))))
 		return (NULL);
+	ft_bzero(byte, sizeof(*byte));
 	byte->value = 0;
 	byte->prec = (*ch)->last_byte;
 	byte->next = NULL;

@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 10:03:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 10:18:17 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static int		create_tempo_str(char **res, int fd, int type)
+static int			create_tempo_str(char **res, int fd, int type)
 {
 	int				i;
 	unsigned char	buf[1];
@@ -31,6 +31,7 @@ static int		create_tempo_str(char **res, int fd, int type)
 	}
 	if (!((*res) = malloc(sizeof(**res) * (i + 1))))
 		return (MALLOC_FAILED);
+	ft_bzero((*res), sizeof(**res) * (i + 1));
 	(*res)[i] = '\0';
 	while (--i >= 0)
 		(*res)[i] = '0';
@@ -38,7 +39,7 @@ static int		create_tempo_str(char **res, int fd, int type)
 	return (SUCCESS);
 }
 
-static int		extract_bytes(int fd, t_champion **ch)
+static int			extract_bytes(int fd, t_champion **ch)
 {
 	int				i;
 	unsigned char	buf[1];
@@ -59,7 +60,7 @@ static int		extract_bytes(int fd, t_champion **ch)
 	return (SUCCESS);
 }
 
-static int		extract_magic_numbers(int fd, t_champion **ch)
+static int			extract_magic_numbers(int fd, t_champion **ch)
 {
 	int				i;
 	int				res;
@@ -84,7 +85,7 @@ static int		extract_magic_numbers(int fd, t_champion **ch)
 	return (SUCCESS);
 }
 
-static int		extract_str(int fd, t_champion **ch, int type)
+static int			extract_str(int fd, t_champion **ch, int type)
 {
 	int				i;
 	char			*res;
@@ -113,7 +114,7 @@ static int		extract_str(int fd, t_champion **ch, int type)
 	return (SUCCESS);
 }
 
-int				bin_extractor(t_champion **ch, char *path)
+int					bin_extractor(t_champion **ch, char *path)
 {
 	int				fd;
 

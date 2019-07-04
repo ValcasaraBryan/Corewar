@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/07/03 16:30:00 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/07/04 10:39:57 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FILES_SRCS =	bin_extractor.c			\
 				functions_get_args.c	\
 				functions_grid.c		\
 				functions_thread.c		\
+				functions_storage.c		\
 				instr_add.c				\
 				instr_aff.c				\
 				instr_and.c				\
@@ -51,15 +52,14 @@ FILES_SRCS =	bin_extractor.c			\
 				manage_byte.c			\
 				manage_champion.c		\
 				manage_grid.c			\
+				manage_print.c			\
 				manage_storage.c		\
 				manage_thread.c			\
+				process_battle.c		\
 				set_values_instr.c		\
 				structs_check.c			\
-				structs_print.c			\
 				structs_setup.c			\
 				tempo_utility.c			\
-				unit_tests_instr.c		\
-				unit_tests.c			\
 				utilities.c 			\
 				visu_free.c				\
 				visu_init_sdl.c			\

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:21:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:26:05 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 10:14:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int		setup_empty_grid(int ***gr, int i, int j)
 {
 	int			*line;
 
-	print_function_state("setup_empty_grid", "START");
 	i = -1;
 	while (++i < GRID_SIZE)
 	{
@@ -51,12 +50,12 @@ static int		setup_empty_grid(int ***gr, int i, int j)
 			*gr = NULL;
 			return (MALLOC_FAILED);
 		}
+		ft_bzero(line, sizeof(int) * (GRID_SIZE));
 		j = -1;
 		while (++j < GRID_SIZE)
 			line[j] = 0;
 		(*gr)[i] = line;
 	}
-	print_function_state("setup_empty_grid", "END");
 	return (SUCCESS);
 }
 
@@ -71,6 +70,7 @@ static int		**create_grid(t_storage **st, int type)
 		return (NULL);
 	if (!(grid = (int **)malloc(sizeof(int *) * (GRID_SIZE + 1))))
 		return (NULL);
+	ft_bzero(grid, sizeof(int *) * (GRID_SIZE + 1));
 	if (setup_empty_grid(&grid, 0, 0) != SUCCESS)
 		return (NULL);
 	print_function_state("create_grid", "END");

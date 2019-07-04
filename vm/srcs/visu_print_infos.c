@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visu_print_infos.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:56:11 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/02 15:56:13 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/07/04 12:26:27 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int			ft_print_text(t_storage **st, char *str, int line)
 	if ((msg = SDL_CreateTextureFromSurface((*st)->win->renderer, srf)) == NULL)
 	{
 		SDL_FreeSurface(srf);
+		srf = NULL;
 		return (FAILURE);
 	}
 	rect.x = 66 * OCT_W;
@@ -33,12 +34,15 @@ static int			ft_print_text(t_storage **st, char *str, int line)
 	rect.w = ft_strlen(str) * 9;
 	rect.h = OCT_H;
 	SDL_FreeSurface(srf);
+	srf = NULL;
 	if ((SDL_RenderCopy((*st)->win->renderer, msg, NULL, &rect)) < 0)
 	{
 		SDL_DestroyTexture(msg);
+		msg = NULL;
 		return (FAILURE);
 	}
 	SDL_DestroyTexture(msg);
+	msg = NULL;
 	return (SUCCESS);
 }
 
@@ -55,6 +59,7 @@ static int			ft_print_name_colored(t_storage **st, char *intro,
 	if ((msg = SDL_CreateTextureFromSurface((*st)->win->renderer, srf)) == NULL)
 	{
 		SDL_FreeSurface(srf);
+		srf = NULL;
 		return (FAILURE);
 	}
 	rect.x = 66 * OCT_W + ft_strlen(intro) * 9;
@@ -62,12 +67,15 @@ static int			ft_print_name_colored(t_storage **st, char *intro,
 	rect.w = ft_strlen(name) * 9;
 	rect.h = OCT_H;
 	SDL_FreeSurface(srf);
+	srf = NULL;
 	if ((SDL_RenderCopy((*st)->win->renderer, msg, NULL, &rect)) < 0)
 	{
 		SDL_DestroyTexture(msg);
+		msg = NULL;
 		return (FAILURE);
 	}
 	SDL_DestroyTexture(msg);
+	msg = NULL;
 	return (SUCCESS);
 }
 
@@ -80,10 +88,7 @@ static int			ft_str_create_and_print(t_storage **st, char *str1,
 	size_total = ft_strlen(str1) + ft_strlen(str2);
 	if (!(dest = (char *)malloc(sizeof(char) * (size_total + 1))))
 		return (FAILURE);
-	/////////
-	bzero(dest, size_total + 1);
-	//////////
-
+	ft_bzero(dest, sizeof(char) * (size_total + 1));
 	//////////free src2
 	dest = ft_strcat(dest, str1);
 	dest = ft_strcat(dest, str2);
@@ -110,7 +115,8 @@ static int			ft_put_players(t_storage **st, int line)
 		nb_players += 1;
 		if (!(str = malloc(sizeof(char) * (10 + ft_size(1)))))
 			return (FAILURE);
-		//////////
+		ft_bzero(str, sizeof(char) * (10 + ft_size(1)));
+		//////////?????????
 		bzero(str, 10 + ft_size(12));
 		///////////
 		str = ft_strcat(str, "Player ");
@@ -149,26 +155,3 @@ int					ft_print_infos(t_storage **st)
 		return (FAILURE);
 	return (SUCCESS);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

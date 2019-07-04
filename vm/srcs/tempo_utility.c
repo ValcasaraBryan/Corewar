@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 18:58:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 14:13:54 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 09:31:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		tab_char_create(char ***tab, char ***argc, int **args)
 		return (BAD_PARAM);
 	if (!((*tab) = malloc(sizeof(**tab) * 5)))
 		return (MALLOC_FAILED);
+	ft_bzero((*tab), sizeof(**tab) * 5);
 	(*tab)[0] = (*args)[3] != -1 ? ft_strdup((*argc)[(*args)[3]]) : NULL;
 	(*tab)[1] = (*args)[5] != -1 ? ft_strdup((*argc)[(*args)[5]]) : NULL;
 	(*tab)[2] = (*args)[7] != -1 ? ft_strdup((*argc)[(*args)[7]]) : NULL;
@@ -68,6 +69,7 @@ int		tab_int_create(int **tab, int **args)
 		return (BAD_PARAM);
 	if (!((*tab) = malloc(sizeof(**tab) * 5)))
 		return (MALLOC_FAILED);
+	ft_bzero((*tab), sizeof(**tab) * 5);
 	(*tab)[0] = (*args)[2] != -1 ? (*args)[2] : -1;
 	(*tab)[1] = (*args)[4] != -1 ? (*args)[4] : -2;
 	(*tab)[2] = (*args)[6] != -1 ? (*args)[6] : -3;

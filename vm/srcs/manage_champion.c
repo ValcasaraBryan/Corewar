@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:29:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 14:08:14 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 09:28:24 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_champion	*create_champion(t_storage **st)
 		return (NULL);
 	if (!(champion = malloc(sizeof(*champion))))
 		return (NULL);
+	ft_bzero(champion, sizeof(*champion));
 	champion->number = 1;
 	champion->name = NULL;
 	champion->size = 24;

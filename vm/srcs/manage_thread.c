@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:23:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/02 10:31:55 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 09:30:50 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_thread		*create_thread(t_storage **st)
 		return (NULL);
 	if (!(thread = malloc(sizeof(*thread))))
 		return (NULL);
+	ft_bzero(thread, sizeof(*thread));
 	thread->action = 0;
 	thread->cycle = 0;
 	thread->carry = 0;

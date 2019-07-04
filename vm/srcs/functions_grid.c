@@ -6,16 +6,17 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:55:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 09:44:18 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 10:19:11 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		grid_fill_with_champ(int ***grid, t_champion **ch, int nb, int total)
+int			grid_fill_with_champ(int ***grid, t_champion **ch, int nb,
+	int total)
 {
-	t_byte		*current;
-	int			where;
+	t_byte	*current;
+	int		where;
 
 	print_function_state("grid_fill_with_champ", "START");
 	if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS
@@ -34,11 +35,11 @@ int		grid_fill_with_champ(int ***grid, t_champion **ch, int nb, int total)
 	return (SUCCESS);
 }
 
-int		grid_fill_with_champ_color(int ***grid, t_champion **ch, int nb,
+int			grid_fill_with_champ_color(int ***grid, t_champion **ch, int nb,
 	int total)
 {
-	t_byte		*current;
-	int			where;
+	t_byte	*current;
+	int		where;
 
 	print_function_state("grid_fill_with_champ_color", "START");
 	if (total < 1 || total > MAX_PLAYERS || nb < 1 || nb > MAX_PLAYERS
