@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   op.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2019/06/13 18:03:20 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 17:04:59 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-t_op    op_tab[REG_NUMBER + 1] =
+t_op    g_op_tab[REG_NUMBER + 1] =
 {
 //	ins		len_ins	len_params		params										opcode	cycle	description								indirect	direct
 	{"live",	4,	1,	{T_DIR},												LIVE,	10,		"alive",									0,	0},

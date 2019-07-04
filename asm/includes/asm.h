@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 16:58:16 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:03:51 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ typedef struct					s_params
 	t_label						cpy;
 }								t_params;
 
-extern t_op						op_tab[REG_NUMBER + 1];
+extern t_op						g_op_tab[REG_NUMBER + 1];
 /*
 **			asm.c
 */
