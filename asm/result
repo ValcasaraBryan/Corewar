@@ -1,0 +1,348 @@
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to test_asm/champs/42.cor
+
+moi :
+Writing output program to test_asm/champs/Asombra.cor
+zaz :
+Writing output program to test_asm/champs/Asombra.cor
+
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+moi :
+Champion comment too long (Max length 2048)
+zaz :
+Champion comment too long (Max length 2048)
+
+moi :
+Writing output program to test_asm/champs/Car.cor
+zaz :
+Writing output program to test_asm/champs/Car.cor
+
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+moi :
+Syntax error at token "%4294967041"
+zaz :
+Writing output program to test_asm/champs/Douceur_power.cor
+
+moi :
+Syntax error at token "zjmp%:go_erase"
+zaz :
+Writing output program to test_asm/champs/Explosive_Kitty.cor
+
+moi :
+Writing output program to test_asm/champs/Gagnant.cor
+zaz :
+Writing output program to test_asm/champs/Gagnant.cor
+
+moi :
+Syntax error at token "%4060311555"
+zaz :
+Writing output program to test_asm/champs/Kappa.cor
+
+moi :
+Syntax error at token "fork%:g00dbye_kitty"
+zaz :
+Writing output program to test_asm/champs/Kittystrophic.cor
+
+moi :
+Writing output program to test_asm/champs/Machine-gun.cor
+zaz :
+Writing output program to test_asm/champs/Machine-gun.cor
+
+moi :
+Writing output program to test_asm/champs/MarineKing.cor
+zaz :
+Writing output program to test_asm/champs/MarineKing.cor
+
+moi :
+Syntax error at token ";"
+zaz :
+Writing output program to test_asm/champs/Misaka_Mikoto.cor
+
+moi :
+Champion name too long (Max length 128)
+zaz :
+Champion name too long (Max length 128)
+
+moi :
+Syntax error at token "%4294902082"
+zaz :
+Writing output program to test_asm/champs/Octobre_Rouge_Toolong.cor
+
+moi :
+Syntax error at token "%4294902082"
+zaz :
+Writing output program to test_asm/champs/Octobre_Rouge_V4.2.cor
+
+moi :
+Syntax error at token "affiche"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "affiche"
+
+moi :
+Syntax error at token "affaff"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "affaff"
+
+moi :
+Syntax error at token "af"
+zaz :
+Syntax error at token [TOKEN][007:003] ENDLINE
+
+moi :
+Syntax error at token "afflive"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "afflive"
+
+moi :
+Syntax error at token "aFf"
+zaz :
+Lexical error at [7:2]
+
+moi :
+Syntax error at token ".aff"
+zaz :
+Lexical error at [7:1]
+
+moi :
+Syntax error at token "aaff"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "aaff"
+
+moi :
+Syntax error at token "af"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "af"
+
+moi :
+Syntax error at token "an_d"
+zaz :
+Invalid instruction at token [TOKEN][005:001] INSTRUCTION "an_d"
+
+moi :
+Syntax error at token "Live:"
+zaz :
+Lexical error at [12:1]
+
+moi :
+Syntax error at token "zjump"
+zaz :
+Invalid instruction at token [TOKEN][013:001] INSTRUCTION "zjump"
+
+moi :
+Syntax error at token "affr0"
+zaz :
+Lexical error at [11:6]
+
+moi :
+Syntax error at token "a"
+zaz :
+Syntax error at token [TOKEN][007:003] INSTRUCTION "f"
+
+moi :
+Syntax error at token "afff"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "afff"
+
+moi :
+Syntax error at token INDIRECT_LABEL ":aff"
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+moi :
+Syntax error at token "%aff"
+zaz :
+Lexical error at [7:1]
+
+moi :
+Syntax error at token "liv"
+zaz :
+Lexical error at [12:5]
+
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+moi :
+No such label "%:llive" while attempting to dereference token 
+zaz :
+No such label llive while attempting to dereference token [TOKEN][013:009] DIRECT_LABEL "%:llive"
+
+moi :
+Syntax error at token ":"
+zaz :
+Lexical error at [12:6]
+
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+moi :
+Syntax error at token "affiche"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "affiche"
+
+moi :
+No such label "%:hey" while attempting to dereference token 
+zaz :
+No such label hey while attempting to dereference token [TOKEN][013:009] DIRECT_LABEL "%:hey"
+
+moi :
+Invalid parameter 0 type indirect for instruction zjmp
+zaz :
+Lexical error at [13:9]
+
+moi :
+Syntax error at token "%:"
+zaz :
+Lexical error at [13:9]
+
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][013:009] ENDLINE
+
+moi :
+Invalid parameter 3 type register for instruction sti
+zaz :
+Invalid parameter 3 type register for instruction sti
+
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:013] SEPARATOR ","
+
+moi :
+Syntax error at token "+%1"
+zaz :
+Lexical error at [4:19]
+
+moi :
+Syntax error at token "........."
+zaz :
+Lexical error at [4:12]
+
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:009] ENDLINE
+
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:023] ENDLINE
+
+moi :
+Syntax error at token "%:"
+zaz :
+Lexical error at [4:12]
+
+moi :
+Syntax error at token "r1%:live%1"
+zaz :
+Syntax error at token [TOKEN][004:011] DIRECT_LABEL "%:live"
+
+moi :
+Syntax error at token "%:live%:live"
+zaz :
+Syntax error at token [TOKEN][013:015] DIRECT_LABEL "%:live"
+
+moi :
+Invalid parameter 1 type register for instruction zjmp
+zaz :
+Invalid parameter 1 type register for instruction zjmp
+
+moi :
+Syntax error at token "yolo"
+zaz :
+Syntax error at token [TOKEN][013:009] INSTRUCTION "yolo"
+
+moi :
+Invalid parameter 0 type register for instruction zjmp
+zaz :
+Invalid parameter 0 type register for instruction zjmp
+
+moi :
+Syntax error at token "%:lIve"
+zaz :
+Lexical error at [13:12]
+
+moi :
+Syntax error at token "%aff"
+zaz :
+Lexical error at [13:9]
+
+moi :
+Invalid parameter 0 type direct for instruction sti
+zaz :
+Invalid parameter 0 type direct for instruction sti
+
+moi :
+Invalid parameter 0 type indirect for instruction sti
+zaz :
+Invalid parameter 0 type indirect for instruction sti
+
+moi :
+Writing output program to test_asm/champs/Rainbow_dash.cor
+zaz :
+Writing output program to test_asm/champs/Rainbow_dash.cor
+
+moi :
+Syntax error at token "<<<<<<<"
+zaz :
+Lexical error at [7:1]
+
+moi :
+Writing output program to test_asm/champs/THUNDER.cor
+zaz :
+Writing output program to test_asm/champs/THUNDER.cor
+
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+moi :
+Writing output program to test_asm/champs/Varimathras.cor
+zaz :
+Writing output program to test_asm/champs/Varimathras.cor
+
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][022:001] END "(null)"
+
+moi :
+Syntax error at token "%2576980377"
+zaz :
+Writing output program to test_asm/champs/Wall.cor
+
+moi :
+Writing output program to test_asm/champs/_.cor
+zaz :
+Writing output program to test_asm/champs/_.cor
+
+moi :
+Syntax error at token "%4278780410"
+zaz :
+Writing output program to test_asm/champs/_honeybadger.cor
+
+moi :
+Writing output program to test_asm/champs/add.cor
+zaz :

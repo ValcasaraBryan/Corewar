@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:26:10 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 17:04:30 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:27:20 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_is_params(char *str, int (*fonction)(char))
 	while (str[i])
 	{
 		if (fonction(str[i]))
-			ret = true;
+			ret = ret == false ? true : false;
 		else if (ft_is_label(str + i, true) == 1 || ft_number_ok(str + i))
 			return (ret == true ? 1 : 0);
 		else

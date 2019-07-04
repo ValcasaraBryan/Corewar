@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 16:43:26 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:34:21 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ static int		paring_asm_two(t_data *data)
 	if (!data->name || !data->comment)
 	{
 		ft_fprintf(COMMAND_MISS, S_ERR);
+		return (0);
+	}
+	if (!data->ins)
+	{
+		ft_fprintf(MSG_SYN, S_ERR, TOKEN_ENDLINE);
 		return (0);
 	}
 	if (!(check_label(data)))

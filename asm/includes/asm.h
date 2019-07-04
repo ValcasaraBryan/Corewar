@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 17:03:51 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:42:57 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@
 # define ERROR_PARAMS			INVALID_PARAMS ERROR_MSG
 # define BAD_PARAMS				INVALID_PARAMS BAD_MSG
 # define ERROR_COUNT			"Invalid parameter count for instruction %s\n"
-# define MSG_LABEL_2			"No such label \"%s\" while"
+# define MSG_LABEL_2			"No such label \"%s\" while "
 # define MSG_LABEL_3			"attempting to dereference token \n"
 # define MSG_LABEL				MSG_LABEL_2 MSG_LABEL_3
 # define MSG_SYN				"Syntax error at token \"%s\"\n"
@@ -289,6 +289,7 @@ int								add_quote(t_data *data, t_token **token);
 int								error_params(int index, int type, char *ins);
 int								error_params_two(int type, char *ins);
 int								error_count(t_params p);
+int								error_no_ins(t_data *data, t_ins *ins);
 /*
 **			check_label.c
 */

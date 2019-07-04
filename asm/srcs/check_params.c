@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 16:26:52 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:15:51 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ int				check_params(t_params p)
 		(*p.tmp)->type = add_type((*p.tmp)->cut, &p.val);
 		if (!(check_params_direct_indirect_register(p)))
 			return (0);
+		if (p.i >= p.val->len_params)
+			return (error_params(p.i, (*p.tmp)->type, p.val->ins));
 		if ((*p.tmp)->next)
 			(*p.tmp) = (*p.tmp)->next;
 		else
 			break ;
-		if (p.i >= p.val->len_params)
-			return (error_params(p.i, (*p.tmp)->type, p.val->ins));
 		if (!(skip_separator(p.tmp, p.val, &p.i)))
 			return (0);
 		p.ins->octet = p.ins->octet << bin;

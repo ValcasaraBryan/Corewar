@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:47:46 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 16:19:08 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:42:59 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int		error_params_two(int type, char *ins)
 		type_string = MSG_INSTRUCTION;
 	else if (type == SEPARATOR)
 		type_string = MSG_SEPARATEUR;
-	ft_fprintf(MSG_SYN_TYPE, S_ERR, type_string, ins);
+	if (type > 0)
+		ft_fprintf(MSG_SYN_TYPE, S_ERR, type_string, ins);
+	else
+		ft_fprintf(MSG_SYN, S_ERR, ins);
 	return (0);
 }
 
@@ -60,4 +63,16 @@ int		error_count(t_params p)
 		return (0);
 	}
 	return (1);
+}
+
+int		error_no_ins(t_data *data, t_ins *ins)
+{
+	if (ins && !ins->octet)
+	{
+		ft_fprintf(MSG_SYN, S_ERR, TOKEN_ENDLINE);
+		data->error.error = true;
+		return (0);
+	}
+	else
+		return (1);
 }

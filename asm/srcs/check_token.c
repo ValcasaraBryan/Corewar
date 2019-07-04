@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 16:27:54 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:42:44 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,7 @@ int				check_token(t_data *data)
 		else
 			break ;
 	}
+	if (!(error_no_ins(data, ins_tmp)))
+		return (0);
 	return (1);
 }
