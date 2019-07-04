@@ -1,4 +1,5 @@
 .name "VirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVirtualVsssssssssdddddd"
+
 .comment "bonjour
 bonjour
 bonjour
@@ -254,7 +255,8 @@ bonjour
 bonjour
 bonjour
 bonjourddddddddd"
-
+label:
+ld %1, r21
 ld %1, r2
-ld %1, r2
+ld %:label, r99
 #: ld 1, r2, r2

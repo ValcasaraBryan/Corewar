@@ -6,13 +6,13 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 17:40:22 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 16:27:12 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	print_octet(int fd, unsigned int val, size_t nb)
+static void		print_octet(int fd, unsigned int val, size_t nb)
 {
 	unsigned int	tmp;
 	unsigned int	index;
@@ -29,7 +29,7 @@ void	print_octet(int fd, unsigned int val, size_t nb)
 	}
 }
 
-void	print_tab(int fd, t_ins *ins)
+static void		print_tab(int fd, t_ins *ins)
 {
 	int	i;
 
@@ -46,7 +46,17 @@ void	print_tab(int fd, t_ins *ins)
 	}
 }
 
-void		write_file(t_data *data, int i)
+static void		write_header(t_data *data)
+{
+	print_octet(data->fd_file, data->header.magic, 4);
+	write(data->fd_file, data->header.prog_name, PROG_NAME_LENGTH);
+	print_octet(data->fd_file, 0, 4);
+	print_octet(data->fd_file, data->header.prog_size, 4);
+	write(data->fd_file, data->header.comment, COMMENT_LENGTH);
+	print_octet(data->fd_file, 0, 4);
+}
+
+void			write_file(t_data *data, int i)
 {
 	t_ins	*tmp;
 
@@ -56,12 +66,7 @@ void		write_file(t_data *data, int i)
 		ft_fprintf(NO_FILE, S_ERR, CREAT, data->name_cor);
 		return ;
 	}
-	print_octet(data->fd_file, data->header.magic, 4);
-	write(data->fd_file, data->header.prog_name, PROG_NAME_LENGTH);
-	print_octet(data->fd_file, 0, 4);
-	print_octet(data->fd_file, data->header.prog_size, 4);
-	write(data->fd_file, data->header.comment, COMMENT_LENGTH);
-	print_octet(data->fd_file, 0, 4);
+	write_header(data);
 	tmp = data->ins;
 	while (tmp)
 	{
@@ -75,6 +80,5 @@ void		write_file(t_data *data, int i)
 	}
 	close(data->fd_file);
 	ft_printf(SUCCESS, data->name_cor);
-	free(data->name_cor);
-	data->name_cor = NULL;
+	free_line(&data->name_cor);
 }

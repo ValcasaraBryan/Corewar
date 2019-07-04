@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 23:07:15 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/16 23:07:26 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:18:53 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

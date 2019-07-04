@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   list_chain_new.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:45 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/16 22:57:47 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:18:39 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-t_token		*new_token(t_token token)
+t_token			*new_token(t_token token)
 {
 	t_token	*new;
 
@@ -27,10 +27,10 @@ t_token		*new_token(t_token token)
 	return (new);
 }
 
-t_ins		*new_instruction(t_op ins)
+t_ins			*new_instruction(t_op ins)
 {
 	t_ins	*new;
-	int i;
+	int		i;
 
 	if (!(new = malloc(sizeof(t_ins))))
 		return (NULL);
@@ -59,7 +59,7 @@ t_name_label	*new_n_label(char *label, int index)
 	return (new);
 }
 
-t_label	*new_label(t_label cpy)
+t_label			*new_label(t_label cpy)
 {
 	t_label *new;
 

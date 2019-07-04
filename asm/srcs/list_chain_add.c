@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_chain_add.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:41 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/06/16 22:57:49 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:17:52 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

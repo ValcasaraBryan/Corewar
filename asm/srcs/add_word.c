@@ -3,16 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   add_word.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:39:32 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 13:36:01 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:26:55 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void		add_word(t_data *data, t_token word)
+static void		check_char(t_token word, int *i, int *j)
+{
+	if (word.cut[(*i)] != CMD_CHAR)
+	{
+		if (separator(word.cut[(*i)]) == 1)
+			(*j)++;
+		else
+			while (word.cut[(*j)])
+				if (separator(word.cut[++(*j)]) == 1)
+					break ;
+	}
+	else
+	{
+		while (word.cut[++(*j)])
+			if (word.cut[(*j)] == CMD_CHAR)
+			{
+				(*j)++;
+				break ;
+			}
+	}
+}
+
+void			add_word(t_data *data, t_token word)
 {
 	int		i;
 	int		j;
@@ -23,24 +45,7 @@ void		add_word(t_data *data, t_token word)
 	while (word.cut[++i])
 	{
 		j = i;
-		if (word.cut[i] != CMD_CHAR)
-		{
-			if (separator(word.cut[i]) == 1)
-				j++;
-			else
-				while (word.cut[j])
-					if (separator(word.cut[++j]) == 1)
-						break ;
-		}
-		else
-		{
-			while (word.cut[++j])
-				if (word.cut[j] == CMD_CHAR)
-				{
-					j++;
-					break ;
-				}
-		}
+		check_char(word, &i, &j);
 		if (!(new.cut = ft_strcut(word.cut, i, j)))
 			return ;
 		add_token(&data->token, new);

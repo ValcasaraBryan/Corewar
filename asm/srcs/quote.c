@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:25:31 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 14:25:52 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:31:35 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-char		*retour_into_quote(int i, int j, char *str)
+static char	*retour_into_quote(int i, int j, char *str)
 {
 	if (i == j)
 		return (ft_strdup(""));
@@ -22,7 +22,7 @@ char		*retour_into_quote(int i, int j, char *str)
 		return (NULL);
 }
 
-char		*into_quote(char *str)
+static char	*into_quote(char *str)
 {
 	int		i;
 	int		j;
@@ -48,13 +48,15 @@ char		*into_quote(char *str)
 	return (retour_into_quote(i, j, str));
 }
 
-int			retour_add_quote(t_data *data, t_token **token, char *tmp, char *string)
+static int	retour_add_quote(t_data *data, t_token **token,
+			char *tmp, char *string)
 {
 	if (!(string = into_quote((*token)->cut)))
 		return (0);
 	if ((int)ft_strlen(string) > data->len)
 	{
-		ft_fprintf(MSG_TOO_LONG, S_ERR, tmp == data->header.comment ? MSG_COMMENT : MSG_NAME, data->len);
+		ft_fprintf(MSG_TOO_LONG, S_ERR, tmp == data->header.comment
+			? MSG_COMMENT : MSG_NAME, data->len);
 		free_line(&string);
 		return (0);
 	}

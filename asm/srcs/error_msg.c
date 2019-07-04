@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:47:46 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 14:48:16 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:19:08 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,14 @@ int		error_params_two(int type, char *ins)
 		type_string = MSG_SEPARATEUR;
 	ft_fprintf(MSG_SYN_TYPE, S_ERR, type_string, ins);
 	return (0);
+}
+
+int		error_count(t_params p)
+{
+	if (p.i < p.val->len_params - 1)
+	{
+		ft_fprintf(ERROR_COUNT, S_ERR, p.val->ins);
+		return (0);
+	}
+	return (1);
 }

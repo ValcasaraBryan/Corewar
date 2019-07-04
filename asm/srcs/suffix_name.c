@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_is_number.c                                 :+:      :+:    :+:   */
+/*   suffix_name.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 15:27:31 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 16:20:25 by brvalcas         ###   ########.fr       */
+/*   Created: 2019/07/04 16:43:27 by brvalcas          #+#    #+#             */
+/*   Updated: 2019/07/04 16:43:31 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int			ft_str_is_number(char *str)
+int		suffix_name(t_data *data, const char *s)
 {
-	int		neg;
+	int		i;
+	char	*name;
 
-	if (!str)
+	if (!data->name_s)
 		return (0);
-	neg = 0;
-	if (str[neg] == '-' || str[neg] == '+')
-		neg++;
-	if (ft_str_is_digit(str + neg))
-		return (1);
-	else
-		return (0);
-}
-
-int			ft_number_ok(char *str)
-{
-	if (ft_str_is_number(str) && ft_str_is_int(str))
-		return (1);
-	else
-		return (0);
+	i = ft_strlen(data->name_s) + 1;
+	while (--i >= 0)
+		if (!ft_strcmp(data->name_s + i, SUFF_F))
+			break ;
+	name = ft_strcut(data->name_s, 0, i);
+	data->name_cor = ft_strndup((const char *)name, i + COR);
+	free_line(&name);
+	ft_strcat(data->name_cor, (char *)s);
+	return (1);
 }

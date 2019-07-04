@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 14:50:29 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:43:58 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,14 +174,22 @@ typedef struct		s_data
 	t_error			error;			// structure contenant les informations erreurs
 }					t_data;
 
-extern t_op			op_tab[REG_NUMBER + 1];
+typedef struct		s_params
+{
+	int				i;
+	int				start_cut;
+	t_data			*data;
+	t_token			**tmp;
+	t_ins			*ins;
+	t_op			*val;
+	t_label			cpy;
+}					t_params;
 
+extern t_op			op_tab[REG_NUMBER + 1];
+/*
+**			asm.c
+*/
 int			parsing_asm(t_data *data);
-void		print_list(t_data *data);
-int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
-void		add_word(t_data *data, t_token word);
-int		ft_end_word(char c);
-int		skip_whitespace(char *str, int val);
 /*
 **			list_chain_new.c
 */
@@ -199,9 +207,7 @@ void		add_label(t_label **old, t_label cpy);
 /*
 **			print_file.c
 */
-void	print_octet(int fd, unsigned int val, size_t nb);
-void	print_tab(int fd, t_ins *ins);
-void	write_file(t_data *data, int i);
+void		write_file(t_data *data, int i);
 /*
 **			ft_is.c
 */
@@ -225,10 +231,6 @@ int			ft_number_ok(char *str);
 /*
 **			check_token.c
 */
-int			not_instruction(t_data *data, t_token **tmp, t_ins *ins_tmp, t_op *val);
-int			is_instruction(t_data *data, t_token *tmp, t_ins **ins_tmp,
-			t_op *val);
-int			token(t_data *data, t_token **tmp, t_ins **ins_tmp, t_op *val);
 int			check_token(t_data *data);
 /*
 **			get_token.c
@@ -250,7 +252,7 @@ void		add_word(t_data *data, t_token word);
 /*
 **			check_params.c
 */
-int		check_params(t_data *data, t_token **tmp, t_ins *ins, t_op *val);
+int		check_params(t_params p);
 /*
 **			skip_separator.c
 */
@@ -271,13 +273,20 @@ void	erase_name_label(t_name_label **label);
 /*
 **			quote.c
 */
-char		*retour_into_quote(int i, int j, char *str);
-char		*into_quote(char *str);
-int			retour_add_quote(t_data *data, t_token **token, char *tmp, char *string);
 int			add_quote(t_data *data, t_token **token);
 /*
 **			error_msg.c
 */
 int		error_params(int index, int type, char *ins);
 int		error_params_two(int type, char *ins);
+int		error_count(t_params p);
+/*
+**			check_label.c
+*/
+int				check_label(t_data *data);
+/*
+**			suffix_name.c
+*/
+int			suffix_name(t_data *data, const char *s);
+
 #endif

@@ -6,90 +6,27 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 19:56:24 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 16:43:26 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int		check_alpha(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (ft_is_whitespace(str[i]) || str[i] == CMD_CHAR)
-			return (i);
-	}
-	return (i);
-}
-
-int		suffix_name(t_data *data, const char *s)
-{
-	int		i;
-	char	*name;
-
-	if (!data->name_s)
-		return (0);
-	i = ft_strlen(data->name_s) + 1;
-	while (--i >= 0)
-		if (!ft_strcmp(data->name_s + i, SUFF_F))
-			break ;
-	name = ft_strcut(data->name_s, 0, i);
-	data->name_cor = ft_strndup((const char *)name, i + COR);
-	free_line(&name);
-	ft_strcat(data->name_cor, (char *)s);
-	return (1);	
-}
-
-int		step(t_data *data)
+static int		step(t_data *data)
 {
 	if (!data->line.line && data->ret == -1)
 		return (1);
 	if (!data->line.line && !data->ret)
 		return (0);
-	data->line.current += skip_whitespace(data->line.line + data->line.current, 0);
+	data->line.current += skip_whitespace(data->line.line
+		+ data->line.current, 0);
 	if (!(get_token(data)))
 		return (0);
 	free_line(&data->line.line);
 	return (1);
 }
 
-int		check_label(t_data *data)
-{
-	t_label			*tmp;
-	t_name_label	*def;
-	bool			match;
-
-	tmp = data->ins_label;
-	while (tmp)
-	{
-		match = false;
-		def = data->label;
-		while (def)
-		{
-			if (tmp->len == def->len)
-				if (ft_strncmp(tmp->label, def->label, tmp->len) == 0)
-				{
-					match = true;
-					break ;
-				}
-			def = def->next;
-		}
-		if (match == true)
-			tmp->ins->params[tmp->index_params] = def->index_ins - tmp->index_ins;
-		else
-		{
-			ft_fprintf(MSG_LABEL, S_ERR, tmp->token.cut);
-			return (0);
-		}
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-char	*ft_str_biggest(char **s1, int more)
+static char		*ft_str_biggest(char **s1, int more)
 {
 	char	*tmp;
 	int		len;
@@ -97,7 +34,7 @@ char	*ft_str_biggest(char **s1, int more)
 	if (!*s1)
 		return (ft_strnew(more));
 	len = ft_strlen(*s1);
-	if (!(tmp = malloc(sizeof (char) * (len + more + 1))))
+	if (!(tmp = malloc(sizeof(char) * (len + more + 1))))
 		return (NULL);
 	ft_strcpy(tmp, *s1);
 	free(*s1);
@@ -105,7 +42,7 @@ char	*ft_str_biggest(char **s1, int more)
 	return (tmp);
 }
 
-int		read_line(t_data *data, int *i)
+static int		read_line(t_data *data, int *i)
 {
 	bool	quote;
 	char	buf[1 + 1];
@@ -133,7 +70,23 @@ int		read_line(t_data *data, int *i)
 	return (data->line.line && quote == false ? -1 : 0);
 }
 
-int		parsing_asm(t_data *data)
+static int		paring_asm_two(t_data *data)
+{
+	if (data->error.error)
+		return (0);
+	if (!data->name || !data->comment)
+	{
+		ft_fprintf(COMMAND_MISS, S_ERR);
+		return (0);
+	}
+	if (!(check_label(data)))
+		return (0);
+	if (!(suffix_name(data, SUFFIX)))
+		return (0);
+	return (1);
+}
+
+int				parsing_asm(t_data *data)
 {
 	int	i;
 
@@ -154,16 +107,7 @@ int		parsing_asm(t_data *data)
 		data->line.current = 0;
 	}
 	free_line(&data->line.line);
-	if (data->error.error)
-		return (0);
-	if (!data->name || !data->comment)
-	{
-		ft_fprintf(COMMAND_MISS, S_ERR);
-		return (0);
-	}
-	if (!(check_label(data)))
-		return (0);
-	if (!(suffix_name(data, SUFFIX)))
+	if (!(paring_asm_two(data)))
 		return (0);
 	return (1);
 }

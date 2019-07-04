@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:46:16 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/03 13:34:31 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/04 16:13:59 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int		get_arg(char *str, int (*fonction)(char))
 		while (str[++i] != '\n')
 			if (fonction(str[i]))
 				break ;
-
-		// ft_printf("%s - %d\n", str, i);
 	}
 	else
 	{

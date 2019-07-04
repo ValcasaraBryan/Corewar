@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/04 16:13:05 by brvalcas          #+#    #+#             */
+/*   Updated: 2019/07/04 16:30:09 by brvalcas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "asm.h"
 
-void	init_data(t_data *data, char *av)
+static void	init_data(t_data *data, char *av)
 {
 	int	i;
 
@@ -29,7 +40,7 @@ void	init_data(t_data *data, char *av)
 	ft_bzero(data->header.comment, COMMENT_LENGTH + 1);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_data	data;
 

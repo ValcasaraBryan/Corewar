@@ -9,7 +9,6 @@ OBJET_ASM = objets/asm.o\
 			objets/list_chain_add.o\
 			objets/print_file.o\
 			objets/ft_is.o\
-			objets/print_data.o\
 			objets/ft_str_is.o\
 			objets/ft_str_is_number.o\
 			objets/check_token.o\
@@ -22,7 +21,9 @@ OBJET_ASM = objets/asm.o\
 			objets/check_word.o\
 			objets/liberation.o\
 			objets/quote.o\
-			objets/error_msg.o
+			objets/error_msg.o\
+			objets/check_label.o\
+			objets/suffix_name.o
 
 OBJ = objets/%.o
 
