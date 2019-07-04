@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 18:42:57 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 19:06:14 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@
 # define MSG_SEPARATEUR			"SEPARATOR"
 # define MSG_COMMENT			"comment"
 # define MSG_NAME				"name"
-# define NO_NEW_LINE_2			"(Perhaps you forgot toend with a newline ?)\n"
-# define NO_NEW_LINE_3			"Syntax error - unexpected end of input"
+# define NO_NEW_LINE_3			"(Perhaps you forgot to end with a newline ?)\n"
+# define NO_NEW_LINE_2			"Syntax error - unexpected end of input "
 # define NO_NEWLINE				NO_NEW_LINE_2 NO_NEW_LINE_3
 # define COMMAND_MISS			".name or .comment on first lines missing\n"
 # define INVALID_PARAMS			"Invalid parameter %d "
