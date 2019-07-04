@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_nbrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/07 09:06:43 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 15:26:20 by jdurand-         ###   ########.fr       */
+/*   Created: 2018/04/11 17:38:49 by jdurand-          #+#    #+#             */
+/*   Updated: 2018/04/11 18:39:31 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnew(size_t size)
+int		ft_nbrlen(int nbr)
 {
-	char	*res;
-	size_t	i;
+	int		i;
 
 	i = 0;
-	if (!(res = (char*)malloc(size + 1)))
-		return (NULL);
-	ft_bzero(res, size + 1);
-	while (i < size)
+	if (nbr == 0)
+		return (1);
+	while (nbr != 0)
 	{
-		res[i] = '\0';
 		i++;
+		nbr /= 10;
 	}
-	res[i] = '\0';
-	return (res);
+	return (i);
 }

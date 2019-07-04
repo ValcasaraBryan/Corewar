@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 15:03:02 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:31:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,14 +222,10 @@ int ft_init_win(t_storage **st);
 
 
 
-int	ft_size(int n);
 SDL_Color	argb_to_sdl(Uint32 color);
-char		*ft_itoa(int n);
 char *ft_itoa_hexa(int a);
 int ft_color_octet(int player);
 char	*ft_ctoa(char c);
-size_t		ft_strlen(const char *str);
-char	*ft_strcat(char *dest, const char *src);
 
 
 

@@ -6,68 +6,11 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:55:52 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/04 12:32:55 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:26:49 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
-char		*ft_itoa(int n)
-{
-	int		size;
-	char	*s;
-
-	size = ft_size(n);
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	if (n == 0)
-		return (ft_strdup("0"));
-	if (!(s = (char *)malloc(size + 1)))
-		return (NULL);
-	ft_bzero(s, size + 1);
-	if (n < 0)
-	{
-		s[0] = '-';
-		n = -n;
-	}
-	s[size] = '\0';
-	while (n > 0)
-	{
-		s[size - 1] = n % 10 + 48;
-		n = n / 10;
-		--size;
-	}
-	return (s);
-}
-
-size_t		ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char		*ft_strcat(char *dest, const char *src)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (dest[i])
-		++i;
-	while (src[j])
-	{
-		dest[i] = src[j];
-		++i;
-		++j;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
 
 int			ft_fill_alphabet_color(t_storage **st, SDL_Texture ***tab,
 	int color)

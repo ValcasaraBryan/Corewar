@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/07 09:06:43 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 15:26:20 by jdurand-         ###   ########.fr       */
+/*   Created: 2018/04/07 14:04:41 by jdurand-          #+#    #+#             */
+/*   Updated: 2019/07/04 15:26:33 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnew(size_t size)
+char		*ft_itoa(int n)
 {
 	char	*res;
-	size_t	i;
+	int		minus;
+	int		len;
 
-	i = 0;
-	if (!(res = (char*)malloc(size + 1)))
+	minus = n < 0 ? 1 : 0;
+	len = ft_nbrlen(n);
+	if (!(res = ft_strnew(len + minus)))
 		return (NULL);
-	ft_bzero(res, size + 1);
-	while (i < size)
+	res[0] = minus == 1 ? '-' : '0';
+	while (len > 0)
 	{
-		res[i] = '\0';
-		i++;
+		res[len - 1 + minus] = n > 0 ? n % 10 + 48 : -(n % 10) + 48;
+		n = n / 10;
+		len--;
 	}
-	res[i] = '\0';
 	return (res);
 }

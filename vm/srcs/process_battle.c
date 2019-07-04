@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 10:04:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:59:33 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:31:35 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ int				process_battle(t_storage **st, int nb_cycles)
 	check_time = SDL_GetTicks();
 	while (i > -1 && (*st)->cycle != nb_cycles && var_cycle_to_die > 0)
 	{
-		if (SDL_GetTicks() > (check_time + 1000 / FPS)
-			&& ((*st)->args[1] != 1
-			|| ((*st)->args[1] == 1 && (*st)->win->pause != 1)))
+		if ((*st)->args[1] != 1
+			|| ((*st)->args[1] == 1 && (*st)->win->pause != 1
+			&& SDL_GetTicks() > (check_time + 1000 / FPS)))
 		{
 			if (update_threads(st, &i, &j, &var_cycle_to_die) != SUCCESS
 				|| ((*st)->args[1] == 1 && ft_print_game(st) != SUCCESS))

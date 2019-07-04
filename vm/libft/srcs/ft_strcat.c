@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/07 09:06:43 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 15:26:20 by jdurand-         ###   ########.fr       */
+/*   Created: 2018/04/05 16:55:45 by jdurand-          #+#    #+#             */
+/*   Updated: 2018/04/05 17:26:45 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_strnew(size_t size)
+char	*ft_strcat(char *restrict s1, const char *restrict s2)
 {
-	char	*res;
-	size_t	i;
+	int		i;
+	int		j;
 
 	i = 0;
-	if (!(res = (char*)malloc(size + 1)))
-		return (NULL);
-	ft_bzero(res, size + 1);
-	while (i < size)
-	{
-		res[i] = '\0';
+	j = 0;
+	while (s1[i])
 		i++;
+	while (s2[j])
+	{
+		s1[i + j] = s2[j];
+		j++;
 	}
-	res[i] = '\0';
-	return (res);
+	s1[i + j] = '\0';
+	return (s1);
 }

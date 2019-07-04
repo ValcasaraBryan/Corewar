@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/05 11:06:26 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 09:26:04 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:36:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
 
 /*
+** ------------------------- ft_itoa				---------------------------
+*/
+char		*ft_itoa(int n);
+
+/*
+** ------------------------- ft_nbrlen				---------------------------
+*/
+int			ft_nbrlen(int nbr);
+
+/*
 ** ------------------------- ft_putchar				---------------------------
 */
 void		ft_putchar(char c);
@@ -48,6 +58,11 @@ void		ft_putstr(char const *s);
 ** ------------------------- ft_putstr_fd			---------------------------
 */
 void		ft_putstr_fd(char const *s, int fd);
+
+/*
+** ------------------------- ft_strcat				---------------------------
+*/
+char		*ft_strcat(char *restrict s1, const char *restrict s2);
 
 /*
 ** ------------------------- ft_strcmp				---------------------------

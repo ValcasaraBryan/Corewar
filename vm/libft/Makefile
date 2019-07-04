@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/01 16:18:24 by jdurand-          #+#    #+#              #
-#    Updated: 2019/07/04 09:26:20 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/07/04 15:27:45 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,13 @@ FLAGS_INCL =	-I $(DIR_INCL)
 FILES_HEADER =	libft.h
 FILES_SRCS =	ft_atoi.c			\
 				ft_bzero.c			\
+				ft_itoa.c			\
+				ft_nbrlen.c			\
 				ft_putchar.c		\
 				ft_putnbr.c			\
-				ft_putstr.c			\
 				ft_putstr_fd.c		\
+				ft_putstr.c			\
+				ft_strcat.c			\
 				ft_strcmp.c			\
 				ft_strdup.c			\
 				ft_strlen.c			\

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:56:11 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/04 12:26:27 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:30:00 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ static int			ft_put_players(t_storage **st, int line)
 	while (tmp != NULL)
 	{
 		nb_players += 1;
-		if (!(str = malloc(sizeof(char) * (10 + ft_size(tmp->number)))))
+		if (!(str = malloc(sizeof(char) * (10 + ft_nbrlen(tmp->number)))))
 			return (FAILURE);
-		ft_bzero(str, sizeof(char) * (10 + ft_size(tmp->number)));
+		ft_bzero(str, sizeof(char) * (10 + ft_nbrlen(tmp->number)));
 		//////////?????????
-		// bzero(str, 10 + ft_size(12));
+		// bzero(str, 10 + ft_nbrlen(12));
 		///////////
 		str = ft_strcat(str, "Player ");
 		str = ft_strcat(str, ft_itoa(tmp->number));
