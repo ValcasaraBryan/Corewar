@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 20:10:18 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/04 13:56:20 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@
 #define MSG_REGISTER			"REGISTER"
 #define MSG_INSTRUCTION			"INSTRUCTION"
 #define MSG_SEPARATEUR			"SEPARATOR"
+#define MSG_COMMENT				"comment"
+#define MSG_NAME				"name"
 #define NO_NEWLINE				"Syntax error - unexpected end of input (Perhaps you forgot to end with a newline ?)\n"
 #define COMMAND_MISS			".name or .comment on first lines missing\n"
 #define ERROR_PARAMS			"Invalid parameter %d for instruction %s \"%s\"\n"
@@ -85,6 +87,7 @@
 #define MSG_LABEL				"No such label \"%s\" while attempting to dereference token \n"
 #define MSG_SYN					"Syntax error at token \"%s\"\n"
 #define MSG_SYN_TYPE			"Syntax error at token %s \"%s\"\n"
+#define MSG_TOO_LONG			"Champion %s too long (Max length %d)\n"
 
 typedef struct		s_op
 {
