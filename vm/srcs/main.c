@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:02:09 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 12:43:28 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:45:45 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ int			main(int argv, char **argc)
 {
 	t_storage	*st;
 
-	print_function_state("main", "START");
 	if (setup_all(&st, argv, &argc) != SUCCESS
-		|| intro_champions(&st) != SUCCESS
+		|| announce_champions(&st) != SUCCESS
 		|| process_battle(&st, st->args[0]) != SUCCESS)
 	{
 		ft_free_visu(&st);
@@ -55,7 +54,6 @@ int			main(int argv, char **argc)
 	}
 	ft_free_visu(&st);
 	free_storage(&st);
-	print_function_state("main", "END");
 	while (1 == 1)
 	{
 		st = NULL;

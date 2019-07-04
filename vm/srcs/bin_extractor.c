@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 10:18:17 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:27:29 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static int			create_tempo_str(char **res, int fd, int type)
 	int				i;
 	unsigned char	buf[1];
 
-	print_function_state("create_tempo_str", "START");
 	if (res == NULL || type < 1 || type > 2)
 		return (BAD_PARAM);
 	*res = NULL;
-	lseek(fd, type == 1 ? 4 : 140, SEEK_SET);
+	lseek(fd, type == 1
+		? M_NB_LENGTH : M_NB_LENGTH + NAME_LENGTH + 8, SEEK_SET);
 	i = 0;
 	buf[0] = 1;
 	while (buf[0] != '\0')
@@ -35,7 +35,6 @@ static int			create_tempo_str(char **res, int fd, int type)
 	(*res)[i] = '\0';
 	while (--i >= 0)
 		(*res)[i] = '0';
-	print_function_state("create_tempo_str", "END");
 	return (SUCCESS);
 }
 
@@ -44,10 +43,9 @@ static int			extract_bytes(int fd, t_champion **ch)
 	int				i;
 	unsigned char	buf[1];
 
-	print_function_state("extract_bytes", "START");
 	if (champion_check(ch) < VALID_EMPTY)
 		return (BAD_PARAM);
-	lseek(fd, 2192, SEEK_SET);
+	lseek(fd, M_NB_LENGTH + NAME_LENGTH + 8 + DESC_LENGTH + 4, SEEK_SET);
 	buf[0] = 1;
 	i = -1;
 	while ((i = read(fd, buf, 1)) > 0)
@@ -56,7 +54,6 @@ static int			extract_bytes(int fd, t_champion **ch)
 			|| byte_change_value(&((*ch)->last_byte), buf[0]) != SUCCESS)
 			return (CALL_FAILED);
 	}
-	print_function_state("extract_bytes", "END");
 	return (SUCCESS);
 }
 
@@ -66,7 +63,6 @@ static int			extract_magic_numbers(int fd, t_champion **ch)
 	int				res;
 	unsigned char	buf[1];
 
-	print_function_state("extract_magic_numbers", "START");
 	if (champion_check(ch) < VALID_EMPTY)
 		return (BAD_PARAM);
 	lseek(fd, 0, SEEK_SET);
@@ -81,7 +77,6 @@ static int			extract_magic_numbers(int fd, t_champion **ch)
 	}
 	if (res != MAGIC_NB)
 		return (FAILURE);
-	print_function_state("extract_magic_numbers", "END");
 	return (SUCCESS);
 }
 
@@ -91,12 +86,12 @@ static int			extract_str(int fd, t_champion **ch, int type)
 	char			*res;
 	unsigned char	buf[1];
 
-	print_function_state("extract_str", "START");
 	if (champion_check(ch) < VALID_EMPTY || type < 1 || type > 2)
 		return (BAD_PARAM);
 	if (create_tempo_str(&res, fd, type) != SUCCESS)
 		return (CALL_FAILED);
-	lseek(fd, type == 1 ? 4 : 140, SEEK_SET);
+	lseek(fd, type == 1
+		? M_NB_LENGTH : M_NB_LENGTH + NAME_LENGTH, SEEK_SET);
 	i = 0;
 	buf[0] = 1;
 	while (buf[0] != '\0')
@@ -110,7 +105,6 @@ static int			extract_str(int fd, t_champion **ch, int type)
 	if (i != SUCCESS)
 		return (CALL_FAILED);
 	free(res);
-	print_function_state("extract_str", "END");
 	return (SUCCESS);
 }
 
@@ -118,7 +112,6 @@ int					bin_extractor(t_champion **ch, char *path)
 {
 	int				fd;
 
-	print_function_state("bin_extractor", "START");
 	if (champion_check(ch) < VALID_EMPTY)
 		return (BAD_PARAM);
 	if ((fd = open(path, O_RDONLY)) < 0)
@@ -128,6 +121,5 @@ int					bin_extractor(t_champion **ch, char *path)
 		|| extract_str(fd, ch, 2) != SUCCESS
 		|| extract_bytes(fd, ch) != SUCCESS)
 		return (CALL_FAILED);
-	print_function_state("bin_extractor", "END");
 	return (SUCCESS);
 }

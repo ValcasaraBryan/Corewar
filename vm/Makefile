@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/07/04 10:39:57 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/07/04 14:43:37 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,14 @@ FLAGS_INCL_SDL = -I ~/.brew/include/SDL2
 FLAGS_LIB_SDL = -L ~/.brew/lib/ -lsdl2 -lsdl2_ttf
 FILES_HEADER =	corewar.h
 FILES_SRCS =	bin_extractor.c			\
+				functions_announce.c	\
 				functions_byte.c		\
 				functions_champion.c	\
 				functions_get_args.c	\
 				functions_grid.c		\
-				functions_thread.c		\
+				functions_read_write.c	\
 				functions_storage.c		\
+				functions_thread.c		\
 				instr_add.c				\
 				instr_aff.c				\
 				instr_and.c				\
@@ -47,7 +49,6 @@ FILES_SRCS =	bin_extractor.c			\
 				instr_sub.c				\
 				instr_xor.c				\
 				instr_zjmp.c			\
-				key_functions.c			\
 				main.c					\
 				manage_byte.c			\
 				manage_champion.c		\

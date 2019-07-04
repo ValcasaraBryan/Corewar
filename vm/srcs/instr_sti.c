@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:42 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:46:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:31:38 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	instr_sti_inner(t_storage **st, t_thread **th, int size1, int size2)
 	short	where1;
 	short	where2;
 
-	print_function_state("instr_sti_inner", "START");
 	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1, 1);
 	if (reg <= 0 || reg > REG_NUMBER)
 		return (SUCCESS);
@@ -33,10 +32,11 @@ static int	instr_sti_inner(t_storage **st, t_thread **th, int size1, int size2)
 	if (write_in_grid(&(*st)->grid, value,
 		(*th)->where + (where1 + where2) % IDX_MOD, 4) != SUCCESS)
 		return (failed_action_move(st, th, 2));
+	write_in_grid_color(st, (*th)->where,
+		(*th)->where + (where1 + where2) % IDX_MOD);
 	if (thread_change_where(th, &(*st)->grid,
 		(*th)->where + 1 + 1 + 1 + size1 + size2) != SUCCESS)
 		return (failed_action_move(st, th, 2));
-	print_function_state("instr_sti_inner", "END");
 	return (SUCCESS);
 }
 

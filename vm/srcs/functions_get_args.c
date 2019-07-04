@@ -6,41 +6,17 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:37:21 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 09:45:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:53:59 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int			get_args_inner(int nb_lines, char ***tab, int **args, int i)
-{
-	print_function_state("get_args_inner", "START");
-	if (ft_strcmp((*tab)[i], "-v") == 0)
-		return (get_flag_with_nb(&((*tab)[i]), args, 3));
-	else if (ft_strcmp((*tab)[i], "-dump") == 0)
-	{
-		i++;
-		if (nb_lines > i)
-			return (get_flag_with_nb(&((*tab)[i]), args, 1));
-	}
-	else if (ft_strcmp((*tab)[i], "-n") == 0)
-	{
-		i++;
-		if (nb_lines > i)
-			return (get_flag_with_nb(&((*tab)[i]), args, 2));
-	}
-	else
-		return (get_champion(args, &((*tab)[i]), i));
-	print_function_state("get_args_inner", "END");
-	return (FAILURE);
-}
-
-int			get_champion(int **args, char **str, int i)
+static int	get_champion(int **args, char **str, int i)
 {
 	int		j;
 	int		num_arg;
 
-	print_function_state("get_champion", "START");
 	if ((*args)[10] > 3)
 		return (BAD_PARAM);
 	j = ft_strlen(*str);
@@ -53,16 +29,14 @@ int			get_champion(int **args, char **str, int i)
 		(*args)[num_arg] = i;
 		(*args)[10] += 1;
 	}
-	print_function_state("get_champion", "END");
 	return (SUCCESS);
 }
 
-int			get_flag_with_nb(char **str, int **args, int type)
+static int	get_flag_with_nb(char **str, int **args, int type)
 {
 	int		result;
 	int		num_arg;
 
-	print_function_state("get_flag_with_nb", "START");
 	if (args == NULL || *args == NULL || str == NULL || *str == NULL
 		|| type < 1 || type > 3)
 		return (BAD_PARAM);
@@ -82,14 +56,51 @@ int			get_flag_with_nb(char **str, int **args, int type)
 		(*args)[0] = type == 1 ? result : (*args)[0];
 		(*args)[1] = type != 1 ? 1 : (*args)[1];
 	}
-	print_function_state("get_flag_with_nb", "END");
 	return (type == 1 || type == 2 ? SUCCESS_INC : SUCCESS);
 }
 
-int			print_error(void)
+static int	get_args_inner(int nb_lines, char ***tab, int **args, int i)
 {
-	print_function_state("print_error", "START");
-	ft_putstr_fd("usage : ./corewar [-v | -dump N] [-n N] <file.cor> ...\n", 2);
-	print_function_state("print_error", "END");
+	if (ft_strcmp((*tab)[i], "-v") == 0)
+		return (get_flag_with_nb(&((*tab)[i]), args, 3));
+	else if (ft_strcmp((*tab)[i], "-dump") == 0)
+	{
+		i++;
+		if (nb_lines > i)
+			return (get_flag_with_nb(&((*tab)[i]), args, 1));
+	}
+	else if (ft_strcmp((*tab)[i], "-n") == 0)
+	{
+		i++;
+		if (nb_lines > i)
+			return (get_flag_with_nb(&((*tab)[i]), args, 2));
+	}
+	else
+		return (get_champion(args, &((*tab)[i]), i));
 	return (FAILURE);
+}
+
+int				get_args(t_storage **st, int nb_lines, char ***tab)
+{
+	int			i;
+	int			result;
+
+	if (nb_lines < 2 || tab == NULL || *tab == NULL
+		|| storage_check(st, 0) != VALID_EMPTY)
+		return (print_usage());
+	i = 0;
+	while (++i < nb_lines)
+	{
+		if ((result = get_args_inner(nb_lines, tab,
+			&(*st)->args, i)) == SUCCESS_INC)
+			i++;
+		else if (result != SUCCESS)
+			return (print_usage());
+	}
+	if ((*st)->args[10] == 0 || (*st)->args[3] == -1
+		|| ((*st)->args[4] != -1 && (*st)->args[5] == -1)
+		|| ((*st)->args[6] != -1 && (*st)->args[7] == -1)
+		|| ((*st)->args[8] != -1 && (*st)->args[9] == -1))
+		return (print_usage());
+	return (SUCCESS);
 }

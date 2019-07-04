@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:05:33 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 10:27:35 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:58:00 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,43 +29,27 @@ char	*g_tab_dump[64] =
 	"0x0f00 : ", "0x0f40 : ", "0x0f80 : ", "0x0fc0 : "
 };
 
-int		print_grid(t_storage **st, int type)
+int		print_dump(t_storage **st)
 {
-	int			i;
-	int			j;
+	int		i;
+	int		j;
 
-	print_function_state("print_grid", "START");
+	print_function_state("print_dump", "START");
 	i = -1;
-	if ((type != 1 && type != 3)
-		|| storage_check(st, type) != VALID_FULL)
+	if (storage_check(st, 1) < VALID_FULL)
 		return (BAD_PARAM);
-	ft_putstr(type == 1
-		? "	-------------\n	GRID\n" : "	-------------\n	COLOR GRID\n");
 	while (++i < GRID_SIZE)
 	{
 		j = -1;
+		ft_putstr(g_tab_dump[i]);
 		while (++j < GRID_SIZE)
 		{
-			print_nb_hexa((type == 1 ? (*st)->grid : (*st)->color_grid)[i][j]);
+			print_nb_hexa(((*st)->grid)[i][j]);
 			ft_putchar(' ');
 		}
 		ft_putchar('\n');
 	}
-	ft_putstr("	-------------\n");
-	print_function_state("print_grid", "END");
-	return (SUCCESS);
-}
-
-int		print_storage(t_storage **st)
-{
-	print_function_state("print_storage", "START");
-	if (storage_check(st, 0) < VALID_EMPTY)
-		return (BAD_PARAM);
-	ft_putstr("-------------\nSTORAGE\n");
-	print_grid(st, 1);
-	print_grid(st, 3);
-	ft_putstr("-------------\n");
-	print_function_state("print_storage", "END");
+	print_function_state("print_dump", "END");
 	return (SUCCESS);
 }
 
@@ -105,26 +89,8 @@ void	print_nb_hexa(int nb)
 		ft_putchar(res[i]);
 }
 
-int		print_dump(t_storage **st)
+int			print_usage(void)
 {
-	int		i;
-	int		j;
-
-	print_function_state("print_dump", "START");
-	i = -1;
-	if (storage_check(st, 1) < VALID_FULL)
-		return (BAD_PARAM);
-	while (++i < GRID_SIZE)
-	{
-		j = -1;
-		ft_putstr(g_tab_dump[i]);
-		while (++j < GRID_SIZE)
-		{
-			print_nb_hexa(((*st)->grid)[i][j]);
-			ft_putchar(' ');
-		}
-		ft_putchar('\n');
-	}
-	print_function_state("print_dump", "END");
-	return (SUCCESS);
+	ft_putstr_fd("usage : ./corewar [-v | -dump N] [-n N] <file.cor> ...\n", 2);
+	return (FAILURE);
 }

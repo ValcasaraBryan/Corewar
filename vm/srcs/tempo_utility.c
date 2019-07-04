@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 18:58:19 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 09:31:29 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 13:55:51 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		free_tab_char(char ***tab)
 	int		i;
 
 	print_function_state("free_tab_char", "START");
-	if (tab == NULL)
+	if (tab == NULL || (*tab) == NULL)
 		return (BAD_PARAM);
 	i = -1;
 	while ((*tab)[++i] != NULL)
@@ -34,7 +34,7 @@ int		free_tab_char(char ***tab)
 int		free_tab_int(int **tab)
 {
 	print_function_state("free_tab_int", "START");
-	if (tab == NULL)
+	if (tab == NULL || (*tab) == NULL)
 		return (BAD_PARAM);
 	free(*tab);
 	(*tab) = NULL;

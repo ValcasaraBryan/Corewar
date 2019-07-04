@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 20:00:24 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/27 18:15:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:00:56 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,6 @@ int		grid_check(int ***gr)
 	return (VALID_FULL);
 }
 
-int		thread_check(t_thread **th)
-{
-	print_function_state("thread_check", "START");
-	if (th == NULL || *th == NULL)
-		return (BAD_PARAM);
-	print_function_state("thread_check", "END");
-	return (VALID_FULL);
-}
-
 int		storage_check(t_storage **st, int type)
 {
 	print_function_state("storage_check", "START");
@@ -80,4 +71,13 @@ int		storage_check(t_storage **st, int type)
 			? VALID_EMPTY : VALID_FULL);
 	else
 		return ((*st)->color_grid == NULL ? VALID_EMPTY : VALID_FULL);
+}
+
+int		thread_check(t_thread **th)
+{
+	print_function_state("thread_check", "START");
+	if (th == NULL || *th == NULL)
+		return (BAD_PARAM);
+	print_function_state("thread_check", "END");
+	return (VALID_FULL);
 }

@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 19:20:17 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 12:43:31 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:02:30 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int				setup_champions(t_storage **st, char ***t_p, int **t_n)
+static int		setup_champions(t_storage **st, char ***t_p, int **t_n)
 {
 	int			i;
 
@@ -36,33 +36,7 @@ int				setup_champions(t_storage **st, char ***t_p, int **t_n)
 	return (SUCCESS);
 }
 
-int				setup_grid(t_storage **st)
-{
-	t_champion	*curr;
-	int			nb;
-	int			total;
-
-	print_function_state("setup_grid", "START");
-	if (storage_check(st, 0) != VALID_FULL
-		|| storage_check(st, 1) != VALID_EMPTY)
-		return (BAD_PARAM);
-	if ((total = storage_get_total_champions(st)) <= 0)
-		return (FAILURE);
-	if (add_grid(st, 1) != SUCCESS)
-		return (CALL_FAILED);
-	nb = 0;
-	curr = (*st)->first_champion;
-	while (curr != NULL && ++nb != -1)
-	{
-		if (grid_fill_with_champ(&((*st)->grid), &curr, nb, total) != SUCCESS)
-			return (CALL_FAILED);
-		curr = curr->next;
-	}
-	print_function_state("setup_grid", "END");
-	return (SUCCESS);
-}
-
-int				setup_color_grid(t_storage **st)
+static int		setup_color_grid(t_storage **st)
 {
 	t_champion	*curr;
 	int			nb;
@@ -89,7 +63,33 @@ int				setup_color_grid(t_storage **st)
 	return (SUCCESS);
 }
 
-int				setup_thread(t_storage **st)
+static int		setup_grid(t_storage **st)
+{
+	t_champion	*curr;
+	int			nb;
+	int			total;
+
+	print_function_state("setup_grid", "START");
+	if (storage_check(st, 0) != VALID_FULL
+		|| storage_check(st, 1) != VALID_EMPTY)
+		return (BAD_PARAM);
+	if ((total = storage_get_total_champions(st)) <= 0)
+		return (FAILURE);
+	if (add_grid(st, 1) != SUCCESS)
+		return (CALL_FAILED);
+	nb = 0;
+	curr = (*st)->first_champion;
+	while (curr != NULL && ++nb != -1)
+	{
+		if (grid_fill_with_champ(&((*st)->grid), &curr, nb, total) != SUCCESS)
+			return (CALL_FAILED);
+		curr = curr->next;
+	}
+	print_function_state("setup_grid", "END");
+	return (SUCCESS);
+}
+
+static int		setup_thread(t_storage **st)
 {
 	t_thread	*curr;
 	int			total;

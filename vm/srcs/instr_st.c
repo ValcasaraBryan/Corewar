@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:34 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/06/28 12:20:49 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:12:46 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	instr_st_inner(t_storage **st, t_thread **th, int size)
 		if (write_in_grid(&(*st)->grid, value,
 			(*th)->where + (short)where % IDX_MOD, 4) != SUCCESS)
 			return (failed_action_move(st, th, 2));
+		write_in_grid_color(st, (*th)->where,
+			(*th)->where + (short)where % IDX_MOD);
 	}
 	else if (thread_change_value_reg(th, where % IDX_MOD, value) != SUCCESS)
 		return (failed_action_move(st, th, 2));

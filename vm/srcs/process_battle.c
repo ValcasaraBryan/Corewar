@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 10:04:12 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 12:19:27 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 14:59:33 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		update_cycle_threads(t_storage **st)
 	return (SUCCESS);
 }
 
-int				update_threads(t_storage **st, int *i, int *j,
+static int		update_threads(t_storage **st, int *i, int *j,
 	int *var_cycle_to_die)
 {
 	if ((*i) % (*var_cycle_to_die) == 0)

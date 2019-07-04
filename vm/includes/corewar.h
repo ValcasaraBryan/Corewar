@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 12:39:26 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:03:02 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <stdio.h>
-# include "../libft/includes/libft.h"
 # include <SDL2/SDL.h>
+# include "../libft/includes/libft.h"
 # include "SDL_ttf.h"
 
-# define GRID_SIZE		64
+# include <stdio.h>
 
+# define GRID_SIZE		64
 # define UT_PRINT		0
+
+/*
+** instructions
+*/
 
 # define MOVE			"move"
 # define LIVE			"live"
@@ -56,7 +60,6 @@
 # define CALL_FAILED	-30
 # define BAD_FD			-40
 # define FAILURE		-50
-
 # define VALID_FULL		15
 # define VALID_EMPTY	5
 
@@ -79,26 +82,26 @@
 
 # define REG_NUMBER		16
 # define MAGIC_NB		0x00EA83F3
+# define MAX_PLAYERS	4
+# define IDX_MOD		(MEM_SIZE / 8)
 
+# define CYCLE_TO_DIE	1536
+# define CYCLE_DELTA	50
+# define NBR_LIVE		21
+# define MAX_CHECKS		10
 # define FPS			60
 
 /*
 ** unused
 */
-# define MAX_PLAYERS	4
 
 # define MAX_ARGS		4
 # define MEM_SIZE		(4*1024)
-# define IDX_MOD		(MEM_SIZE / 8)
 # define CH_MAX_SIZE	(MEM_SIZE / 6)
-
-# define CYCLE_TO_DIE	10
-# define CYCLE_DELTA	50
-# define NBR_LIVE		21
-# define MAX_CHECKS		10
 
 # define NAME_LENGTH	(128)
 # define DESC_LENGTH	(2048)
+# define M_NB_LENGTH	(4)
 
 typedef struct			s_thread
 {
@@ -238,10 +241,28 @@ int			ft_print_threads(t_storage **st);
 int		ft_print_grid(t_storage **st);
 int		ft_free_visu(t_storage **st);
 
+
+
+
+int						init_args(int **args);
+
+
+
+
+
+
+
+
 /*
 ** ------------------------	bin_extractor				------------------------
 */
 int						bin_extractor(t_champion **ch, char *path);
+
+/*
+** ------------------------	functions_announce			------------------------
+*/
+int				announce_champions(t_storage **st);
+int				announce_winner(t_storage **st);
 
 /*
 ** ------------------------	functions_byte				------------------------
@@ -258,21 +279,30 @@ int						champion_change_size(t_champion **ch, int new_size);
 /*
 ** ------------------------	functions_get_args			------------------------
 */
-int						get_args_inner(int nb_lines, char ***tab, int **args,
-	int i);
-int						get_champion(int **args, char **str, int i);
-int						get_flag_with_nb(char **str, int **args, int type);
-int						init_args(int **args);
-int						print_error(void);
+int						get_args(t_storage **st, int nb_lines, char ***tab);
 
 /*
 ** ------------------------	functions_grid				------------------------
 */
 int						grid_fill_with_champ(int ***grid, t_champion **ch,
 	int nb, int total);
-
 int						grid_fill_with_champ_color(int ***grid, t_champion **ch,
 	int nb, int total);
+
+/*
+** ------------------------	functions_read_write		------------------------
+*/
+int						read_in_grid(int ***grid, int where, int nb);
+int						write_in_grid(int ***grid, long value, int where,
+	int nb);
+int						write_in_grid_color(t_storage **st, int t_where,
+	int where);
+
+/*
+** ------------------------	functions_storage			------------------------
+*/
+int						storage_get_total_champions(t_storage **st);
+int																storage_get_total_threads(t_storage **st);
 
 /*
 ** ------------------------	functions_thread			------------------------
@@ -284,12 +314,6 @@ int						thread_change_value_reg(t_thread **th, int reg,
 int						thread_change_where(t_thread **th, int ***gr,
 	int new_where);
 int						thread_get_value_reg(t_thread **th, int reg);
-
-/*
-** ------------------------	functions_storage			------------------------
-*/
-int						storage_get_total_champions(t_storage **st);
-int						storage_get_total_threads(t_storage **st);
 
 /*
 ** ------------------------	instr_add					------------------------
@@ -377,16 +401,6 @@ int						instr_xor(t_storage **st, t_thread **th);
 int						instr_zjmp(t_storage **st, t_thread **th);
 
 /*
-** ------------------------	key_functions				------------------------
-*/
-int						intro_champions(t_storage **st);
-int						announce_winner(t_storage **st);
-int						get_args(t_storage **st, int nb_lines, char ***tab);
-int						read_in_grid(int ***grid, int where, int nb);
-int						write_in_grid(int ***grid, long value, int where,
-	int nb);
-
-/*
 ** ------------------------	manage_byte					------------------------
 */
 int						add_byte(t_champion **ch);
@@ -409,9 +423,8 @@ int						free_grid(t_storage **st, int type);
 */
 int						print_dump(t_storage **st);
 void					print_function_state(char *name, char *msg);
-int						print_grid(t_storage **st, int type);
 void					print_nb_hexa(int nb);
-int						print_storage(t_storage **st);
+int						print_usage(void);
 
 /*
 ** ------------------------	manage_storage				------------------------
@@ -432,6 +445,14 @@ int						delete_thread(t_storage **st, t_thread **th);
 int						process_battle(t_storage **st, int nb_cycles);
 
 /*
+** ------------------------	set_values_instr			------------------------
+*/
+int			set_value(t_thread **th, int ***grid, int size, int where);
+int			set_value_spe(t_thread **th, int ***grid, int size, int where);
+int			set_value_mod(t_thread **th, int ***grid, int size, int where);
+int			set_value_mod_spe(t_thread **th, int ***grid, int size, int where);
+
+/*
 ** ------------------------	structs_check				------------------------
 */
 int						byte_check(t_byte **bt);
@@ -444,9 +465,6 @@ int						thread_check(t_thread **th);
 ** ------------------------	structs_setup				------------------------
 */
 int						setup_all(t_storage **st, int argv, char ***argc);
-int						setup_champions(t_storage **st, char ***t_p, int **t_n);
-int						setup_grid(t_storage **st);
-int		setup_thread(t_storage **st);
 
 /*
 ** ------------------------	tempo_utility				------------------------
@@ -463,10 +481,6 @@ int						convert_to_binary(char **res, int nb);
 int						decrypt_op_code(int **tab, int nb);
 int						get_size_int(int code, int size_dir);
 int		failed_action_move(t_storage **st, t_thread **th, int nb_move);
-int			set_value(t_thread **th, int ***grid, int size, int where);
-int			set_value_spe(t_thread **th, int ***grid, int size, int where);
-int			set_value_mod(t_thread **th, int ***grid, int size, int where);
-int			set_value_mod_spe(t_thread **th, int ***grid, int size, int where);
 int			check_reg(int reg);
 
 #endif
