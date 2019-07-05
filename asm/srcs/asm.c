@@ -6,7 +6,7 @@
 /*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 13:42:37 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/05 13:58:44 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static int		read_line(t_data *data, int *i, bool quote)
 	while ((data->ret = read(data->fd, buf, 1)) > 0)
 	{
 		buf[data->ret] = 0;
-		if (!(ft_isascii(buf[0])))
-			break ;
 		if (!data->line.line)
 			data->line.line = ft_strnew(BUFF_SIZE);
 		(*i) += data->ret;
