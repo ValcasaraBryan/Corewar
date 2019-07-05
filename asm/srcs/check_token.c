@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 18:42:44 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 16:09:10 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int				check_token(t_data *data)
 	ins_tmp = NULL;
 	while (tmp)
 	{
+		// ft_printf("%s\n", tmp->cut);
 		tmp->type = add_type(tmp->cut, &val);
 		if (!(token(data, &tmp, &ins_tmp, val)))
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:47:46 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 18:42:59 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:52:54 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,10 @@ int		error_no_ins(t_data *data, t_ins *ins)
 	}
 	else
 		return (1);
+}
+
+int		error_malloc(void)
+{
+	ft_fprintf(ERROR_MALLOC, S_ERR);
+	return (0);
 }

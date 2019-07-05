@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:32:37 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 16:14:43 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 16:03:32 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,5 @@ int		get_token(t_data *data)
 		add_word(data, token);
 		data->line.current = end_word;
 	}
-	if (!(check_token(data)))
-	{
-		erase_token(&data->token);
-		return (0);
-	}
-	erase_token(&data->token);
-	return (1);
+	return (check_token(data));
 }

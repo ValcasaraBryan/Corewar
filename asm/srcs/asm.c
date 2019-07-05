@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 13:58:44 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/05 16:03:09 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ static int		step(t_data *data)
 	data->line.current += skip_whitespace(data->line.line
 		+ data->line.current, 0);
 	if (!(get_token(data)))
+	{
+		erase_token(&data->token);
 		return (0);
+	}
+	erase_token(&data->token);
 	free_line(&data->line.line);
 	return (1);
 }
@@ -50,11 +54,13 @@ static int		read_line(t_data *data, int *i, bool quote)
 	{
 		buf[data->ret] = 0;
 		if (!data->line.line)
-			data->line.line = ft_strnew(BUFF_SIZE);
+			if (!(data->line.line = ft_strnew(BUFF_SIZE)))
+				return (0);
 		(*i) += data->ret;
 		if ((*i) == BUFF_SIZE)
 		{
-			data->line.line = ft_str_biggest(&data->line.line, BUFF_SIZE);
+			if (!(data->line.line = ft_str_biggest(&data->line.line, BUFF_SIZE)))
+				return (0);
 			(*i) = 0;
 		}
 		ft_strcat(data->line.line, buf);
@@ -94,11 +100,6 @@ int				parsing_asm(t_data *data)
 	int	i;
 
 	i = 0;
-	if ((data->fd = open(data->name_s, O_RDONLY)) == -1)
-	{
-		ft_fprintf(NO_FILE, S_ERR, READ, data->name_cor);
-		return (0);
-	}
 	while (step(data))
 	{
 		if ((data->ret = read_line(data, &i, false)) == -1)

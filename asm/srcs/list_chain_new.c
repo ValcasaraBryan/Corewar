@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:45 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 16:18:39 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:48:49 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_name_label	*new_n_label(char *label, int index)
 
 	if (!(new = malloc(sizeof(t_ins))))
 		return (NULL);
-	new->label = label;
+	new->label = (label) ? label : NULL;
 	new->len = (label) ? ft_strlen(label) : 0;
 	new->index_ins = index;
 	new->next = NULL;

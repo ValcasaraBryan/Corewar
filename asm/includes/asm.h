@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 13:45:40 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/05 15:52:51 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@
 # define MSG_SYN				"Syntax error at token \"%s\"\n"
 # define MSG_SYN_TYPE			"Syntax error at token %s \"%s\"\n"
 # define MSG_TOO_LONG			"Champion %s too long (Max length %d)\n"
+# define ERROR_MALLOC			"Error malloc\n"
 
 typedef struct					s_op
 {
@@ -290,6 +291,7 @@ int								error_params(int index, int type, char *ins);
 int								error_params_two(int type, char *ins);
 int								error_count(t_params p);
 int								error_no_ins(t_data *data, t_ins *ins);
+int								error_malloc(void);
 /*
 **			check_label.c
 */

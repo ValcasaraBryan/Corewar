@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 16:43:27 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 16:43:31 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:58:48 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ int		suffix_name(t_data *data, const char *s)
 	while (--i >= 0)
 		if (!ft_strcmp(data->name_s + i, SUFF_F))
 			break ;
-	name = ft_strcut(data->name_s, 0, i);
-	data->name_cor = ft_strndup((const char *)name, i + COR);
+	if (!(name = ft_strcut(data->name_s, 0, i)))
+		return (error_malloc());
+	if (!(data->name_cor = ft_strndup((const char *)name, i + COR)))
+		return (error_malloc());
 	free_line(&name);
 	ft_strcat(data->name_cor, (char *)s);
 	return (1);

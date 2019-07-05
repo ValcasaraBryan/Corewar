@@ -6,13 +6,13 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 18:15:51 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:54:11 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static void		params_token(t_params p, int code, int type)
+static int		params_token(t_params p, int code, int type)
 {
 	p.ins->octet += code;
 	p.ins->codage[p.i] = code;
@@ -22,12 +22,14 @@ static void		params_token(t_params p, int code, int type)
 	{
 		p.cpy.ins = p.ins;
 		p.cpy.token = cpy_token(*p.tmp);
-		p.cpy.label = ft_strdup((*p.tmp)->cut + p.start_cut);
+		if (!(p.cpy.label = ft_strdup((*p.tmp)->cut + p.start_cut)))
+			return (0);
 		p.cpy.len = (p.cpy.label) ? ft_strlen(p.cpy.label) : 0;
 		p.cpy.index_ins = p.data->header.prog_size;
 		p.cpy.index_params = p.i;
 		add_label(&p.data->ins_label, p.cpy);
 	}
+	return (1);
 }
 
 static int		params_direct_register(t_params p)
@@ -37,7 +39,8 @@ static int		params_direct_register(t_params p)
 	{
 		p.start_cut = 2;
 		p.ins->len += p.ins->ins.direct == 1 ? 2 : 4;
-		params_token(p, DIR_CODE, DIRECT);
+		if (!(params_token(p, DIR_CODE, DIRECT)))
+			return (error_malloc());
 	}
 	else if ((*p.tmp)->type == REGISTER
 		&& T_REG == (T_REG & (p.val->params[p.i])))
@@ -64,7 +67,8 @@ static int		params_indirect(t_params p)
 	{
 		p.start_cut = 1;
 		p.ins->len += p.ins->ins.indirect == 1 ? 2 : 4;
-		params_token(p, IND_CODE, INDIRECT);
+		if (!(params_token(p, IND_CODE, INDIRECT)))
+			return (error_malloc());
 	}
 	else
 		return (error_params(p.i, (*p.tmp)->type, p.val->ins));

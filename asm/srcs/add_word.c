@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:39:32 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 16:26:55 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:43:28 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		check_char(t_token word, int *i, int *j)
 			(*j)++;
 		else
 			while (word.cut[(*j)])
-				if (separator(word.cut[++(*j)]) == 1)
+				if (separator(word.cut[++(*j)]))
 					break ;
 	}
 	else

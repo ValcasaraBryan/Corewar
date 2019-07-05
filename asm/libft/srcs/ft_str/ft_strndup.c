@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 18:06:51 by brvalcas          #+#    #+#             */
-/*   Updated: 2018/05/08 18:06:52 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:58:38 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ char	*ft_strndup(const char *src, size_t len)
 	char	*str;
 	size_t	i;
 
-	if (src)
-		i = ft_strlen(src);
-	else
-		i = len;
+	if (!src)
+		return (NULL);
+	i = ft_strlen(src);
 	if (!(str = ft_memalloc(len + 1)))
 		return (NULL);
 	if (len <= i)
