@@ -1,6 +1,6 @@
 .name "Virtual"
-.comment ""
+.comment " coucou"
 
 _50:
-st r1, 50
-live %:_50
+st r1, 50#"salut comment ca va"
+live %50

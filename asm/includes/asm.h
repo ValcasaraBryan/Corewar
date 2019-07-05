@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 19:06:14 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 13:45:40 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@
 # define NO_NEW_LINE_3			"(Perhaps you forgot to end with a newline ?)\n"
 # define NO_NEW_LINE_2			"Syntax error - unexpected end of input "
 # define NO_NEWLINE				NO_NEW_LINE_2 NO_NEW_LINE_3
-# define COMMAND_MISS			".name or .comment on first lines missing\n"
+# define COMMAND_MISS			"It misses .name and .comment on the first lines\n"
 # define INVALID_PARAMS			"Invalid parameter %d "
 # define ERROR_MSG				"for instruction %s \"%s\"\n"
 # define BAD_MSG				"type %s for instruction %s\n"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 18:34:21 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 13:42:37 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ static char		*ft_str_biggest(char **s1, int more)
 	return (tmp);
 }
 
-static int		read_line(t_data *data, int *i)
+static int		read_line(t_data *data, int *i, bool quote)
 {
-	bool	quote;
 	char	buf[1 + 1];
 
-	quote = false;
 	while ((data->ret = read(data->fd, buf, 1)) > 0)
 	{
 		buf[data->ret] = 0;
+		if (!(ft_isascii(buf[0])))
+			break ;
 		if (!data->line.line)
 			data->line.line = ft_strnew(BUFF_SIZE);
 		(*i) += data->ret;
@@ -103,7 +103,7 @@ int				parsing_asm(t_data *data)
 	}
 	while (step(data))
 	{
-		if ((data->ret = read_line(data, &i)) == -1)
+		if ((data->ret = read_line(data, &i, false)) == -1)
 		{
 			free_line(&data->line.line);
 			ft_fprintf(NO_NEWLINE, S_ERR);
