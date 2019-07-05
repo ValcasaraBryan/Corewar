@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_is.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:26:10 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/04 18:27:20 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 13:06:29 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int		ft_is_params(char *str, int (*fonction)(char))
 	ret = false;
 	while (str[i])
 	{
-		if (fonction(str[i]))
-			ret = ret == false ? true : false;
+		if (fonction(str[i]) && ret == false)
+			ret = true;
 		else if (ft_is_label(str + i, true) == 1 || ft_number_ok(str + i))
 			return (ret == true ? 1 : 0);
 		else
