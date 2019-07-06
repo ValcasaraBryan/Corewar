@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/07/06 09:29:00 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/07/06 09:52:59 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ DIR_INCL =		./includes
 DIR_LIBFT =		./libft
 DIR_OBJS =		./objs
 DIR_SRCS =		./srcs
-FLAGS_COMP =	-g -Weverything -Wno-padded -Wno-sign-conversion -Wno-gnu-union-cast -Werror -Wall -Wextra 
+FLAGS_COMP =	-g -Weverything -Wno-padded -Wno-sign-conversion -Wno-gnu-union-cast
 FLAGS_INCL =	-I $(DIR_INCL)
 FLAGS_LIBFT =	-L $(DIR_LIBFT) -lft
 FLAGS_INCL_SDL = -I ~/.brew/include/SDL2

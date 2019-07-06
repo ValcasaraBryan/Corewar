@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 17:03:00 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:39:18 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 10:44:31 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ int				announce_winner(t_storage **st)
 	{
 		if (current->number == (*st)->nb_champ_last_live)
 		{
-			ft_putstr("Contestant ");
+			ft_putstr("le joueur ");
 			ft_putnbr(i);
-			ft_putstr(", \"");
+			ft_putstr("(");
 			ft_putstr(current->name);
-			ft_putstr("\", has won !\n");
+			ft_putstr(") a gagne\n");
 		}
 		current = current->next;
 		i++;

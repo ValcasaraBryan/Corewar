@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 08:54:20 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 11:05:08 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int			extract_bytes(int fd, t_champion **ch)
 	return (SUCCESS);
 }
 
-static int			extract_magic_numbers(int fd, t_champion **ch)
+static int			extract_int(int fd, t_champion **ch, int type)
 {
 	int				i;
 	int				res;
@@ -65,7 +65,8 @@ static int			extract_magic_numbers(int fd, t_champion **ch)
 
 	if (champion_check(ch) < VALID_EMPTY)
 		return (BAD_PARAM);
-	lseek(fd, 0, SEEK_SET);
+	lseek(fd, type == 1
+		? 0 : M_NB_LENGTH + NAME_LENGTH + 4, SEEK_SET);
 	i = -1;
 	res = 0;
 	buf[0] = 1;
@@ -75,8 +76,11 @@ static int			extract_magic_numbers(int fd, t_champion **ch)
 		res += buf[0];
 		res = i != 3 ? res << 8 : res;
 	}
-	if (res != MAGIC_NB)
+	if (type == 1 && res != MAGIC_NB)
 		return (FAILURE);
+	if (type == 2 && res > CH_MAX_SIZE)
+		return (FAILURE);
+	(*ch)->size = type == 2 ? res : (*ch)->size;
 	return (SUCCESS);
 }
 
@@ -116,8 +120,9 @@ int					bin_extractor(t_champion **ch, char *path)
 		return (BAD_PARAM);
 	if ((fd = open(path, O_RDONLY)) < 0)
 		return (BAD_FD);
-	if (extract_magic_numbers(fd, ch) != SUCCESS
+	if (extract_int(fd, ch, 1) != SUCCESS
 		|| extract_str(fd, ch, 1) != SUCCESS
+		|| extract_int(fd, ch, 2) != SUCCESS
 		|| extract_str(fd, ch, 2) != SUCCESS
 		|| extract_bytes(fd, ch) != SUCCESS)
 		return (CALL_FAILED);

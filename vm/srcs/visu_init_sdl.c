@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:55:52 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/06 09:26:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 10:13:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static int	ft_init_alphabet_color(t_storage **st)
 int			ft_init_win(t_storage **st)
 {
 	(*st)->win->pause = 0;
+	if (TTF_WasInit())
+		return (FAILURE);
 	if (TTF_Init() < 0)
 		return (FAILURE);
 	if (((*st)->win->ttf_text = TTF_OpenFont("monofonto.ttf", 80)) == NULL)
@@ -76,9 +78,6 @@ int			ft_init_win(t_storage **st)
 	if (!((*st)->win->rect = malloc(sizeof(SDL_Rect))))
 		return (FAILURE);
 	ft_bzero((*st)->win->rect, sizeof(SDL_Rect));
-	if (!((*st)->win->event = malloc(sizeof(SDL_Event))))
-		return (FAILURE);
-	ft_bzero((*st)->win->event, sizeof(SDL_Event));
 	(*st)->win->nb_threads = 0;
 	(*st)->win->surface = NULL;
 	(*st)->win->texture = NULL;

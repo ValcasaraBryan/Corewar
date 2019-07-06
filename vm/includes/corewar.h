@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 09:44:49 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 11:05:54 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@
 # define REG_NUMBER		16
 # define MAX_PLAYERS	4
 # define MEM_SIZE		(4*1024)
+# define CH_MAX_SIZE	(MEM_SIZE / 6)
 # define IDX_MOD		(MEM_SIZE / 8)
 
 # define CYCLE_TO_DIE	1536
@@ -118,12 +119,10 @@
 */
 
 # define MAX_ARGS		4
-# define CH_MAX_SIZE	(MEM_SIZE / 6)
 # define IND_SIZE		2
 # define REG_SIZE		4
 # define DIR_SIZE		REG_SIZE
 # define MAX_ARGS_NBR	4
-# define CHAMP_MAX_SIZE	(MEM_SIZE / 6)
 # define COMMENT_CHAR	'#'
 # define LABEL_CHAR		':'
 # define DIRECT_CHAR	'%'
@@ -211,7 +210,6 @@ typedef struct			s_win
 {
 	int					pause;
 	int					nb_threads;
-	SDL_Event			*event;
 	SDL_Rect			*rect;
 	SDL_Renderer		*renderer;
 	SDL_Surface			*surface;
