@@ -22,9 +22,9 @@ char		*ft_itoa(int n)
 		return (ft_strdup("-2147483648"));
 	if (n == 0)
 		return (ft_strdup("0"));
-	if (!(s = (char *)malloc(size + 1)))
+	if (!(s = (char *)malloc(sizeof(char) * (size_t)(size + 1))))
 		return (NULL);
-	ft_bzero(s, size + 1);
+	ft_bzero(s, (size_t)(size + 1));
 	if (n < 0)
 	{
 		s[0] = '-';

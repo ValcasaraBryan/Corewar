@@ -10,13 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC =			gcc
+CC =			clang
 NAME =			libft.a
 DIR_CURR =		/libft
 DIR_INCL =		./includes
 DIR_OBJS =		./objs
 DIR_SRCS =		./srcs
-FLAGS_COMP =	-Wall -Wextra -Werror
+FLAGS_COMP =	-Weverything -Wno-missing-prototypes -Wno-padded
 FLAGS_INCL =	-I $(DIR_INCL)
 FILES_HEADER =	libft.h
 FILES_SRCS =	ft_atoi.c			\
