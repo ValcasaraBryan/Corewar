@@ -3,769 +3,1499 @@ asm_test/error/comment_len_2049.s
 moi :
 Champion comment too long (Max length 2048)
 zaz :
-Champion comment too long (Max length 2048)
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/direct_param_no_value.s
 moi :
 Syntax error at token "%"
 zaz :
-Lexical error at [13:11]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/four_arg_malloc_free_pointer_error.s
 moi :
 Invalid parameter 1 type indirect for instruction live
 zaz :
-Invalid parameter 1 type indirect for instruction live
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/header_double_comments.s
 moi :
 Syntax error at token COMMAND_COMMENT ".comment"
 zaz :
-Syntax error at token [TOKEN][002:001] COMMAND_COMMENT ".comment"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/header_double_names.s
 moi :
 Syntax error at token COMMAND_NAME ".name"
 zaz :
-Syntax error at token [TOKEN][002:001] COMMAND_NAME ".name"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/header_max_comment.s
 moi :
 Champion comment too long (Max length 2048)
 zaz :
-Champion comment too long (Max length 2048)
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/header_max_name.s
 moi :
 Champion name too long (Max length 128)
 zaz :
-Champion name too long (Max length 128)
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/header_nl.s
 moi :
 Syntax error at token "sdfs"
 zaz :
-Syntax error at token [TOKEN][006:008] INSTRUCTION "sdfs"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/header_nl_unclosed.s
 moi :
 Syntax error at token "I'M"
 zaz :
-Lexical error at [5:11]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/header_null_name.s
 moi :
 Syntax error at token INSTRUCTION "live"
 zaz :
-Syntax error at token [TOKEN][003:001] INSTRUCTION "live"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_contain_badchar.s
 moi :
 Syntax error at token "le_12!:"
 zaz :
-Lexical error at [9:6]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_error_1.s
 moi :
 Syntax error at token "le_12=!"
 zaz :
-Lexical error at [7:6]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_error_2.s
 moi :
 Syntax error at token "le_12!="
 zaz :
-Lexical error at [7:6]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_error_3.s
 moi :
 Syntax error at token "9rwrjqwkrj2io4u2184892849218490218490218904"
 zaz :
-Syntax error at token [TOKEN][008:001] ENDLINE
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_invalidname.s
 moi :
 Syntax error at token "F!*rst:"
 zaz :
-Lexical error at [4:1]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_noending.s
 moi :
 Syntax error at token "first"
 zaz :
-Syntax error at token [TOKEN][004:006] ENDLINE
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_space.s
 moi :
 Syntax error at token "first"
 zaz :
-Syntax error at token [TOKEN][004:007] LABEL "second:"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/label_without_double_dot_at_the_end.s
 moi :
 Syntax error at token "lele"
 zaz :
-Syntax error at token [TOKEN][011:001] ENDLINE
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/name_len_129.s
 moi :
 Champion name too long (Max length 128)
 zaz :
-Champion name too long (Max length 128)
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/op_double_operation_on_single_line.s
 moi :
 Syntax error at token INSTRUCTION "live"
 zaz :
-Syntax error at token [TOKEN][004:009] INSTRUCTION "live"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/op_extra.s
 moi :
 Syntax error at token "adfa"
 zaz :
-Syntax error at token [TOKEN][005:021] INSTRUCTION "adfa"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/op_extreme.s
 moi :
 Syntax error at token ":::::::::::::::::::a-sti"
 zaz :
-Lexical error at [4:5]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/op_no_code.s
 moi :
 Syntax error at token "ENDLINE"
 zaz :
-Syntax error at token [TOKEN][003:001] END "(null)"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_badtypes.s
 moi :
 Invalid parameter 0 type indirect for instruction live
 zaz :
-Invalid parameter 0 type indirect for instruction live
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_commas.s
 moi :
 Syntax error at token "ENDLINE"
 zaz :
-Syntax error at token [TOKEN][006:020] ENDLINE
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_direct_no_value.s
 moi :
 Syntax error at token "%"
 zaz :
-Lexical error at [13:11]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_double_commas.s
 moi :
 Syntax error at token "ENDLINE"
 zaz :
-Syntax error at token [TOKEN][005:021] ENDLINE
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_extra2.s
 moi :
 Syntax error at token "aaa"
 zaz :
-Syntax error at token [TOKEN][006:013] INSTRUCTION "aaa"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_mt_3.s
 moi :
 Invalid parameter 1 type indirect for instruction live
 zaz :
-Invalid parameter 1 type indirect for instruction live
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_mt_r99.s
 moi :
 Syntax error at token "r101"
 zaz :
-Syntax error at token [TOKEN][006:007] INSTRUCTION "r101"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_nonexistent_label.s
 moi :
 No such label ":truc" while attempting to dereference token 
 zaz :
-No such label truc while attempting to dereference token [TOKEN][004:009] INDIRECT_LABEL ":truc"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_plus_minus.s
 moi :
 Syntax error at token "%-+1"
 zaz :
-Lexical error at [7:14]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/param_specialchars.s
 moi :
 Syntax error at token ":l1+1"
 zaz :
-Lexical error at [4:13]
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/zother_1.s
 moi :
 Syntax error at token INDIRECT "42"
 zaz :
-Syntax error at token [TOKEN][003:001] INDIRECT "42"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/zother_2.s
 moi :
 Syntax error at token "ENDLINE"
 zaz :
-Syntax error at token [TOKEN][002:001] END "(null)"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/zother_3.s
 moi :
 Syntax error at token "ENDLINE"
 zaz :
-Syntax error at token [TOKEN][004:001] END "(null)"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/error/zother_4.s
 moi :
 Syntax error at token "t"
 zaz :
-Syntax error at token [TOKEN][004:003] INSTRUCTION "t"
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/42.s
 moi :
 Syntax error at token "%2147483648"
 zaz :
-Writing output program to asm_test/valid/42.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Asombra.s
 moi :
 Writing output program to asm_test/valid/Asombra.cor
 zaz :
-Writing output program to asm_test/valid/Asombra.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Car.s
 moi :
 Writing output program to asm_test/valid/Car.cor
 zaz :
-Writing output program to asm_test/valid/Car.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Douceur_power.s
 moi :
 Syntax error at token "%4294967041"
 zaz :
-Writing output program to asm_test/valid/Douceur_power.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Explosive_Kitty.s
 moi :
 Syntax error at token "zjmp%:go_erase"
 zaz :
-Writing output program to asm_test/valid/Explosive_Kitty.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Gagnant.s
 moi :
 Writing output program to asm_test/valid/Gagnant.cor
 zaz :
-Writing output program to asm_test/valid/Gagnant.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Kappa.s
 moi :
 Syntax error at token "%4060311555"
 zaz :
-Writing output program to asm_test/valid/Kappa.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Kittystrophic.s
 moi :
 Syntax error at token "fork%:g00dbye_kitty"
 zaz :
-Writing output program to asm_test/valid/Kittystrophic.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Machine-gun.s
 moi :
 Writing output program to asm_test/valid/Machine-gun.cor
 zaz :
-Writing output program to asm_test/valid/Machine-gun.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/MarineKing.s
 moi :
 Writing output program to asm_test/valid/MarineKing.cor
 zaz :
-Writing output program to asm_test/valid/MarineKing.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Misaka_Mikoto.s
 moi :
 Writing output program to asm_test/valid/Misaka_Mikoto.cor
 zaz :
-Writing output program to asm_test/valid/Misaka_Mikoto.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Octobre_Rouge_V4.2.s
 moi :
 Syntax error at token "%4294902082"
 zaz :
-Writing output program to asm_test/valid/Octobre_Rouge_V4.2.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Rainbow_dash.s
 moi :
 Writing output program to asm_test/valid/Rainbow_dash.cor
 zaz :
-Writing output program to asm_test/valid/Rainbow_dash.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Survivor.s
 moi :
 Writing output program to asm_test/valid/Survivor.cor
 zaz :
-Writing output program to asm_test/valid/Survivor.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/THUNDER.s
 moi :
 Writing output program to asm_test/valid/THUNDER.cor
 zaz :
-Writing output program to asm_test/valid/THUNDER.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Varimathras.s
 moi :
 Writing output program to asm_test/valid/Varimathras.cor
 zaz :
-Writing output program to asm_test/valid/Varimathras.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/Wall.s
 moi :
 Syntax error at token "%2576980377"
 zaz :
-Writing output program to asm_test/valid/Wall.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/_honeybadger.s
 moi :
 Syntax error at token "%4278780410"
 zaz :
-Writing output program to asm_test/valid/_honeybadger.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/aff_no_OCP.s
 moi :
 Writing output program to asm_test/valid/aff_no_OCP.cor
 zaz :
-Writing output program to asm_test/valid/aff_no_OCP.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/barriere.s
 moi :
 Writing output program to asm_test/valid/barriere.cor
 zaz :
-Writing output program to asm_test/valid/barriere.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/bee_gees.s
 moi :
 Writing output program to asm_test/valid/bee_gees.cor
 zaz :
-Writing output program to asm_test/valid/bee_gees.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/big_feet.s
 moi :
 Writing output program to asm_test/valid/big_feet.cor
 zaz :
-Writing output program to asm_test/valid/big_feet.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/bigzork.s
 moi :
 Writing output program to asm_test/valid/bigzork.cor
 zaz :
-Writing output program to asm_test/valid/bigzork.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/casimir.s
 moi :
 Writing output program to asm_test/valid/casimir.cor
 zaz :
-Writing output program to asm_test/valid/casimir.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/champ.s
 moi :
 Writing output program to asm_test/valid/champ.cor
 zaz :
-Writing output program to asm_test/valid/champ.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/comment_len_2048.s
 moi :
 Writing output program to asm_test/valid/comment_len_2048.cor
 zaz :
-Writing output program to asm_test/valid/comment_len_2048.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/corelol.s
 moi :
 Writing output program to asm_test/valid/corelol.cor
 zaz :
-Writing output program to asm_test/valid/corelol.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/darksasuke.s
 moi :
 Writing output program to asm_test/valid/darksasuke.cor
 zaz :
-Writing output program to asm_test/valid/darksasuke.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/doge.s
 moi :
 Writing output program to asm_test/valid/doge.cor
 zaz :
-Writing output program to asm_test/valid/doge.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/dubo.s
 moi :
 Writing output program to asm_test/valid/dubo.cor
 zaz :
-Writing output program to asm_test/valid/dubo.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/empty_namecomment.s
 moi :
 Writing output program to asm_test/valid/empty_namecomment.cor
 zaz :
-Writing output program to asm_test/valid/empty_namecomment.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/end_comment.s
 moi :
 Writing output program to asm_test/valid/end_comment.cor
 zaz :
-Writing output program to asm_test/valid/end_comment.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/ex.s
 moi :
 Writing output program to asm_test/valid/ex.cor
 zaz :
-Writing output program to asm_test/valid/ex.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/ex1.s
 moi :
 Writing output program to asm_test/valid/ex1.cor
 zaz :
-Writing output program to asm_test/valid/ex1.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/flipped_name_comment.s
 moi :
 Writing output program to asm_test/valid/flipped_name_comment.cor
 zaz :
-Writing output program to asm_test/valid/flipped_name_comment.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/fluttershy.s
 moi :
 Writing output program to asm_test/valid/fluttershy.cor
 zaz :
-Writing output program to asm_test/valid/fluttershy.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/gateau.s
 moi :
 Writing output program to asm_test/valid/gateau.cor
 zaz :
-Writing output program to asm_test/valid/gateau.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/gedeon.s
 moi :
 Writing output program to asm_test/valid/gedeon.cor
 zaz :
-Writing output program to asm_test/valid/gedeon.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/hash_and_tab_at_EOF.s
 moi :
 Writing output program to asm_test/valid/hash_and_tab_at_EOF.cor
 zaz :
-Writing output program to asm_test/valid/hash_and_tab_at_EOF.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/hash_at_header.s
 moi :
 Writing output program to asm_test/valid/hash_at_header.cor
 zaz :
-Writing output program to asm_test/valid/hash_at_header.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/helltrain.s
 moi :
 Syntax error at token "%4294902016"
 zaz :
-Writing output program to asm_test/valid/helltrain.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/jinx.s
 moi :
 Writing output program to asm_test/valid/jinx.cor
 zaz :
-Writing output program to asm_test/valid/jinx.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/jumper.s
 moi :
 Writing output program to asm_test/valid/jumper.cor
 zaz :
-Writing output program to asm_test/valid/jumper.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/justin_bee.s
 moi :
 Writing output program to asm_test/valid/justin_bee.cor
 zaz :
-Writing output program to asm_test/valid/justin_bee.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/littlepuppy.s
 moi :
 Writing output program to asm_test/valid/littlepuppy.cor
 zaz :
-Writing output program to asm_test/valid/littlepuppy.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/live.s
 moi :
 Writing output program to asm_test/valid/live.cor
 zaz :
-Writing output program to asm_test/valid/live.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/loose.s
 moi :
 Writing output program to asm_test/valid/loose.cor
 zaz :
-Writing output program to asm_test/valid/loose.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/mandragore.s
 moi :
 Writing output program to asm_test/valid/mandragore.cor
 zaz :
-Writing output program to asm_test/valid/mandragore.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/maxidef.s
 moi :
 Writing output program to asm_test/valid/maxidef.cor
 zaz :
-Writing output program to asm_test/valid/maxidef.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/meowluigi.s
 moi :
 Writing output program to asm_test/valid/meowluigi.cor
 zaz :
-Writing output program to asm_test/valid/meowluigi.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/mise_a_jour_windows95.s
 moi :
 Writing output program to asm_test/valid/mise_a_jour_windows95.cor
 zaz :
-Writing output program to asm_test/valid/mise_a_jour_windows95.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/mortel.s
 moi :
 Writing output program to asm_test/valid/mortel.cor
 zaz :
-Writing output program to asm_test/valid/mortel.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/name_len_128.s
 moi :
 Writing output program to asm_test/valid/name_len_128.cor
 zaz :
-Writing output program to asm_test/valid/name_len_128.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/neg_indirect_error.s
 moi :
 Syntax error at token "ld-1"
 zaz :
-Writing output program to asm_test/valid/neg_indirect_error.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/nl_at_header.s
 moi :
 Writing output program to asm_test/valid/nl_at_header.cor
 zaz :
-Writing output program to asm_test/valid/nl_at_header.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/nl_at_header_flipped.s
 moi :
 Writing output program to asm_test/valid/nl_at_header_flipped.cor
 zaz :
-Writing output program to asm_test/valid/nl_at_header_flipped.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/no_space_between_op_and_param.s
 moi :
 Syntax error at token "live%1"
 zaz :
-Writing output program to asm_test/valid/no_space_between_op_and_param.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/overwatch.s
 moi :
 Syntax error at token "%4278415363"
 zaz :
-Writing output program to asm_test/valid/overwatch.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/run_Kitty_RUN.s
 moi :
 Syntax error at token "fork%:gear_second"
 zaz :
-Writing output program to asm_test/valid/run_Kitty_RUN.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/salamahenagalabadoun.s
 moi :
 Writing output program to asm_test/valid/salamahenagalabadoun.cor
 zaz :
-Writing output program to asm_test/valid/salamahenagalabadoun.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/sam_2.0.s
 moi :
 Writing output program to asm_test/valid/sam_2.0.cor
 zaz :
-Writing output program to asm_test/valid/sam_2.0.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/skynet.s
 moi :
 Writing output program to asm_test/valid/skynet.cor
 zaz :
-Writing output program to asm_test/valid/skynet.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/slider2.s
 moi :
 Writing output program to asm_test/valid/slider2.cor
 zaz :
-Writing output program to asm_test/valid/slider2.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/sq_at_header.s
 moi :
 Writing output program to asm_test/valid/sq_at_header.cor
 zaz :
-Writing output program to asm_test/valid/sq_at_header.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/tab_at_end_of_file.s
 moi :
 Writing output program to asm_test/valid/tab_at_end_of_file.cor
 zaz :
-Writing output program to asm_test/valid/tab_at_end_of_file.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/terminator.s
 moi :
 Writing output program to asm_test/valid/terminator.cor
 zaz :
-Writing output program to asm_test/valid/terminator.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/toto.s
 moi :
 Writing output program to asm_test/valid/toto.cor
 zaz :
-Writing output program to asm_test/valid/toto.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/turtle.s
 moi :
 Writing output program to asm_test/valid/turtle.cor
 zaz :
-Writing output program to asm_test/valid/turtle.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/ultima.s
 moi :
 Writing output program to asm_test/valid/ultima.cor
 zaz :
-Writing output program to asm_test/valid/ultima.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/ultimate-surrender.s
 moi :
 Syntax error at token "%4278780410"
 zaz :
-Writing output program to asm_test/valid/ultimate-surrender.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/weirdest_error_ever.s
 moi :
 Writing output program to asm_test/valid/weirdest_error_ever.cor
 zaz :
-Writing output program to asm_test/valid/weirdest_error_ever.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/youforkmytralala.s
 moi :
 Writing output program to asm_test/valid/youforkmytralala.cor
 zaz :
-Writing output program to asm_test/valid/youforkmytralala.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
 asm_test/valid/zork.s
 moi :
 Writing output program to asm_test/valid/zork.cor
 zaz :
-Writing output program to asm_test/valid/zork.cor
+script.sh: line 14: ./../ressources/asm: No such file or directory
 
 
+champs/42.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Asombra.s
+moi :
+Writing output program to champs/Asombra.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Backward.s
+moi :
+Syntax error at token ".extend"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/COMMENT_TOO_LONG.s
+moi :
+Champion comment too long (Max length 2048)
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Car.s
+moi :
+Writing output program to champs/Car.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Death.s
+moi :
+Syntax error at token ".extend"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Douceur_power.s
+moi :
+Syntax error at token "%4294967041"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Explosive_Kitty.s
+moi :
+Syntax error at token "zjmp%:go_erase"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Gagnant.s
+moi :
+Writing output program to champs/Gagnant.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Kappa.s
+moi :
+Syntax error at token "%4060311555"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Kittystrophic.s
+moi :
+Syntax error at token "fork%:g00dbye_kitty"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Machine-gun.s
+moi :
+Writing output program to champs/Machine-gun.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/MarineKing.s
+moi :
+Writing output program to champs/MarineKing.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Misaka_Mikoto.s
+moi :
+Syntax error at token ";"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/NAME_TOO_LONG.s
+moi :
+Champion name too long (Max length 128)
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Octobre_Rouge_Toolong.s
+moi :
+Syntax error at token "%4294902082"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Octobre_Rouge_V4.2.s
+moi :
+Syntax error at token "%4294902082"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_1.s
+moi :
+Syntax error at token "affiche"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_10.s
+moi :
+Syntax error at token "affaff"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_11.s
+moi :
+Syntax error at token "af"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_12.s
+moi :
+Syntax error at token "afflive"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_13.s
+moi :
+Syntax error at token "aFf"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_14.s
+moi :
+Syntax error at token ".aff"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_15.s
+moi :
+Syntax error at token "aaff"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_16.s
+moi :
+Syntax error at token "af"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_2.s
+moi :
+Syntax error at token "an_d"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_3.s
+moi :
+Syntax error at token "Live:"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_4.s
+moi :
+Syntax error at token "zjump"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_5.s
+moi :
+Syntax error at token "affr0"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_6.s
+moi :
+Syntax error at token "a"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_7.s
+moi :
+Syntax error at token "afff"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_8.s
+moi :
+Syntax error at token INDIRECT_LABEL ":aff"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_INSTRUCTION_9.s
+moi :
+Syntax error at token "%aff"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_1.s
+moi :
+Syntax error at token "liv"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_10.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_2.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_3.s
+moi :
+No such label "%:llive" while attempting to dereference token 
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_4.s
+moi :
+Syntax error at token ":"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_5.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_6.s
+moi :
+Syntax error at token "affiche"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_7.s
+moi :
+No such label "%:hey" while attempting to dereference token 
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_8.s
+moi :
+Syntax error at token "%%:live"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_LABEL_9.s
+moi :
+Syntax error at token "%:"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_1.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_10.s
+moi :
+Invalid parameter 3 type register for instruction sti
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_11.s
+moi :
+Syntax error at token ","
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_12.s
+moi :
+Syntax error at token "+%1"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_13.s
+moi :
+Syntax error at token "........."
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_14.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_15.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_16.s
+moi :
+Syntax error at token "%:"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_17.s
+moi :
+Syntax error at token "r1%:live%1"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_2.s
+moi :
+Syntax error at token "%:live%:live"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_3.s
+moi :
+Invalid parameter 1 type register for instruction zjmp
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_4.s
+moi :
+Syntax error at token "yolo"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_5.s
+moi :
+Invalid parameter 0 type register for instruction zjmp
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_6.s
+moi :
+Syntax error at token "%:lIve"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_7.s
+moi :
+Syntax error at token "%aff"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_8.s
+moi :
+Invalid parameter 0 type direct for instruction sti
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/POUNY_WRONG_NBR_9.s
+moi :
+Invalid parameter 0 type indirect for instruction sti
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Rainbow_dash.s
+moi :
+Writing output program to champs/Rainbow_dash.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Survivor.s
+moi :
+Syntax error at token "<<<<<<<"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/THUNDER.s
+moi :
+Writing output program to champs/THUNDER.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Torpille.s
+moi :
+Syntax error at token ".extend"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Varimathras.s
+moi :
+Writing output program to champs/Varimathras.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/WITHOUT_IA.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/Wall.s
+moi :
+Syntax error at token "%2576980377"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/_.s
+moi :
+Writing output program to champs/_.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/_honeybadger.s
+moi :
+Syntax error at token "%4278780410"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/add.s
+moi :
+Writing output program to champs/add.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/aff.s
+moi :
+Writing output program to champs/aff.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/and.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/barriere.s
+moi :
+Writing output program to champs/barriere.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/bee_gees.s
+moi :
+Syntax error at token ";change"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/big_feet.s
+moi :
+Syntax error at token "%118978653103279"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/big_life.s
+moi :
+Writing output program to champs/big_life.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/bigzork.s
+moi :
+Writing output program to champs/bigzork.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/casimir.s
+moi :
+Writing output program to champs/casimir.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/champ.s
+moi :
+Syntax error at token "%1;"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/champ_bee_gees.s
+moi :
+Writing output program to champs/champ_bee_gees.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/champ_bigzork.s
+moi :
+Writing output program to champs/champ_bigzork.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/champ_fluttershy.s
+moi :
+Writing output program to champs/champ_fluttershy.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/champ_helltrain.s
+moi :
+Syntax error at token "%4294902016"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/champ_turtle.s
+moi :
+Writing output program to champs/champ_turtle.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/champ_zork.s
+moi :
+Writing output program to champs/champ_zork.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/comment.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/corelol.s
+moi :
+Writing output program to champs/corelol.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/darksasuke.s
+moi :
+Writing output program to champs/darksasuke.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/doge.s
+moi :
+Writing output program to champs/doge.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/dubo.s
+moi :
+Writing output program to champs/dubo.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/empty.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/ex.s
+moi :
+Writing output program to champs/ex.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/fluttershy.s
+moi :
+Writing output program to champs/fluttershy.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/fork.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/gateau.s
+moi :
+Writing output program to champs/gateau.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/gedeon.s
+moi :
+Writing output program to champs/gedeon.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/helltrain.s
+moi :
+Syntax error at token "%4294902016"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/inalid95.s
+moi :
+Syntax error at token "%12345live"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/invalid1.s
+moi :
+Invalid parameter 2 type indirect for instruction add
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/invalid10.s
+moi :
+Syntax error at token "%live"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/invalid100.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/invalid101.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/invalid102.s
+moi :
+Writing output program to champs/invalid102.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/invalid103.s
+moi :
+Writing output program to champs/invalid103.cor
+zaz :
+script.sh: line 25: ./../ressources/asm: No such file or directory
+
+
+champs/invalid104.s
+moi :
