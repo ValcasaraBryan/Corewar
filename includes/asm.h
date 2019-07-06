@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/06 13:37:15 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 14:31:35 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ typedef struct					s_data
 	bool						quote;
 	bool						name;
 	bool						comment;
-	header_t					header;
+	t_header					header;
 	int							len;
 	int							n_line;
 	int							index;
