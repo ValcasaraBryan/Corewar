@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:57:30 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/06 11:57:59 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 13:18:10 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void		print_octet(int fd, unsigned int val, size_t nb)
 		return ;
 	while (nb--)
 	{
-		index = 255 << 8 * nb;
+		index = (unsigned int)255 << 8 * nb;
 		tmp = index & val;
 		while (tmp > 255)
 			tmp = tmp >> 8;
@@ -38,9 +38,9 @@ static void		print_tab(int fd, t_ins *ins)
 	{
 		if ((ins->ins.indirect == 0 && ins->codage[i] == IND_CODE)
 			|| (ins->ins.direct == 0 && ins->codage[i] == DIR_CODE))
-			print_octet(fd, ins->params[i], 4);
+			print_octet(fd, (unsigned int)ins->params[i], 4);
 		else if (ins->codage[i] == REG_CODE)
-			print_octet(fd, ins->params[i], 1);
+			print_octet(fd, (unsigned int)ins->params[i], 1);
 		else
 			print_octet(fd, (unsigned short)ins->params[i], 2);
 	}

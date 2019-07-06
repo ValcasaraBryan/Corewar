@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:32:37 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/06 10:30:26 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 13:12:36 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int		get_token(t_data *data)
 			+ data->line.current, 0);
 		end_word = get_arg(data->line.line + data->line.current, ft_end_word)
 			+ data->line.current;
-		if (!(token.cut = ft_strcut(data->line.line, data->line.current,
-			end_word)))
+		if (!(token.cut = ft_strcut(data->line.line, (size_t)data->line.current,
+			(size_t)end_word)))
 			break ;
 		token = token_val(token, data->index, end_word);
 		add_word(data, token);

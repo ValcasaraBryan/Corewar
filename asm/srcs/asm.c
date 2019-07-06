@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/06 11:57:09 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 13:08:01 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static char		*ft_str_biggest(char **s1, int more)
 	int		len;
 
 	if (!*s1)
-		return (ft_strnew(more));
-	len = ft_strlen(*s1);
-	if (!(tmp = malloc(sizeof(char) * (len + more + 1))))
+		return (ft_strnew((size_t)more));
+	len = (int)ft_strlen(*s1);
+	if (!(tmp = malloc(sizeof(char) * (unsigned long)(len + more + 1))))
 		return (NULL);
 	ft_strcpy(tmp, *s1);
 	free(*s1);
@@ -50,7 +50,7 @@ static int		read_line(t_data *data, int *i, bool quote)
 {
 	char	buf[1 + 1];
 
-	while ((data->ret = read(data->fd, buf, 1)) > 0)
+	while ((data->ret = (int)read(data->fd, buf, 1)) > 0)
 	{
 		buf[data->ret] = 0;
 		if (!data->line.line)

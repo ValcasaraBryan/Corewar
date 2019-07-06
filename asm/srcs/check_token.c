@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/06 12:16:09 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 13:11:20 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int		not_instruction(t_data *data, t_token **tmp, t_ins **ins_tmp,
 		data->error.error = true;
 		return (0);
 	}
-	data->header.prog_size += (*ins_tmp)->len;
+	data->header.prog_size += (unsigned int)(*ins_tmp)->len;
 	return (1);
 }
 
@@ -51,8 +51,8 @@ static int		is_instruction(t_data *data, t_token *tmp, t_ins **ins_tmp,
 				|| (*ins_tmp)->ins.opcode == LFORK) ? 1 : 2;
 	}
 	else if (type == LABEL)
-		add_n_label(&data->label, ft_strcut(tmp->cut, 0, tmp->end - 1),
-			data->header.prog_size);
+		add_n_label(&data->label, ft_strcut(tmp->cut, 0, (size_t)tmp->end - 1),
+			(int)data->header.prog_size);
 	return (1);
 }
 

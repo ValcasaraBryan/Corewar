@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 16:13:05 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/06 11:58:56 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 13:05:05 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static int	check_suffix(char *av)
 	i = 0;
 	if (!av)
 		return (0);
-	while (av[++i])
+	while (av[i])
 		i++;
 	while (av[--i])
 		if (av[i] == '.')
-			if (av + i + 1 && av[i + 1] == 's')
+			if (ft_strstr(".s", av + i))
 				return (1);
 	ft_fprintf(ERROR_SUFFIX, S_ERR, av);
 	return (0);

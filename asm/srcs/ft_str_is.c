@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:26:10 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/06 11:53:11 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 13:09:53 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int		ft_is_instruction(char *str, t_op **ins)
 	i = -1;
 	if (!str)
 		return (0);
-	len = ft_strlen(str);
+	len = (int)ft_strlen(str);
 	while (++i < REG_NUMBER)
 		if (len == g_op_tab[i].len
-			&& ft_strncmp(str, g_op_tab[i].ins, g_op_tab[i].len) == 0)
+			&& ft_strncmp(str, g_op_tab[i].ins, (size_t)g_op_tab[i].len) == 0)
 		{
 			*ins = g_op_tab + i;
 			return (1);

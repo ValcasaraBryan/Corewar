@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/06 11:57:29 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 13:16:11 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int		params_token(t_params p, int code, int type)
 {
 	p.ins->octet += code;
-	p.ins->codage[p.i] = code;
+	p.ins->codage[p.i] = (unsigned char)code;
 	if ((*p.tmp)->type == type)
 		p.ins->params[p.i] = ft_atoi((*p.tmp)->cut + p.start_cut);
 	else
@@ -24,8 +24,8 @@ static int		params_token(t_params p, int code, int type)
 		p.cpy.token = cpy_token(*p.tmp);
 		if (!(p.cpy.label = ft_strdup((*p.tmp)->cut + 1 + p.start_cut)))
 			return (0);
-		p.cpy.len = (p.cpy.label) ? ft_strlen(p.cpy.label) : 0;
-		p.cpy.index_ins = p.data->header.prog_size;
+		p.cpy.len = (p.cpy.label) ? (int)ft_strlen(p.cpy.label) : 0;
+		p.cpy.index_ins = (int)p.data->header.prog_size;
 		p.cpy.index_params = p.i;
 		add_label(&p.data->ins_label, p.cpy);
 	}

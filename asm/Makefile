@@ -31,7 +31,7 @@ LIB = libft/libft.a
 
 INCL = includes
 
-CC = @gcc
+CC = @clang
 
 CFLAGS = -Wall -Wextra -Werror -I includes -I libft/includes -I ../op.h
 
