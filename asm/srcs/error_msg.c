@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:47:46 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 22:16:43 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 11:52:49 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ int		error_params_two(int type, char *ins)
 		type_string = MSG_CMD_NAME;
 	else if (type == COMMENT)
 		type_string = MSG_CMD_COMMENT;
-	if (type > 0)
-		ft_fprintf(MSG_SYN_TYPE, S_ERR, type_string, ins);
-	else
-		ft_fprintf(MSG_SYN, S_ERR, ins);
+	(type > 0) ? ft_fprintf(MSG_SYN_TYPE, S_ERR, type_string, ins)
+		: ft_fprintf(MSG_SYN, S_ERR, ins);
 	return (0);
 }
 

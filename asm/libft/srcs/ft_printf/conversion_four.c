@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conversion_four.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 16:42:13 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/03 16:38:17 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 12:26:19 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

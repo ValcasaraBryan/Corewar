@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_params.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:41:54 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 18:22:02 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 11:57:29 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static int		params_token(t_params p, int code, int type)
 	p.ins->octet += code;
 	p.ins->codage[p.i] = code;
 	if ((*p.tmp)->type == type)
-		p.ins->params[p.i] = ft_atoi((*p.tmp)->cut);
+		p.ins->params[p.i] = ft_atoi((*p.tmp)->cut + p.start_cut);
 	else
 	{
 		p.cpy.ins = p.ins;
 		p.cpy.token = cpy_token(*p.tmp);
-		if (!(p.cpy.label = ft_strdup((*p.tmp)->cut + p.start_cut)))
+		if (!(p.cpy.label = ft_strdup((*p.tmp)->cut + 1 + p.start_cut)))
 			return (0);
 		p.cpy.len = (p.cpy.label) ? ft_strlen(p.cpy.label) : 0;
 		p.cpy.index_ins = p.data->header.prog_size;
@@ -37,7 +37,7 @@ static int		params_direct_register(t_params p)
 	if (((*p.tmp)->type == DIRECT || (*p.tmp)->type == DIRECT_LABEL)
 		&& T_DIR == (T_DIR & (p.val->params[p.i])))
 	{
-		p.start_cut = 2;
+		p.start_cut = 1;
 		p.ins->len += p.ins->ins.direct == 1 ? 2 : 4;
 		if (!(params_token(p, DIR_CODE, DIRECT)))
 			return (error_malloc());
@@ -65,7 +65,7 @@ static int		params_indirect(t_params p)
 	if (((*p.tmp)->type == INDIRECT || (*p.tmp)->type == INDIRECT_LABEL)
 		&& T_IND == (T_IND & (p.val->params[p.i])))
 	{
-		p.start_cut = 1;
+		p.start_cut = 0;
 		p.ins->len += p.ins->ins.indirect == 1 ? 2 : 4;
 		if (!(params_token(p, IND_CODE, INDIRECT)))
 			return (error_malloc());

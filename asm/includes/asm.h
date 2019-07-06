@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 22:13:28 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 12:18:48 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@
 # define NO_NEW_LINE_3			"(Perhaps you forgot to end with a newline ?)\n"
 # define NO_NEW_LINE_2			"Syntax error - unexpected end of input "
 # define NO_NEWLINE				NO_NEW_LINE_2 NO_NEW_LINE_3
-# define COMMAND_MISS			"It misses .name and .comment on the first lines\n"
+# define MISS					"It misses "
+# define COMMAND				".name and .comment on the first lines\n"
+# define COMMAND_MISS			MISS COMMAND
 # define INVALID_PARAMS			"Invalid parameter %d "
-# define ERROR_MSG				"for instruction %s \"%s\"\n"
+# define ERROR_MSG				"for instruction %s" CUT
 # define BAD_MSG				"type %s for instruction %s\n"
 # define ERROR_PARAMS			INVALID_PARAMS ERROR_MSG
 # define BAD_PARAMS				INVALID_PARAMS BAD_MSG
@@ -94,11 +96,12 @@
 # define MSG_LABEL_2			"No such label \"%s\" while "
 # define MSG_LABEL_3			"attempting to dereference token \n"
 # define MSG_LABEL				MSG_LABEL_2 MSG_LABEL_3
-# define MSG_SYN				"Syntax error at token \"%s\"\n"
-# define MSG_SYN_TYPE			"Syntax error at token %s \"%s\"\n"
+# define MSG_SYN				"Syntax error at token" CUT
+# define MSG_SYN_TYPE			"Syntax error at token %s" CUT
 # define MSG_TOO_LONG			"Champion %s too long (Max length %d)\n"
 # define ERROR_MALLOC			"Error malloc\n"
-# define ERROR_SUFFIX			"There is no suffix \".s\" at the end of \"%s\"\n"
+# define CUT					" \"%s\"\n"
+# define ERROR_SUFFIX			"There is no suffix \".s\" at the end of" CUT
 
 typedef struct					s_op
 {

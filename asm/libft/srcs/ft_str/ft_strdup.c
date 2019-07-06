@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 22:17:38 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/18 04:31:47 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 12:27:17 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

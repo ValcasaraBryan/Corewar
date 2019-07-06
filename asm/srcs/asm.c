@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 22:21:23 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 11:57:09 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static int		read_line(t_data *data, int *i, bool quote)
 		(*i) += data->ret;
 		if ((*i) == BUFF_SIZE)
 		{
-			if (!(data->line.line = ft_str_biggest(&data->line.line, BUFF_SIZE)))
+			if (!(data->line.line = ft_str_biggest(&data->line.line,
+				BUFF_SIZE)))
 				return (0);
 			(*i) = 0;
 		}

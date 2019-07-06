@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 22:19:28 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 12:16:09 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static int		not_instruction(t_data *data, t_token **tmp, t_ins *ins_tmp,
+static int		not_instruction(t_data *data, t_token **tmp, t_ins **ins_tmp,
 				t_op *val)
 {
 	t_params	params;
@@ -26,14 +26,14 @@ static int		not_instruction(t_data *data, t_token **tmp, t_ins *ins_tmp,
 	params.start_cut = 0;
 	params.data = data;
 	params.tmp = tmp;
-	params.ins = ins_tmp;
+	params.ins = *ins_tmp;
 	params.val = val;
 	if (!(check_params(params)))
 	{
 		data->error.error = true;
 		return (0);
 	}
-	data->header.prog_size += ins_tmp->len;
+	data->header.prog_size += (*ins_tmp)->len;
 	return (1);
 }
 
@@ -58,7 +58,8 @@ static int		is_instruction(t_data *data, t_token *tmp, t_ins **ins_tmp,
 
 static int		token(t_data *data, t_token **tmp, t_ins **ins_tmp, t_op *val)
 {
-	if (((*tmp)->type == NAME && !data->name) || ((*tmp)->type == COMMENT && !data->comment))
+	if (((*tmp)->type == NAME && !data->name)
+		|| ((*tmp)->type == COMMENT && !data->comment))
 	{
 		if (!(add_quote(data, tmp)))
 		{
@@ -71,17 +72,12 @@ static int		token(t_data *data, t_token **tmp, t_ins **ins_tmp, t_op *val)
 		if ((*tmp)->type == INSTRUCTION || ((*tmp)->type == LABEL && !val))
 			return (is_instruction(data, (*tmp), ins_tmp, val));
 		else
-		{
-			if (!(not_instruction(data, tmp, (*ins_tmp), val)))
-				return (0);
-		}
+			return (not_instruction(data, tmp, ins_tmp, val));
 	}
 	else
 	{
-		if ((*tmp)->type)
-			error_params_two((*tmp)->type, (*tmp)->cut);
-		else
-			ft_fprintf(MSG_SYN, S_ERR, (*tmp)->cut);
+		((*tmp)->type) ? error_params_two((*tmp)->type, (*tmp)->cut)
+			: ft_fprintf(MSG_SYN, S_ERR, (*tmp)->cut);
 		data->error.error = true;
 		return (0);
 	}
@@ -104,10 +100,7 @@ int				check_token(t_data *data)
 		tmp->type = add_type(tmp->cut, &val);
 		if (!(token(data, &tmp, &ins_tmp, val)))
 			return (0);
-		if (tmp->next)
-			tmp = tmp->next;
-		else
-			break ;
+		tmp = tmp->next;
 	}
 	if (!(error_no_ins(data, ins_tmp)))
 		return (0);

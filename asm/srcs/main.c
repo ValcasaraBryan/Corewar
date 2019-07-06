@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 16:13:05 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 19:18:23 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 11:58:56 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ static int	check_suffix(char *av)
 {
 	int		i;
 
-	i = -1;
+	i = 0;
 	if (!av)
 		return (0);
-	while (av[++i]);
+	while (av[++i])
+		i++;
 	while (av[--i])
 		if (av[i] == '.')
 			if (av + i + 1 && av[i + 1] == 's')

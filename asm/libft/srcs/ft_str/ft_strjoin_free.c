@@ -6,19 +6,19 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/24 16:19:59 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/05/20 20:00:49 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 12:27:53 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	void free_str(char **str)
+static	void	free_str(char **str)
 {
 	free(*str);
 	*str = NULL;
 }
 
-char	*ft_strjoin_free(char *s1, char *s2, int select_to_free)
+char			*ft_strjoin_free(char *s1, char *s2, int select_to_free)
 {
 	char	*str;
 	int		i;

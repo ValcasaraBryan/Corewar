@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
+/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:37:32 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 18:47:44 by bryanvalcas      ###   ########.fr       */
+/*   Updated: 2019/07/06 11:58:22 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
