@@ -6,7 +6,7 @@
 /*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:46:16 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/06 12:23:49 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/06 12:47:50 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int		get_arg_two(char *str, int i, char *tmp,
 			free_line(&tmp);
 		}
 	}
+	free_line(&tmp);
 	return (i);
 }
 
