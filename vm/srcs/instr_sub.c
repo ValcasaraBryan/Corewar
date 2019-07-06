@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:48 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 08:28:16 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:26:11 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int			instr_sub_inner(t_storage **st, t_thread **th)
+static int	instr_sub_inner(t_storage **st, t_thread **th)
 {
 	int		reg1;
 	int		reg2;

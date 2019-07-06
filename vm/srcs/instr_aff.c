@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:07:59 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 09:04:16 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:25:16 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int			instr_aff_inner(t_storage **st, t_thread **th)
+static int	instr_aff_inner(t_storage **st, t_thread **th)
 {
 	short	reg;
 	int		value;

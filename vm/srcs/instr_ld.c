@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:31 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 09:06:26 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:25:32 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int			instr_ld_inner(t_storage **st, t_thread **th, int size)
+static int	instr_ld_inner(t_storage **st, t_thread **th, int size)
 {
 	short	reg;
 	int		value;

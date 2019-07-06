@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:55:52 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/05 11:09:56 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:26:43 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int			ft_fill_alphabet_color(t_storage **st, SDL_Texture ***tab,
+static int	ft_fill_alphabet_color(t_storage **st, SDL_Texture ***tab,
 	int color)
 {
 	int		i;
@@ -40,7 +40,7 @@ int			ft_fill_alphabet_color(t_storage **st, SDL_Texture ***tab,
 	return (SUCCESS);
 }
 
-int			ft_init_alphabet_color(t_storage **st)
+static int	ft_init_alphabet_color(t_storage **st)
 {
 	if (!((*st)->win->tab_w = malloc(sizeof(*(*st)->win->tab_w) * 36)))
 		return (FAILURE);

@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 09:06:50 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:25:42 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int		instr_lfork_inner(t_storage **st, t_thread **th)
+static int		instr_lfork_inner(t_storage **st, t_thread **th)
 {
 	t_thread	*new_thread;
 	short		value;
@@ -37,7 +37,7 @@ int		instr_lfork_inner(t_storage **st, t_thread **th)
 	return (SUCCESS);
 }
 
-int		instr_lfork(t_storage **st, t_thread **th)
+int				instr_lfork(t_storage **st, t_thread **th)
 {
 	t_thread	*old;
 

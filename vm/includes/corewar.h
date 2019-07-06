@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 09:13:02 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:44:49 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 # define COREWAR_H
 
-# include <stdlib.h>
 # include <fcntl.h>
-# include <unistd.h>
+# include <math.h>
 # include <SDL2/SDL.h>
+# include <stdlib.h>
+# include <time.h>
+# include <unistd.h>
 # include "../libft/includes/libft.h"
 # include "SDL_ttf.h"
-
-# include <stdio.h>
 
 # define GRID_SIZE		64
 # define UT_PRINT		0
 
 /*
-** instructions
+** define : instructions
 */
 
 # define MOVE			"move"
@@ -49,7 +49,7 @@
 # define AFF			"aff"
 
 /*
-** return values
+** define : return values
 */
 
 # define SUCCESS_INC	20
@@ -64,12 +64,29 @@
 # define VALID_EMPTY	5
 
 /*
-** op.h
+** define : visu values
+*/
+
+# define WIDTH			2300
+# define HEIGHT			1152
+# define WHITE			0xffffff
+# define GREY			0x202020
+# define P1				0x33cc33
+# define P2				0x0099ff
+# define P3				0xff00ff
+# define P4				0xff9933
+# define OCT_W			28
+# define OCT_H			18
+# define LETTER_W		10
+
+/*
+** define from op.h
 */
 
 /*
 ** used
 */
+
 # define T_REG			1
 # define T_DIR			2
 # define T_IND			4
@@ -87,6 +104,7 @@
 
 # define REG_NUMBER		16
 # define MAX_PLAYERS	4
+# define MEM_SIZE		(4*1024)
 # define IDX_MOD		(MEM_SIZE / 8)
 
 # define CYCLE_TO_DIE	1536
@@ -100,8 +118,25 @@
 */
 
 # define MAX_ARGS		4
-# define MEM_SIZE		(4*1024)
 # define CH_MAX_SIZE	(MEM_SIZE / 6)
+# define IND_SIZE		2
+# define REG_SIZE		4
+# define DIR_SIZE		REG_SIZE
+# define MAX_ARGS_NBR	4
+# define CHAMP_MAX_SIZE	(MEM_SIZE / 6)
+# define COMMENT_CHAR	'#'
+# define LABEL_CHAR		':'
+# define DIRECT_CHAR	'%'
+# define SEPARATOR_CHAR	','
+# define LABEL_CHARS	"abcdefghijklmnopqrstuvwxyz_0123456789"
+# define NAME_CMD_STR	".name"
+# define COMM_CMD_STR	".comment"
+
+typedef char			t_arg_type;
+
+/*
+** typedef : structures
+*/
 
 typedef struct			s_thread
 {
@@ -136,30 +171,6 @@ typedef struct			s_champion
 	struct s_champion	*next;
 }						t_champion;
 
-typedef union			u_color
-{
-	int					color;
-	unsigned char		rgb[4];
-}						t_color;
-
-typedef struct			s_win
-{
-	int 				pause;
-	int 				nb_threads;
-	SDL_Event			*event;
-	SDL_Rect 			*rect;
-	SDL_Renderer 		*renderer;
-	SDL_Surface			*surface;
-	SDL_Texture 		*texture;
-	SDL_Texture			**tab_b;
-	SDL_Texture			**tab_g;
-	SDL_Texture			**tab_o;
-	SDL_Texture			**tab_v;
-	SDL_Texture			**tab_w;
-	SDL_Window			*window;
-	TTF_Font			*ttf_text;
-}						t_win;
-
 typedef struct			s_storage
 {
 	int					cycle;
@@ -172,7 +183,7 @@ typedef struct			s_storage
 	struct s_thread		*last_thread;
 	struct s_champion	*first_champion;
 	struct s_champion	*last_champion;
-	struct s_win 		*win;
+	struct s_win		*win;
 }						t_storage;
 
 typedef struct			s_instruction
@@ -190,51 +201,58 @@ typedef struct			s_instruction
 	int					(*fct_ptr)(t_storage **st, t_thread **th);
 }						t_instruction;
 
+typedef union			u_color
+{
+	int					color;
+	unsigned char		rgb[4];
+}						t_color;
+
+typedef struct			s_win
+{
+	int					pause;
+	int					nb_threads;
+	SDL_Event			*event;
+	SDL_Rect			*rect;
+	SDL_Renderer		*renderer;
+	SDL_Surface			*surface;
+	SDL_Texture			*texture;
+	SDL_Texture			**tab_b;
+	SDL_Texture			**tab_g;
+	SDL_Texture			**tab_o;
+	SDL_Texture			**tab_v;
+	SDL_Texture			**tab_w;
+	SDL_Window			*window;
+	TTF_Font			*ttf_text;
+}						t_win;
+
+/*
+** extern : global variables
+*/
+
 extern t_instruction	g_tab_instructions[18];
-extern char					*g_tab_dump[64];
+extern char				*g_tab_dump[64];
 
 /*
 **						garance
 */
-# include <math.h>
-# include <unistd.h>
-# include <stdbool.h>
-# define WIDTH 2300
-# define HEIGHT 1152
-# define WHITE 0xffffff
-# define GREY 0x202020
-# define P1 0x33cc33
-# define P2 0x0099ff
-# define P3 0xff00ff
-# define P4 0xff9933
-# define OCT_W 28
-# define OCT_H 18
-# define LETTER_W 10
-# include <time.h>
-# include <stdlib.h>
-
-
-
 int			ft_print_game(t_storage **st, int *var_cycle_to_die);
 int			ft_init_sdl(t_storage **st);
 int			ft_init_win(t_storage **st);
-
 SDL_Color	argb_to_sdl(Uint32 color);
 char		*ft_itoa_hexa(int a);
 int			ft_color_octet(int player);
 char		*ft_ctoa(char c);
-
 int			ft_print_infos_a(t_storage **st, int *var_cycle_to_die);
 int			ft_print_threads(t_storage **st);
 int			ft_print_grid(t_storage **st);
 int			ft_free_visu(t_storage **st);
-
-
-
 int			ft_str_create_and_print(t_storage **st, char *str1, char **str2, int line);
 int			ft_finish(t_storage **st, SDL_Surface **srf, SDL_Texture **msg, SDL_Rect *rect);
 int			ft_put_players(t_storage **st, int line);
 
+/*
+** function prototypes
+*/
 
 /*
 ** ------------------------	bin_extractor				------------------------

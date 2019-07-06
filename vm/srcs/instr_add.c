@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:05:49 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 09:03:38 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:25:08 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-int			instr_add_inner(t_storage **st, t_thread **th)
+static int	instr_add_inner(t_storage **st, t_thread **th)
 {
 	short	reg1;
 	short	reg2;
