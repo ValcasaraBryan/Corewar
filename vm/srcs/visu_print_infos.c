@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:56:11 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/06 08:37:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:17:10 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int			ft_print_text(t_storage **st, char *str, int line)
 	}
 	rect.x = 66 * OCT_W;
 	rect.y = line * OCT_H;
-	rect.w = ft_strlen(str) * 9;
+	rect.w = (int)ft_strlen(str) * 9;
 	rect.h = OCT_H;
 	return (ft_finish(st, &srf, &msg, &rect));
 }
@@ -56,7 +56,7 @@ int					ft_str_create_and_print(t_storage **st, char *str1,
 	char			*dest;
 	int				size_total;
 
-	size_total = ft_strlen(str1) + ft_strlen(*str2);
+	size_total = (int)(ft_strlen(str1) + ft_strlen(*str2));
 	if (!(dest = (char *)malloc(sizeof(char) * (size_total + 1))))
 	{
 		free(*str2);

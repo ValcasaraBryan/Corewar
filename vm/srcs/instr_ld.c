@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:31 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 08:27:43 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:06:26 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			instr_ld_inner(t_storage **st, t_thread **th, int size)
 	int		value;
 
 	value = set_value_mod(th, &(*st)->grid, size, (*th)->pc + 1 + 1);
-	reg = read_in_grid(&(*st)->grid, (*th)->pc + 1 + size + 1, 1);
+	reg = (short)read_in_grid(&(*st)->grid, (*th)->pc + 1 + size + 1, 1);
 	if (check_reg(reg) == SUCCESS)
 	{
 		if (thread_change_value_reg(th, reg, value) != SUCCESS)

@@ -6,13 +6,13 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 08:25:31 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:13:02 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _COREWAR_H
+#ifndef COREWAR_H
 
-# define _COREWAR_H
+# define COREWAR_H
 
 # include <stdlib.h>
 # include <fcntl.h>
@@ -191,6 +191,7 @@ typedef struct			s_instruction
 }						t_instruction;
 
 extern t_instruction	g_tab_instructions[18];
+extern char					*g_tab_dump[64];
 
 /*
 **						garance

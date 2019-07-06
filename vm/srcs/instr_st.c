@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:34 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 08:28:10 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:07:23 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	instr_st_inner(t_storage **st, t_thread **th, int size)
 	int		value;
 	int		where;
 
-	reg = read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1, 1);
+	reg = (short)read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1, 1);
 	if (check_reg(reg) == SUCCESS)
 	{
 		value = thread_get_value_reg(th, reg);

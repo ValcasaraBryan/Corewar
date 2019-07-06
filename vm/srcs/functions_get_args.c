@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:37:21 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 17:55:46 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:45:53 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	get_champion(int **args, char **str, int i)
 {
-	int		j;
+	size_t	j;
 	int		num_arg;
 
 	if ((*args)[10] > 3)
@@ -37,6 +37,7 @@ static int	get_flag_with_nb(char **str, int **args, int type)
 	int		result;
 	int		num_arg;
 
+	result = 0;
 	if (args == NULL || *args == NULL || str == NULL || *str == NULL
 		|| type < 1 || type > 3)
 		return (BAD_PARAM);

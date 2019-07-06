@@ -6,7 +6,7 @@
 #    By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 16:00:31 by jdurand-          #+#    #+#              #
-#    Updated: 2019/07/04 18:18:21 by jdurand-         ###   ########.fr        #
+#    Updated: 2019/07/06 09:00:02 by jdurand-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ DIR_INCL =		./includes
 DIR_LIBFT =		./libft
 DIR_OBJS =		./objs
 DIR_SRCS =		./srcs
-FLAGS_COMP =	-g -Wall -Wextra -Werror
+FLAGS_COMP =	-g -Weverything -Wno-missing-prototypes -Wno-padded -Wno-sign-conversion
 FLAGS_INCL =	-I $(DIR_INCL)
 FLAGS_LIBFT =	-L $(DIR_LIBFT) -lft
 FLAGS_INCL_SDL = -I ~/.brew/include/SDL2

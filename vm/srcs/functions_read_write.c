@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:28:41 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:31:06 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:05:21 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int				write_in_grid_color(t_storage **st, int t_where, int where)
 		where = (where - 1) % (GRID_SIZE * GRID_SIZE);
 		col = where % GRID_SIZE;
 		line = where / GRID_SIZE;
-		((*st)->color_grid)[line][col] = res;
+		((*st)->color_grid)[line][col] = (int)res;
 	}
 	return (SUCCESS);
 }

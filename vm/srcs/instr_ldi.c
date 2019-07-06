@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:39 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 08:27:49 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:14:08 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	instr_ldi_inner(t_storage **st, t_thread **th, int size1, int size2)
 {
-	int		reg;
+	short	reg;
 	int		total;
 	int		value1;
 	int		value2;
@@ -24,7 +24,8 @@ static int	instr_ldi_inner(t_storage **st, t_thread **th, int size1, int size2)
 	value2 = set_value_mod_spe(th, &(*st)->grid, size2,
 		(*th)->pc + 1 + 1 + size1);
 	size2 = size2 == 4 ? 2 : size2;
-	reg = read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1 + size1 + size2, 1);
+	reg = (short)read_in_grid(&(*st)->grid, (*th)->pc + 2 + size1 + size2, 1);
+	total = 0;
 	if (check_reg(reg) == SUCCESS)
 	{
 		total = read_in_grid(&(*st)->grid,

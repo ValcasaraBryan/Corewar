@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/05 11:29:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:54:20 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int			extract_bytes(int fd, t_champion **ch)
 	lseek(fd, M_NB_LENGTH + NAME_LENGTH + 8 + DESC_LENGTH + 4, SEEK_SET);
 	buf[0] = 1;
 	i = -1;
-	while ((i = read(fd, buf, 1)) > 0)
+	while ((i = (int)read(fd, buf, 1)) > 0)
 	{
 		if (add_byte(ch) != SUCCESS
 			|| byte_change_value(&((*ch)->last_byte), buf[0]) != SUCCESS)

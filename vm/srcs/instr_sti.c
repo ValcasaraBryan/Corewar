@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:42 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/06 08:28:13 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:10:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static int	instr_sti_inner(t_storage **st, t_thread **th, int size1, int size2)
 	short	where1;
 	short	where2;
 
-	reg = read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1, 1);
+	reg = (short)read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1, 1);
 	if (reg <= 0 || reg > REG_NUMBER)
 		return (SUCCESS);
 	value = thread_get_value_reg(th, reg);
-	where1 = set_value_mod_spe(th, &(*st)->grid, size1,
+	where1 = (short)set_value_mod_spe(th, &(*st)->grid, size1,
 		(*th)->pc + 1 + 1 + 1);
 	size1 = size1 == 4 ? 2 : size1;
-	where2 = set_value_mod_spe(th, &(*st)->grid, size2,
+	where2 = (short)set_value_mod_spe(th, &(*st)->grid, size2,
 		(*th)->pc + 1 + 1 + 1 + size1);
 	size2 = size2 == 4 ? 2 : size2;
 	if (write_in_grid(&(*st)->grid, value,

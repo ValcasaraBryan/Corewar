@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 18:15:22 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 19:43:50 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:17:41 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int			ft_print_name_colored(t_storage **st, char *intro,
 		srf = NULL;
 		return (FAILURE);
 	}
-	rect.x = 66 * OCT_W + ft_strlen(intro) * 9;
+	rect.x = 66 * OCT_W + (int)ft_strlen(intro) * 9;
 	rect.y = (8 + (num_player - 1) * 4) * OCT_H;
-	rect.w = ft_strlen(name) * 9;
+	rect.w = (int)ft_strlen(name) * 9;
 	rect.h = OCT_H;
 	return (ft_finish(st, &srf, &msg, &rect));
 }
