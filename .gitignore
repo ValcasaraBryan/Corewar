@@ -1,8 +1,0 @@
-.*
-libft.a
-*.o
-*.dSYM
-.DS_Store
-*.cor
-vm_champs/*
-asm/asm
