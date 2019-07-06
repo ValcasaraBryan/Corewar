@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:46:16 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 16:57:53 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 18:35:22 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ int		skip_whitespace(char *str, int val)
 
 int		ft_end_word(char c)
 {
-	if (ft_is_whitespace(c) || c == '#')
+	if (ft_is_whitespace(c) || c == '#' || c == CMD_CHAR)
 		return (1);
 	return (0);
 }
 
 int		get_arg(char *str, int (*fonction)(char))
 {
+	char	*tmp;
 	int	i;
 
 	if (str[0] != CMD_CHAR)
@@ -43,10 +44,13 @@ int		get_arg(char *str, int (*fonction)(char))
 		{
 			if (fonction(str[i]))
 				break ;
-			// else if (str[i + 1] && str[i + 1] == LABEL_CHAR && str[i] != DIRECT_CHAR)
-			// {
-				// return (i + 1);
-			// } // erreur ici
+			else
+			{
+				tmp = ft_strndup(str, i);
+				if (ft_is_label(tmp, false) == 1 && ft_is_params(tmp, direct) == -1)
+					break ;
+				free_line(&tmp);
+			}
 		}
 	}
 	else

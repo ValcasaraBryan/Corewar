@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:47:46 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 15:52:54 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 22:16:43 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ int		error_params_two(int type, char *ins)
 		type_string = MSG_INSTRUCTION;
 	else if (type == SEPARATOR)
 		type_string = MSG_SEPARATEUR;
+	else if (type == NAME)
+		type_string = MSG_CMD_NAME;
+	else if (type == COMMENT)
+		type_string = MSG_CMD_COMMENT;
 	if (type > 0)
 		ft_fprintf(MSG_SYN_TYPE, S_ERR, type_string, ins);
 	else

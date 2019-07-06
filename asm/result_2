@@ -1,0 +1,1701 @@
+
+champs/42.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/42.cor
+
+
+champs/Asombra.s
+moi :
+Writing output program to champs/Asombra.cor
+zaz :
+Writing output program to champs/Asombra.cor
+
+
+champs/Backward.s
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+
+champs/COMMENT_TOO_LONG.s
+moi :
+Champion comment too long (Max length 2048)
+zaz :
+Champion comment too long (Max length 2048)
+
+
+champs/Car.s
+moi :
+Writing output program to champs/Car.cor
+zaz :
+Writing output program to champs/Car.cor
+
+
+champs/Death.s
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+
+champs/Douceur_power.s
+moi :
+Syntax error at token "%4294967041"
+zaz :
+Writing output program to champs/Douceur_power.cor
+
+
+champs/Explosive_Kitty.s
+moi :
+Syntax error at token "zjmp%:go_erase"
+zaz :
+Writing output program to champs/Explosive_Kitty.cor
+
+
+champs/Gagnant.s
+moi :
+Writing output program to champs/Gagnant.cor
+zaz :
+Writing output program to champs/Gagnant.cor
+
+
+champs/Kappa.s
+moi :
+Syntax error at token "%4060311555"
+zaz :
+Writing output program to champs/Kappa.cor
+
+
+champs/Kittystrophic.s
+moi :
+Syntax error at token "fork%:g00dbye_kitty"
+zaz :
+Writing output program to champs/Kittystrophic.cor
+
+
+champs/Machine-gun.s
+moi :
+Writing output program to champs/Machine-gun.cor
+zaz :
+Writing output program to champs/Machine-gun.cor
+
+
+champs/MarineKing.s
+moi :
+Writing output program to champs/MarineKing.cor
+zaz :
+Writing output program to champs/MarineKing.cor
+
+
+champs/Misaka_Mikoto.s
+moi :
+Syntax error at token ";"
+zaz :
+Writing output program to champs/Misaka_Mikoto.cor
+
+
+champs/NAME_TOO_LONG.s
+moi :
+Champion name too long (Max length 128)
+zaz :
+Champion name too long (Max length 128)
+
+
+champs/Octobre_Rouge_Toolong.s
+moi :
+Syntax error at token "%4294902082"
+zaz :
+Writing output program to champs/Octobre_Rouge_Toolong.cor
+
+
+champs/Octobre_Rouge_V4.2.s
+moi :
+Syntax error at token "%4294902082"
+zaz :
+Writing output program to champs/Octobre_Rouge_V4.2.cor
+
+
+champs/POUNY_WRONG_INSTRUCTION_1.s
+moi :
+Syntax error at token "affiche"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "affiche"
+
+
+champs/POUNY_WRONG_INSTRUCTION_10.s
+moi :
+Syntax error at token "affaff"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "affaff"
+
+
+champs/POUNY_WRONG_INSTRUCTION_11.s
+moi :
+Syntax error at token "af"
+zaz :
+Syntax error at token [TOKEN][007:003] ENDLINE
+
+
+champs/POUNY_WRONG_INSTRUCTION_12.s
+moi :
+Syntax error at token "afflive"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "afflive"
+
+
+champs/POUNY_WRONG_INSTRUCTION_13.s
+moi :
+Syntax error at token "aFf"
+zaz :
+Lexical error at [7:2]
+
+
+champs/POUNY_WRONG_INSTRUCTION_14.s
+moi :
+Syntax error at token ".aff"
+zaz :
+Lexical error at [7:1]
+
+
+champs/POUNY_WRONG_INSTRUCTION_15.s
+moi :
+Syntax error at token "aaff"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "aaff"
+
+
+champs/POUNY_WRONG_INSTRUCTION_16.s
+moi :
+Syntax error at token "af"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "af"
+
+
+champs/POUNY_WRONG_INSTRUCTION_2.s
+moi :
+Syntax error at token "an_d"
+zaz :
+Invalid instruction at token [TOKEN][005:001] INSTRUCTION "an_d"
+
+
+champs/POUNY_WRONG_INSTRUCTION_3.s
+moi :
+Syntax error at token "Live:"
+zaz :
+Lexical error at [12:1]
+
+
+champs/POUNY_WRONG_INSTRUCTION_4.s
+moi :
+Syntax error at token "zjump"
+zaz :
+Invalid instruction at token [TOKEN][013:001] INSTRUCTION "zjump"
+
+
+champs/POUNY_WRONG_INSTRUCTION_5.s
+moi :
+Syntax error at token "affr0"
+zaz :
+Lexical error at [11:6]
+
+
+champs/POUNY_WRONG_INSTRUCTION_6.s
+moi :
+Syntax error at token "a"
+zaz :
+Syntax error at token [TOKEN][007:003] INSTRUCTION "f"
+
+
+champs/POUNY_WRONG_INSTRUCTION_7.s
+moi :
+Syntax error at token "afff"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "afff"
+
+
+champs/POUNY_WRONG_INSTRUCTION_8.s
+moi :
+Syntax error at token INDIRECT_LABEL ":aff"
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+
+champs/POUNY_WRONG_INSTRUCTION_9.s
+moi :
+Syntax error at token "%aff"
+zaz :
+Lexical error at [7:1]
+
+
+champs/POUNY_WRONG_LABEL_1.s
+moi :
+Syntax error at token "liv"
+zaz :
+Lexical error at [12:5]
+
+
+champs/POUNY_WRONG_LABEL_10.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+
+champs/POUNY_WRONG_LABEL_2.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+
+champs/POUNY_WRONG_LABEL_3.s
+moi :
+No such label "%:llive" while attempting to dereference token 
+zaz :
+No such label llive while attempting to dereference token [TOKEN][013:009] DIRECT_LABEL "%:llive"
+
+
+champs/POUNY_WRONG_LABEL_4.s
+moi :
+Syntax error at token ":"
+zaz :
+Lexical error at [12:6]
+
+
+champs/POUNY_WRONG_LABEL_5.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:012] DIRECT_LABEL "%:live"
+
+
+champs/POUNY_WRONG_LABEL_6.s
+moi :
+Syntax error at token "affiche"
+zaz :
+Invalid instruction at token [TOKEN][007:001] INSTRUCTION "affiche"
+
+
+champs/POUNY_WRONG_LABEL_7.s
+moi :
+No such label "%:hey" while attempting to dereference token 
+zaz :
+No such label hey while attempting to dereference token [TOKEN][013:009] DIRECT_LABEL "%:hey"
+
+
+champs/POUNY_WRONG_LABEL_8.s
+moi :
+Syntax error at token "%%:live"
+zaz :
+Lexical error at [13:9]
+
+
+champs/POUNY_WRONG_LABEL_9.s
+moi :
+Syntax error at token "%:"
+zaz :
+Lexical error at [13:9]
+
+
+champs/POUNY_WRONG_NBR_1.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][013:009] ENDLINE
+
+
+champs/POUNY_WRONG_NBR_10.s
+moi :
+Invalid parameter 3 type register for instruction sti
+zaz :
+Invalid parameter 3 type register for instruction sti
+
+
+champs/POUNY_WRONG_NBR_11.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:013] SEPARATOR ","
+
+
+champs/POUNY_WRONG_NBR_12.s
+moi :
+Syntax error at token "+%1"
+zaz :
+Lexical error at [4:19]
+
+
+champs/POUNY_WRONG_NBR_13.s
+moi :
+Syntax error at token "........."
+zaz :
+Lexical error at [4:12]
+
+
+champs/POUNY_WRONG_NBR_14.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:009] ENDLINE
+
+
+champs/POUNY_WRONG_NBR_15.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:023] ENDLINE
+
+
+champs/POUNY_WRONG_NBR_16.s
+moi :
+Syntax error at token "%:"
+zaz :
+Lexical error at [4:12]
+
+
+champs/POUNY_WRONG_NBR_17.s
+moi :
+Syntax error at token "r1%:live%1"
+zaz :
+Syntax error at token [TOKEN][004:011] DIRECT_LABEL "%:live"
+
+
+champs/POUNY_WRONG_NBR_2.s
+moi :
+Syntax error at token "%:live%:live"
+zaz :
+Syntax error at token [TOKEN][013:015] DIRECT_LABEL "%:live"
+
+
+champs/POUNY_WRONG_NBR_3.s
+moi :
+Invalid parameter 1 type register for instruction zjmp
+zaz :
+Invalid parameter 1 type register for instruction zjmp
+
+
+champs/POUNY_WRONG_NBR_4.s
+moi :
+Syntax error at token "yolo"
+zaz :
+Syntax error at token [TOKEN][013:009] INSTRUCTION "yolo"
+
+
+champs/POUNY_WRONG_NBR_5.s
+moi :
+Invalid parameter 0 type register for instruction zjmp
+zaz :
+Invalid parameter 0 type register for instruction zjmp
+
+
+champs/POUNY_WRONG_NBR_6.s
+moi :
+Syntax error at token "%:lIve"
+zaz :
+Lexical error at [13:12]
+
+
+champs/POUNY_WRONG_NBR_7.s
+moi :
+Syntax error at token "%aff"
+zaz :
+Lexical error at [13:9]
+
+
+champs/POUNY_WRONG_NBR_8.s
+moi :
+Invalid parameter 0 type direct for instruction sti
+zaz :
+Invalid parameter 0 type direct for instruction sti
+
+
+champs/POUNY_WRONG_NBR_9.s
+moi :
+Invalid parameter 0 type indirect for instruction sti
+zaz :
+Invalid parameter 0 type indirect for instruction sti
+
+
+champs/Rainbow_dash.s
+moi :
+Writing output program to champs/Rainbow_dash.cor
+zaz :
+Writing output program to champs/Rainbow_dash.cor
+
+
+champs/Survivor.s
+moi :
+Syntax error at token "<<<<<<<"
+zaz :
+Lexical error at [7:1]
+
+
+champs/THUNDER.s
+moi :
+Writing output program to champs/THUNDER.cor
+zaz :
+Writing output program to champs/THUNDER.cor
+
+
+champs/Torpille.s
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+
+champs/Varimathras.s
+moi :
+Writing output program to champs/Varimathras.cor
+zaz :
+Writing output program to champs/Varimathras.cor
+
+
+champs/WITHOUT_IA.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][022:001] END "(null)"
+
+
+champs/Wall.s
+moi :
+Syntax error at token "%2576980377"
+zaz :
+Writing output program to champs/Wall.cor
+
+
+champs/_.s
+moi :
+Writing output program to champs/_.cor
+zaz :
+Writing output program to champs/_.cor
+
+
+champs/_honeybadger.s
+moi :
+Syntax error at token "%4278780410"
+zaz :
+Writing output program to champs/_honeybadger.cor
+
+
+champs/aff.s
+moi :
+Writing output program to champs/aff.cor
+zaz :
+Writing output program to champs/aff.cor
+
+
+champs/barriere.s
+moi :
+Writing output program to champs/barriere.cor
+zaz :
+Writing output program to champs/barriere.cor
+
+
+champs/bee_gees.s
+moi :
+Syntax error at token ";change"
+zaz :
+Writing output program to champs/bee_gees.cor
+
+
+champs/big_feet.s
+moi :
+Syntax error at token "%118978653103279"
+zaz :
+Writing output program to champs/big_feet.cor
+
+
+champs/big_life.s
+moi :
+Writing output program to champs/big_life.cor
+zaz :
+Writing output program to champs/big_life.cor
+
+
+champs/bigzork.s
+moi :
+Writing output program to champs/bigzork.cor
+zaz :
+Writing output program to champs/bigzork.cor
+
+
+champs/casimir.s
+moi :
+Writing output program to champs/casimir.cor
+zaz :
+Writing output program to champs/casimir.cor
+
+
+champs/champ.s
+moi :
+Syntax error at token "%1;"
+zaz :
+Writing output program to champs/champ.cor
+
+
+champs/champ_bee_gees.s
+moi :
+Writing output program to champs/champ_bee_gees.cor
+zaz :
+Writing output program to champs/champ_bee_gees.cor
+
+
+champs/champ_bigzork.s
+moi :
+Writing output program to champs/champ_bigzork.cor
+zaz :
+Writing output program to champs/champ_bigzork.cor
+
+
+champs/champ_fluttershy.s
+moi :
+Writing output program to champs/champ_fluttershy.cor
+zaz :
+Writing output program to champs/champ_fluttershy.cor
+
+
+champs/champ_helltrain.s
+moi :
+Syntax error at token "%4294902016"
+zaz :
+Writing output program to champs/champ_helltrain.cor
+
+
+champs/champ_turtle.s
+moi :
+Writing output program to champs/champ_turtle.cor
+zaz :
+Writing output program to champs/champ_turtle.cor
+
+
+champs/champ_zork.s
+moi :
+Writing output program to champs/champ_zork.cor
+zaz :
+Writing output program to champs/champ_zork.cor
+
+
+champs/comment.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][002:001] END "(null)"
+
+
+champs/corelol.s
+moi :
+Writing output program to champs/corelol.cor
+zaz :
+Writing output program to champs/corelol.cor
+
+
+champs/darksasuke.s
+moi :
+Writing output program to champs/darksasuke.cor
+zaz :
+Writing output program to champs/darksasuke.cor
+
+
+champs/doge.s
+moi :
+Writing output program to champs/doge.cor
+zaz :
+Writing output program to champs/doge.cor
+
+
+champs/dubo.s
+moi :
+Writing output program to champs/dubo.cor
+zaz :
+Writing output program to champs/dubo.cor
+
+
+champs/empty.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][001:001] END "(null)"
+
+
+champs/ex.s
+moi :
+Writing output program to champs/ex.cor
+zaz :
+Writing output program to champs/ex.cor
+
+
+champs/fluttershy.s
+moi :
+Writing output program to champs/fluttershy.cor
+zaz :
+Writing output program to champs/fluttershy.cor
+
+
+champs/fork.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/fork.cor
+
+
+champs/gateau.s
+moi :
+Writing output program to champs/gateau.cor
+zaz :
+Writing output program to champs/gateau.cor
+
+
+champs/gedeon.s
+moi :
+Writing output program to champs/gedeon.cor
+zaz :
+Writing output program to champs/gedeon.cor
+
+
+champs/helltrain.s
+moi :
+Syntax error at token "%4294902016"
+zaz :
+Writing output program to champs/helltrain.cor
+
+
+champs/inalid95.s
+moi :
+Syntax error at token "%12345live"
+zaz :
+Syntax error at token [TOKEN][004:012] INSTRUCTION "live"
+
+
+champs/invalid1.s
+moi :
+Invalid parameter 2 type indirect for instruction add
+zaz :
+Invalid parameter 2 type indirect for instruction add
+
+
+champs/invalid10.s
+moi :
+Syntax error at token "%live"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid100.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][001:001] END "(null)"
+
+
+champs/invalid101.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][003:001] END "(null)"
+
+
+champs/invalid102.s
+moi :
+Writing output program to champs/invalid102.cor
+zaz :
+Writing output program to champs/invalid102.cor
+
+
+champs/invalid103.s
+moi :
+Writing output program to champs/invalid103.cor
+zaz :
+Writing output program to champs/invalid103.cor
+
+
+champs/invalid104.s
+moi :
+Champion name too long (Max length 128)
+zaz :
+Syntax error at token [TOKEN][001:372] STRING ""
+.comment	""
+
+
+champs/invalid11.s
+moi :
+Syntax error at token "live%120"
+zaz :
+Writing output program to champs/invalid11.cor
+
+
+champs/invalid12.s
+moi :
+Syntax error at token "%999999999999999999999999999999999999999"
+zaz :
+Writing output program to champs/invalid12.cor
+
+
+champs/invalid13.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:006] INSTRUCTION "aff"
+
+
+champs/invalid14.s
+moi :
+Syntax error at token "%aff"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid15.s
+moi :
+Syntax error at token "%/0"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid16.s
+moi :
+Syntax error at token "%:"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid17.s
+moi :
+Syntax error at token "%20%21"
+zaz :
+Syntax error at token [TOKEN][004:009] DIRECT "%21"
+
+
+champs/invalid18.s
+moi :
+Syntax error at token INDIRECT "21"
+zaz :
+Syntax error at token [TOKEN][004:010] INDIRECT "21"
+
+
+champs/invalid19.s
+moi :
+Syntax error at token "&-a"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid1_1.s
+moi :
+Invalid parameter 2 type indirect for instruction add
+zaz :
+Invalid parameter 2 type indirect for instruction add
+
+
+champs/invalid2.s
+moi :
+Writing output program to champs/invalid2.cor
+zaz :
+Writing output program to champs/invalid2.cor
+
+
+champs/invalid20.s
+moi :
+Syntax error at token "%-r1"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid21.s
+moi :
+Syntax error at token "%r1"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid22.s
+moi :
+Writing output program to champs/invalid22.cor
+zaz :
+Writing output program to champs/invalid22.cor
+
+
+champs/invalid23.s
+moi :
+Invalid parameter 0 type register for instruction ld
+zaz :
+Invalid parameter 0 type register for instruction ld
+
+
+champs/invalid24.s
+moi :
+Syntax error at token "r2r2"
+zaz :
+Syntax error at token [TOKEN][004:004] INSTRUCTION "r2r2"
+
+
+champs/invalid25.s
+moi :
+Syntax error at token "%120r2"
+zaz :
+Syntax error at token [TOKEN][004:008] REGISTER "r2"
+
+
+champs/invalid26.s
+moi :
+Syntax error at token "-120r2"
+zaz :
+Syntax error at token [TOKEN][004:008] REGISTER "r2"
+
+
+champs/invalid27.s
+moi :
+Invalid parameter 1 type direct for instruction ld
+zaz :
+Invalid parameter 1 type direct for instruction ld
+
+
+champs/invalid29.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:004] DIRECT_LABEL "%:live"
+
+
+champs/invalid2_1.s
+moi :
+Writing output program to champs/invalid2_1.cor
+zaz :
+Writing output program to champs/invalid2_1.cor
+
+
+champs/invalid3.s
+moi :
+Writing output program to champs/invalid3.cor
+zaz :
+Writing output program to champs/invalid3.cor
+
+
+champs/invalid30.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:004] INSTRUCTION "live"
+
+
+champs/invalid31.s
+moi :
+Writing output program to champs/invalid31.cor
+zaz :
+Syntax error at token [TOKEN][004:004] INSTRUCTION "live"
+
+
+champs/invalid32.s
+moi :
+Syntax error at token "%0:r3"
+zaz :
+Syntax error at token [TOKEN][004:006] INDIRECT_LABEL ":r3"
+
+
+champs/invalid33.s
+moi :
+Syntax error at token "%0%r3"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid34.s
+moi :
+Syntax error at token "%0/"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid35.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:004] INSTRUCTION "ld"
+
+
+champs/invalid36.s
+moi :
+Invalid parameter 2 type direct for instruction ld
+zaz :
+Invalid parameter 2 type direct for instruction ld
+
+
+champs/invalid37.s
+moi :
+Invalid parameter 1 type indirect for instruction ld
+zaz :
+Invalid parameter 1 type indirect for instruction ld
+
+
+champs/invalid38.s
+moi :
+Writing output program to champs/invalid38.cor
+zaz :
+Writing output program to champs/invalid38.cor
+
+
+champs/invalid39.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:003] ENDLINE
+
+
+champs/invalid3_1.s
+moi :
+Writing output program to champs/invalid3_1.cor
+zaz :
+Writing output program to champs/invalid3_1.cor
+
+
+champs/invalid4.s
+moi :
+Syntax error at token (null) """"
+zaz :
+Lexical error at [3:4]
+
+
+champs/invalid40.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:009] ENDLINE
+
+
+champs/invalid41.s
+moi :
+Invalid parameter 0 type direct for instruction st
+zaz :
+Invalid parameter 0 type direct for instruction st
+
+
+champs/invalid43.s
+moi :
+Invalid parameter 1 type direct for instruction st
+zaz :
+Invalid parameter 1 type direct for instruction st
+
+
+champs/invalid44.s
+moi :
+Invalid parameter 1 type direct for instruction st
+zaz :
+Invalid parameter 1 type direct for instruction st
+
+
+champs/invalid48.s
+moi :
+Invalid parameter 1 type direct for instruction st
+zaz :
+Invalid parameter 1 type direct for instruction st
+
+
+champs/invalid49.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:003] ENDLINE
+
+
+champs/invalid4_1.s
+moi :
+Syntax error at token "%12:"
+zaz :
+Lexical error at [4:4]
+
+
+champs/invalid5.s
+moi :
+Invalid parameter 0 type register for instruction live
+zaz :
+Invalid parameter 0 type register for instruction live
+
+
+champs/invalid50.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:007] ENDLINE
+
+
+champs/invalid52.s
+moi :
+Writing output program to champs/invalid52.cor
+zaz :
+Writing output program to champs/invalid52.cor
+
+
+champs/invalid53.s
+moi :
+Invalid parameter 3 type register for instruction add
+zaz :
+Invalid parameter 3 type register for instruction add
+
+
+champs/invalid54.s
+moi :
+Invalid parameter count for instruction add
+zaz :
+Invalid parameter count for instruction add
+
+
+champs/invalid55.s
+moi :
+Invalid parameter 2 type indirect for instruction add
+zaz :
+Invalid parameter 2 type indirect for instruction add
+
+
+champs/invalid56.s
+moi :
+Invalid parameter 2 type direct for instruction add
+zaz :
+Invalid parameter 2 type direct for instruction add
+
+
+champs/invalid57.s
+moi :
+Invalid parameter 1 type direct for instruction add
+zaz :
+Invalid parameter 1 type direct for instruction add
+
+
+champs/invalid58.s
+moi :
+Invalid parameter 0 type direct for instruction add
+zaz :
+Invalid parameter 0 type direct for instruction add
+
+
+champs/invalid59.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:005] INSTRUCTION "add"
+
+
+champs/invalid5_1.s
+moi :
+Invalid parameter 0 type register for instruction live
+zaz :
+Invalid parameter 0 type register for instruction live
+
+
+champs/invalid6.s
+moi :
+Invalid parameter 0 type indirect for instruction live
+zaz :
+Invalid parameter 0 type indirect for instruction live
+
+
+champs/invalid60.s
+moi :
+Invalid parameter 0 type direct for instruction add
+zaz :
+Invalid parameter 0 type direct for instruction add
+
+
+champs/invalid61.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:005] SEPARATOR ","
+
+
+champs/invalid62.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:004] SEPARATOR ","
+
+
+champs/invalid63.s
+moi :
+Syntax error at token "%r1"
+zaz :
+Lexical error at [4:5]
+
+
+champs/invalid64.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:005] DIRECT_LABEL "%:live"
+
+
+champs/invalid65.s
+moi :
+Invalid parameter 2 type direct for instruction xor
+zaz :
+Invalid parameter 2 type direct for instruction xor
+
+
+champs/invalid66.s
+moi :
+Invalid parameter count for instruction xor
+zaz :
+Invalid parameter count for instruction xor
+
+
+champs/invalid67.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:004] SEPARATOR ","
+
+
+champs/invalid68.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:004] SEPARATOR ","
+
+
+champs/invalid69.s
+moi :
+Writing output program to champs/invalid69.cor
+zaz :
+Writing output program to champs/invalid69.cor
+
+
+champs/invalid6_1.s
+moi :
+Invalid parameter 0 type indirect for instruction live
+zaz :
+Invalid parameter 0 type indirect for instruction live
+
+
+champs/invalid7.s
+moi :
+Syntax error at token "%"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid70.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:013] ENDLINE
+
+
+champs/invalid71.s
+moi :
+Invalid parameter 0 type indirect for instruction fork
+zaz :
+Invalid parameter 0 type indirect for instruction fork
+
+
+champs/invalid72.s
+moi :
+Invalid parameter 0 type register for instruction fork
+zaz :
+Invalid parameter 0 type register for instruction fork
+
+
+champs/invalid73.s
+moi :
+No such label "%:live" while attempting to dereference token 
+zaz :
+No such label live while attempting to dereference token [TOKEN][004:006] DIRECT_LABEL "%:live"
+
+
+champs/invalid74.s
+moi :
+Syntax error at token "%"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid75.s
+moi :
+Syntax error at token "%.name"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid76.s
+moi :
+Syntax error at token ","
+zaz :
+Syntax error at token [TOKEN][004:005] SEPARATOR ","
+
+
+champs/invalid77.s
+moi :
+Syntax error at token "%fork"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid78.s
+moi :
+Writing output program to champs/invalid78.cor
+zaz :
+Writing output program to champs/invalid78.cor
+
+
+champs/invalid79.s
+moi :
+Invalid parameter 0 type indirect for instruction fork
+zaz :
+Invalid parameter 0 type indirect for instruction fork
+
+
+champs/invalid7_1.s
+moi :
+Syntax error at token "%"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid8.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][004:006] INSTRUCTION "live"
+
+
+champs/invalid80.s
+moi :
+Syntax error at token "%fork"
+zaz :
+Lexical error at [5:6]
+
+
+champs/invalid81.s
+moi :
+Writing output program to champs/invalid81.cor
+zaz :
+Writing output program to champs/invalid81.cor
+
+
+champs/invalid82.s
+moi :
+Writing output program to champs/invalid82.cor
+zaz :
+Writing output program to champs/invalid82.cor
+
+
+champs/invalid83.s
+moi :
+Writing output program to champs/invalid83.cor
+zaz :
+Writing output program to champs/invalid83.cor
+
+
+champs/invalid84.s
+moi :
+Syntax error at token INSTRUCTION "live"
+zaz :
+Syntax error at token [TOKEN][004:009] INSTRUCTION "live"
+
+
+champs/invalid85.s
+moi :
+Syntax error at token INSTRUCTION "live"
+zaz :
+Syntax error at token [TOKEN][004:009] INSTRUCTION "live"
+
+
+champs/invalid86.s
+moi :
+Syntax error at token "for"
+zaz :
+Invalid instruction at token [TOKEN][004:001] INSTRUCTION "for"
+
+
+champs/invalid87.s
+moi :
+Syntax error at token INSTRUCTION "live"
+zaz :
+Syntax error at token [TOKEN][002:001] INSTRUCTION "live"
+
+
+champs/invalid88.s
+moi :
+Syntax error at token (null) "live:"
+zaz :
+Lexical error at [5:6]
+
+
+champs/invalid89.s
+moi :
+Syntax error at token (null) "live:"
+zaz :
+Syntax error at token [TOKEN][001:001] LABEL "live:"
+
+
+champs/invalid9.s
+moi :
+Syntax error at token "%%"
+zaz :
+Lexical error at [4:6]
+
+
+champs/invalid90.s
+moi :
+Writing output program to champs/invalid90.cor
+zaz :
+Writing output program to champs/invalid90.cor
+
+
+champs/invalid91.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][001:001] END "(null)"
+
+
+champs/invalid92.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][003:001] END "(null)"
+
+
+champs/invalid93.s
+moi :
+Writing output program to champs/invalid93.cor
+zaz :
+Syntax error at token [TOKEN][001:013] COMMAND_COMMENT ".comment"
+
+
+champs/invalid94.s
+moi :
+Syntax error at token COMMAND_NAME ".name"
+zaz :
+Syntax error at token [TOKEN][002:001] COMMAND_NAME ".name"
+
+
+champs/invalid95.s
+moi :
+Syntax error at token "%12345live"
+zaz :
+Syntax error at token [TOKEN][004:012] INSTRUCTION "live"
+
+
+champs/invalid96.s
+moi :
+Writing output program to champs/invalid96.cor
+zaz :
+Writing output program to champs/invalid96.cor
+
+
+champs/invalid97.s
+moi :
+Writing output program to champs/invalid97.cor
+zaz :
+Writing output program to champs/invalid97.cor
+
+
+champs/invalid98.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][001:001] END "(null)"
+
+
+champs/invalid99.s
+moi :
+Syntax error - unexpected end of input (Perhaps you forgot to end with a newline ?)
+zaz :
+Syntax error - unexpected end of input (Perhaps you forgot to end with a newline ?)
+
+
+champs/invlid103.s
+moi :
+Writing output program to champs/invlid103.cor
+zaz :
+Writing output program to champs/invlid103.cor
+
+
+champs/invlid104.s
+moi :
+Champion name too long (Max length 128)
+zaz :
+Syntax error at token [TOKEN][001:372] STRING ""
+.comment	""
+
+
+champs/jinx.s
+moi :
+Writing output program to champs/jinx.cor
+zaz :
+Writing output program to champs/jinx.cor
+
+
+champs/jumper.s
+moi :
+Writing output program to champs/jumper.cor
+zaz :
+Writing output program to champs/jumper.cor
+
+
+champs/justin_bee.s
+moi :
+Writing output program to champs/justin_bee.cor
+zaz :
+Writing output program to champs/justin_bee.cor
+
+
+champs/ld.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/ld.cor
+
+
+champs/lde.s
+moi :
+Syntax error at token INSTRUCTION "ld"
+zaz :
+Syntax error at token [TOKEN][002:002] INSTRUCTION "ld"
+
+
+champs/ldi.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/ldi.cor
+
+
+champs/leeloo.s
+moi :
+Syntax error at token INDIRECT "-52"
+zaz :
+Lexical error at [31:23]
+
+
+champs/lfork.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/lfork.cor
+
+
+champs/littlepuppy.s
+moi :
+Writing output program to champs/littlepuppy.cor
+zaz :
+Writing output program to champs/littlepuppy.cor
+
+
+champs/live.s
+moi :
+Writing output program to champs/live.cor
+zaz :
+Writing output program to champs/live.cor
+
+
+champs/lld.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/lld.cor
+
+
+champs/lldi.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/lldi.cor
+
+
+champs/loose.s
+moi :
+Writing output program to champs/loose.cor
+zaz :
+Writing output program to champs/loose.cor
+
+
+champs/mandragore.s
+moi :
+Writing output program to champs/mandragore.cor
+zaz :
+Writing output program to champs/mandragore.cor
+
+
+champs/mat.s
+moi :
+Syntax error at token "%0x70000004"
+zaz :
+Lexical error at [182:1]
+
+
+champs/maxidef.s
+moi :
+Writing output program to champs/maxidef.cor
+zaz :
+Writing output program to champs/maxidef.cor
+
+
+champs/meowluigi.s
+moi :
+Writing output program to champs/meowluigi.cor
+zaz :
+Writing output program to champs/meowluigi.cor
+
+
+champs/mise_a_jour_windows95.s
+moi :
+Syntax error at token "%1;"
+zaz :
+Writing output program to champs/mise_a_jour_windows95.cor
+
+
+champs/mortel.s
+moi :
+Writing output program to champs/mortel.cor
+zaz :
+Writing output program to champs/mortel.cor
+
+
+champs/name.s
+moi :
+Syntax error at token "ENDLINE"
+zaz :
+Syntax error at token [TOKEN][002:001] END "(null)"
+
+
+champs/new.s
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+
+champs/or.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/or.cor
+
+
+champs/overwatch.s
+moi :
+Syntax error at token "%4278415363"
+zaz :
+Writing output program to champs/overwatch.cor
+
+
+champs/perso.s
+moi :
+Writing output program to champs/perso.cor
+zaz :
+Writing output program to champs/perso.cor
+
+
+champs/perso1.s
+moi :
+Syntax error at token "\;"
+zaz :
+Lexical error at [1:17]
+
+
+champs/perso2.s
+moi :
+Syntax error at token (null) ""fristouille""
+zaz :
+Lexical error at [1:30]
+
+
+champs/perso3.s
+moi :
+Syntax error at token (null) ""fristouille""
+zaz :
+Lexical error at [1:30]
+
+
+champs/perso4.s
+moi :
+Syntax error at token "\;"
+zaz :
+Lexical error at [1:17]
+
+
+champs/perso5.s
+moi :
+Writing output program to champs/perso5.cor
+zaz :
+Writing output program to champs/perso5.cor
+
+
+champs/perso6.s
+moi :
+Syntax error at token ";"
+zaz :
+Syntax error at token [TOKEN][003:001] INSTRUCTION "u"
+
+
+champs/run_Kitty_RUN.s
+moi :
+Syntax error at token "fork%:gear_second"
+zaz :
+Writing output program to champs/run_Kitty_RUN.cor
+
+
+champs/salamahenagalabadoun.s
+moi :
+Writing output program to champs/salamahenagalabadoun.cor
+zaz :
+Writing output program to champs/salamahenagalabadoun.cor
+
+
+champs/sam_2.0.s
+moi :
+Writing output program to champs/sam_2.0.cor
+zaz :
+Writing output program to champs/sam_2.0.cor
+
+
+champs/sebc.s
+moi :
+Syntax error at token ".extend"
+zaz :
+Lexical error at [3:1]
+
+
+champs/seg.s
+moi :
+Writing output program to champs/seg.cor
+zaz :
+Writing output program to champs/seg.cor
+
+
+champs/skynet.s
+moi :
+Writing output program to champs/skynet.cor
+zaz :
+Writing output program to champs/skynet.cor
+
+
+champs/slider2.s
+moi :
+Writing output program to champs/slider2.cor
+zaz :
+Writing output program to champs/slider2.cor
+
+
+champs/st.s
+moi :
+Syntax error at token "2147483648"
+zaz :
+Writing output program to champs/st.cor
+
+
+champs/sti.s
+moi :
+Syntax error at token "%2147483648"
+zaz :
+Writing output program to champs/sti.cor
+
+
+champs/sub.s
+moi :
+Writing output program to champs/sub.cor
+zaz :

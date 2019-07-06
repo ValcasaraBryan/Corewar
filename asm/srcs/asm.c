@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:55:53 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 16:03:09 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 22:21:23 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ static int		paring_asm_two(t_data *data)
 {
 	if (data->error.error)
 		return (0);
-	if (!data->name || !data->comment)
-	{
-		ft_fprintf(COMMAND_MISS, S_ERR);
-		return (0);
-	}
 	if (!data->ins)
 	{
 		ft_fprintf(MSG_SYN, S_ERR, TOKEN_ENDLINE);
+		return (0);
+	}
+	if (!data->name || !data->comment)
+	{
+		ft_fprintf(COMMAND_MISS, S_ERR);
 		return (0);
 	}
 	if (!(check_label(data)))

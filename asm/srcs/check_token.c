@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:33:14 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 16:09:10 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 22:19:28 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int		is_instruction(t_data *data, t_token *tmp, t_ins **ins_tmp,
 
 static int		token(t_data *data, t_token **tmp, t_ins **ins_tmp, t_op *val)
 {
-	if ((*tmp)->type == NAME || (*tmp)->type == COMMENT)
+	if (((*tmp)->type == NAME && !data->name) || ((*tmp)->type == COMMENT && !data->comment))
 	{
 		if (!(add_quote(data, tmp)))
 		{
@@ -78,7 +78,10 @@ static int		token(t_data *data, t_token **tmp, t_ins **ins_tmp, t_op *val)
 	}
 	else
 	{
-		ft_fprintf(MSG_SYN, S_ERR, (*tmp)->cut);
+		if ((*tmp)->type)
+			error_params_two((*tmp)->type, (*tmp)->cut);
+		else
+			ft_fprintf(MSG_SYN, S_ERR, (*tmp)->cut);
 		data->error.error = true;
 		return (0);
 	}
@@ -98,7 +101,6 @@ int				check_token(t_data *data)
 	ins_tmp = NULL;
 	while (tmp)
 	{
-		// ft_printf("%s\n", tmp->cut);
 		tmp->type = add_type(tmp->cut, &val);
 		if (!(token(data, &tmp, &ins_tmp, val)))
 			return (0);

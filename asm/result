@@ -1,551 +1,771 @@
 
+asm_test/error/comment_len_2049.s
 moi :
 Champion comment too long (Max length 2048)
 zaz :
 Champion comment too long (Max length 2048)
 
+
+asm_test/error/direct_param_no_value.s
 moi :
-Syntax error at token "le_12"
+Syntax error at token "%"
 zaz :
 Lexical error at [13:11]
 
+
+asm_test/error/four_arg_malloc_free_pointer_error.s
 moi :
-Syntax error at token "le_12"
+Invalid parameter 1 type indirect for instruction live
 zaz :
 Invalid parameter 1 type indirect for instruction live
 
+
+asm_test/error/header_double_comments.s
 moi :
-Syntax error at token "live"
+Syntax error at token COMMAND_COMMENT ".comment"
 zaz :
 Syntax error at token [TOKEN][002:001] COMMAND_COMMENT ".comment"
 
+
+asm_test/error/header_double_names.s
 moi :
-Syntax error at token "live"
+Syntax error at token COMMAND_NAME ".name"
 zaz :
 Syntax error at token [TOKEN][002:001] COMMAND_NAME ".name"
 
+
+asm_test/error/header_max_comment.s
 moi :
 Champion comment too long (Max length 2048)
 zaz :
 Champion comment too long (Max length 2048)
 
+
+asm_test/error/header_max_name.s
 moi :
 Champion name too long (Max length 128)
 zaz :
 Champion name too long (Max length 128)
 
+
+asm_test/error/header_nl.s
 moi :
 Syntax error at token "sdfs"
 zaz :
 Syntax error at token [TOKEN][006:008] INSTRUCTION "sdfs"
 
+
+asm_test/error/header_nl_unclosed.s
 moi :
 Syntax error at token "I'M"
 zaz :
 Lexical error at [5:11]
 
+
+asm_test/error/header_null_name.s
 moi :
-Syntax error at token "live"
+Syntax error at token INSTRUCTION "live"
 zaz :
 Syntax error at token [TOKEN][003:001] INSTRUCTION "live"
 
+
+asm_test/error/label_contain_badchar.s
 moi :
-Syntax error at token "le_12!"
+Syntax error at token "le_12!:"
 zaz :
 Lexical error at [9:6]
 
+
+asm_test/error/label_error_1.s
 moi :
 Syntax error at token "le_12=!"
 zaz :
 Lexical error at [7:6]
 
+
+asm_test/error/label_error_2.s
 moi :
 Syntax error at token "le_12!="
 zaz :
 Lexical error at [7:6]
 
+
+asm_test/error/label_error_3.s
 moi :
-Syntax error at token "le_12"
+Syntax error at token "9rwrjqwkrj2io4u2184892849218490218490218904"
 zaz :
 Syntax error at token [TOKEN][008:001] ENDLINE
 
+
+asm_test/error/label_invalidname.s
 moi :
-Syntax error at token "F!*rst"
+Syntax error at token "F!*rst:"
 zaz :
 Lexical error at [4:1]
 
+
+asm_test/error/label_noending.s
 moi :
 Syntax error at token "first"
 zaz :
 Syntax error at token [TOKEN][004:006] ENDLINE
 
+
+asm_test/error/label_space.s
 moi :
 Syntax error at token "first"
 zaz :
 Syntax error at token [TOKEN][004:007] LABEL "second:"
 
+
+asm_test/error/label_without_double_dot_at_the_end.s
 moi :
 Syntax error at token "lele"
 zaz :
 Syntax error at token [TOKEN][011:001] ENDLINE
 
+
+asm_test/error/name_len_129.s
 moi :
 Champion name too long (Max length 128)
 zaz :
 Champion name too long (Max length 128)
 
+
+asm_test/error/op_double_operation_on_single_line.s
 moi :
 Syntax error at token INSTRUCTION "live"
 zaz :
 Syntax error at token [TOKEN][004:009] INSTRUCTION "live"
 
+
+asm_test/error/op_extra.s
 moi :
-Syntax error at token "l2"
+Syntax error at token "adfa"
 zaz :
 Syntax error at token [TOKEN][005:021] INSTRUCTION "adfa"
 
+
+asm_test/error/op_extreme.s
 moi :
-Syntax error at token "liv"
+Syntax error at token ":::::::::::::::::::a-sti"
 zaz :
 Lexical error at [4:5]
 
+
+asm_test/error/op_no_code.s
 moi :
 Syntax error at token "ENDLINE"
 zaz :
 Syntax error at token [TOKEN][003:001] END "(null)"
 
+
+asm_test/error/param_badtypes.s
 moi :
-Syntax error at token "l1"
+Invalid parameter 0 type indirect for instruction live
 zaz :
 Invalid parameter 0 type indirect for instruction live
 
+
+asm_test/error/param_commas.s
 moi :
 Syntax error at token "ENDLINE"
 zaz :
 Syntax error at token [TOKEN][006:020] ENDLINE
 
+
+asm_test/error/param_direct_no_value.s
 moi :
-Syntax error at token "le_12"
+Syntax error at token "%"
 zaz :
 Lexical error at [13:11]
 
+
+asm_test/error/param_double_commas.s
 moi :
-Syntax error at token "l2"
+Syntax error at token "ENDLINE"
 zaz :
 Syntax error at token [TOKEN][005:021] ENDLINE
 
+
+asm_test/error/param_extra2.s
 moi :
-Syntax error at token "l2"
+Syntax error at token "aaa"
 zaz :
 Syntax error at token [TOKEN][006:013] INSTRUCTION "aaa"
 
+
+asm_test/error/param_mt_3.s
 moi :
-Syntax error at token "le_12"
+Invalid parameter 1 type indirect for instruction live
 zaz :
 Invalid parameter 1 type indirect for instruction live
 
+
+asm_test/error/param_mt_r99.s
 moi :
-Syntax error at token "l2"
+Syntax error at token "r101"
 zaz :
 Syntax error at token [TOKEN][006:007] INSTRUCTION "r101"
 
+
+asm_test/error/param_nonexistent_label.s
 moi :
-Syntax error at token "l1"
+No such label ":truc" while attempting to dereference token 
 zaz :
 No such label truc while attempting to dereference token [TOKEN][004:009] INDIRECT_LABEL ":truc"
 
+
+asm_test/error/param_plus_minus.s
 moi :
-Syntax error at token "l2"
+Syntax error at token "%-+1"
 zaz :
 Lexical error at [7:14]
 
+
+asm_test/error/param_specialchars.s
 moi :
 Syntax error at token ":l1+1"
 zaz :
 Lexical error at [4:13]
 
+
+asm_test/error/zother_1.s
 moi :
-Syntax error at token "42"
+Syntax error at token INDIRECT "42"
 zaz :
 Syntax error at token [TOKEN][003:001] INDIRECT "42"
 
+
+asm_test/error/zother_2.s
 moi :
-It misses .name and .comment on the first lines
+Syntax error at token "ENDLINE"
 zaz :
 Syntax error at token [TOKEN][002:001] END "(null)"
 
+
+asm_test/error/zother_3.s
 moi :
-It misses .name and .comment on the first lines
+Syntax error at token "ENDLINE"
 zaz :
 Syntax error at token [TOKEN][004:001] END "(null)"
 
+
+asm_test/error/zother_4.s
 moi :
 Syntax error at token "t"
 zaz :
 Syntax error at token [TOKEN][004:003] INSTRUCTION "t"
 
+
+asm_test/valid/42.s
 moi :
-Syntax error at token "entree"
+Syntax error at token "%2147483648"
 zaz :
 Writing output program to asm_test/valid/42.cor
 
+
+asm_test/valid/Asombra.s
 moi :
-Syntax error at token "init"
+Writing output program to asm_test/valid/Asombra.cor
 zaz :
 Writing output program to asm_test/valid/Asombra.cor
 
+
+asm_test/valid/Car.s
 moi :
-Syntax error at token "label02"
+Writing output program to asm_test/valid/Car.cor
 zaz :
 Writing output program to asm_test/valid/Car.cor
 
+
+asm_test/valid/Douceur_power.s
 moi :
-Syntax error at token "sl"
+Syntax error at token "%4294967041"
 zaz :
 Writing output program to asm_test/valid/Douceur_power.cor
 
+
+asm_test/valid/Explosive_Kitty.s
 moi :
-Syntax error at token "start"
+Syntax error at token "zjmp%:go_erase"
 zaz :
 Writing output program to asm_test/valid/Explosive_Kitty.cor
 
+
+asm_test/valid/Gagnant.s
 moi :
-Syntax error at token "label"
+Writing output program to asm_test/valid/Gagnant.cor
 zaz :
 Writing output program to asm_test/valid/Gagnant.cor
 
+
+asm_test/valid/Kappa.s
 moi :
-Syntax error at token "init_backward"
+Syntax error at token "%4060311555"
 zaz :
 Writing output program to asm_test/valid/Kappa.cor
 
+
+asm_test/valid/Kittystrophic.s
 moi :
-Syntax error at token "magic_poney"
+Syntax error at token "fork%:g00dbye_kitty"
 zaz :
 Writing output program to asm_test/valid/Kittystrophic.cor
 
+
+asm_test/valid/Machine-gun.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/Machine-gun.cor
 zaz :
 Writing output program to asm_test/valid/Machine-gun.cor
 
+
+asm_test/valid/MarineKing.s
 moi :
-Syntax error at token "spawn"
+Writing output program to asm_test/valid/MarineKing.cor
 zaz :
 Writing output program to asm_test/valid/MarineKing.cor
 
+
+asm_test/valid/Misaka_Mikoto.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/Misaka_Mikoto.cor
 zaz :
 Writing output program to asm_test/valid/Misaka_Mikoto.cor
 
+
+asm_test/valid/Octobre_Rouge_V4.2.s
 moi :
-Syntax error at token "xxx"
+Syntax error at token "%4294902082"
 zaz :
 Writing output program to asm_test/valid/Octobre_Rouge_V4.2.cor
 
+
+asm_test/valid/Rainbow_dash.s
 moi :
-Syntax error at token "loop"
+Writing output program to asm_test/valid/Rainbow_dash.cor
 zaz :
 Writing output program to asm_test/valid/Rainbow_dash.cor
 
+
+asm_test/valid/Survivor.s
 moi :
-Syntax error at token "f1"
+Writing output program to asm_test/valid/Survivor.cor
 zaz :
 Writing output program to asm_test/valid/Survivor.cor
 
+
+asm_test/valid/THUNDER.s
 moi :
-Syntax error at token "main"
+Writing output program to asm_test/valid/THUNDER.cor
 zaz :
 Writing output program to asm_test/valid/THUNDER.cor
 
+
+asm_test/valid/Varimathras.s
 moi :
-Syntax error at token "piege"
+Writing output program to asm_test/valid/Varimathras.cor
 zaz :
 Writing output program to asm_test/valid/Varimathras.cor
 
+
+asm_test/valid/Wall.s
 moi :
-Syntax error at token "start"
+Syntax error at token "%2576980377"
 zaz :
 Writing output program to asm_test/valid/Wall.cor
 
+
+asm_test/valid/_honeybadger.s
 moi :
-Syntax error at token "var1"
+Syntax error at token "%4278780410"
 zaz :
 Writing output program to asm_test/valid/_honeybadger.cor
 
+
+asm_test/valid/aff_no_OCP.s
 moi :
 Writing output program to asm_test/valid/aff_no_OCP.cor
 zaz :
 Writing output program to asm_test/valid/aff_no_OCP.cor
 
+
+asm_test/valid/barriere.s
 moi :
-Syntax error at token "arriere"
+Writing output program to asm_test/valid/barriere.cor
 zaz :
 Writing output program to asm_test/valid/barriere.cor
 
+
+asm_test/valid/bee_gees.s
 moi :
-Syntax error at token "forks"
+Writing output program to asm_test/valid/bee_gees.cor
 zaz :
 Writing output program to asm_test/valid/bee_gees.cor
 
+
+asm_test/valid/big_feet.s
 moi :
-Syntax error at token "start"
+Writing output program to asm_test/valid/big_feet.cor
 zaz :
 Writing output program to asm_test/valid/big_feet.cor
 
+
+asm_test/valid/bigzork.s
 moi :
-Syntax error at token "loop"
+Writing output program to asm_test/valid/bigzork.cor
 zaz :
 Writing output program to asm_test/valid/bigzork.cor
 
+
+asm_test/valid/casimir.s
 moi :
-Syntax error at token ":"
+Writing output program to asm_test/valid/casimir.cor
 zaz :
 Writing output program to asm_test/valid/casimir.cor
 
+
+asm_test/valid/champ.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/champ.cor
 zaz :
 Writing output program to asm_test/valid/champ.cor
 
+
+asm_test/valid/comment_len_2048.s
 moi :
-Syntax error at token "l2"
+Writing output program to asm_test/valid/comment_len_2048.cor
 zaz :
 Writing output program to asm_test/valid/comment_len_2048.cor
 
+
+asm_test/valid/corelol.s
 moi :
-Syntax error at token "hello"
+Writing output program to asm_test/valid/corelol.cor
 zaz :
 Writing output program to asm_test/valid/corelol.cor
 
+
+asm_test/valid/darksasuke.s
 moi :
-Syntax error at token "lf"
+Writing output program to asm_test/valid/darksasuke.cor
 zaz :
 Writing output program to asm_test/valid/darksasuke.cor
 
+
+asm_test/valid/doge.s
 moi :
-Syntax error at token "def"
+Writing output program to asm_test/valid/doge.cor
 zaz :
 Writing output program to asm_test/valid/doge.cor
 
+
+asm_test/valid/dubo.s
 moi :
-Syntax error at token "pede"
+Writing output program to asm_test/valid/dubo.cor
 zaz :
 Writing output program to asm_test/valid/dubo.cor
 
+
+asm_test/valid/empty_namecomment.s
 moi :
 Writing output program to asm_test/valid/empty_namecomment.cor
 zaz :
 Writing output program to asm_test/valid/empty_namecomment.cor
 
+
+asm_test/valid/end_comment.s
 moi :
 Writing output program to asm_test/valid/end_comment.cor
 zaz :
 Writing output program to asm_test/valid/end_comment.cor
 
+
+asm_test/valid/ex.s
 moi :
-Syntax error at token "l2"
+Writing output program to asm_test/valid/ex.cor
 zaz :
 Writing output program to asm_test/valid/ex.cor
 
+
+asm_test/valid/ex1.s
 moi :
-Syntax error at token "l2"
+Writing output program to asm_test/valid/ex1.cor
 zaz :
 Writing output program to asm_test/valid/ex1.cor
 
+
+asm_test/valid/flipped_name_comment.s
 moi :
 Writing output program to asm_test/valid/flipped_name_comment.cor
 zaz :
 Writing output program to asm_test/valid/flipped_name_comment.cor
 
+
+asm_test/valid/fluttershy.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/fluttershy.cor
 zaz :
 Writing output program to asm_test/valid/fluttershy.cor
 
+
+asm_test/valid/gateau.s
 moi :
-Syntax error at token "wall"
+Writing output program to asm_test/valid/gateau.cor
 zaz :
 Writing output program to asm_test/valid/gateau.cor
 
+
+asm_test/valid/gedeon.s
 moi :
-Syntax error at token "tmp"
+Writing output program to asm_test/valid/gedeon.cor
 zaz :
 Writing output program to asm_test/valid/gedeon.cor
 
+
+asm_test/valid/hash_and_tab_at_EOF.s
 moi :
-Syntax error at token "le_12"
+Writing output program to asm_test/valid/hash_and_tab_at_EOF.cor
 zaz :
 Writing output program to asm_test/valid/hash_and_tab_at_EOF.cor
 
+
+asm_test/valid/hash_at_header.s
 moi :
-Syntax error at token "ENDLINE"
+Writing output program to asm_test/valid/hash_at_header.cor
 zaz :
 Writing output program to asm_test/valid/hash_at_header.cor
 
+
+asm_test/valid/helltrain.s
 moi :
-Syntax error at token "entry"
+Syntax error at token "%4294902016"
 zaz :
 Writing output program to asm_test/valid/helltrain.cor
 
+
+asm_test/valid/jinx.s
 moi :
-Syntax error at token "init"
+Writing output program to asm_test/valid/jinx.cor
 zaz :
 Writing output program to asm_test/valid/jinx.cor
 
+
+asm_test/valid/jumper.s
 moi :
-Syntax error at token "gobepc"
+Writing output program to asm_test/valid/jumper.cor
 zaz :
 Writing output program to asm_test/valid/jumper.cor
 
+
+asm_test/valid/justin_bee.s
 moi :
-Syntax error at token "ertuen"
+Writing output program to asm_test/valid/justin_bee.cor
 zaz :
 Writing output program to asm_test/valid/justin_bee.cor
 
+
+asm_test/valid/littlepuppy.s
 moi :
 Writing output program to asm_test/valid/littlepuppy.cor
 zaz :
 Writing output program to asm_test/valid/littlepuppy.cor
 
+
+asm_test/valid/live.s
 moi :
-Syntax error at token "lol"
+Writing output program to asm_test/valid/live.cor
 zaz :
 Writing output program to asm_test/valid/live.cor
 
+
+asm_test/valid/loose.s
 moi :
-Syntax error at token "start"
+Writing output program to asm_test/valid/loose.cor
 zaz :
 Writing output program to asm_test/valid/loose.cor
 
+
+asm_test/valid/mandragore.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/mandragore.cor
 zaz :
 Writing output program to asm_test/valid/mandragore.cor
 
+
+asm_test/valid/maxidef.s
 moi :
-Syntax error at token "loop"
+Writing output program to asm_test/valid/maxidef.cor
 zaz :
 Writing output program to asm_test/valid/maxidef.cor
 
+
+asm_test/valid/meowluigi.s
 moi :
-Syntax error at token "shield2"
+Writing output program to asm_test/valid/meowluigi.cor
 zaz :
 Writing output program to asm_test/valid/meowluigi.cor
 
+
+asm_test/valid/mise_a_jour_windows95.s
 moi :
-Syntax error at token "begin"
+Writing output program to asm_test/valid/mise_a_jour_windows95.cor
 zaz :
 Writing output program to asm_test/valid/mise_a_jour_windows95.cor
 
+
+asm_test/valid/mortel.s
 moi :
-Syntax error at token "boost"
+Writing output program to asm_test/valid/mortel.cor
 zaz :
 Writing output program to asm_test/valid/mortel.cor
 
+
+asm_test/valid/name_len_128.s
 moi :
-Syntax error at token "l2"
+Writing output program to asm_test/valid/name_len_128.cor
 zaz :
 Writing output program to asm_test/valid/name_len_128.cor
 
+
+asm_test/valid/neg_indirect_error.s
 moi :
 Syntax error at token "ld-1"
 zaz :
 Writing output program to asm_test/valid/neg_indirect_error.cor
 
+
+asm_test/valid/nl_at_header.s
 moi :
-Syntax error at token "lele"
+Writing output program to asm_test/valid/nl_at_header.cor
 zaz :
 Writing output program to asm_test/valid/nl_at_header.cor
 
+
+asm_test/valid/nl_at_header_flipped.s
 moi :
-Syntax error at token "lele"
+Writing output program to asm_test/valid/nl_at_header_flipped.cor
 zaz :
 Writing output program to asm_test/valid/nl_at_header_flipped.cor
 
+
+asm_test/valid/no_space_between_op_and_param.s
 moi :
-Syntax error at token ":"
+Syntax error at token "live%1"
 zaz :
 Writing output program to asm_test/valid/no_space_between_op_and_param.cor
 
+
+asm_test/valid/overwatch.s
 moi :
-Syntax error at token "mei"
+Syntax error at token "%4278415363"
 zaz :
 Writing output program to asm_test/valid/overwatch.cor
 
+
+asm_test/valid/run_Kitty_RUN.s
 moi :
-Syntax error at token "gomugomu"
+Syntax error at token "fork%:gear_second"
 zaz :
 Writing output program to asm_test/valid/run_Kitty_RUN.cor
 
+
+asm_test/valid/salamahenagalabadoun.s
 moi :
-Syntax error at token "loop"
+Writing output program to asm_test/valid/salamahenagalabadoun.cor
 zaz :
 Writing output program to asm_test/valid/salamahenagalabadoun.cor
 
+
+asm_test/valid/sam_2.0.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/sam_2.0.cor
 zaz :
 Writing output program to asm_test/valid/sam_2.0.cor
 
+
+asm_test/valid/skynet.s
 moi :
-Syntax error at token "setlive"
+Writing output program to asm_test/valid/skynet.cor
 zaz :
 Writing output program to asm_test/valid/skynet.cor
 
+
+asm_test/valid/slider2.s
 moi :
-Syntax error at token "leon"
+Writing output program to asm_test/valid/slider2.cor
 zaz :
 Writing output program to asm_test/valid/slider2.cor
 
+
+asm_test/valid/sq_at_header.s
 moi :
-Syntax error at token "ENDLINE"
+Writing output program to asm_test/valid/sq_at_header.cor
 zaz :
 Writing output program to asm_test/valid/sq_at_header.cor
 
+
+asm_test/valid/tab_at_end_of_file.s
 moi :
-Syntax error at token "lele"
+Writing output program to asm_test/valid/tab_at_end_of_file.cor
 zaz :
 Writing output program to asm_test/valid/tab_at_end_of_file.cor
 
+
+asm_test/valid/terminator.s
 moi :
-Syntax error at token ":"
+Writing output program to asm_test/valid/terminator.cor
 zaz :
 Writing output program to asm_test/valid/terminator.cor
 
+
+asm_test/valid/toto.s
 moi :
-Syntax error at token "label"
+Writing output program to asm_test/valid/toto.cor
 zaz :
 Writing output program to asm_test/valid/toto.cor
 
+
+asm_test/valid/turtle.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/turtle.cor
 zaz :
 Writing output program to asm_test/valid/turtle.cor
 
+
+asm_test/valid/ultima.s
 moi :
-Syntax error at token "begin_coromp2"
+Writing output program to asm_test/valid/ultima.cor
 zaz :
 Writing output program to asm_test/valid/ultima.cor
 
+
+asm_test/valid/ultimate-surrender.s
 moi :
-Syntax error at token "var1"
+Syntax error at token "%4278780410"
 zaz :
 Writing output program to asm_test/valid/ultimate-surrender.cor
 
+
+asm_test/valid/weirdest_error_ever.s
 moi :
-Syntax error at token "le_12"
+Writing output program to asm_test/valid/weirdest_error_ever.cor
 zaz :
 Writing output program to asm_test/valid/weirdest_error_ever.cor
 
+
+asm_test/valid/youforkmytralala.s
 moi :
-Syntax error at token "entry"
+Writing output program to asm_test/valid/youforkmytralala.cor
 zaz :
 Writing output program to asm_test/valid/youforkmytralala.cor
 
+
+asm_test/valid/zork.s
 moi :
-Syntax error at token "l2"
+Writing output program to asm_test/valid/zork.cor
 zaz :
 Writing output program to asm_test/valid/zork.cor
+
 

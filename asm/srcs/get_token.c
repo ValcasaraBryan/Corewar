@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 15:32:37 by bryanvalcas       #+#    #+#             */
-/*   Updated: 2019/07/05 16:03:32 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 18:22:07 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

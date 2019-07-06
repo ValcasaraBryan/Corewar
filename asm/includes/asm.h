@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 17:05:08 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/05 15:52:51 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 22:13:28 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@
 # define SEPARATOR				8
 # define TOKEN					9
 # define ENDLINE				10
-# define END					11
 # define NAME					12
 # define COMMENT				13
 # define STRING					14
@@ -77,6 +76,9 @@
 # define MSG_REGISTER			"REGISTER"
 # define MSG_INSTRUCTION		"INSTRUCTION"
 # define MSG_SEPARATEUR			"SEPARATOR"
+# define MSG_CMD_COMMENT		"COMMAND_COMMENT"
+# define MSG_CMD_NAME			"COMMAND_NAME"
+
 # define MSG_COMMENT			"comment"
 # define MSG_NAME				"name"
 # define NO_NEW_LINE_3			"(Perhaps you forgot to end with a newline ?)\n"
@@ -96,6 +98,7 @@
 # define MSG_SYN_TYPE			"Syntax error at token %s \"%s\"\n"
 # define MSG_TOO_LONG			"Champion %s too long (Max length %d)\n"
 # define ERROR_MALLOC			"Error malloc\n"
+# define ERROR_SUFFIX			"There is no suffix \".s\" at the end of \"%s\"\n"
 
 typedef struct					s_op
 {

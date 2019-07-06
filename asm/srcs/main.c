@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <brvalcas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bryanvalcasara <bryanvalcasara@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 16:13:05 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/07/04 16:30:09 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/07/05 19:18:23 by bryanvalcas      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+static int	check_suffix(char *av)
+{
+	int		i;
+
+	i = -1;
+	if (!av)
+		return (0);
+	while (av[++i]);
+	while (av[--i])
+		if (av[i] == '.')
+			if (av + i + 1 && av[i + 1] == 's')
+				return (1);
+	ft_fprintf(ERROR_SUFFIX, S_ERR, av);
+	return (0);
+}
 
 static void	init_data(t_data *data, char *av)
 {
@@ -48,6 +64,8 @@ int			main(int argc, char **argv)
 		ft_printf("Usage: ./asm <sourcefile.s>\n");
 	else
 	{
+		if (!(check_suffix(argv[argc - 1])))
+			return (0);
 		init_data(&data, argv[argc - 1]);
 		if ((data.fd = open(data.name_s, O_RDONLY)) == -1)
 		{
