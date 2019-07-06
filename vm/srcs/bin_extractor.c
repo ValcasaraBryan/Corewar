@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:56:52 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 14:27:29 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/05 11:29:25 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int			extract_str(int fd, t_champion **ch, int type)
 	if (create_tempo_str(&res, fd, type) != SUCCESS)
 		return (CALL_FAILED);
 	lseek(fd, type == 1
-		? M_NB_LENGTH : M_NB_LENGTH + NAME_LENGTH, SEEK_SET);
+		? M_NB_LENGTH : M_NB_LENGTH + NAME_LENGTH + 8, SEEK_SET);
 	i = 0;
 	buf[0] = 1;
 	while (buf[0] != '\0')

@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 19:19:03 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 18:00:06 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:28:04 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		instr_move(t_storage **st, t_thread **th)
 {
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (BAD_PARAM);
-	if (thread_change_where(th, &(*st)->grid, (*th)->where + 1) != SUCCESS)
+	if (thread_change_where(th, &(*st)->grid, (*th)->pc + 1) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
 }

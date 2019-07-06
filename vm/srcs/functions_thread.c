@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 18:15:11 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 17:56:24 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:26:27 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			thread_change_cycle(t_thread **th, t_storage **st, int type)
 				return (CALL_FAILED);
 			if (g_tab_instructions[(*th)->action].fct_ptr(st, th) != SUCCESS)
 				if (thread_change_where(th, &((*st)->grid),
-					(*th)->where + 1) != SUCCESS)
+					(*th)->pc + 1) != SUCCESS)
 					return (CALL_FAILED);
 		}
 	}
@@ -66,8 +66,8 @@ int			thread_change_where(t_thread **th, int ***gr, int new_where)
 	if (tempo < 0 || tempo >= GRID_SIZE * GRID_SIZE
 		|| thread_check(th) < VALID_EMPTY || grid_check(gr) != VALID_FULL)
 		return (BAD_PARAM);
-	(*th)->where = tempo;
-	new_action = read_in_grid(gr, (*th)->where, 1);
+	(*th)->pc = tempo;
+	new_action = read_in_grid(gr, (*th)->pc, 1);
 	if (thread_change_action(th, new_action) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);

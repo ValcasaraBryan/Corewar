@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:55:52 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/04 17:20:57 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/05 11:09:56 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int			ft_print_game(t_storage **st, int *var_cycle_to_die)
 		return (FAILURE);
 	if (ft_print_grid(st) != SUCCESS)
 		return (FAILURE);
-	if (ft_print_infos(st, var_cycle_to_die) != SUCCESS)
+	if (ft_print_infos_a(st, var_cycle_to_die) != SUCCESS)
 		return (FAILURE);
 	SDL_RenderPresent((*st)->win->renderer);
 	if (SDL_RenderClear((*st)->win->renderer) < 0)

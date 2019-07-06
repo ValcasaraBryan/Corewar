@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 15:56:14 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 18:04:05 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:28:55 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ int			get_size_int(int code, int size_dir)
 int			failed_action_move(t_storage **st, t_thread **th, int nb_move)
 {
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL
-		|| (nb_move != 1 && nb_move != 2))
+		|| (nb_move < 1 && nb_move > 3))
 		return (BAD_PARAM);
 	if (thread_change_where(th, &(*st)->grid,
-		(*th)->where + nb_move) != SUCCESS)
+		(*th)->pc + nb_move) != SUCCESS)
 		return (CALL_FAILED);
 	return (SUCCESS);
 }

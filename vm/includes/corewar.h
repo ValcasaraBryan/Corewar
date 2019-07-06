@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 15:57:40 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 19:34:36 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:25:31 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@
 # define CYCLE_DELTA	50
 # define NBR_LIVE		21
 # define MAX_CHECKS		10
-# define FPS			60
+# define FPS			6000
 
 /*
 ** unused
@@ -107,7 +107,7 @@ typedef struct			s_thread
 {
 	int					action;
 	int					cycle;
-	int					where;
+	int					pc;
 	int					carry;
 	int					live;
 	int					reg[REG_NUMBER];
@@ -223,7 +223,7 @@ char		*ft_itoa_hexa(int a);
 int			ft_color_octet(int player);
 char		*ft_ctoa(char c);
 
-int			ft_print_infos(t_storage **st, int *var_cycle_to_die);
+int			ft_print_infos_a(t_storage **st, int *var_cycle_to_die);
 int			ft_print_threads(t_storage **st);
 int			ft_print_grid(t_storage **st);
 int			ft_free_visu(t_storage **st);

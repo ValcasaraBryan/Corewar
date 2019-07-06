@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:09:13 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 17:59:52 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:36:58 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,26 @@
 
 int			instr_lld_inner(t_storage **st, t_thread **th, int size)
 {
-	int		reg;
+	short	reg;
 	int		value;
 
-	value = set_value(th, &(*st)->grid, size, (*th)->where + 1 + 1);
-	value = (short)value;
-	reg = read_in_grid(&(*st)->grid, (*th)->where + 1 + 1 + size, 1);
-	if (thread_change_value_reg(th, reg, value) != SUCCESS)
-		return (failed_action_move(st, th, 2));
+	if (size == 4)
+	{
+		value = read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1, 4);
+	}
+	if (size == 2)
+	{
+		value = read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1, size);
+		value = read_in_grid(&(*st)->grid, (*th)->pc + value, 2);
+	}
+	reg = read_in_grid(&(*st)->grid, (*th)->pc + 1 + 1 + size, 1);
+	if (check_reg(reg) == SUCCESS)
+	{
+		if (thread_change_value_reg(th, reg, value) != SUCCESS)
+			return (failed_action_move(st, th, 2));
+	}
 	if (thread_change_where(th, &(*st)->grid,
-		(*th)->where + 1 + size + 1 + 1) != SUCCESS)
+		(*th)->pc + 1 + size + 1 + 1) != SUCCESS)
 		return (failed_action_move(st, th, 2));
 	(*th)->carry = value == 0 ? 1 : 0;
 	return (SUCCESS);
@@ -37,13 +47,13 @@ int			instr_lld(t_storage **st, t_thread **th)
 	if (thread_check(th) < VALID_EMPTY || storage_check(st, 1) != VALID_FULL)
 		return (failed_action_move(st, th, 2));
 	if (decrypt_op_code(&tab, read_in_grid(&(*st)->grid,
-		(*th)->where + 1, 1)) != SUCCESS)
+		(*th)->pc + 1, 1)) != SUCCESS)
 		return (failed_action_move(st, th, 2));
 	if ((tab[0] != DIR_CODE && tab[0] != IND_CODE)
 		|| tab[1] != REG_CODE || tab[2] != NO_CODE)
 	{
 		free(tab);
-		return (failed_action_move(st, th, 2));
+		return (failed_action_move(st, th, 3));
 	}
 	size = get_size_int(tab[0], 4);
 	free(tab);

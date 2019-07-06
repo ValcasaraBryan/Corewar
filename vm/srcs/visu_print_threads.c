@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:56:22 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/04 17:27:25 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:29:09 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int				ft_print_threads(t_storage **st)
 	current = (*st)->first_thread;
 	while (current != NULL)
 	{
-		(*st)->win->rect->x = current->where % 64 * OCT_W;
-		(*st)->win->rect->y = current->where / 64 * OCT_H;
+		(*st)->win->rect->x = current->pc % 64 * OCT_W;
+		(*st)->win->rect->y = current->pc / 64 * OCT_H;
 		if (SDL_RenderFillRect((*st)->win->renderer, (*st)->win->rect) < 0)
 			return (FAILURE);
 		current = current->next;

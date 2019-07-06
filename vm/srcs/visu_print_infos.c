@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:56:11 by glebouch          #+#    #+#             */
-/*   Updated: 2019/07/04 19:34:53 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:37:25 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,11 @@ int					ft_str_create_and_print(t_storage **st, char *str1,
 	return (SUCCESS);
 }
 
-int					ft_print_infos(t_storage **st, int *var_cycle_to_die)
+static int			ft_print_infos_b(t_storage **st, int *var_cycle_to_die,
+	int line)
 {
-	int				line;
 	char			*str_tmp;
 
-	line = 1;
-	if ((ft_print_text(st, (*st)->win->pause == 1 ? "PAUSE" : "RUNNING", line)) != SUCCESS)
-		return (FAILURE);
-	str_tmp = ft_itoa((*st)->cycle);
-	if (ft_str_create_and_print(st, "Cycles :  ",
-		&str_tmp, line + 2) != SUCCESS)
-		return (FAILURE);
-	str_tmp = ft_itoa((*st)->win->nb_threads);
-	if (ft_str_create_and_print(st, "Threads : ",
-		&str_tmp, line + 4) != SUCCESS)
-		return (FAILURE);
-	if ((line += ft_put_players(st, line + 7) + 10) < 12)
-		return (FAILURE);
 	str_tmp = ft_itoa(*var_cycle_to_die);
 	if (ft_str_create_and_print(st, "CYCLE_TO_DIE : ",
 		&str_tmp, line) != SUCCESS)
@@ -109,5 +96,28 @@ int					ft_print_infos(t_storage **st, int *var_cycle_to_die)
 	if (ft_str_create_and_print(st, "MAX_CHECKS :   ",
 		&str_tmp, line + 6) != SUCCESS)
 		return (FAILURE);
+	return (SUCCESS);
+}
+
+int					ft_print_infos_a(t_storage **st, int *var_cycle_to_die)
+{
+	int				line;
+	char			*str_tmp;
+
+	line = 1;
+	if ((ft_print_text(st, (*st)->win->pause == 1
+		? "PAUSE" : "RUNNING", line)) != SUCCESS)
+		return (FAILURE);
+	str_tmp = ft_itoa((*st)->cycle);
+	if (ft_str_create_and_print(st, "Cycles :  ",
+		&str_tmp, line + 2) != SUCCESS)
+		return (FAILURE);
+	str_tmp = ft_itoa((*st)->win->nb_threads);
+	if (ft_str_create_and_print(st, "Threads : ",
+		&str_tmp, line + 4) != SUCCESS)
+		return (FAILURE);
+	if ((line += ft_put_players(st, line + 7) + 10) < 12)
+		return (FAILURE);
+	ft_print_infos_b(st, var_cycle_to_die, line);
 	return (SUCCESS);
 }

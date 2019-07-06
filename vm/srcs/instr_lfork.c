@@ -6,7 +6,7 @@
 /*   By: jdurand- <jdurand-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 18:08:57 by jdurand-          #+#    #+#             */
-/*   Updated: 2019/07/04 17:58:40 by jdurand-         ###   ########.fr       */
+/*   Updated: 2019/07/06 08:27:52 by jdurand-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ int		instr_lfork_inner(t_storage **st, t_thread **th)
 
 	if (add_thread(st) != SUCCESS)
 		return (failed_action_move(st, th, 1));
-	value = read_in_grid(&(*st)->grid, (*th)->where + 1, 2);
+	value = read_in_grid(&(*st)->grid, (*th)->pc + 1, 2);
 	if ((new_thread = (*st)->first_thread) == NULL)
 		return (failed_action_move(st, th, 1));
 	new_thread->action = 0;
 	new_thread->cycle = 0;
-	new_thread->where = (*th)->where;
+	new_thread->pc = (*th)->pc;
 	new_thread->carry = (*th)->carry;
 	new_thread->live = (*th)->live;
 	i = -1;
 	while (++i < REG_NUMBER)
 		new_thread->reg[i] = (*th)->reg[i];
 	if (thread_change_where(&new_thread, &(*st)->grid,
-		new_thread->where + value) != SUCCESS)
+		new_thread->pc + value) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	return (SUCCESS);
 }
@@ -46,7 +46,7 @@ int		instr_lfork(t_storage **st, t_thread **th)
 	old = *th;
 	if (instr_lfork_inner(st, th) != SUCCESS)
 		return (failed_action_move(st, th, 1));
-	if (thread_change_where(&old, &(*st)->grid, old->where + 1 + 2) != SUCCESS)
+	if (thread_change_where(&old, &(*st)->grid, old->pc + 1 + 2) != SUCCESS)
 		return (failed_action_move(st, th, 1));
 	return (SUCCESS);
 }
