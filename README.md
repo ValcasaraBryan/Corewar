@@ -8,6 +8,18 @@ Pour compiler les programmes lancer la commande :
 
 Utilisez un champion disponible, ou créez en un, avec l'extension ".s" et utilisez l'asm pour compiler le champions ce qui fourniras un champions avec l'extension ".cor"
 
+Le pseudo code champion est en assembleur :
+
+Les paramètres d'instructions sont uniquement : DIRECT, INDIRECT ou REGISTRE et ne depasse pas un entier sur 4 octets
+
+Les instructions sont uniquement : live, ld, st, add, sub, and, or, xor, zjmp, ldi, sti, fork, lld, lldi, lfork ou aff
+Pour plus d'informations sur les instructions lire le fichier "op.c" dans les sources.
+
+exemple :
+
+ld %65535, r2
+live %1
+
 ./asm Monchampion.s
 
 Utilisez ensuite l'arène pour lancer le combat
@@ -19,9 +31,10 @@ Pour plus de clartée, utilisez les options disponible.
 -v              visualisateur
 
 Logiciels utils :
-- sdl2          brew install sdl2
-- sdl2_ttf      brew install sdl2_ttf
+- sdl2
+- sdl2_ttf
 
+Tout est disponible avec brew
 Si besoin modifiez le makefile pour accéder au chemin d'acces du framework (FLAGS_LIB_SDL)
 
 Systeme d'exploitation :
