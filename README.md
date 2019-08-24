@@ -36,11 +36,11 @@ Logiciels utils :
 - sdl2
 - sdl2_ttf
 
-Tout est disponible avec brew
+Tous est disponible avec brew
 
-Si besoin modifiez le makefile pour accéder au chemin d'acces du framework (FLAGS_LIB_SDL)
+Si besoin modifiez le makefile pour accéder au chemin d'accès du framework (FLAGS_LIB_SDL)
 
-Systeme d'exploitation :
+Système d'exploitation :
 
 Mac OSX
 
