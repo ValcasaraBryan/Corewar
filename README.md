@@ -12,13 +12,13 @@ Le pseudo code champion est en assembleur :
 
 Les paramètres d'instructions sont uniquement : DIRECT, INDIRECT ou REGISTRE et ne depasse pas un entier sur 4 octets
 
-Les instructions sont uniquement : live, ld, st, add, sub, and, or, xor, zjmp, ldi, sti, fork, lld, lldi, lfork ou aff
+Les instructions sont uniquement : live, ld, st, add, sub, and, or, xor, zjmp, ldi, sti, fork, lld, lldi, lfork ou aff.
 Pour plus d'informations sur les instructions lire le fichier "op.c" dans les sources.
 
 exemple :
 
-ld %65535, r2
-live %1
+ld %65535, r2.
+live %1.
 
 ./asm Monchampion.s
 
